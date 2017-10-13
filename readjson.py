@@ -35,10 +35,10 @@ for e in data['Vertexlist']:
 
 bc = g.betweennesscentrality()
 filest = open(g.id + "distedges.csv",'w')
-filest.write('id'+','+ 'time'+','+ 'ind'+','+ 'otd'+','+ 'ad'+ ',' + 'bc' + '\n')
+filest.write('id'+','+ 'name'+','+ 'hash'+','+ 'time'+','+ 'ind'+','+ 'otd'+','+ 'ad'+ ',' + 'bc' + '\n')
 for e in bc:
     an = len(set(g[e].neighbors.keys()).union(set(g[e].inneighbors.keys())))
-    filest.write(str(e) + ',' + str(g[e].label['time']) + ',' + str(len(g[e].inneighbors)) + ',' + str(len(g[e].neighbors)) + ',' + str(an)+ ',' + str(bc[e]) +  '\n')
+    filest.write(str(e) + ',' + str(g[e].label['Name']) + ',' + str(g[e].label['hash']) + ',' + str(g[e].label['time']) + ',' + str(len(g[e].inneighbors)) + ',' + str(len(g[e].neighbors)) + ',' + str(an)+ ',' + str(bc[e]) +  '\n')
 filest.close()
 
 
