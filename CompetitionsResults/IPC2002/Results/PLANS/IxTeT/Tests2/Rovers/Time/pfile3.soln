@@ -1,0 +1,12 @@
+;Time 9940
+0.01 : (NAVIGATE rover0 waypoint1 waypoint0) [5]
+0.01 : (NAVIGATE rover1 waypoint3 waypoint2) [5]
+5.02 : (SAMPLE_ROCK rover0 rover0store waypoint0) [8]
+5.02 : (SAMPLE_SOIL rover1 rover1store waypoint2) [10]
+15.03 : (NAVIGATE rover1 waypoint2 waypoint3) [5]
+20.04 : (NAVIGATE rover1 waypoint3 waypoint0) [5]
+25.05 : (CALIBRATE rover1 camera1 objective0 waypoint0) [5]
+30.06 : (TAKE_IMAGE rover1 waypoint0 objective0 camera1 colour) [7]
+37.07 : (COMMUNICATE_IMAGE_DATA rover1 ?l objective0 colour waypoint0 ?y) [15]
+52.08 : (COMMUNICATE_SOIL_DATA rover1 ?l waypoint2 waypoint0 ?y) [10]
+62.09 : (COMMUNICATE_ROCK_DATA rover0 ?l waypoint0 waypoint0 ?y) [10]

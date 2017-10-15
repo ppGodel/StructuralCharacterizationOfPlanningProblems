@@ -1,0 +1,55 @@
+HERE=`pwd`
+rm $HERE/Collected/tmp -f
+for i in `ls -R1 PLANS | grep ":" | sed 's/://g' | tr '\n' ' '`; do
+	pushd $i
+	PLANNER=`pwd | sed 's/.*PLANS\///g' | sed 's/\/.*//g' | sed 's/\///g'`
+	for j in `ls -1 *soln | tr '\n' ' '`; do
+		Path=$HERE/../IPC3/`echo $i | sed 's/.*Tests/Tests/g'`
+		echo $Path
+		DPath=`echo $Path | sed 's/HandCoded//g'`
+		Domain=`ls -1 $DPath/*pddl* | head -1`
+		echo $Domain
+		Problem=$Path/`echo $j | sed 's/\.soln//g'`
+		echo $Problem
+		tolcheck=`echo $i | grep LPG`
+		if(test $tolcheck) then
+			tol="0.002"
+		else
+			tol="0.001"
+		fi
+		tp4=`echo $i | grep TP4`
+		mips=`echo $i | grep "MIPS/Tests2/Rovers/Strips"`
+		if(test $tp4 || test $mips) then
+			mv $j tmp
+			cat tmp | numberstep > $j
+			tol="0.01"
+		fi
+		result=`$HERE/../Validator/validate -t $tol $Domain $Problem $j`
+		resultg=`$HERE/../Validator/validate -g -t $tol $Domain $Problem $j`
+		checkok=`echo $result | grep Successful | head -1 | sed 's/.*Success.*/Success/g'`
+		if(test $tp4 || test $mips) then
+			mv tmp $j
+		fi
+		if(test $checkok) then
+			PROBLEM=`echo $j | sed 's/pfile//g' | sed 's/\.soln//g'`
+			PLANLENGTH=`cat $j | countlength`
+			PLANQUALITY=`echo $result | sed 's/.*Final value://g' | sed 's/Succ.*//g'`
+			PLANQUALITYG=`echo $resultg | sed 's/.*Final value://g' | sed 's/Succ.*//g'`
+			PLANTIME=`grep "Time " $j | sed 's/.*Time //g'`
+			if(test -z $PLANTIME)then
+				echo "Problem with timing information in "$i"/"$j >> $HERE/Problems
+			fi
+			echo $PROBLEM $PLANQUALITY $PLANQUALITYG $PLANLENGTH $PLANTIME >> $HERE/Collected/tmp
+		fi
+	done
+	echo "Planner is: "$PLANNER
+	if(test -f $HERE/Collected/tmp)then
+		sort -n $HERE/Collected/tmp > $HERE/Collected/tmp1
+		rm -f $HERE/Collected/tmp
+		if(! test -d $HERE/Collected/`echo $i | sed 's/.*Tests/Tests/g'`) then
+			mkdir $HERE/Collected/`echo $i | sed 's/.*Tests/Tests/g'`
+		fi
+		mv $HERE/Collected/tmp1 $HERE/Collected/`echo $i | sed 's/.*Tests/Tests/g'`/$PLANNER
+	fi
+	popd
+done

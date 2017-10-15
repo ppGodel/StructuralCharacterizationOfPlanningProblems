@@ -1,0 +1,42 @@
+;; 35 propositions, 63 actions
+;; X_ACTIONS = 63
+;; H_max^2 computed in 0 seconds
+;; Initial goal set: {[0.00](communicated_soil_data waypoint2),[0.00](communicated_rock_data waypoint3),[0.00](communicated_image_data objective1 high_res)}
+;; Initial bound: 45.00
+;; Transposition table: 10000 entries
+;; searching with t* = 45.00
+;; searching with t* = 47.00
+;; searching with t* = 48.00
+;; searching with t* = 49.00
+;; searching with t* = 50.00
+;; searching with t* = 52.00
+;; searching with t* = 53.00
+;; solution cost: 53.00
+0.00 : (sample_rock rover0 rover0store waypoint3) [8.00]
+3.00 : (calibrate rover0 camera0 objective1 waypoint3) [5.00]
+8.00 : (navigate rover0 waypoint3 waypoint1) [5.00]
+13.00 : (navigate rover0 waypoint1 waypoint2) [5.00]
+18.00 : (communicate_rock_data rover0 general waypoint3 waypoint2 waypoint0) [10.00]
+21.00 : (take_image rover0 waypoint2 objective1 camera0 high_res) [7.00]
+23.00 : (drop rover0 rover0store) [1.00]
+24.00 : (sample_rock rover0 rover0store waypoint2) [8.00]
+28.00 : (communicate_image_data rover0 general objective1 high_res waypoint2 waypoint0) [15.00]
+32.00 : (drop rover0 rover0store) [1.00]
+33.00 : (sample_soil rover0 rover0store waypoint2) [10.00]
+43.00 : (communicate_soil_data rover0 general waypoint2 waypoint2 waypoint0) [10.00]
+;; Least solution cost: 53.00, length: 12
+; Time 0
+;; Time: 0 sec. (0 sec. in search)
+;; Nodes examined: 168 (inf nodes/sec)
+;; Tries: 547 (inf tries/sec)
+;; CPU time: 0 millisec.
+;; Nodes expanded/discarded: 35/132 (20.83%/78.57%)
+;; Depth: 11 max, 2.38 avg.
+;; Solution depth: 11
+;; DFS Iterations: 7
+;; Avg. nodes/itn. 5.00, last itn. 13
+;; Approx. branching factor: 15.00
+;; Avg. tries/subgoal: 3.44 (explored: 3.30)
+;; Avg. expandable subgoals/node: 4.54
+;; Right-Shift cuts: 32 (5.53%)
+;; Store usage: 0.15% (h/c: inf, avg. depth: 4.5)

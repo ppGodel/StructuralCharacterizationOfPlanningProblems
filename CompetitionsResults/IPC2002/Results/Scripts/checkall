@@ -1,0 +1,35 @@
+HERE=`pwd`
+rm $HERE/failures -f
+for i in `ls -R1 PLANS | grep ":" | sed 's/://g' | tr '\n' ' '`; do
+	pushd $i
+	for j in `ls -1 *soln | tr '\n' ' '`; do
+		Path=$HERE/../IPC3/`echo $i | sed 's/.*Tests/Tests/g'`
+		echo $Path
+		DPath=`echo $Path | sed 's/HandCoded//g'`
+		Domain=`ls -1 $DPath/*pddl* | head -1`
+		echo $Domain
+		Problem=$Path/`echo $j | sed 's/\.soln//g'`
+		echo $Problem
+		tolcheck=`echo $i | grep LPG`
+		if(test $tolcheck) then
+			tol="0.002"
+		else
+			tol="0.001"
+		fi
+		tp4=`echo $i | grep TP4`
+		mips=`echo $i | grep "MIPS/Tests2/Rovers/Strips"`
+		if(test $tp4 || test $mips) then
+			mv $j tmp
+			cat tmp | numberstep > $j
+			tol="0.01"
+		fi
+		result=`$HERE/../Validator/validate -t $tol $Domain $Problem $j | grep Failed | sed 's/Failed.*/Fail/g'`
+		if(test $tp4 || test $mips) then
+			mv tmp $j
+		fi
+		if(test $result) then
+			echo $i/$j >> $HERE/failures
+		fi
+	done
+	popd
+done

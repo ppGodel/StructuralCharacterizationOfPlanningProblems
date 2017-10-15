@@ -1,0 +1,9 @@
+;Time 1420
+0.01 : (NAVIGATE rover1 waypoint2 waypoint1) [5]
+0.01 : (SAMPLE_SOIL rover0 rover0store waypoint3) [10]
+5.02 : (CALIBRATE rover1 camera0 objective0 waypoint1) [5]
+5.02 : (SAMPLE_ROCK ?x ?s waypoint1) [8]
+10.03 : (TAKE_IMAGE rover1 waypoint1 objective0 camera0 high_res) [7]
+17.04 : (COMMUNICATE_IMAGE_DATA rover1 ?l objective0 high_res waypoint1 ?y) [15]
+32.05 : (COMMUNICATE_ROCK_DATA rover1 ?l waypoint1 waypoint1 ?y) [10]
+42.06 : (COMMUNICATE_SOIL_DATA rover0 ?l waypoint3 waypoint3 ?y) [10]

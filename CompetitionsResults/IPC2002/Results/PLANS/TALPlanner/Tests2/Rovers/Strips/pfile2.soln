@@ -1,0 +1,14 @@
+; [RoversStripsConc.domain] [depth] [times -1] [concurrent] [injective] [nodissec] [dense] 
+;; 999.706ci roverprob4213                      8:4      50#  
+;;    0p                0g,0c,10f,0g: 50     0is#     0f      0a     0ap     0fx     0cy     0ct      0d     0ru      0c     0go      0s     0fi      0?#  32576     724 [10/10pop: 0red 0ct 0cy 9acc]
+;; Plan length 8, maxtime 4
+0 : (sample_soil rover0 rover0store waypoint0) [ 1 ]
+0 : (calibrate rover0 camera0 objective0 waypoint0) [ 1 ]
+1 : (take_image rover0 waypoint0 objective1 camera0 low_res) [ 1 ]
+1 : (communicate_soil_data rover0 general waypoint0 waypoint0 waypoint1) [ 1 ]
+1 : (drop rover0 rover0store) [ 1 ]
+2 : (sample_rock rover0 rover0store waypoint0) [ 1 ]
+2 : (communicate_image_data rover0 general objective1 low_res waypoint0 waypoint1) [ 1 ]
+3 : (communicate_rock_data rover0 general waypoint0 waypoint0 waypoint1) [ 1 ]
+;; Plan length 8, maxtime 4
+; Time 50

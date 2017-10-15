@@ -1,0 +1,14 @@
+;roverprob1234
+; Time 30
+1:(navigate rover0 waypoint3 waypoint1)
+2:(calibrate rover0 camera0 objective1 waypoint1)
+3:(take_image rover0 waypoint1 objective1 camera0 high_res)
+4:(navigate rover0 waypoint1 waypoint2)
+5:(communicate_image_data rover0 general objective1 high_res waypoint2 waypoint0)
+5:(sample_soil rover0 rover0store waypoint2)
+6:(navigate rover0 waypoint2 waypoint1)
+7:(drop rover0 rover0store)
+7:(navigate rover0 waypoint1 waypoint3)
+8:(sample_rock rover0 rover0store waypoint3)
+9:(communicate_rock_data rover0 general waypoint3 waypoint3 waypoint0)
+10:(communicate_soil_data rover0 general waypoint2 waypoint3 waypoint0)

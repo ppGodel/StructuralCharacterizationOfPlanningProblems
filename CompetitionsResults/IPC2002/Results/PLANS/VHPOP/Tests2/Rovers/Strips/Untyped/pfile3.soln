@@ -1,0 +1,15 @@
+;roverprob3726
+; Time 120
+1:(navigate rover1 waypoint3 waypoint2)
+2:(sample_soil rover1 rover1store waypoint2)
+3:(navigate rover1 waypoint2 waypoint3)
+4:(communicate_soil_data rover1 general waypoint2 waypoint3 waypoint0)
+5:(navigate rover1 waypoint3 waypoint0)
+6:(calibrate rover1 camera1 objective0 waypoint0)
+7:(navigate rover0 waypoint1 waypoint0)
+7:(take_image rover1 waypoint0 objective0 camera1 colour)
+8:(sample_rock rover0 rover0store waypoint0)
+8:(navigate rover1 waypoint0 waypoint3)
+9:(navigate rover0 waypoint0 waypoint1)
+9:(communicate_image_data rover1 general objective0 colour waypoint3 waypoint0)
+10:(communicate_rock_data rover0 general waypoint0 waypoint1 waypoint0)

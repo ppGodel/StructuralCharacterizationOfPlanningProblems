@@ -1,0 +1,13 @@
+;Time 580
+0.01 : (NAVIGATE ?x waypoint3 waypoint1) [5]
+5.02 : (NAVIGATE ?x waypoint1 waypoint2) [5]
+10.03 : (SAMPLE_SOIL ?x ?s waypoint2) [10]
+20.04 : (NAVIGATE ?x waypoint2 waypoint1) [5]
+20.04 : (DROP ?x ?y) [1]
+25.05 : (NAVIGATE ?x waypoint1 waypoint3) [5]
+30.06 : (CALIBRATE ?r ?i ?t waypoint3) [5]
+30.06 : (SAMPLE_ROCK ?x ?s waypoint3) [8]
+35.07 : (TAKE_IMAGE ?r waypoint3 objective1 ?i high_res) [7]
+42.08 : (COMMUNICATE_IMAGE_DATA ?r ?l bojective1 high_res waypoint3 ?y) [15]
+57.09 : (COMMUNICATE_ROCK_DATA ?r ?l waypoint3 waypoint3 ?y) [10]
+67.1 : (COMMUNICATE_SOIL_DATA ?r ?l waypoint2 waypoint3 ?y) [10]

@@ -1,0 +1,53 @@
+;; 37 propositions, 102 actions
+;; X_ACTIONS = 102
+;; H_max^2 computed in 0 seconds
+;; Initial goal set: {[0.00](have_image planet3 infrared0),[0.00](have_image planet4 infrared0),[0.00](have_image phenomenon5 image2),[0.00](have_image phenomenon6 infrared0),[0.00](have_image star7 infrared0)}
+;; Initial bound: 6.00
+;; Transposition table: 10000 entries
+;; searching with t* = 6.00
+;; searching with t* = 7.00
+;; searching with t* = 8.00
+;; searching with t* = 9.00
+;; searching with t* = 10.00
+;; searching with t* = 11.00
+;; searching with t* = 12.00
+;; searching with t* = 13.00
+;; searching with t* = 14.00
+;; searching with t* = 15.00
+;; solution cost: 15.00
+0.00 : (turn_to satellite0 star0 planet4) [1.00]
+0.00 : (switch_on instrument0 satellite0) [1.00]
+1.00 : (turn_to satellite0 planet3 star0) [1.00]
+1.00 : (switch_off instrument0 satellite0) [1.00]
+2.00 : (turn_to satellite0 groundstation2 planet3) [1.00]
+2.00 : (switch_on instrument1 satellite0) [1.00]
+3.00 : (calibrate satellite0 instrument1 groundstation2) [1.00]
+4.00 : (turn_to satellite0 planet3 groundstation2) [1.00]
+5.00 : (take_image satellite0 planet3 instrument1 infrared0) [1.00]
+6.00 : (turn_to satellite0 phenomenon6 planet3) [1.00]
+7.00 : (take_image satellite0 phenomenon6 instrument1 infrared0) [1.00]
+8.00 : (turn_to satellite0 star7 phenomenon6) [1.00]
+9.00 : (take_image satellite0 star7 instrument1 infrared0) [1.00]
+10.00 : (turn_to satellite0 groundstation1 star7) [1.00]
+11.00 : (turn_to satellite0 phenomenon5 groundstation1) [1.00]
+12.00 : (take_image satellite0 phenomenon5 instrument1 image2) [1.00]
+13.00 : (turn_to satellite0 planet4 phenomenon5) [1.00]
+14.00 : (take_image satellite0 planet4 instrument1 infrared0) [1.00]
+;; Least solution cost: 15.00, length: 18
+;; Resources consumed: 124.00 (fuel satellite0), 753.00 (data_capacity satellite0)
+; Time 33550
+;; Time: 101 sec. (101 sec. in search)
+;; Nodes examined: 3947560 (39084.75 nodes/sec)
+;; Tries: 12207851 (120869.81 tries/sec)
+;; CPU time: 33550 millisec.
+;; Nodes expanded/discarded: 622869/3324690 (15.78%/84.22%)
+;; Depth: 15 max, 8.59 avg.
+;; Solution depth: 15
+;; DFS Iterations: 10
+;; Avg. nodes/itn. 62286.90, last itn. 309150
+;; Approx. branching factor: 19.60
+;; Avg. tries/subgoal: 2.98 (explored: 2.98)
+;; Avg. expandable subgoals/node: 6.58
+;; Right-Shift cuts: 6529496 (34.85%)
+;; Store usage: 13.61% (h/c: 1.26, avg. depth: 8.9)
+;; Resource consumption cuts (nodes/tries): 1276570/2493557

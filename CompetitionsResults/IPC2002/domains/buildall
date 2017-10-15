@@ -1,0 +1,12 @@
+for i in `ls -d1 */* | grep -v UMT | tr '\n' ' '`; do
+	pushd $i
+	make
+	export PATH=`pwd`:$PATH
+	popd
+done
+
+for i in `ls -R */*/* | grep ":" | grep -v UMT | tr '\n' ' ' | sed 's/://g'`; do
+	pushd $i
+	./probs
+	popd
+done

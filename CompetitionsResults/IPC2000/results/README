@@ -1,0 +1,71 @@
+There are 5 directories of test results.
+
+Blocks, Elevator, Freecell, Logisitics, and Schedule.
+
+Each contains results for the track1 and the track2 planners. The
+results are stored in files named after the *logins* of the planning
+systems. Here is a map from login names to planning system names.
+
+filename   System
+blackbox   BlackBox
+edelkamp   Mips
+flin       System R
+hoffmann   FF
+hsp        HSP2
+ipp        IPP
+pbr        PbR
+propplan   PropPlan
+shop       SHOP
+soweare    TokenPlan
+stanplan   STAN
+stoerr     BDDPlan
+talplan    TALplanner
+yochan     AltAlt
+yrefanid   GRT
+
+
+See http://www.cs.toronto.edu/aips2000
+the competition homepage for more information on the authors of the
+above systems.
+
+Format of results
+-----------------
+Each planner's results are stored in a separate file under the file
+names indicated above. Each file contains one line per problem
+solved. With
+
+<problem-name>, cpu time to solve, length of solution, <solution...>
+
+Where <problem-name> is the same name as specified in the pddl file
+(in the matching 2000-Tests directory), and <solution...> is the
+sequence of fully instantiated operators that is the solution found by
+the planner.
+
+Excell Files
+------------
+Finally, in each directory are some excell spreadsheets. I'm afraid
+that there is scant documentation on them. But each worksheet has a
+"data" sheet. If you want to compare your own planner with the
+existing results, you can add a data in the data sheet, in column A is
+the "size" of the problem, B the login name system, C the proper
+system name, D the name of the problem (each pddl problem file
+specifies the name of the problem, you can match up the problems with
+the results by looking at the problem files directories), E the time
+taken (all of the tests except for the Elevator domain were run on a
+500MHz Pentium III with 1GB of RAM, the Elevator was run on a 450MHz
+Pentium III with 256 MB of RAM), F the number of steps in the plan,
+and G the string OK if the result was verified.
+
+Then on "sheet4" there are 4 columns per planner that obtain their
+data from the "data" sheet. You should be able to simply 
+
+ a) modify column C to add in the problems solved by your planner.
+ b) copy column D, E, F, G to a new set of columns at the right of
+    the sheet. You might need to modify the formulas to access the
+    right cells.
+ c) modify the data series of the charting sheets, "time all" and
+    "#steps all" to also plot your data.
+ 
+Additionally if in "sheet2" you type in the names of two filenames in
+F1 and J1, the "Time" and "#Steps" sheets will display a direct
+comparision of these two planners.

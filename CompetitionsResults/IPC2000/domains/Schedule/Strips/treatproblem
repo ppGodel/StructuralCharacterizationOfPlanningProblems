@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+for i do
+	j=`echo $i | sed 's/pddl/strips/g'`
+	cat $i | sed 's/init/init\
+    (idle punch) (idle drill-press) (idle lathe) (idle roller) (idle polisher)\
+    (idle immersion-painter) (idle spray-painter) (idle grinder) (ru unwantedargs)/g
+		s/\((PART \)\(..\))/\1\2) (unscheduled \2)/g
+		s/\(HAS-HOLE \)\(..\) \(.* \)\(.*)\)/\1\2 \3\4 (lasthole \2 \3\4 (linked \2 nowidth noorient \3\4/g' > $j
+
+done
+ 

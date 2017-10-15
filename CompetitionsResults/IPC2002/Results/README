@@ -1,0 +1,134 @@
+The directory structure of this archive exactly mirrors the domains/problems 
+directory structure. This allows for convenient scripting of the testing, as 
+well as supporting the easy retrieval of data. 
+
+The data sets are organised under the subdirectory "IPCResults/PLANS". In the 
+subdirectory "IPCResults/Collected" can be found the data extracted from these 
+plans. The data sets are simple files containing one line for each problem 
+solved in a given problem set. The line contains five values: the problem 
+number, the plan quality, a second plan quality value, the number of steps in 
+the plan and, finally, the time (in milliseconds) taken to produce that plan. 
+
+In the subdirectory IPCResults/Scripts can be found a useful script "extract"
+which can be used for building graphs of the data sets. To use it you will need
+gnuplot and the script runs in a bash shell. To run it you should ensure 
+IPCResults/Scripts is on your execution path and you should make IPCResults
+your working directory. 
+
+extract -h 
+
+will give a brief summary of useage options. Here are some examples of its use:
+
+extract -bw -d Tests1/Depots/Strips MIPS FF.speed  LPG.quality
+
+This builds the following files in the IPCResults/Graphs subdirectory, containing
+black-and-white postscript plots comparing MIPS, FF (Speed setting) and
+LPG (Quality setting):
+
+Depots-Strips-length.ps               Depots-Strips-Untyped-length.ps
+Depots-Strips-quality-gp.ps           Depots-Strips-Untyped-quality-gp.ps
+Depots-Strips-quality-seq.ps          Depots-Strips-Untyped-quality-seq.ps
+Depots-Strips-speed.ps                Depots-Strips-Untyped-speed.ps
+
+These files show the plan lengths (*-length.ps) as step counts, the times taken
+to produce them (*-speed.ps) and the relative qualities of the plans (*-quality-*).
+The *-quality-seq.ps graphs show quality using the sequential step count for plans
+(where relevant) and *-quality-gp.ps show quality using the parallel length
+(where relevant). This only makes a difference in non-temporal domains (Strips
+and Numeric/HardNumeric) where some planners can specify actions that may be
+executed concurrently while others simply list the actions in sequence.
+
+extract -p 
+
+lists the planners that can be plotted, but you should note that not all planners
+produced data for all problems (the script will ignore empty data sets).
+
+If you have a problem extracting graphs and would like help in doing so, please
+contact us.
+
+
+Only plans that validated are entered. The two plan quality measures are 
+determined by the problem instance metric (where the problem stipulates it - 
+otherwise it defaults to plan length). In cases where plan length is used, 
+or in the case of non-temporal domains using "total-time" as a metric 
+(which is considered equivalent to plan length for non-temporal 
+domains), plan length is measured as either the number of steps or as the 
+number of distinct points in the plan at which activity occurs (equivalent to 
+"Graphplan length"). The first plan quality measure is that derived using plan 
+length and the second is that derived using Graphplan length. In most cases the 
+values are identical.
+
+The archive contains only the solution plans presented by these planners at 
+the IPC3 event. Files have been cleaned up in some cases to allow the 
+validator to read them (minor syntactic adjustments). The following important 
+points should be noted.
+
+All plans validate except for the following (which were excluded from the 
+data presented at the conference):
+
+The following plans fail because of overlapping attempts to communicate to a 
+single lander on a single channel. This problem is probably not major - a 
+simple rescheduling of the actions would probably fix all of them.
+
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile10.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile2.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile3.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile4.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile5.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile6.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile7.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile8.soln
+./MIPS.plain/Tests2/Rovers/SimpleTime/pfile9.soln
+
+The following plan has an unsatisfied precondition for a step. The precondition 
+is complex and it is not immediately obvious what part of it is not satisfied.
+
+./TALPlanner/Tests3/UMT2/pfile13.soln
+
+The following plan attempts to turn a satellite with insufficient fuel to make 
+the turn, leading to an unsatisfied precondition.
+
+./TP4/Tests2/Satellite/Numeric/pfile1.soln
+
+
+The following plans all contain uninstantiated variables (meaning "don't care"). 
+This is a feature that is not supported in the PDDL2.1 plan specification or 
+in the validator, so the plans are rejected. It seems likely that they are 
+valid plans subject to the extension to allow for uninstantiated variables, but 
+they have not been checked.
+
+IxTeT/Tests2/Rovers/SimpleTime/pfile1.soln
+IxTeT/Tests2/Rovers/SimpleTime/pfile2.soln
+IxTeT/Tests2/Rovers/SimpleTime/pfile3.soln
+IxTeT/Tests2/Rovers/SimpleTime/pfile4.soln
+IxTeT/Tests2/Rovers/SimpleTime/pfile5.soln
+IxTeT/Tests2/Rovers/SimpleTime/pfile6.soln
+IxTeT/Tests2/Rovers/Time/pfile1.soln
+IxTeT/Tests2/Rovers/Time/pfile2.soln
+IxTeT/Tests2/Rovers/Time/pfile3.soln
+IxTeT/Tests2/Rovers/Time/pfile4.soln
+
+
+In addition: 
+
+All TP4 plans fail to separate actions according to the "epsilon" rule and this 
+causes them to fail to validate. A script is supplied that adjusts the timing of 
+the steps and this allows them to validate. In at least one case the rounding of 
+values in the planner has led to one step beginning before one that supports it 
+has finished (precisely illustrating the reason for introducing espilons into 
+plans!) and this requires a larger adjustment to make it valid. The consequence 
+is that these plans are shuffled along the time line to allow slack into the 
+schedules and this could make some of them appear less efficient than is really 
+the case.
+
+A collection of MIPS plans for Rovers/Strips problems suffer from a mutex 
+violation in the handling of the communication channel. This is also resolved by 
+renumbering the steps of the plans involved to ensure temporal separation of the 
+offending actions. These plans were not included in the data presented at the 
+conference, but are included here since they are, like those of TP4, "within 
+epsilon of being valid"!
+
+
+TALPlanner and SHOP2 also demonstrated that some of the UMT problems were 
+unsolvable. Since there is no standard by which a planner can present a checkable 
+proof that a problem is unsolvable, we have not included the data for these problems.

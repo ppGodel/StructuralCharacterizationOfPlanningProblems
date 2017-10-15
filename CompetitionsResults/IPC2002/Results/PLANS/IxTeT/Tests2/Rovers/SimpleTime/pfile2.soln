@@ -1,0 +1,9 @@
+;time 100
+0.01 : (CALIBRATE ?r camera0 objective0 waypoint0) [5]
+0.01 : (SAMPLE_SOIL ?x ?s waypoint0) [10]
+5.02 : (TAKE_IMAGE ?r waypoint0 objective1 camera0 low_res) [7]
+10.02 : (DROP ?x ?y) [1]
+11.03 : (SAMPLE_ROCK ?x ?s waypoint0) [8]
+12.03 : (COMMUNICATE_IMAGE_DATA ?r ?l objective1 low_res waypoint0 ?y) [15]
+27.04 : (COMMUNICATE_ROCK_DATA ?r ?l waypoint0 waypoint0 ?y) [10]
+37.05 : (COMMUNICATE_SOIL_DATA ?r ?l waypoint0 waypoint0 ?y) [10]

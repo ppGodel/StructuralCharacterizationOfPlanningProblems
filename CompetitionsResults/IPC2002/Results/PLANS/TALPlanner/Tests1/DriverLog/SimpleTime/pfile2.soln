@@ -1,0 +1,36 @@
+; [DriverLogSimple; TimeConc-14.domain] [depth] [times -1] [concurrent] [injective] [nodissec] [sparse] 
+;; 999.699ci dlog-2-2-3                      26:102      60#  
+;;    0p                 0g,0c,0f,0g: 20     0is#     0f      0a     0ap     0fx     0cy     0ct      0d     0ru      0c     0go      0s     0fi     40?#  32576    3272 [32/32pop: 0red 0ct 0cy 27acc]
+;; Plan length 26, maxtime 102
+;; [States: 
+;; 0-1a-2a-3-11a-12a-13a-14a-15-20a-21a-22-23a-24a-25a-26a-27-35a-36a-
+;; 37a-38a-39a-40a-41-48a-49a-50a-51a-52a-53-61a-62a-63a-64-82a-83a-84-
+;; 102a==>102]
+0.0010 : (board-truck driver1 truck1 s0) [ 1 ]
+0.0010 : (walk driver2 s0 p0-1) [ 20 ]
+1.002 : (drive-truck truck1 s0 s1 driver1) [ 10 ]
+11.003 : (load-truck package2 truck1 s1) [ 2 ]
+11.003 : (load-truck package3 truck1 s1) [ 2 ]
+13.004 : (drive-truck truck1 s1 s0 driver1) [ 10 ]
+20.005 : (walk driver2 p0-1 s1) [ 20 ]
+23.006 : (unload-truck package3 truck1 s0) [ 2 ]
+25.007 : (drive-truck truck1 s0 s2 driver1) [ 10 ]
+35.008 : (load-truck package1 truck1 s2) [ 2 ]
+35.008 : (unload-truck package2 truck1 s2) [ 2 ]
+35.008 : (disembark-truck driver1 truck1 s2) [ 1 ]
+37.009 : (board-truck driver1 truck1 s2) [ 1 ]
+38.01 : (drive-truck truck1 s2 s0 driver1) [ 10 ]
+48.011 : (unload-truck package1 truck1 s0) [ 2 ]
+48.011 : (disembark-truck driver1 truck1 s0) [ 1 ]
+50.012 : (board-truck driver1 truck1 s0) [ 1 ]
+50.012 : (board-truck driver2 truck2 s1) [ 1 ]
+51.013 : (drive-truck truck1 s0 s2 driver1) [ 10 ]
+51.013 : (drive-truck truck2 s1 s0 driver2) [ 10 ]
+61.014 : (disembark-truck driver1 truck1 s2) [ 1 ]
+61.014 : (disembark-truck driver2 truck2 s0) [ 1 ]
+62.015 : (walk driver1 s2 p2-1) [ 20 ]
+62.015 : (walk driver2 s0 p0-1) [ 20 ]
+82.016 : (walk driver1 p2-1 s1) [ 20 ]
+82.016 : (walk driver2 p0-1 s1) [ 20 ]
+;; Plan length 26, maxtime 102
+; Time 60

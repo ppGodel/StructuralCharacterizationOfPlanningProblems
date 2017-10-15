@@ -1,0 +1,52 @@
+;; 58 propositions, 259 actions
+;; X_ACTIONS = 259
+;; H_max^2 computed in 0 seconds
+;; Initial goal set: {[0.00](pointing satellite1 planet5),[0.00](have_image planet5 thermograph2),[0.00](have_image star7 infrared0),[0.00](have_image phenomenon8 thermograph2),[0.00](have_image phenomenon9 infrared0),[0.00](have_image planet3 infrared1),[0.00](have_image star4 infrared1),[0.00](have_image star6 infrared1)}
+;; Initial bound: 6.00
+;; Transposition table: 10000 entries
+;; searching with t* = 6.00
+;; searching with t* = 7.00
+;; searching with t* = 8.00
+;; searching with t* = 9.00
+;; searching with t* = 10.00
+;; solution cost: 10.00
+0.00 : (turn_to satellite0 star0 star6) [1.00]
+0.00 : (turn_to satellite1 star2 star0) [1.00]
+0.00 : (switch_on instrument0 satellite0) [1.00]
+0.00 : (switch_on instrument1 satellite1) [1.00]
+1.00 : (calibrate satellite0 instrument0 star0) [1.00]
+1.00 : (calibrate satellite1 instrument1 star2) [1.00]
+2.00 : (turn_to satellite0 phenomenon9 star0) [1.00]
+2.00 : (turn_to satellite1 planet3 star2) [1.00]
+3.00 : (take_image satellite0 phenomenon9 instrument0 infrared0) [1.00]
+3.00 : (take_image satellite1 planet3 instrument1 infrared1) [1.00]
+4.00 : (turn_to satellite0 phenomenon8 phenomenon9) [1.00]
+4.00 : (turn_to satellite1 star6 planet3) [1.00]
+5.00 : (take_image satellite0 phenomenon8 instrument0 thermograph2) [1.00]
+5.00 : (take_image satellite1 star6 instrument1 infrared1) [1.00]
+6.00 : (turn_to satellite0 star7 phenomenon8) [1.00]
+6.00 : (turn_to satellite1 star4 star6) [1.00]
+7.00 : (take_image satellite0 star7 instrument0 infrared0) [1.00]
+7.00 : (take_image satellite1 star4 instrument1 infrared1) [1.00]
+8.00 : (turn_to satellite0 planet5 star7) [1.00]
+8.00 : (turn_to satellite1 groundstation1 star4) [1.00]
+9.00 : (turn_to satellite1 planet5 groundstation1) [1.00]
+9.00 : (take_image satellite0 planet5 instrument0 thermograph2) [1.00]
+;; Least solution cost: 10.00, length: 22
+;; Resources consumed: 137.00 (fuel satellite0), 133.00 (fuel satellite1), 810.00 (data_capacity satellite0), 423.00 (data_capacity satellite1)
+; Time 739760
+;; Time: 2277 sec. (2277 sec. in search)
+;; Nodes examined: 50241859 (22064.94 nodes/sec)
+;; Tries: 137682869 (60466.78 tries/sec)
+;; CPU time: 739760 millisec.
+;; Nodes expanded/discarded: 768399/49473459 (1.53%/98.47%)
+;; Depth: 10 max, 4.97 avg.
+;; Solution depth: 10
+;; DFS Iterations: 5
+;; Avg. nodes/itn. 153679.80, last itn. 336263
+;; Approx. branching factor: 179.09
+;; Avg. tries/subgoal: 17.21 (explored: 17.20)
+;; Avg. expandable subgoals/node: 10.41
+;; Right-Shift cuts: 21007054 (13.24%)
+;; Store usage: 66.85% (h/c: 0.32, avg. depth: 4.3)
+;; Resource consumption cuts (nodes/tries): 3263075/18094713

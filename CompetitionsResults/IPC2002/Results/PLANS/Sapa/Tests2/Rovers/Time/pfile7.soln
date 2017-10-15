@@ -1,0 +1,36 @@
+;;Domain file succesfully read !!
+;;Problem file succesfully read !!
+;;Function: 6. Predicate: 320. Grounded Action: 264
+;;Parsing & grounding: 680 .
+
+;;<<< Start Searching for Solution >>>
+;; ResID: 0 MaxValue: 80.0 MaxDuration: 5.714286
+;; ResID: 2 MaxValue: 80.0 MaxDuration: 5.3333335
+;; ResID: 4 MaxValue: 80.0 MaxDuration: 5.714286
+
+;;Time 426 
+;;State generated: 114
+;;State explored: 37
+
+;;***************** FINAL PLAN ***********************
+0.01: (calibrate rover0 camera0 objective0 waypoint2) [5.0]
+0.01: (sample_rock rover1 rover1store waypoint3) [8.0]
+5.0200005: (take_image rover0 waypoint2 objective0 camera0 high_res) [7.0]
+8.02: (navigate rover1 waypoint3 waypoint0) [5.0]
+12.030001: (communicate_image_data rover0 general objective0 high_res waypoint2 waypoint3) [15.0]
+0.01: (sample_rock rover2 rover2store waypoint4) [8.0]
+27.04: (communicate_rock_data rover1 general waypoint3 waypoint0 waypoint3) [10.0]
+27.04: (sample_rock rover0 rover0store waypoint2) [8.0]
+37.049995: (communicate_rock_data rover2 general waypoint4 waypoint4 waypoint3) [10.0]
+8.02: (drop rover2 rover2store) [1.0]
+47.059994: (sample_soil rover2 rover2store waypoint4) [10.0]
+47.059994: (communicate_rock_data rover0 general waypoint2 waypoint2 waypoint3) [10.0]
+35.049995: (drop rover0 rover0store) [1.0]
+57.069992: (recharge rover0 waypoint2) [3.4285715]
+57.069992: (communicate_soil_data rover2 general waypoint4 waypoint4 waypoint3) [10.0]
+60.50856: (navigate rover0 waypoint2 waypoint1) [5.0]
+65.51857: (sample_soil rover0 rover0store waypoint1) [10.0]
+75.52857: (navigate rover0 waypoint1 waypoint2) [5.0]
+80.538574: (communicate_soil_data rover0 general waypoint1 waypoint2 waypoint3) [10.0]
+
+;; Makespan: 90.52857    . Sum dur: 141.42857

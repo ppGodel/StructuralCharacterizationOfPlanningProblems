@@ -1,0 +1,10 @@
+;roverprob4213
+; Time 40
+1:(calibrate rover0 camera0 objective0 waypoint0)[5]
+7:(take_image rover0 waypoint0 objective1 camera0 low_res)[7]
+15:(communicate_image_data rover0 general objective1 low_res waypoint0 waypoint1)[15]
+20:(sample_soil rover0 rover0store waypoint0)[10]
+31:(drop rover0 rover0store)[1]
+31:(communicate_soil_data rover0 general waypoint0 waypoint0 waypoint1)[10]
+33:(sample_rock rover0 rover0store waypoint0)[8]
+42:(communicate_rock_data rover0 general waypoint0 waypoint0 waypoint1)[10]

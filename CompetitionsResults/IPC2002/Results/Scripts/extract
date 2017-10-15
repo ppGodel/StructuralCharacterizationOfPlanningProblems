@@ -1,0 +1,103 @@
+# Useage
+if(test $1 = "-h")then
+	echo "Useage: extract [-bw] [-t Title] [-p] [-d Dataset] [-g Title]"
+	echo "                                             planner1 ... plannerN"
+	echo "   -bw: Black and white (default is colour)."
+	echo "   -t: Label prefix for output files (default is null)."
+	echo "   -d: Specify data set, eg Tests1/Depots or Tests1/Depots/Strips,"
+	echo "                                             (default is all)."
+	echo "   -g: Text for graph titles (default is data set name)."
+	echo "   -p: List available planner names."
+	exit
+fi
+if(test $1 = "-p") then
+	echo `ls PLANS`
+	exit
+fi
+MODE=color
+TITLEPRE=
+DATASET=
+GRAPH=
+while(test `echo $1 | head -c 1` = "-") do
+	case $1 in
+		("-bw") MODE=
+			shift;;
+		("-t") TITLEPRE=$2
+			shift
+			shift;;
+		("-d") DATASET=$2
+			shift
+			shift;;
+		("-g") GRAPH=$2;
+			shift
+			shift;;
+	esac
+done
+#echo $TITLEPRE $DATASET $MODE
+
+HERE=`pwd`
+
+for i in `ls -R Collected/$DATASET | grep ":" | sed 's/://g'`; do
+	pushd $i > /dev/null
+	echo "Extracting graphs for " `pwd`
+	GRAPHTITLE=`pwd | sed 's/.*Tests..//g' | sed 's/\//-/g'`
+	if(test $MODE)then
+		echo "set terminal postscript color" > plotter
+	else
+		echo "set terminal postscript" > plotter
+	fi
+	echo "set xlabel \"Problem number\"" >> plotter
+	if(test $GRAPH)then
+		echo "set title \""$GRAPH"\"" >> plotter
+	else
+		echo "set title \""$GRAPHTITLE"\"" >> plotter
+	fi
+	cp plotter plotq
+	echo "set ylabel \"Quality\"" >> plotq
+	cp plotter plotqg
+	echo "set ylabel \"Quality\"" >> plotqg
+	cp plotter plotl
+	echo "set ylabel \"Number of steps\"" >> plotl
+	mv plotter plots
+	echo "set ylabel \"Milliseconds\"" >> plots
+	echo "set logscale y" >> plots
+	echo -n "plot " >> plotq
+	echo -n "plot " >> plotqg
+	echo -n "plot " >> plotl
+	echo -n "plot " >> plots
+	EXECUTED=
+	for j do 
+		if(test -f $j)then
+			EXECUTED=true
+			echo -n "\""$j"\" using 1:2 title \""$j"x ("`wc -l $j | sed 's/^ *//g' | sed 's/ .*//g'`" solved)\" with linespoints "`echo $j | $HERE/Scripts/linetypes`", " >> plotq
+			echo -n "\""$j"\" using 1:3 title \""$j"x ("`wc -l $j | sed 's/^ *//g' | sed 's/ .*//g'`" solved)\" with linespoints "`echo $j | $HERE/Scripts/linetypes`", " >> plotqg
+			echo -n "\""$j"\" using 1:4 title \""$j"x ("`wc -l $j | sed 's/^ *//g' | sed 's/ .*//g'`" solved)\"with linespoints "`echo $j | $HERE/Scripts/linetypes`", " >> plotl
+			echo -n "\""$j"\" using 1:5 title \""$j"x ("`wc -l $j | sed 's/^ *//g' | sed 's/ .*//g'`" solved)\"with linespoints "`echo $j | $HERE/Scripts/linetypes`", " >> plots
+		fi
+	done
+	if(test $EXECUTED) then
+		cat plotq | sed 's/, $//g' | $HERE/Scripts/plannernames > plotq.tmp
+		mv plotq.tmp plotq
+		cat plotqg | sed 's/, $//g' | $HERE/Scripts/plannernames > plotqg.tmp
+		mv plotqg.tmp plotqg
+		cat plotl | sed 's/, $//g' | $HERE/Scripts/plannernames > plotl.tmp
+		mv plotl.tmp plotl
+		cat plots | sed 's/, $//g' | $HERE/Scripts/plannernames > plots.tmp
+		mv plots.tmp plots
+		gnuplot plotq > plotq.ps
+		gnuplot plotqg > plotqg.ps
+		gnuplot plots > plots.ps
+		gnuplot plotl > plotl.ps
+		mv plotq.ps $HERE/Graphs/$TITLEPRE$GRAPHTITLE-quality-seq.ps
+		mv plotqg.ps $HERE/Graphs/$TITLEPRE$GRAPHTITLE-quality-gp.ps
+		mv plots.ps $HERE/Graphs/$TITLEPRE$GRAPHTITLE-speed.ps
+		mv plotl.ps $HERE/Graphs/$TITLEPRE$GRAPHTITLE-length.ps
+	fi
+	rm -f plot*
+	popd > /dev/null
+done
+
+
+
+
+

@@ -1,0 +1,42 @@
+; [DriverLogSimple; TimeConc-14.domain] [depth] [times -1] [concurrent] [injective] [nodissec] [sparse] 
+;; 999.699ci dlog-2-3-6                      32:139      60#  
+;;    0p               0g,10c,10f,0g: 30     0is#     0f      0a     0ap     0fx     0cy     0ct      0d     0ru      0c     0go      0s     0fi     30?#  32576    3323 [47/47pop: 0red 0ct 0cy 33acc]
+;; Plan length 32, maxtime 139
+;; [States: 
+;; 0-1a-2-20a-21a-22-40a-41a-42a-43a-44-51a-52a-53a-54a-55a-56a-57-64a-
+;; 65a-66a-67-75a-76a-77a-78a-79a-80-88a-89a-90-98a-99a-100a-101-119a-
+;; 120a-121-139a==>139]
+0.0010 : (walk driver1 s4 p4-0) [ 20 ]
+0.0010 : (walk driver2 s1 p1-2) [ 20 ]
+20.002 : (walk driver1 p4-0 s0) [ 20 ]
+20.002 : (walk driver2 p1-2 s2) [ 20 ]
+40.003 : (board-truck driver1 truck2 s0) [ 1 ]
+40.003 : (board-truck driver2 truck1 s2) [ 1 ]
+40.003 : (load-truck package1 truck1 s2) [ 2 ]
+41.004 : (drive-truck truck2 s0 s1 driver1) [ 10 ]
+42.005 : (drive-truck truck1 s2 s3 driver2) [ 10 ]
+51.006 : (load-truck package2 truck2 s1) [ 2 ]
+51.006 : (disembark-truck driver1 truck2 s1) [ 1 ]
+52.007 : (load-truck package3 truck1 s3) [ 2 ]
+52.007 : (unload-truck package1 truck1 s3) [ 2 ]
+52.007 : (disembark-truck driver2 truck1 s3) [ 1 ]
+53.008 : (board-truck driver1 truck2 s1) [ 1 ]
+54.009 : (board-truck driver2 truck1 s3) [ 1 ]
+54.009 : (drive-truck truck2 s1 s2 driver1) [ 10 ]
+55.01 : (drive-truck truck1 s3 s0 driver2) [ 10 ]
+64.011 : (unload-truck package2 truck2 s2) [ 2 ]
+64.011 : (disembark-truck driver1 truck2 s2) [ 1 ]
+65.012 : (drive-truck truck1 s0 s1 driver2) [ 10 ]
+75.013 : (unload-truck package3 truck1 s1) [ 2 ]
+75.013 : (disembark-truck driver2 truck1 s1) [ 1 ]
+77.014 : (board-truck driver1 truck2 s2) [ 1 ]
+77.014 : (board-truck driver2 truck1 s1) [ 1 ]
+78.015 : (drive-truck truck1 s1 s0 driver2) [ 10 ]
+78.015 : (drive-truck truck2 s2 s3 driver1) [ 10 ]
+88.016 : (drive-truck truck1 s0 s3 driver2) [ 10 ]
+88.016 : (disembark-truck driver1 truck2 s3) [ 1 ]
+98.017 : (disembark-truck driver2 truck1 s3) [ 1 ]
+99.018 : (walk driver2 s3 p3-4) [ 20 ]
+119.019 : (walk driver2 p3-4 s4) [ 20 ]
+;; Plan length 32, maxtime 139
+; Time 60

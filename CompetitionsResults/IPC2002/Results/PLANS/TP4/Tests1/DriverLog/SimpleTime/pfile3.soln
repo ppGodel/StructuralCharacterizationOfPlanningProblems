@@ -1,0 +1,74 @@
+;; 44 propositions, 120 actions
+;; X_ACTIONS = 120
+;; H_max^2 computed in 0 seconds
+;; Initial goal set: {[0.00](at truck1 s1),[0.00](at package1 s1),[0.00](at truck2 s2),[0.00](at package2 s1),[0.00](at package3 s2),[0.00](at driver2 s2)}
+;; Initial bound: 26.00
+;; Transposition table: 10000 entries
+;; searching with t* = 26.00
+;; searching with t* = 27.00
+;; searching with t* = 28.00
+;; searching with t* = 29.00
+;; searching with t* = 30.00
+;; searching with t* = 31.00
+;; searching with t* = 32.00
+;; searching with t* = 33.00
+;; searching with t* = 34.00
+;; searching with t* = 35.00
+;; searching with t* = 36.00
+;; searching with t* = 37.00
+;; searching with t* = 38.00
+;; searching with t* = 39.00
+;; searching with t* = 40.00
+;; searching with t* = 41.00
+;; searching with t* = 42.00
+;; solution cost: 42.00
+0.00 : (load-truck package3 truck1 s1) [2.00]
+1.00 : (board-truck driver1 truck1 s1) [1.00]
+2.00 : (drive-truck truck1 s1 s2 driver1) [10.00]
+2.00 : (walk driver2 s0 p2-0) [20.00]
+12.00 : (unload-truck package3 truck1 s2) [2.00]
+12.00 : (disembark-truck driver1 truck1 s2) [1.00]
+13.00 : (board-truck driver1 truck1 s2) [1.00]
+14.00 : (load-truck package3 truck2 s2) [2.00]
+14.00 : (drive-truck truck1 s2 s0 driver1) [10.00]
+16.00 : (unload-truck package3 truck2 s2) [2.00]
+18.00 : (load-truck package3 truck2 s2) [2.00]
+20.00 : (unload-truck package3 truck2 s2) [2.00]
+22.00 : (load-truck package3 truck2 s2) [2.00]
+22.00 : (walk driver2 p2-0 s2) [20.00]
+24.00 : (load-truck package1 truck1 s0) [2.00]
+24.00 : (load-truck package2 truck1 s0) [2.00]
+24.00 : (unload-truck package3 truck2 s2) [2.00]
+24.00 : (disembark-truck driver1 truck1 s0) [1.00]
+25.00 : (board-truck driver1 truck1 s0) [1.00]
+26.00 : (load-truck package3 truck2 s2) [2.00]
+26.00 : (drive-truck truck1 s0 s1 driver1) [10.00]
+28.00 : (unload-truck package3 truck2 s2) [2.00]
+30.00 : (load-truck package3 truck2 s2) [2.00]
+32.00 : (unload-truck package3 truck2 s2) [2.00]
+34.00 : (load-truck package3 truck2 s2) [2.00]
+36.00 : (unload-truck package1 truck1 s1) [2.00]
+36.00 : (unload-truck package2 truck1 s1) [2.00]
+36.00 : (unload-truck package3 truck2 s2) [2.00]
+38.00 : (load-truck package1 truck1 s1) [2.00]
+38.00 : (load-truck package2 truck1 s1) [2.00]
+38.00 : (load-truck package3 truck2 s2) [2.00]
+40.00 : (unload-truck package1 truck1 s1) [2.00]
+40.00 : (unload-truck package2 truck1 s1) [2.00]
+40.00 : (unload-truck package3 truck2 s2) [2.00]
+;; Least solution cost: 42.00, length: 34
+; Time 432710
+;; Time: 1090 sec. (1090 sec. in search)
+;; Nodes examined: 21783471 (19984.84 nodes/sec)
+;; Tries: 95807583 (87896.87 tries/sec)
+;; CPU time: 432710 millisec.
+;; Nodes expanded/discarded: 2213045/19570425 (10.16%/89.84%)
+;; Depth: 20 max, 15.05 avg.
+;; Solution depth: 19
+;; DFS Iterations: 17
+;; Avg. nodes/itn. 130179.12, last itn. 1293143
+;; Approx. branching factor: 30.53
+;; Avg. tries/subgoal: 6.56 (explored: 4.62)
+;; Avg. expandable subgoals/node: 6.60
+;; Right-Shift cuts: 93835602 (4.18%)
+;; Store usage: 24.93% (h/c: 14.55, avg. depth: 10.9)

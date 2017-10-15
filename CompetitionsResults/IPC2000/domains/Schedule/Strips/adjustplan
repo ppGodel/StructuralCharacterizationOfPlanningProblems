@@ -1,0 +1,8 @@
+#!/bin/sh
+
+tr '\n' '@' | tr ',' '\n' | sed 's/ unwantedargs.*)/)/g
+				s/^(delete.*$//g' | tr '\n' ',' | sed 's/do-time-step),\((do-time-step),\)*(do-time-step/do-time-step/g
+			s/,,*/,/g
+			s/,$//g' | tr '@' '\n' | awk '{x=split($0,plan,","); print plan[1];print plan[2];print x-3;
+	for(i = 4;i<x+1;i++) print plan[i];print "@"}' | tr '\n' ',' | sed 's/,@,/@/g' | tr '@' '\n'
+

@@ -1,0 +1,26 @@
+; [DriverLogStripsConc-13.domain] [depth] [times -1] [concurrent] [injective] [nodissec] [dense] 
+;; 999.699ci dlog-3-2-4                        19:9      40#  
+;;    0p                0g,0c,20f,0g: 30     0is#     0f      0a     0ap     0fx     0cy     0ct      0d     0ru      0c     0go      0s     0fi     10?#  32576    3103 [20/20pop: 0red 0ct 0cy 20acc]
+;; Plan length 19, maxtime 9
+;; [States: Dense from 0 to 9]
+0 : (board-truck driver2 truck1 s1) [ 1 ]
+0 : (board-truck driver3 truck2 s0) [ 1 ]
+0 : (load-truck package3 truck2 s0) [ 1 ]
+0 : (load-truck package4 truck1 s1) [ 1 ]
+1 : (drive-truck truck1 s1 s0 driver2) [ 1 ]
+1 : (drive-truck truck2 s0 s2 driver3) [ 1 ]
+2 : (load-truck package1 truck2 s2) [ 1 ]
+2 : (unload-truck package3 truck2 s2) [ 1 ]
+2 : (unload-truck package4 truck1 s0) [ 1 ]
+3 : (drive-truck truck2 s2 s1 driver3) [ 1 ]
+4 : (unload-truck package1 truck2 s1) [ 1 ]
+5 : (drive-truck truck1 s0 s1 driver2) [ 1 ]
+5 : (drive-truck truck2 s1 s2 driver3) [ 1 ]
+6 : (disembark-truck driver2 truck1 s1) [ 1 ]
+6 : (disembark-truck driver3 truck2 s2) [ 1 ]
+7 : (walk driver2 s1 p0-1) [ 1 ]
+7 : (walk driver3 s2 p1-2) [ 1 ]
+8 : (walk driver2 p0-1 s0) [ 1 ]
+8 : (walk driver3 p1-2 s1) [ 1 ]
+;; Plan length 19, maxtime 9
+; Time 40

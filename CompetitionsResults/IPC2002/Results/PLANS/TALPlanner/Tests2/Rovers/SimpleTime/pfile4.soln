@@ -1,0 +1,15 @@
+; [RoversSimple; TimeConc.domain] [depth] [times -1] [concurrent] [injective] [nodissec] [sparse] 
+;; 999.706ci roverprob6232                     9:45      40#  
+;;    0p                0g,0c,10f,0g: 30     0is#     0f      0a     0ap     0fx     0cy     0ct      0d     0ru      0c     0go      0s     0fi     10?#  32512     723 [13/13pop: 0red 0ct 0cy 10acc]
+;; Plan length 9, maxtime 45
+0.0010 : (sample_soil rover0 rover0store waypoint3) [ 10 ]
+0.0010 : (calibrate rover1 camera0 objective0 waypoint2) [ 5 ]
+5.002 : (take_image rover1 waypoint2 objective0 camera0 high_res) [ 7 ]
+10.003 : (communicate_soil_data rover0 general waypoint3 waypoint3 waypoint2) [ 10 ]
+12.004 : (navigate rover1 waypoint2 waypoint1) [ 5 ]
+17.005 : (sample_rock rover1 rover1store waypoint1) [ 8 ]
+17.005 : (drop rover0 rover0store) [ 1 ]
+20.006 : (communicate_image_data rover1 general objective0 high_res waypoint1 waypoint2) [ 15 ]
+35.007 : (communicate_rock_data rover1 general waypoint1 waypoint1 waypoint2) [ 10 ]
+;; Plan length 9, maxtime 45
+; Time 40
