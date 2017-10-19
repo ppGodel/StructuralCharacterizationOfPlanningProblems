@@ -415,34 +415,42 @@ class Graph:
                     heappush(q, (l + el, n, p))
         return None
 
-    def allshortedpaths2(self, key= 'weight'):
+    def allshortedpaths(self, key= 'weight'):
         p = list()
         #visited = []
         for v in self:
-            #if not self.directed:
-            #    visited.append(v.id)
+            
             res = self.allshortestbyvertex(v.id, key)
             if res is not None:                
                 p += [res[x][2] for x in res]
         return p
     
-    def allshortedpaths(self, key= 'weight'):
+    def allshortedpaths2(self, key= 'weight'):
         p = list()
-        visited = []
+        #visited = []
         for v in self:
-            if not self.directed:
-                visited.append(v.id)
-            for u in self:
-                if u.id not in visited:
-                    res = self.shortest(v.id, u.id, key)
-                    if res is not None:
-                        p.append(res)
-        return p
+            
+            res = self.allshortestbyvertex(v.id, key)
+            if res is not None:                
+                p += [res[x][2] for x in res]
+        return p    
+    #def allshortedpaths(self, key= 'weight'):
+    #    p = list()
+    #    visited = []
+    #    for v in self:
+    #        if not self.directed:
+    #            visited.append(v.id)
+    #        for u in self:
+    #            if u.id not in visited:
+    #                res = self.shortest(v.id, u.id, key)
+    #                if res is not None:
+    #                    p.append(res)
+    #    return p
 
     #Esta funcion es basada en la mostrada en la ponencia de chile de la Dra Elisa Schaeffer
     def betweennesscentrality(self, element=None, key='edge'):
         #print(element, key)
-        p = self.allshortedpaths2()
+        p = self.allshortedpaths()
         if element is None: # all vertex betweennesses
             b = defaultdict(int) # zero if no paths
             for v in self:
