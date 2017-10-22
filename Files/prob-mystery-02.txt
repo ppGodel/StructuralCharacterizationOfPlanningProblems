@@ -1,0 +1,59 @@
+blackbox version 43
+command line:  ./blackbox -o ../CompetitionsResults/IPC1998/domains/mystery/domain.pddl -f ../CompetitionsResults/IPC1998/domains/mystery/prob02.pddl -x -M 9999 -solver -maxsec 100 graphplan -then -maxsec 100 walksat -then -maxsec 100 satz -then -maxsec 100 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 100.000000  graphplan
+    -maxint        0   -maxsec 100.000000  walksat
+    -maxint        0   -maxsec 100.000000  satz
+    -maxint        0   -maxsec 100.000000  compact
+End solver specification
+Loading domain file: ../CompetitionsResults/IPC1998/domains/mystery/domain.pddl
+Loading fact file: ../CompetitionsResults/IPC1998/domains/mystery/prob02.pddl
+Problem name: strips-mysty-x-2
+Facts loaded.
+
+created
+time: 1, 130 facts and 119 exclusive pairs.
+time: 2, 177 facts and 652 exclusive pairs.
+time: 3, 249 facts and 2342 exclusive pairs.
+time: 4, 323 facts and 2604 exclusive pairs.
+time: 5, 357 facts and 1784 exclusive pairs.
+Goals first reachable in 5 steps.
+8128 nodes created.
+
+####################################################
+goals at time 6:
+  craves_grief-7_beef craves_depression-1_beef 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 82
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (overcome grief-7 entertainment ham pluto jupiter)
+1 (feast satiety onion muffin kentucky bosnia)
+2 (feast entertainment ham tuna bosnia surrey)
+2 (overcome depression-1 satiety muffin mercury vulcan)
+3 (feast satiety muffin tuna arizona kentucky)
+3 (feast entertainment tuna beef arizona kentucky)
+4 (succumb grief-7 entertainment beef pluto jupiter)
+4 (feast satiety tuna beef alsace arizona)
+5 (succumb depression-1 satiety beef mercury vulcan)
+End plan
+----------------------------------------------------
+
+9 total actions in plan
+0 entries in hash table, 
+4 total set-creation steps (entries + hits + plan length - 1)
+9 actions tried
+
+####################################################
+Total elapsed time:   3.22 seconds
+Time in milliseconds: 3221
+
+####################################################

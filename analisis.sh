@@ -1,4 +1,5 @@
 #!/bin/bash
+
 ADIR=$(pwd)
 for dp in $ADIR/CompetitionsResults/IPC*;
 do
@@ -8,14 +9,15 @@ do
 	for dcp in $dp/domains/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-		echo "Problema" $nbc
-		for f in $(find  -name '*.ppdl' ); do
-		    #fn=$(basename $f)
-		    echo "instancia" $f
+		#echo "Problema" $nbc
+		echo $dcp
+		echo $(find $dcp -iname '*.ppdl')
+		for f in $(find $dcp -iname '*.ppdl' ); do
+		    echo "instancia:" $f
+                    #fn=$(basename $f)    
 		done
 	    fi
 	done
-	
     fi
        
 #    cd $i/domains
