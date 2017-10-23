@@ -33,21 +33,10 @@ do
 		for f in $filelist; do
 		    fn=$(basename $f)
 		    if [ "$fn" != "$domn" ]; then
-			$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > $fn.txt
+			echo "$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > $(pwd)/ExperimentsResults/PlanningGraphs/$domn-$fn.txt "
 		    fi
 		done
 	    fi
 	done
     fi
-       
-#    cd $i/domains
-#    for j in $(find -maxdepth 1 -type d );
-#    do
-#	cd $j
-#	for k in $(find -maxdepth 1 -type f -name '*.pddl' );
-#	do
-#	    echo "Ejecuando: $i/domains$j$k"
-#	done
-#	echo "output: $i"
-#    done
 done
