@@ -1,5 +1,7 @@
 import json
 import graph
+import sys
+import time
 from pprint import pprint
 
 def readPGjson(nf = 'graph.json', wm=True):
@@ -76,8 +78,8 @@ def readPGjson(nf = 'graph.json', wm=True):
                     g.add_edge(v, w, weight=1, name = v.label['Name']+ '___' + eisn['name'] ,hash=eisn['hash'], type='S') #bc = g.betweennesscentrality()
     return g
                     
-def do_analysis(g):                    
-    filest = open(g.id + "distedges.csv",'w')
+def do_analysis(g, filename):                    
+    filest = open(filename,'w')
     filest.write('id'+','+ 'name'+','+ 'hash'+','+ 'time'+','+ 'ind'+','+ 'otd'+','+ 'ad'+ ',' + 'bc' + '\n')
     for e in g.vertices:#bc:#
         an = len(set(g[e].neighbors.keys()).union(set(g[e].inneighbors.keys())))
@@ -85,3 +87,15 @@ def do_analysis(g):
     filest.close()
 
 
+
+if len(sys.argv)>1:
+    namefile=sys.argv[1]
+    withmutex=True
+    if len(sys.argv)>2:
+        withmutex= sys.argv[2] in ('True', 'T','TRUE')
+    tim=time.clock()
+    g=readPGjson(namefile,withmutex)    
+    do_analysis(g,g.id + "distedges.csv")
+    print(time.clock()-tim)    
+else:
+    print('Using default')
