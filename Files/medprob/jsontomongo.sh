@@ -1,0 +1,10 @@
+apath=$(pwd)
+jf=$(find $apath -type f -iname '*.json')
+for j in $jf; do
+    nj=$(basename "$j")
+    echo "processing $nj"
+    #comnd="mongoimport --db graphs --collection pg --file $j --batchSize 1"
+    comnd="mongofiles -d graphs put $j"
+    $comnd
+    sleep 1
+done

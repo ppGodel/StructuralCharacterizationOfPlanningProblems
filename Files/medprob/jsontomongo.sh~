@@ -1,0 +1,5 @@
+apath=$(pwd)
+jf=$(find $apath -type f -iname '*.json')
+for j in $jf; do
+    echo "mongoimport -db graphs --collection pg --file $j"
+done
