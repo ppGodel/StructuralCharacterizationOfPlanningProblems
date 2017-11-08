@@ -19,9 +19,12 @@ graphics.off()
 png(paste(bn, "didbl.png" ,sep=""))
 ggplot(data = gp, aes(x=factor(gp$time), y=gp$ind)) + labs( x="Level", y="Distribution in degree" ) + geom_violin()  + geom_boxplot(width=0.05) + theme(text = element_text(size=20))
 graphics.off()
+
+
 png(paste(bn, "dodbl.png" ,sep=""))
 ggplot(data = gp, aes(x=factor(gp$time), y=gp$otd)) + labs( x="Level", y="Distribution out degree" ) + geom_violin()  + geom_boxplot(width=0.05) + theme(text = element_text(size=20))
 graphics.off()
+
 png(paste(bn, "dbcbl.png" ,sep=""))
 ggplot(data = gp, aes(x=factor(gp$time), y=gp$bc)) + labs( x="Level", y="Distribution betweenness centrality" ) + geom_violin()  + geom_boxplot(width=0.05) + theme(text = element_text(size=20))
 graphics.off()
