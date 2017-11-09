@@ -8,82 +8,104 @@ def readPGjson(nf = 'graph.json', wm=True):
     with open(nf) as data_file:    
         data = json.load(data_file)
     
-    g= graph.Graph(data['Name'], directed=True)
+    g= graph.Graph(data['GN'], directed=True)
 
-    for e in data['Vertexlist']:
+    for e in data['VL']:
         #read atribute vertex
-        nid = str(int(e["time"])) + "_" + e['hash']
+        nid = e['i']#str(int(e["time"])) + "_" + e['hash']
         if nid not in g.vertices.keys():
-            v = graph.Vertex(e['id'], Name = e['name'], time =e['time'], type=e['type'], hash=e['hash'])
+            v = graph.Vertex(e['i'], Name = e['N'], time =e['T'], type=e['y'], hash=e['h'])
         else:
             v = g[nid]
-            v.label['is_true'] = e['is_true']
-            v.label['uid_mask'] = e['uid_mask']
-            v.label['uid_block'] = e['uid_block']
-            v.label['cant_do'] = e['cant_do']
-            v.label['type'] = e['type']
+            v.label['Name'] = e['N']
+            v.label['hash'] = e['h']
+            v.label['is_true'] = e['t']
+            v.label['uid_mask'] = e['m']
+            v.label['uid_block'] = e['b']
+            v.label['cant_do'] = e['n']
+            v.label['type'] = e['y']
             
             
         if 'flag' in e.keys():
-            v.label['flag'] = e['flag']
+            v.label['flag'] = e['f']
         #add it to the graph
         g.add_vertex(v)
         if(v.label['time']!=0):
-            for inn in e['inedges']:
-                if inn['hash'] != e['hash']:
-                    kid = str(int(v.label["time"])-1) + "_" + inn['hash']
-                    if(kid not in g.vertices.keys()):
-                        w = graph.Vertex(kid, Name = inn['name'], time =int(v.label["time"])-1, hash=inn['hash'])
+            for inn in e['ie']:
+                #if inn != e['h']:
+                    #kid = str(int(v.label["time"])-1) + "_" + inn['hash']
+                    if(inn not in g.vertices.keys()):
+                        w = graph.Vertex(inn, Name = 'NN', time =int(v.label["time"])-(1 if v.label['type']=='f' else 0))
                         g.add_vertex(w)
                     else:
-                        w=g[kid]            
-                        g.add_edge(w, v, weight=1, name = inn['name']+ '___' + v.label['Name'],hash=inn['hash'], type='I')
-        for outn in e['outedges']:
-            if outn['hash'] != e['hash']:
-                kid = str(int(v.label["time"])+1) + "_" + outn['hash']
-                if(kid not in g.vertices.keys()):
-                    w = graph.Vertex(kid, Name = outn['name'], time =int(v.label["time"])+1, hash=outn['hash'])
+                        w=g[inn]            
+                        g.add_edge(w, v, weight=1, name = w.label['Name']+ '___' + v.label['Name'], type='I')
+        for outn in e['oe']:
+            #if outn != e['h']:
+                #kid = str(int(v.label["time"])+1) + "_" + outn['hash']
+                if(outn not in g.vertices.keys()):
+                    w = graph.Vertex(outn, Name = 'NN', time =int(v.label["time"])+(0 if v.label['type']=='f' else 1) )
                     g.add_vertex(w)
                 else:
-                    w=g[kid]            
-                    g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + outn['name'] ,hash=outn['hash'], type='O')
+                    w=g[outn]            
+                    g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + w.label['Name'], type='O')
                     #g.add_edge(v,str(int(v.label["time"])+1) + "_" + outn['hash'], weight=1, name = outn['name'],hash=outn['hash'])
-        for deln in e['deledges']:
-            if deln['hash'] != e['hash']:
-                kid = str(int(v.label["time"])+1) + "_" + deln['hash']
-                if(kid not in g.vertices.keys()):
-                    w = graph.Vertex(kid, Name = deln['name'], time =int(v.label["time"])+1, hash=deln['hash'])
+        for deln in e['de']:
+            #if deln != e['h']:
+                #kid = str(int(v.label["time"])+1) + "_" + deln['hash']
+                if(deln not in g.vertices.keys()):
+                    w = graph.Vertex(deln, Name = 'NN', time =int(v.label["time"])+(-1 if v.label['type']=='f' else 1))
                     g.add_vertex(w)
                 else:
-                    w=g[kid]            
-                    g.add_edge(v, w, weight=1, name = v.label['Name']+ '___' + deln['name'] ,hash=deln['hash'], type='D')
+                    w=g[deln]            
+                    g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + w.label['Name'], type='D')
         if wm:
-            for excn in e['excedges']:
-                if excn['hash'] != e['hash']:
-                    kid = str(int(v.label["time"])+1) + "_" + excn['hash']
-                    if(kid not in g.vertices.keys()):
-                        w = graph.Vertex(kid, Name = excn['name'], time =int(v.label["time"])+1, hash=excn['hash'])
+            for excn in e['xe']:
+                #if excn != e['h']:
+                    #kid = str(int(v.label["time"])+1) + "_" + excn['hash']
+                    if(excn not in g.vertices.keys()):
+                        w = graph.Vertex(excn, Name = 'NN', time =int(v.label["time"]))
                         g.add_vertex(w)
                     else:
-                        w=g[kid]            
-                        g.add_edge(v, w, weight=1, name = v.label['Name']+ '___' + excn['name'] ,hash=excn['hash'], type='X')
-        for eisn in e['eis_edges']:
-            if eisn['hash'] != e['hash']:
-                kid = str(int(v.label["time"])+1) + "_" + eisn['hash']
-                if(kid not in g.vertices.keys()):
-                    w = graph.Vertex(kid, Name = eisn['name'], time =int(v.label["time"])+1, hash=eisn['hash'])
+                        w=g[excn]        
+                        g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + w.label['Name'], type='X')    
+                        #g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + excn['name'] ,hash=excn['hash'], type='X')
+        for eisn in e['x1e']:
+            #if eisn != e['h']:
+                #kid = str(int(v.label["time"])+1) + "_" + eisn['hash']
+                if(eisn not in g.vertices.keys()):
+                    w = graph.Vertex(eisn, Name = 'NN', time =int(v.label["time"]))
                     g.add_vertex(w)
                 else:
-                    w=g[kid]            
-                    g.add_edge(v, w, weight=1, name = v.label['Name']+ '___' + eisn['name'] ,hash=eisn['hash'], type='S') #bc = g.betweennesscentrality()
+                    w=g[eisn]            
+                    g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + w.label['Name'], type='S')    
+                    #g.add_edge(v, w, weight=1, name = v.label['Name']+ '___' + eisn['name'] ,hash=eisn['hash'], type='S')
     return g
                     
 def do_analysis(g, filename):                    
     filest = open(filename,'w')
-    filest.write('id'+','+ 'name'+','+ 'hash'+','+ 'time'+','+ 'ind'+','+ 'otd'+','+ 'ad'+ ',' + 'bc' + '\n')
-    for e in g.vertices:#bc:#
+    filest.write('id'+','+ 'name'+','+ 'hash'+ ','+ 'time'+ ','+ 'type'+','
+                 + 'ind'+ ',' + 'iid' + ','+ 'iod' + ','+ 'idd' + ','+ 'ixd' + ','+ 'isd' +','
+                 + 'otd'+ ',' + 'oid' + ','+ 'ood' + ','+ 'odd' + ','+ 'oxd' + ','+ 'osd' +','
+                 + 'ad'+ ',' + 'bc' + '\n')
+    for e in g.vertices: #bc:#
         an = len(set(g[e].neighbors.keys()).union(set(g[e].inneighbors.keys())))
-        filest.write(str(e) + ',' + str(g[e].label['Name']) + ',' + str(g[e].label['hash']) + ',' + str(g[e].label['time']) + ',' + str(len(g[e].inneighbors)) + ',' + str(len(g[e].neighbors)) + ',' + str(an)+ ','  + str(0) +  '\n')#+ str(bc[e]) +  '\n')#
+        ii = len([x for x in g[e].inneighbors if g[e].inneighbors[x]['type']=='I'])
+        oi = len([x for x in g[e].inneighbors if g[e].inneighbors[x]['type']=='O'])
+        di = len([x for x in g[e].inneighbors if g[e].inneighbors[x]['type']=='D'])
+        xi = len([x for x in g[e].inneighbors if g[e].inneighbors[x]['type']=='X'])
+        si = len([x for x in g[e].inneighbors if g[e].inneighbors[x]['type']=='S'])
+        io = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='I'])
+        oo = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='O'])
+        do = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='D'])
+        xo = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='X'])
+        so = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='S'])
+        filest.write(str(e) + ',' + str(g[e].label['Name']) + ',' + str(g[e].label['hash']) + ',' + str(g[e].label['time']) + ','+ g[e].label['type'] + ','
+                    + str(len(g[e].inneighbors)) + ','
+                    + str(ii) + ',' + str(oi) + ',' + str(di) + ',' + str(xi) + ',' + str(si) + ','
+                    + str(len(g[e].neighbors)) + ','
+                    + str(io) + ',' + str(oo) + ',' + str(do) + ',' + str(xo) + ',' + str(so) + ','
+                    + str(an)+ ','  + str(0) +  '\n')#+ str(bc[e]) +  '\n')#
     filest.close()
 
 
