@@ -1,0 +1,162 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob17.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob17.pddl
+Problem name: strips-log-x-17
+Facts loaded.
+
+created
+time: 1, 334 facts and 503 exclusive pairs.
+time: 2, 458 facts and 2013 exclusive pairs.
+time: 3, 497 facts and 2258 exclusive pairs.
+time: 4, 654 facts and 8130 exclusive pairs.
+time: 5, 690 facts and 8613 exclusive pairs.
+time: 6, 741 facts and 10044 exclusive pairs.
+time: 7, 1116 facts and 25407 exclusive pairs.
+time: 8, 1116 facts and 24669 exclusive pairs.
+time: 9, 1182 facts and 28530 exclusive pairs.
+Goals first reachable in 9 steps.
+32487 nodes created.
+
+####################################################
+goals at time 10:
+  at_package15_city4-2 at_package14_city4-2 at_package13_city4-3 at_package12_city2-2 at_package11_city2-1 
+at_package10_city4-2 at_package9_city4-2 at_package8_city4-2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 10580400
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 6112
+number of fluent variables = 2511
+total number variables = 8623
+number clauses = 165073
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 49271021
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 25869
+numatom = 8623, numclause = 165073, numliterals = 333731
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         0         0      4.02      1.79      2.24     46805       100     46805    46805.00
+
+total elapsed seconds = 0.030000
+average flips per second = 1560166
+number solutions found = 1
+final success rate = 100.000000
+average length successful tries = 46805
+mean flips until assign = 46805.000000
+mean seconds until assign = 0.030000
+mean restarts until assign = 1.000000
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 4.022066
+      overall mean noise std deviation = 1.793689
+      overall ratio mean noise to mean std dev = 2.242343
+    statistics on successful runs:
+      successful mean average noise level = 4.022066
+      successful mean noise std deviation = 1.793689
+      successful ratio mean noise to mean std dev = 2.242343
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 0.000000
+      nonsuccessful mean noise std deviation = 0.000000
+      nonsuccessful ratio mean noise to mean std dev = 0.000000
+ASSIGNMENT FOUND
+Result is Sat
+Iteration was 46805
+Performing plan justification:
+   146 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck package12 truck22 city1-1)
+1 (load-truck package15 truck18 city1-2)
+1 (load-airplane package11 plane2 city3-3)
+1 (load-truck package13 truck22 city1-1)
+1 (drive-truck truck12 city2-1 city2-2 city2)
+1 (fly-airplane plane1 city4-3 city2-3)
+1 (load-truck package9 truck40 city3-2)
+1 (load-truck package14 truck5 city3-1)
+1 (fly-airplane plane4 city4-3 city1-3)
+2 (drive-truck truck22 city1-1 city1-3 city1)
+2 (drive-truck truck12 city2-2 city2-3 city2)
+2 (drive-truck truck39 city2-1 city2-3 city2)
+2 (drive-truck truck18 city1-2 city1-3 city1)
+2 (drive-truck truck40 city3-2 city3-3 city3)
+2 (fly-airplane plane2 city3-3 city2-3)
+2 (drive-truck truck5 city3-1 city3-3 city3)
+3 (unload-truck package14 truck5 city3-3)
+3 (fly-airplane plane1 city2-3 city1-3)
+3 (unload-truck package12 truck22 city1-3)
+3 (unload-truck package13 truck22 city1-3)
+3 (fly-airplane plane4 city1-3 city3-3)
+3 (fly-airplane plane3 city4-3 city1-3)
+3 (unload-airplane package11 plane2 city2-3)
+3 (unload-truck package9 truck40 city3-3)
+3 (unload-truck package15 truck18 city1-3)
+4 (load-truck package11 truck39 city2-3)
+4 (load-airplane package13 plane3 city1-3)
+4 (load-airplane package12 plane5 city1-3)
+4 (load-airplane package15 plane1 city1-3)
+4 (load-airplane package14 plane4 city3-3)
+4 (load-airplane package9 plane4 city3-3)
+5 (fly-airplane plane5 city1-3 city2-3)
+5 (fly-airplane plane1 city1-3 city4-3)
+5 (fly-airplane plane4 city3-3 city4-3)
+5 (fly-airplane plane3 city1-3 city2-3)
+5 (drive-truck truck4 city4-1 city4-3 city4)
+6 (unload-airplane package15 plane1 city4-3)
+6 (unload-airplane package12 plane5 city2-3)
+6 (fly-airplane plane3 city2-3 city3-3)
+6 (unload-airplane package9 plane4 city4-3)
+6 (unload-airplane package14 plane4 city4-3)
+6 (drive-truck truck39 city2-3 city2-1 city2)
+7 (load-truck package14 truck4 city4-3)
+7 (load-truck package12 truck12 city2-3)
+7 (unload-truck package11 truck39 city2-1)
+7 (fly-airplane plane3 city3-3 city4-3)
+7 (load-truck package15 truck14 city4-3)
+7 (load-truck package9 truck4 city4-3)
+8 (drive-truck truck4 city4-3 city4-2 city4)
+8 (drive-truck truck14 city4-3 city4-2 city4)
+8 (drive-truck truck12 city2-3 city2-2 city2)
+8 (unload-airplane package13 plane3 city4-3)
+9 (unload-truck package9 truck4 city4-2)
+9 (unload-truck package14 truck4 city4-2)
+9 (unload-truck package12 truck12 city2-2)
+9 (unload-truck package15 truck14 city4-2)
+End plan
+----------------------------------------------------
+
+56 total actions in plan
+5427 entries in hash table, 0 hash hits, avg set size 44
+5435 total set-creation steps (entries + hits + plan length - 1)
+1217921 actions tried
+
+####################################################
+Total elapsed time:   14.39 seconds
+Time in milliseconds: 14395
+
+####################################################

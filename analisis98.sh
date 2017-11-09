@@ -28,8 +28,8 @@ do
 	for dcp in $dp/domains/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-#		if [ "$nbc" = "gripper" ] || [ "$nbc" = "assembly" ];then
-		echo "Dominio" $nbc
+		if [ "$nbc" != "gripper" ] && [ "$nbc" != "assembly" ] && [ "$nbc" != "logistics" ];then
+		    echo "Dominio" $nbc
 #		for typ in $dcp/*; do
 #		    typn=$(basename $typ)
 #		    echo "Tipo" $typn
@@ -44,6 +44,7 @@ do
 			fi
 		    done
 #		done
+		fi
 	    fi
 	done
     fi

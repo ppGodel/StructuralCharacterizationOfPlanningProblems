@@ -28,22 +28,23 @@ do
 	for dcp in $dp/domains/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-#		if [ "$nbc" = "gripper" ] || [ "$nbc" = "assembly" ];then
-		echo "Dominio" $nbc
-		for typ in $dcp/*; do
-		    typn=$(basename $typ)
-		    echo "Tipo" $typn
-		    domf=$(find $typ -type f -iname '*domain*')
-		    domn=$(basename $domf)
+#		if [ "$nbc" != "gripper" ];then #||[ "$nbc" = "assembly" ];then
+		    echo "Dominio" $nbc
+		    for typ in $dcp/*; do
+			typn=$(basename $typ)
+			echo "Tipo" $typn
+			domf=$(find $typ -type f -iname '*domain*')
+			domn=$(basename $domf)
 		#echo $(find $dcp -type f -iname '*.pddl')
-		    filelist=$(find $typ -type f -iname '*.pddl' | sort -n)
-		    for f in $filelist; do
-			fn=$(basename $f)
-			if [ "$fn" != "$domn" ]; then			 
-			    $BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
-			fi
+			filelist=$(find $typ -type f -iname '*.pddl' | sort -n)
+			for f in $filelist; do
+			    fn=$(basename $f)
+			    if [ "$fn" != "$domn" ]; then			 
+				$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
+			    fi
+			done
 		    done
-		done
+#		fi
 	    fi
 	done
     fi

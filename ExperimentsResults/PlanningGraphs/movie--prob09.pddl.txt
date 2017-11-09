@@ -1,0 +1,56 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/movie/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/movie/prob09.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/movie/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/movie/prob09.pddl
+Problem name: strips-movie-x-9
+Facts loaded.
+
+created
+time: 1, 73 facts and 1 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 73 facts and 0 exclusive pairs.
+Goals first reachable in 2 steps.
+485 nodes created.
+
+####################################################
+goals at time 3:
+  movie-rewound counter-at-zero have-chips have-dip have-pop 
+have-cheese have-crackers 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 15
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (get-chips c1)
+1 (rewind-movie)
+1 (get-dip d10)
+1 (get-crackers k10)
+1 (get-pop p8)
+1 (get-cheese z10)
+2 (reset-counter)
+End plan
+----------------------------------------------------
+
+7 total actions in plan
+0 entries in hash table, 
+1 total set-creation steps (entries + hits + plan length - 1)
+7 actions tried
+
+####################################################
+Total elapsed time:   0.01 seconds
+Time in milliseconds: 5
+
+####################################################

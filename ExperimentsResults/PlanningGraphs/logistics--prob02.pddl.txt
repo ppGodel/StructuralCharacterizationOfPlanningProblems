@@ -1,0 +1,85 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob02.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob02.pddl
+Problem name: strips-log-x-2
+Facts loaded.
+
+created
+time: 1, 148 facts and 223 exclusive pairs.
+time: 2, 165 facts and 396 exclusive pairs.
+time: 3, 184 facts and 554 exclusive pairs.
+time: 4, 228 facts and 1139 exclusive pairs.
+time: 5, 246 facts and 1441 exclusive pairs.
+time: 6, 273 facts and 2082 exclusive pairs.
+time: 7, 300 facts and 2793 exclusive pairs.
+Goals first reachable in 7 steps.
+7347 nodes created.
+
+####################################################
+goals at time 8:
+  at_package5_city4-2 at_package4_city6-1 at_package3_city1-1 at_package2_city9-2 at_package1_city3-1 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 5388
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-airplane package4 plane3 city7-2)
+1 (load-truck package2 truck10 city10-1)
+1 (load-airplane package3 plane2 city3-2)
+1 (drive-truck truck1 city1-1 city1-2 city1)
+1 (fly-airplane plane4 city3-2 city2-2)
+1 (fly-airplane plane1 city6-2 city10-2)
+1 (drive-truck truck6 city6-1 city6-2 city6)
+1 (drive-truck truck3 city3-1 city3-2 city3)
+2 (load-airplane package1 plane4 city2-2)
+2 (drive-truck truck10 city10-1 city10-2 city10)
+2 (fly-airplane plane3 city7-2 city6-2)
+2 (fly-airplane plane2 city3-2 city1-2)
+3 (unload-airplane package4 plane3 city6-2)
+3 (unload-truck package2 truck10 city10-2)
+3 (fly-airplane plane4 city2-2 city3-2)
+3 (unload-airplane package3 plane2 city1-2)
+3 (load-airplane package5 plane2 city1-2)
+4 (fly-airplane plane2 city1-2 city4-2)
+4 (load-airplane package2 plane1 city10-2)
+4 (unload-airplane package1 plane4 city3-2)
+4 (load-truck package3 truck1 city1-2)
+4 (load-truck package4 truck6 city6-2)
+5 (drive-truck truck6 city6-2 city6-1 city6)
+5 (unload-airplane package5 plane2 city4-2)
+5 (fly-airplane plane1 city10-2 city9-2)
+5 (drive-truck truck1 city1-2 city1-1 city1)
+5 (load-truck package1 truck3 city3-2)
+6 (unload-airplane package2 plane1 city9-2)
+6 (drive-truck truck3 city3-2 city3-1 city3)
+6 (unload-truck package3 truck1 city1-1)
+6 (unload-truck package4 truck6 city6-1)
+7 (unload-truck package1 truck3 city3-1)
+End plan
+----------------------------------------------------
+
+32 total actions in plan
+19 entries in hash table, 2 hash hits, avg set size 42
+27 total set-creation steps (entries + hits + plan length - 1)
+857 actions tried
+
+####################################################
+Total elapsed time:   0.68 seconds
+Time in milliseconds: 683
+
+####################################################

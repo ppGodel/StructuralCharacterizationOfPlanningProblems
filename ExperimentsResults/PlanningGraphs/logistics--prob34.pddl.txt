@@ -1,0 +1,340 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob34.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob34.pddl
+Problem name: strips-log-y-4
+Facts loaded.
+
+created
+time: 1, 126 facts and 82 exclusive pairs.
+time: 2, 138 facts and 135 exclusive pairs.
+time: 3, 146 facts and 147 exclusive pairs.
+time: 4, 162 facts and 285 exclusive pairs.
+time: 5, 176 facts and 500 exclusive pairs.
+time: 6, 192 facts and 602 exclusive pairs.
+time: 7, 248 facts and 1682 exclusive pairs.
+time: 8, 260 facts and 1816 exclusive pairs.
+time: 9, 292 facts and 2640 exclusive pairs.
+Goals first reachable in 9 steps.
+6300 nodes created.
+
+####################################################
+goals at time 10:
+  at_package6_city1-3 at_package5_city5-2 at_package4_city3-1 at_package3_city4-2 at_package2_city2-3 
+at_package1_city2-2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 16614900
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 2221
+number of fluent variables = 1159
+total number variables = 3380
+number clauses = 27760
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 95651163
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 10140
+numatom = 3380, numclause = 27760, numliterals = 56570
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         4         4      8.20      2.07      3.96    100000         0
+         3         9      7.10      2.10      3.37    100000         0
+         3         6      6.82      2.18      3.13    100000         0
+         4         8      7.51      1.98      3.80    100000         0
+         3         8      7.08      2.37      2.99    100000         0
+         3         6      7.74      2.25      3.43    100000         0
+         4         6      7.42      2.14      3.47    100000         0
+         3        10      6.78      2.25      3.02    100000         0
+         2         8      6.92      2.23      3.10    100000         0
+         3         6      7.49      2.20      3.41    100000         0
+
+total elapsed seconds = 0.270000
+average flips per second = 3703703
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 7.305955
+      overall mean noise std deviation = 2.177832
+      overall ratio mean noise to mean std dev = 3.354691
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 7.305955
+      nonsuccessful mean noise std deviation = 2.177832
+      nonsuccessful ratio mean noise to mean std dev = 3.354691
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 95928892
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 7 13 6 0 4753 150 0.050 0
+****the instance is unsatisfiable *****
+NB_MONO= 933, NB_UNIT= 2161, NB_BRANCHE= 13, NB_BACK= 7 
+Program terminated in 0.050 seconds.
+Result is Unsat
+Iteration was 13
+
+----------------------------------------------------
+time: 10, 300 facts and 2852 exclusive pairs.
+1316 new nodes added.
+
+####################################################
+goals at time 11:
+  at_package6_city1-3 at_package5_city5-2 at_package4_city3-1 at_package3_city4-2 at_package2_city2-3 
+at_package1_city2-2 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 2843
+number of fluent variables = 1384
+total number variables = 4227
+number clauses = 45221
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 96201083
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 12681
+numatom = 4227, numclause = 45221, numliterals = 91889
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         3         6      6.93      2.36      2.94    100000         0
+         3         6      6.82      2.17      3.15    100000         0
+         4        12      7.53      2.14      3.52    100000         0
+         4         9      8.31      2.24      3.71    100000         0
+         3        11      7.59      2.18      3.48    100000         0
+         3        12      7.31      2.25      3.25    100000         0
+         3         4      7.18      2.34      3.07    100000         0
+         4         8      8.18      2.34      3.50    100000         0
+         4        12      7.85      2.14      3.67    100000         0
+         4         6      6.82      2.29      2.98    100000         0
+
+total elapsed seconds = 0.370000
+average flips per second = 2702702
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 7.452893
+      overall mean noise std deviation = 2.243087
+      overall ratio mean noise to mean std dev = 3.322606
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 7.452893
+      nonsuccessful mean noise std deviation = 2.243087
+      nonsuccessful ratio mean noise to mean std dev = 3.322606
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 96580395
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 78 154 77 0 43343 1163 0.190 0
+****the instance is unsatisfiable *****
+NB_MONO= 3768, NB_UNIT= 30431, NB_BRANCHE= 154, NB_BACK= 78 
+Program terminated in 0.190 seconds.
+Result is Unsat
+Iteration was 154
+
+----------------------------------------------------
+Can't solve in 10 steps
+time: 11, 300 facts and 2852 exclusive pairs.
+1348 new nodes added.
+
+####################################################
+goals at time 12:
+  at_package6_city1-3 at_package5_city5-2 at_package4_city3-1 at_package3_city4-2 at_package2_city2-3 
+at_package1_city2-2 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 3544
+number of fluent variables = 1622
+total number variables = 5166
+number clauses = 69375
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 97063761
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 15498
+numatom = 5166, numclause = 69375, numliterals = 140660
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         3         5      7.62      2.19      3.47    100000         0
+         3        11      6.97      2.23      3.12    100000         0
+         3         7      7.91      2.30      3.44    100000         0
+         4         4      7.52      2.31      3.26    100000         0
+         4        13      7.78      2.11      3.68    100000         0
+         3         8      7.54      2.16      3.50    100000         0
+         4         6      7.77      2.25      3.46    100000         0
+         2        11      7.69      2.51      3.06    100000         0
+         3         7      7.34      2.41      3.04    100000         0
+         3         9      7.85      2.21      3.54    100000         0
+
+total elapsed seconds = 0.460000
+average flips per second = 2173913
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 7.600235
+      overall mean noise std deviation = 2.268777
+      overall ratio mean noise to mean std dev = 3.349926
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 7.600235
+      nonsuccessful mean noise std deviation = 2.268777
+      nonsuccessful ratio mean noise to mean std dev = 3.349926
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 97530001
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 12 79 58 9 16822 210 0.190 1
+****the instance is satisfiable *****
+****verification of solution is OK****
+NB_MONO= 2599, NB_UNIT= 6525, NB_BRANCHE= 79, NB_BACK= 12 
+Program terminated in 0.190 seconds.
+Result is Sat
+Iteration was 79
+Performing plan justification:
+   44 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck package4 truck4 city1-1)
+1 (fly-airplane plane2 city3-3 city1-3)
+1 (fly-airplane plane1 city5-3 city4-3)
+1 (load-truck package2 truck6 city5-1)
+1 (load-truck package3 truck12 city3-2)
+1 (drive-truck truck5 city4-1 city4-2 city4)
+2 (load-airplane package5 plane1 city4-3)
+2 (drive-truck truck4 city1-1 city1-3 city1)
+2 (load-truck package6 truck5 city4-2)
+2 (drive-truck truck12 city3-2 city3-3 city3)
+2 (drive-truck truck6 city5-1 city5-3 city5)
+3 (unload-truck package4 truck4 city1-3)
+3 (drive-truck truck5 city4-2 city4-3 city4)
+3 (drive-truck truck8 city3-1 city3-2 city3)
+3 (fly-airplane plane1 city4-3 city5-3)
+3 (unload-truck package2 truck6 city5-3)
+3 (load-truck package1 truck13 city4-1)
+4 (load-airplane package4 plane2 city1-3)
+4 (drive-truck truck13 city4-1 city4-3 city4)
+4 (unload-airplane package5 plane1 city5-3)
+4 (load-airplane package2 plane1 city5-3)
+4 (unload-truck package6 truck5 city4-3)
+5 (unload-truck package1 truck13 city4-3)
+5 (unload-truck package3 truck12 city3-3)
+5 (fly-airplane plane1 city5-3 city4-3)
+5 (fly-airplane plane2 city1-3 city3-3)
+5 (load-truck package5 truck6 city5-3)
+6 (load-airplane package3 plane2 city3-3)
+6 (unload-airplane package4 plane2 city3-3)
+6 (load-airplane package6 plane1 city4-3)
+6 (drive-truck truck8 city3-2 city3-3 city3)
+6 (unload-airplane package2 plane1 city4-3)
+6 (load-airplane package1 plane1 city4-3)
+6 (drive-truck truck6 city5-3 city5-2 city5)
+7 (load-truck package4 truck8 city3-3)
+7 (fly-airplane plane2 city3-3 city4-3)
+7 (fly-airplane plane1 city4-3 city2-3)
+8 (drive-truck truck8 city3-3 city3-1 city3)
+8 (unload-airplane package3 plane2 city4-3)
+8 (unload-airplane package1 plane1 city2-3)
+8 (drive-truck truck11 city2-2 city2-3 city2)
+9 (load-truck package1 truck11 city2-3)
+9 (load-truck package3 truck5 city4-3)
+9 (load-airplane package2 plane2 city4-3)
+10 (fly-airplane plane1 city2-3 city1-3)
+10 (drive-truck truck11 city2-3 city2-2 city2)
+10 (fly-airplane plane2 city4-3 city2-3)
+10 (drive-truck truck5 city4-3 city4-2 city4)
+11 (unload-truck package1 truck11 city2-2)
+11 (unload-truck package3 truck5 city4-2)
+11 (unload-airplane package2 plane2 city2-3)
+11 (unload-airplane package6 plane1 city1-3)
+End plan
+----------------------------------------------------
+
+52 total actions in plan
+137993 entries in hash table, 185408 hash hits, avg set size 48
+323411 total set-creation steps (entries + hits + plan length - 1)
+3092932 actions tried
+
+####################################################
+Total elapsed time:   12.42 seconds
+Time in milliseconds: 12423
+
+####################################################
