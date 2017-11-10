@@ -1,8 +1,37 @@
 #!/bin/bash
+
 ADIR=$(pwd)/CompetitionsResults/IPC2000
 BBDIR=$(pwd)/Files
+RDIR=$(pwd)/ExperimentsResults/PlanningGraphs/
 tg=10
 to=10
+
+function findlocal()
+{
+    echo "Procesando $1"
+    plf=$(find $1 -maxdepth 1 -type f -iname '*.pddl')
+    domf=$(find $1 -maxdepth 1 -type f -iname '*domain*')
+    if [ -z "$domf" ]; then
+	domf=$2
+    fi
+    dfn=$(basename "$domf")
+    for p in $plf; do
+	pn=$(basename "$p")
+	if [ "$pn" == "$dfn" ]; then
+	    continue
+	fi
+	echo "Archivos $dfn $pn"	
+	#$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(RDIR)$nbc-$typn-$fn.txt"
+    done
+    
+    for directory in $1*; do
+	if [[ -d $directory ]] && [ "$directory" != "$1" ]; then
+	    echo "directorio y p $directory $domf"
+	    findlocal $directory/ $domf
+	fi
+    done
+}
+
 
 notin=(gripper assembly)
 
@@ -33,17 +62,17 @@ do
 		    for typ in $dcp/*; do
 			typn=$(basename $typ)
 			echo "Tipo" $typn
-			domf=$(find $typ -type f -iname '*domain*')
-			domn=$(basename $domf)
-		#echo $(find $dcp -type f -iname '*.pddl')
-			filelist=$(find $typ -type f -iname '*.pddl' | sort -n)
-			for f in $filelist; do
-			    fn=$(basename $f)
-			    if [ "$fn" != "$domn" ]; then
-				echo "$domf $f"
-				#$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
-			    fi
-			done
+			findlocal $typ
+			#domf=$(find $typ -type f -iname '*domain*')
+			#domn=$(basename $domf)
+			#echo $(find $dcp -type f -iname '*.pddl')
+			#filelist=$(find $typ -type f -iname '*.pddl' | sort -n)
+			#for f in $filelist; do
+			#    fn=$(basename $f)
+			#    if [ "$fn" != "$domn" ]; then
+			#	echo "$domf $f"
+			#    fi
+			#done
 		    done
 		fi
 	    fi
