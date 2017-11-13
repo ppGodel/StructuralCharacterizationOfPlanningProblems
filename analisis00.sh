@@ -20,8 +20,8 @@ function findlocal()
 	if [ "$pn" == "$dfn" ]; then
 	    continue
 	fi
-	echo "Archivos $dfn $pn"	
-	#$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(RDIR)$nbc-$typn-$fn.txt"
+	echo "Archivos $dfn $pn $BBDIR"	
+	$BBDIR/blackbox -o $domf -f $p -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$RDIR$nbc-$typn-$fn.txt"
     done
     
     for directory in $1*; do
@@ -62,7 +62,7 @@ do
 		    for typ in $dcp/*; do
 			typn=$(basename $typ)
 			echo "Tipo" $typn
-			findlocal $typ
+			findlocal $typ/
 			#domf=$(find $typ -type f -iname '*domain*')
 			#domn=$(basename $domf)
 			#echo $(find $dcp -type f -iname '*.pddl')
