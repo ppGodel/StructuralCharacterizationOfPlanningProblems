@@ -23,7 +23,10 @@ do
     if [ -f "$sp" ]; then
         se="1"
 	#plan=$(sed -n "/Begin plan/,/End plan/p" $sp  )
-	planl=$(sed -n "/Begin plan/,/End plan/p" $sp | wc -l)	
+	planle=$(sed -n "/Begin plan/,/End plan/p" $sp | wc -l)
+	if(($planle > 0)); then
+	    planl=$(($planle-3))
+	fi
 	ss=$(wc -c < $sp)
 	if [ "$ss" -lt "2000" ]; then
 	    sr="0"

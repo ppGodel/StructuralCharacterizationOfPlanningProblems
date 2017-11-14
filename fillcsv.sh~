@@ -23,7 +23,7 @@ do
     if [ -f "$sp" ]; then
         se="1"
 	#plan=$(sed -n "/Begin plan/,/End plan/p" $sp  )
-	planl=$(sed -n "/Begin plan/,/End plan/p" $sp | wc -l)	
+	planl=$(($(sed -n "/Begin plan/,/End plan/p" $sp | wc -l)-3))
 	ss=$(wc -c < $sp)
 	if [ "$ss" -lt "2000" ]; then
 	    sr="0"
@@ -33,7 +33,7 @@ do
 	fi
     fi
 #    echo "$jp"
-    echo "$domname,$prbname,$domdir,$comp,$domname,$se,$planl,$je," #>> results.csv
+    echo "$prbname,$opname,$domdir,$comp,$domname,$se,$planl,$je," #>> results.csv
 #    echo "$domname, $prbname, $comp, $se, $planl,  $je "
     fi
 done < $INPUT
