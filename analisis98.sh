@@ -23,9 +23,9 @@ function findlocal()
 	echo "Archivos $dfn $pn $BBDIR"
 	if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
 	    echo "File NOT exists $p"
-	    #$BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
-	else
-	    echo "File exists $pn skip"
+	    $BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
+#	else
+#	    echo "File exists $pn skip"
 	    
 	fi
 	
@@ -64,7 +64,7 @@ do
 		nbc=$(basename $dcp)
 		if [ "$nbc" != "gripper" ] && [ "$nbc" != "assembly" ] && [ "$nbc" != "logistics" ];then
 		    echo "Dominio" $nbc
-		    findlocal $dcp/
+		    findlocal $dcp
 #		for typ in $dcp/*; do
 #		    typn=$(basename $typ)
 #		    echo "Tipo" $typn
@@ -76,8 +76,8 @@ do
 #			fn=$(basename $f)
 #			if [ "$fn" != "$domn" ]; then			 
 #			    $BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
-			fi
-		    done
+#			fi
+#		    done
 #		done
 		fi
 	    fi

@@ -2,7 +2,7 @@ INPUT=$(pwd)/relations.csv
 OLDIFS=$IFS
 
 [ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 99; }
-while IFS=',' read -r domname prbname domdir comp type
+while IFS=',' read -r prbname opname domdir comp type
 do
     
     #IFS= read -r _ procStatus <<<"abc success"
@@ -12,14 +12,15 @@ do
     #echo "DD : $domdir"
     #echo "Competition : $comp"
     #echo "Type : $type"
-    rf="$DN-$type-$PN.pddl.txt"
-    jn="$pn.json"
-    jp="ExperimentResults/PlanningGraphs/graphs/$DN/$type/$jn"
-    sp="ExperimentResults/PlanningGraphs/solutions/$DN/$rf"
+    rf="$type-$prbname.txt"
+    jn="$prbname.json"
+    jp="ExperimentResults/PlanningGraphs/graphs/$comp/$type/$jn"
+    sp="ExperimentResults/PlanningGraphs/solutions/$comp/$type/$rf"
     se="0"
     je="0"
     planl="0"
     if [ "$comp" == "IPC1998" ]; then
+    echo "$rf"
     if [ -f "$sp" ]; then
         se="1"
 	#plan=$(sed -n "/Begin plan/,/End plan/p" $sp  )
@@ -33,7 +34,8 @@ do
 	    je="1"
 	fi
     fi
-    echo "$DN, $PN, $DD, $comp, $type, $se, planl , $je" #>> results.csv
+    #echo "$domname, $prbname, $domdir, $comp, $type, $se, $planl , $je" #>> results.csv
+#    echo "$domname, $prbname, $comp, $se, $planl,  $je "
     fi
 done < $INPUT
 IFS=$OLDIFS
