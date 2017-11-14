@@ -35,7 +35,7 @@ at_package5_city7-1
 Invoking solver graphplan
 ** Turning off completeness check **
 Result is Timeout
-Iteration was 3403000
+Iteration was 3332200
 
 ----------------------------------------------------
 Converting graph to wff
@@ -46,7 +46,7 @@ number clauses = 978712
 Invoking solver walksat version 36
 walksat version 36 (Huge)
 command line = walksat
-seed = 14477335
+seed = 90603998
 cutoff = 100000
 tries = 10
 heuristic = best, noise 50 / 100
@@ -61,81 +61,92 @@ wff read in
       this      this      this      this      this      this   success   success       until         std
        try       try       try       try       try       try      rate     tries      assign         dev
 
-         0         0      5.01      2.50      2.00     63321       100     63321    63321.00
+         2         9      7.52      2.80      2.68    100000         0
+         1        11      6.55      3.44      1.90    100000         0
+         0         0      6.16      3.06      2.01     57191        33     57191   257191.00
 
-total elapsed seconds = 0.360000
-average flips per second = 175891
+total elapsed seconds = 1.500000
+average flips per second = 171460
 number solutions found = 1
-final success rate = 100.000000
-average length successful tries = 63321
-mean flips until assign = 63321.000000
-mean seconds until assign = 0.360000
-mean restarts until assign = 1.000000
+final success rate = 33.333333
+average length successful tries = 57191
+mean flips until assign = 257191.000000
+mean seconds until assign = 1.500000
+mean restarts until assign = 3.000000
 final noise level statistics
     statistics over all runs:
-      overall mean average noise level = 5.011363
-      overall mean noise std deviation = 2.501327
-      overall ratio mean noise to mean std dev = 2.003482
+      overall mean average noise level = 6.742297
+      overall mean noise std deviation = 3.102408
+      overall ratio mean noise to mean std dev = 2.173246
     statistics on successful runs:
-      successful mean average noise level = 5.011363
-      successful mean noise std deviation = 2.501327
-      successful ratio mean noise to mean std dev = 2.003482
+      successful mean average noise level = 6.158649
+      successful mean noise std deviation = 3.063053
+      successful ratio mean noise to mean std dev = 2.010624
     statistics on nonsuccessful runs:
-      nonsuccessful mean average noise level = 0.000000
-      nonsuccessful mean noise std deviation = 0.000000
-      nonsuccessful ratio mean noise to mean std dev = 0.000000
+      nonsuccessful mean average noise level = 7.034121
+      nonsuccessful mean noise std deviation = 3.122086
+      nonsuccessful ratio mean noise to mean std dev = 2.253020
 ASSIGNMENT FOUND
 Result is Sat
-Iteration was 63321
+Iteration was 257191
 Performing plan justification:
-   27 actions were pruned in 0.00 seconds
+   21 actions were pruned in 0.00 seconds
 
 ----------------------------------------------------
 Begin plan
-1 (fly-airplane plane2 city8-2 city6-2)
-1 (load-airplane package9 plane5 city5-2)
-1 (drive-truck truck9 city9-1 city9-2 city9)
 1 (load-airplane package7 plane4 city6-2)
+1 (load-airplane package6 plane1 city1-2)
 1 (load-truck package5 truck4 city4-1)
 1 (fly-airplane plane3 city9-2 city6-2)
-2 (fly-airplane plane2 city6-2 city4-2)
-2 (fly-airplane plane1 city1-2 city10-2)
+1 (fly-airplane plane2 city8-2 city3-2)
+1 (drive-truck truck5 city5-1 city5-2 city5)
+2 (fly-airplane plane1 city1-2 city4-2)
 2 (fly-airplane plane4 city6-2 city5-2)
-2 (fly-airplane plane5 city5-2 city9-2)
 2 (load-airplane package10 plane3 city6-2)
-2 (drive-truck truck5 city5-1 city5-2 city5)
 2 (drive-truck truck4 city4-1 city4-2 city4)
-3 (unload-airplane package9 plane5 city9-2)
-3 (load-airplane package8 plane1 city10-2)
+2 (fly-airplane plane2 city3-2 city7-2)
+3 (fly-airplane plane3 city6-2 city9-2)
+3 (load-airplane package9 plane4 city5-2)
+3 (drive-truck truck9 city9-1 city9-2 city9)
 3 (unload-truck package5 truck4 city4-2)
-3 (fly-airplane plane3 city6-2 city3-2)
+3 (fly-airplane plane1 city4-2 city11-2)
+3 (fly-airplane plane2 city7-2 city4-2)
 3 (unload-airplane package7 plane4 city5-2)
-4 (fly-airplane plane3 city3-2 city1-2)
+4 (unload-airplane package10 plane3 city9-2)
+4 (fly-airplane plane1 city11-2 city10-2)
+4 (fly-airplane plane4 city5-2 city10-2)
 4 (load-truck package7 truck5 city5-2)
 4 (load-airplane package5 plane2 city4-2)
 5 (drive-truck truck5 city5-2 city5-1 city5)
 5 (fly-airplane plane2 city4-2 city7-2)
-5 (fly-airplane plane3 city1-2 city9-2)
-6 (unload-airplane package10 plane3 city9-2)
+5 (unload-airplane package6 plane1 city10-2)
+5 (load-airplane package8 plane1 city10-2)
+5 (load-truck package10 truck9 city9-2)
+5 (fly-airplane plane4 city10-2 city11-2)
 6 (drive-truck truck7 city7-1 city7-2 city7)
 6 (unload-airplane package5 plane2 city7-2)
-7 (unload-truck package7 truck5 city5-1)
-7 (load-truck package10 truck9 city9-2)
+6 (fly-airplane plane4 city11-2 city1-2)
+7 (drive-truck truck9 city9-2 city9-1 city9)
+7 (fly-airplane plane1 city10-2 city3-2)
+7 (fly-airplane plane4 city1-2 city9-2)
 7 (load-truck package5 truck7 city7-2)
-8 (drive-truck truck9 city9-2 city9-1 city9)
+8 (fly-airplane plane1 city3-2 city1-2)
 8 (drive-truck truck7 city7-2 city7-1 city7)
+8 (unload-truck package10 truck9 city9-1)
+9 (unload-truck package7 truck5 city5-1)
 9 (unload-truck package5 truck7 city7-1)
-9 (unload-truck package10 truck9 city9-1)
+9 (unload-airplane package8 plane1 city1-2)
+9 (unload-airplane package9 plane4 city9-2)
 End plan
 ----------------------------------------------------
 
-34 total actions in plan
-960 entries in hash table, 0 hash hits, avg set size 32
-968 total set-creation steps (entries + hits + plan length - 1)
-753572 actions tried
+43 total actions in plan
+948 entries in hash table, 0 hash hits, avg set size 32
+956 total set-creation steps (entries + hits + plan length - 1)
+738038 actions tried
 
 ####################################################
-Total elapsed time:   19.79 seconds
-Time in milliseconds: 19789
+Total elapsed time:   15.46 seconds
+Time in milliseconds: 15456
 
 ####################################################
