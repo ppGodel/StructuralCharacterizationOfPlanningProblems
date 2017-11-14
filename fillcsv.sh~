@@ -1,0 +1,13 @@
+INPUT=relations.cvs
+OLDIFS=$IFS
+IFS=,
+[ ! -f $INPUT ] && { echo "$INPUT file not found"; exit 99; }
+while read domname prbname domdir comp type
+do
+	echo "DN : $domname"
+	echo "PN : $prbname"
+	echo "DD : $domdir"
+	echo "Competition : $comp"
+	echo "Type : $type"
+done < $INPUT
+IFS=$OLDIFS
