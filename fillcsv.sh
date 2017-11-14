@@ -32,8 +32,8 @@ do
 	    je="1"
 	fi
     fi
-    echo "$jp"
-    #echo "$domname,$prbname,$domdir,$comp,$domname,$se,$planl,$je," #>> results.csv
+#    echo "$jp"
+    echo "$domname,$prbname,$domdir,$comp,$domname,$se,$planl,$je," #>> results.csv
 #    echo "$domname, $prbname, $comp, $se, $planl,  $je "
     fi
 done < $INPUT
