@@ -3,7 +3,7 @@ ADIR=$(pwd)/CompetitionsResults/IPC1998
 BBDIR=$(pwd)/Files
 tg=10
 to=10
-
+AFILE=$(pwd)/result98.csv
 notin=(gripper assembly)
 
 function findlocal()
@@ -21,9 +21,16 @@ function findlocal()
 	    continue
 	fi
 	echo "Archivos $dfn $pn $BBDIR"
-	if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
-	    echo "File NOT exists $p"
-	    $BBDIR/blackbox -o $domf -f $f -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
+	fp=0
+	hs=0
+	hg=0
+	awk -F, '$2=="$pn" && $5=="$nbc" {print $0}' $AFILE | while IFS=, read v1 v2 v3 v4 v5 v6 v7 v8 v9;
+	do fp=$v6 hs=$v7 hg=$v8 ;done
+
+	if [ ! -z "$hp" ] && [ "$hp" == "0" ] && [ ! -z "$hg" ] && [ "$hp" == "1" ]; then
+	#if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
+	    echo "File $p will be reprocessed"
+	    #$BBDIR/blackbox -o $domf -f $f -x -M 19999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/$nbc-$typn-$fn.txt"
 #	else
 #	    echo "File exists $pn skip"
 	    
