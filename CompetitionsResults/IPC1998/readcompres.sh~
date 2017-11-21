@@ -1,0 +1,10 @@
+compres=$(pwd)/CompetitionsResults/IPC1998/uniform-strips-round1.results
+faux=$(awk -F= 'BEGIN { max = -inf } { if ($1 > max) { max = $1; line = $0 } } END { print max }' $compres)
+IFS=',' read -a values <<< "$faux"
+echo "${values[2]}"
+for i in {1..8}
+do
+#    probpres=$(sed -n "/Begin plan/,/End plan/p" $sp | wc -l)
+    echo "${values[$i]}"
+    echo "Welcome $i times"
+done
