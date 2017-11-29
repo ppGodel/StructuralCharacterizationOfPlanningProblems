@@ -84,7 +84,7 @@ def readPGjson(nf = 'graph.json', wm=True):
                     
 def do_analysis(g, filename):                    
     filest = open(filename,'w')
-    filest.write('id'+','+ 'name'+','+ 'hash'+ ','+ 'time'+ ','+ 'type'+','
+    filest.write('id'+','+'gn'+','+ 'name'+','+ 'hash'+ ','+ 'time'+ ','+ 'type'+','
                  + 'ind'+ ',' + 'iid' + ','+ 'iod' + ','+ 'idd' + ','+ 'ixd' + ','+ 'isd' +','
                  + 'otd'+ ',' + 'oid' + ','+ 'ood' + ','+ 'odd' + ','+ 'oxd' + ','+ 'osd' +','
                  + 'ad'+ ',' + 'bc' + '\n')
@@ -100,7 +100,7 @@ def do_analysis(g, filename):
         do = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='D'])
         xo = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='X'])
         so = len([x for x in g[e].neighbors if g[e].neighbors[x]['type']=='S'])
-        filest.write(str(e) + ',' + str(g[e].label['Name']) + ',' + str(g[e].label['hash']) + ',' + str(g[e].label['time']) + ','+ g[e].label['type'] + ','
+        filest.write(str(e)+','+ g.id+ ',' + str(g[e].label['Name']) + ',' + str(g[e].label['hash']) + ',' + str(g[e].label['time']) + ','+ g[e].label['type'] + ','
                     + str(len(g[e].inneighbors)) + ','
                     + str(ii) + ',' + str(oi) + ',' + str(di) + ',' + str(xi) + ',' + str(si) + ','
                     + str(len(g[e].neighbors)) + ','
@@ -112,12 +112,15 @@ def do_analysis(g, filename):
 
 if len(sys.argv)>1:
     namefile=sys.argv[1]
+    pathcsv=''
     withmutex=True
     if len(sys.argv)>2:
         withmutex= sys.argv[2] in ('True', 'T','TRUE')
+    if len(sys.argv)>3:
+        pathcsv=sys.argv[3]        
     tim=time.clock()
     g=readPGjson(namefile,withmutex)    
-    do_analysis(g,g.id + "distedges.csv")
+    do_analysis(g,pathcsv + g.id + ".csv")
     print(time.clock()-tim)    
 else:
     print('Using default')
