@@ -41,7 +41,7 @@ function findlocal()
 	if [ ! -z "$hs" ] && [ "$hs" == "0" ] && [ ! -z "$hg" ] && [ "$hg" == "1" ]; then
 	#if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
 	    echo "File $pn will be reprocessed $(date)"
-	    $BBDIR/blackbox -o $domf -f $p -x -M 32760 -maxauto 200 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentsResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt"
+	    $BBDIR/blackbox -o $domf -f $p -x -M 32760 -maxauto 200 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt"
 	    planle=$(sed -n "/Begin plan/,/End plan/p" "$(pwd)/ExperimentsResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt" | wc -l)
 	    if(($planle > 0)); then
 		    planl=$(($planle-3))
@@ -50,7 +50,7 @@ function findlocal()
 #		    echo "$bf"
 #		    echo "$bf" > $BFILE
 	    fi
-	    mv "$(pwd)/$ipn.json" "$(pwd)/ExperimentsResults/PlanningGraphs/graphs/IPC1998/$nbc/"
+	    mv "$(pwd)/$ipn.json" "$(pwd)/ExperimentResults/PlanningGraphs/graphs/IPC1998/$nbc/"
 #	else
 #	    echo "File exists $pn skip"
 	    
