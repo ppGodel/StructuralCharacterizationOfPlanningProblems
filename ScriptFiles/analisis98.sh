@@ -1,11 +1,10 @@
 #!/bin/bash
-ADIR=$(pwd)/CompetitionsResults/IPC1998
-BBDIR=$(pwd)/Files
-tg=10
+ADIR=$(pwd)/CompetitionResults/IPC1998
+BBDIR=$(pwd)/ScriptFiles
+tg=15
 to=10
-AFILE=$(pwd)/result98.csv
-BFILE=$(pwd)/result98_1.csv
-notin=(gripper assembly)
+AFILE=$(pwd)/ScriptFiles/result98.csv
+BFILE=$(pwd)/ScriptFiles/result98_1.csv
 
 function findlocal()
 {
@@ -38,10 +37,10 @@ function findlocal()
 	#do fp=$v6; hs=$v7; hg=$v8; done	
 	echo "$fp $hs $hg"
 
-	if [ ! -z "$hs" ] && [ "$hs" == "0" ] && [ ! -z "$hg" ] && [ "$hg" == "1" ]; then
+	if [[ ( ! -z "$hs"  &&  "$hs" == "0" ) || ( ! -z "$hg"  &&  "$hg" == "1" ) ]]; then
 	#if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
 	    echo "File $pn will be reprocessed $(date)"
-	    $BBDIR/blackbox -o $domf -f $p -x -M 32760 -maxauto 200 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt"
+	    $BBDIR/blackbox -o $domf -f $p -x -M 32760 -maxauto 50 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt"
 	    planle=$(sed -n "/Begin plan/,/End plan/p" "$(pwd)/ExperimentsResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt" | wc -l)
 	    if(($planle > 0)); then
 		    planl=$(($planle-3))
