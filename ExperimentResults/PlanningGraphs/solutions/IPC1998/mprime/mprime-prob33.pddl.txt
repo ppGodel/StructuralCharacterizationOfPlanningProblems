@@ -1,12 +1,75 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/prob33.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl~ -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob33.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl
-requirement: negative-preconditions is not supported
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob33.pddl
+Problem name: strips-mprime-y-3
+Facts loaded.
 
+created
+time: 1, 214 facts and 214 exclusive pairs.
+time: 2, 268 facts and 788 exclusive pairs.
+time: 3, 355 facts and 2818 exclusive pairs.
+time: 4, 486 facts and 8671 exclusive pairs.
+time: 5, 591 facts and 11950 exclusive pairs.
+time: 6, 702 facts and 12310 exclusive pairs.
+time: 7, 795 facts and 9670 exclusive pairs.
+time: 8, 860 facts and 9388 exclusive pairs.
+time: 9, 897 facts and 8656 exclusive pairs.
+time: 10, 927 facts and 8746 exclusive pairs.
+Goals first reachable in 10 steps.
+69136 nodes created.
+
+####################################################
+goals at time 11:
+  craves_anxiety_haroset 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 1257309
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (feast satisfaction hamburger popover goias kentucky)
+1 (drink apple popover bavaria bosnia alsace goias kentucky)
+1 (drink haroset yogurt oregon kentucky goias alsace bosnia)
+1 (feast achievement muffin hamburger oregon alsace)
+2 (drink muffin potato oregon kentucky goias alsace bosnia)
+2 (feast satisfaction popover chicken goias kentucky)
+2 (drink apple hamburger bosnia alsace oregon goias kentucky)
+2 (drink chicken yogurt alsace oregon kentucky bosnia bavaria)
+3 (feast satisfaction chicken sweetroll kentucky oregon)
+3 (drink yogurt hamburger bavaria bosnia alsace kentucky oregon)
+3 (drink sweetroll potato alsace oregon kentucky bosnia bavaria)
+4 (overcome anxiety satisfaction sweetroll uranus mars)
+4 (drink sweetroll yogurt oregon kentucky goias bosnia bavaria)
+4 (drink potato popover bavaria bosnia alsace goias kentucky)
+5 (feast satisfaction sweetroll chicken goias kentucky)
+6 (feast satisfaction chicken popover goias kentucky)
+7 (feast satisfaction popover hamburger goias kentucky)
+8 (feast satisfaction hamburger muffin kentucky oregon)
+9 (feast satisfaction muffin haroset goias kentucky)
+10 (succumb anxiety satisfaction haroset uranus mars)
+End plan
+----------------------------------------------------
+
+20 total actions in plan
+6878 entries in hash table, 18639 hash hits, avg set size 38
+25526 total set-creation steps (entries + hits + plan length - 1)
+187131 actions tried
+
+####################################################
+Total elapsed time:   51.97 seconds
+Time in milliseconds: 51972
+
+####################################################

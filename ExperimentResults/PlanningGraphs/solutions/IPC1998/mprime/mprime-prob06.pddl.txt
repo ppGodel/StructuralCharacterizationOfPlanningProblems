@@ -1,12 +1,147 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/prob06.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl~ -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob06.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl
-requirement: negative-preconditions is not supported
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob06.pddl
+Problem name: strips-mprime-x-6
+Facts loaded.
 
+created
+time: 1, 220 facts and 176 exclusive pairs.
+time: 2, 307 facts and 855 exclusive pairs.
+time: 3, 392 facts and 1840 exclusive pairs.
+time: 4, 489 facts and 3587 exclusive pairs.
+time: 5, 565 facts and 4509 exclusive pairs.
+time: 6, 629 facts and 5341 exclusive pairs.
+time: 7, 683 facts and 6245 exclusive pairs.
+time: 8, 714 facts and 6293 exclusive pairs.
+Goals first reachable in 8 steps.
+61283 nodes created.
+
+####################################################
+goals at time 9:
+  craves_anger_turkey craves_abrasion_turkey 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 139400
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 25054
+number of fluent variables = 2600
+total number variables = 27654
+number clauses = 9724013
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 35924385
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 82962
+numatom = 27654, numclause = 9724013, numliterals = 19487387
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         2        15     12.06      5.06      2.38    100000         0
+         1        16      0.00      0.00      0.00     67499         0
+
+total elapsed seconds = 8.150000
+average flips per second = 20552
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 12.060508
+      overall mean noise std deviation = 5.063354
+      overall ratio mean noise to mean std dev = 2.381921
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 12.060508
+      nonsuccessful mean noise std deviation = 5.063354
+      nonsuccessful ratio mean noise to mean std dev = 2.381921
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 167500
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 44464137
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 212
+Variables forced false: 1
+Clauses output: 9718187
+Variables undetermined: 27441
+Non-unary clauses output: 9717974
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+time: 9, 734 facts and 6435 exclusive pairs.
+17200 new nodes added.
+
+####################################################
+goals at time 10:
+  craves_anger_turkey craves_abrasion_turkey 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 36902
+number of fluent variables = 3284
+total number variables = 40186
+number clauses = 16652815
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 87299084
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100

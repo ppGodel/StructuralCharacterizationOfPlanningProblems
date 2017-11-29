@@ -1,12 +1,76 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/prob16.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl~ -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob16.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl
-requirement: negative-preconditions is not supported
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob16.pddl
+Problem name: strips-mprime-x-16
+Facts loaded.
 
+created
+time: 1, 141 facts and 107 exclusive pairs.
+time: 2, 187 facts and 416 exclusive pairs.
+time: 3, 245 facts and 1358 exclusive pairs.
+Goals reachable at 3 steps but mutually exclusive.
+time: 4, 315 facts and 2738 exclusive pairs.
+Goals first reachable in 4 steps.
+4114 nodes created.
+
+####################################################
+goals at time 5:
+  craves_abrasion_rice craves_sciatica_rice 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 99
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 356 facts and 2571 exclusive pairs.
+3753 new nodes added.
+
+####################################################
+goals at time 6:
+  craves_abrasion_rice craves_sciatica_rice 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 408
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (overcome sciatica learning baguette neptune vulcan)
+1 (drink guava baguette pennsylvania kentucky bosnia manitoba alsace)
+1 (drink wonderbread bacon bosnia alsace manitoba pennsylvania goias)
+1 (feast achievement rice baguette manitoba alsace)
+2 (overcome grief achievement baguette neptune vulcan)
+2 (feast learning baguette rice manitoba alsace)
+3 (drink bacon baguette goias pennsylvania kentucky manitoba alsace)
+3 (overcome abrasion achievement baguette mercury neptune)
+3 (succumb sciatica learning rice neptune vulcan)
+4 (feast achievement baguette rice manitoba alsace)
+5 (succumb abrasion achievement rice mercury neptune)
+End plan
+----------------------------------------------------
+
+11 total actions in plan
+22 entries in hash table, 2 hash hits, avg set size 13
+28 total set-creation steps (entries + hits + plan length - 1)
+83 actions tried
+
+####################################################
+Total elapsed time:   1.13 seconds
+Time in milliseconds: 1127
+
+####################################################

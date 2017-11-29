@@ -41,10 +41,10 @@ function findlocal()
 	#if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
 	    echo "File $pn will be reprocessed $(date)"
 	    $BBDIR/blackbox -o $domf -f $p -x -M 32760 -maxauto 50 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$(pwd)/ExperimentResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt"
-	    planle=$(sed -n "/Begin plan/,/End plan/p" "$(pwd)/ExperimentsResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt" | wc -l)
+	    planle=$(sed -n "/Begin plan/,/End plan/p" "$(pwd)/ExperimentResults/PlanningGraphs/solutions/IPC1998/$nbc/$nbc-$pn.txt" | wc -l)
 	    if(($planle > 0)); then
-		    planl=$(($planle-3))
-		    echo "plan finded! $(date)"
+		    planl=$(($planle-2))
+		    echo "plan finded! $planl $(date)"
 		    awk -F, -v pl="$planl" -v apn="$pn" -v anbc="$nbc" 'BEGIN{FS=OFS=","} $5==anbc && $2==apn {$7=pl}1' $AFILE > $BFILE
 #		    echo "$bf"
 #		    echo "$bf" > $BFILE
@@ -91,6 +91,7 @@ do
 #		if [ "$nbc" != "gripper" ] && [ "$nbc" != "assembly" ] && [ "$nbc" != "logistics" ];then
 		    echo "Dominio" $nbc
 		    findlocal $dcp
+#		fi
 #		for typ in $dcp/*; do
 #		    typn=$(basename $typ)
 #		    echo "Tipo" $typn

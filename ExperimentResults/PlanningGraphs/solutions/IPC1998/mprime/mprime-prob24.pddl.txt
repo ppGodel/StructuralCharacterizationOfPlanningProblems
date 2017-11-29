@@ -1,12 +1,69 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/prob24.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl~ -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob24.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl
-requirement: negative-preconditions is not supported
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob24.pddl
+Problem name: strips-mprime-x-24
+Facts loaded.
 
+created
+time: 1, 208 facts and 62 exclusive pairs.
+time: 2, 256 facts and 459 exclusive pairs.
+time: 3, 324 facts and 1772 exclusive pairs.
+time: 4, 415 facts and 5893 exclusive pairs.
+time: 5, 549 facts and 14209 exclusive pairs.
+time: 6, 691 facts and 25237 exclusive pairs.
+Goals first reachable in 6 steps.
+28002 nodes created.
+
+####################################################
+goals at time 7:
+  craves_jealousy-8_pepper craves_anxiety-4_pepper craves_anger-12_cherry 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 1455147
+Performing plan justification:
+   0 actions were pruned in 0.01 seconds
+
+----------------------------------------------------
+Begin plan
+1 (drink melon shrimp bavaria guanabara moravia arizona alsace)
+1 (drink orange bacon goias alsace arizona bosnia oregon)
+1 (drink potato apple bavaria guanabara moravia surrey arizona)
+1 (drink lettuce tofu manitoba goias alsace surrey arizona)
+1 (feast curiosity muffin apple alsace goias)
+1 (drink chicken chocolate alsace arizona surrey manitoba bosnia)
+2 (drink shrimp chocolate alsace arizona surrey bosnia oregon)
+2 (overcome anger-12 curiosity apple saturn earth)
+2 (drink pepper tofu bavaria guanabara moravia arizona alsace)
+2 (drink muffin lettuce alsace arizona surrey goias manitoba)
+2 (drink melon wurst guanabara moravia oregon arizona alsace)
+2 (drink bacon apple oregon bosnia manitoba arizona alsace)
+3 (drink chocolate tofu oregon bosnia manitoba alsace goias)
+3 (feast curiosity apple muffin arizona alsace)
+4 (drink melon tofu moravia oregon bosnia goias manitoba)
+4 (feast curiosity muffin tofu surrey arizona)
+5 (feast curiosity tofu cherry goias manitoba)
+6 (succumb anger-12 curiosity cherry saturn earth)
+End plan
+----------------------------------------------------
+
+18 total actions in plan
+771 entries in hash table, 0 hash hits, avg set size 19
+776 total set-creation steps (entries + hits + plan length - 1)
+370090 actions tried
+
+####################################################
+Total elapsed time:   22.81 seconds
+Time in milliseconds: 22814
+
+####################################################

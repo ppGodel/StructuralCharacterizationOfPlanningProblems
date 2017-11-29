@@ -1,12 +1,61 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/prob04.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl~ -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob04.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl
-requirement: negative-preconditions is not supported
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob04.pddl
+Problem name: strips-mprime-x-4
+Facts loaded.
 
+created
+time: 1, 87 facts and 14 exclusive pairs.
+time: 2, 93 facts and 50 exclusive pairs.
+time: 3, 104 facts and 170 exclusive pairs.
+time: 4, 113 facts and 271 exclusive pairs.
+time: 5, 128 facts and 609 exclusive pairs.
+time: 6, 147 facts and 1271 exclusive pairs.
+time: 7, 164 facts and 1974 exclusive pairs.
+Goals first reachable in 7 steps.
+2550 nodes created.
+
+####################################################
+goals at time 8:
+  craves_sciatica_wurst 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 95
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (drink muffin grapefruit kentucky oregon bosnia surrey quebec)
+1 (drink arugula wurst kentucky oregon bosnia surrey quebec)
+1 (feast aesthetics shrimp cherry quebec bosnia)
+2 (feast aesthetics cherry arugula oregon kentucky)
+3 (feast aesthetics arugula wurst bosnia oregon)
+4 (feast aesthetics wurst grapefruit surrey quebec)
+5 (overcome sciatica aesthetics grapefruit mars vulcan)
+6 (feast aesthetics grapefruit wurst surrey quebec)
+7 (succumb sciatica aesthetics wurst mars vulcan)
+End plan
+----------------------------------------------------
+
+9 total actions in plan
+0 entries in hash table, 
+6 total set-creation steps (entries + hits + plan length - 1)
+9 actions tried
+
+####################################################
+Total elapsed time:   0.11 seconds
+Time in milliseconds: 109
+
+####################################################

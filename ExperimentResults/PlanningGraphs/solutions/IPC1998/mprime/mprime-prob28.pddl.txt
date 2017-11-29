@@ -1,12 +1,78 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/prob28.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl~ -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob28.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/mprime/domain.pddl
-requirement: negative-preconditions is not supported
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/mprime/prob28.pddl
+Problem name: strips-mprime-x-28
+Facts loaded.
 
+created
+time: 1, 72 facts and 40 exclusive pairs.
+time: 2, 84 facts and 120 exclusive pairs.
+time: 3, 94 facts and 199 exclusive pairs.
+time: 4, 111 facts and 453 exclusive pairs.
+time: 5, 127 facts and 719 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 133 facts and 577 exclusive pairs.
+Goals first reachable in 6 steps.
+2759 nodes created.
+
+####################################################
+goals at time 7:
+  craves_anger_lamb craves_boils_lamb 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 24
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 135 facts and 356 exclusive pairs.
+860 new nodes added.
+
+####################################################
+goals at time 8:
+  craves_anger_lamb craves_boils_lamb 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 110
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (feast intoxication wurst muffin goias bosnia)
+1 (drink broccoli muffin kentucky alsace oregon pennsylvania moravia)
+2 (drink broccoli wurst alsace oregon quebec goias bosnia)
+2 (overcome anger intoxication muffin vulcan earth)
+2 (drink lamb muffin kentucky alsace oregon moravia quebec)
+3 (drink broccoli shrimp oregon quebec moravia alsace kentucky)
+3 (feast intoxication muffin broccoli moravia quebec)
+4 (overcome boils intoxication broccoli neptune vulcan)
+5 (feast intoxication broccoli lamb moravia quebec)
+6 (succumb boils intoxication lamb neptune vulcan)
+7 (succumb anger intoxication lamb vulcan earth)
+End plan
+----------------------------------------------------
+
+11 total actions in plan
+4 entries in hash table, 4 hash hits, avg set size 13
+14 total set-creation steps (entries + hits + plan length - 1)
+15 actions tried
+
+####################################################
+Total elapsed time:   0.49 seconds
+Time in milliseconds: 489
+
+####################################################
