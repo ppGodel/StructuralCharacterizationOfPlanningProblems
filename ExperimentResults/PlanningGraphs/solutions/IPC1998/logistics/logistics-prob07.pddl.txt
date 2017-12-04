@@ -1,14 +1,14 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob07.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/prob07.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl
-Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob07.pddl
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/prob07.pddl
 Problem name: strips-log-x-7
 Facts loaded.
 
@@ -35,7 +35,7 @@ at_package5_city7-1
 Invoking solver graphplan
 ** Turning off completeness check **
 Result is Timeout
-Iteration was 3332200
+Iteration was 4319300
 
 ----------------------------------------------------
 Converting graph to wff
@@ -46,7 +46,7 @@ number clauses = 978712
 Invoking solver walksat version 36
 walksat version 36 (Huge)
 command line = walksat
-seed = 90603998
+seed = 123662482
 cutoff = 100000
 tries = 10
 heuristic = best, noise 50 / 100
@@ -61,92 +61,90 @@ wff read in
       this      this      this      this      this      this   success   success       until         std
        try       try       try       try       try       try      rate     tries      assign         dev
 
-         2         9      7.52      2.80      2.68    100000         0
-         1        11      6.55      3.44      1.90    100000         0
-         0         0      6.16      3.06      2.01     57191        33     57191   257191.00
+         1         8      6.75      3.07      2.20    100000         0
+         0         0      7.84      3.63      2.16     77402        50     77402   177402.00
 
-total elapsed seconds = 1.500000
-average flips per second = 171460
+total elapsed seconds = 1.190000
+average flips per second = 149077
 number solutions found = 1
-final success rate = 33.333333
-average length successful tries = 57191
-mean flips until assign = 257191.000000
-mean seconds until assign = 1.500000
-mean restarts until assign = 3.000000
+final success rate = 50.000000
+average length successful tries = 77402
+mean flips until assign = 177402.000000
+mean seconds until assign = 1.190000
+mean restarts until assign = 2.000000
 final noise level statistics
     statistics over all runs:
-      overall mean average noise level = 6.742297
-      overall mean noise std deviation = 3.102408
-      overall ratio mean noise to mean std dev = 2.173246
+      overall mean average noise level = 7.296477
+      overall mean noise std deviation = 3.352269
+      overall ratio mean noise to mean std dev = 2.176578
     statistics on successful runs:
-      successful mean average noise level = 6.158649
-      successful mean noise std deviation = 3.063053
-      successful ratio mean noise to mean std dev = 2.010624
+      successful mean average noise level = 7.842806
+      successful mean noise std deviation = 3.634438
+      successful ratio mean noise to mean std dev = 2.157914
     statistics on nonsuccessful runs:
-      nonsuccessful mean average noise level = 7.034121
-      nonsuccessful mean noise std deviation = 3.122086
-      nonsuccessful ratio mean noise to mean std dev = 2.253020
+      nonsuccessful mean average noise level = 6.750148
+      nonsuccessful mean noise std deviation = 3.070101
+      nonsuccessful ratio mean noise to mean std dev = 2.198673
 ASSIGNMENT FOUND
 Result is Sat
-Iteration was 257191
+Iteration was 177402
 Performing plan justification:
-   21 actions were pruned in 0.00 seconds
+   29 actions were pruned in 0.00 seconds
 
 ----------------------------------------------------
 Begin plan
-1 (load-airplane package7 plane4 city6-2)
-1 (load-airplane package6 plane1 city1-2)
+1 (fly-airplane plane2 city8-2 city1-2)
+1 (fly-airplane plane5 city5-2 city6-2)
+1 (fly-airplane plane3 city9-2 city10-2)
+1 (fly-airplane plane6 city2-2 city11-2)
+1 (load-airplane package10 plane4 city6-2)
 1 (load-truck package5 truck4 city4-1)
-1 (fly-airplane plane3 city9-2 city6-2)
-1 (fly-airplane plane2 city8-2 city3-2)
-1 (drive-truck truck5 city5-1 city5-2 city5)
-2 (fly-airplane plane1 city1-2 city4-2)
-2 (fly-airplane plane4 city6-2 city5-2)
-2 (load-airplane package10 plane3 city6-2)
+2 (fly-airplane plane4 city6-2 city9-2)
+2 (drive-truck truck9 city9-1 city9-2 city9)
+2 (load-airplane package8 plane3 city10-2)
+2 (load-airplane package7 plane5 city6-2)
+2 (fly-airplane plane6 city11-2 city4-2)
 2 (drive-truck truck4 city4-1 city4-2 city4)
-2 (fly-airplane plane2 city3-2 city7-2)
-3 (fly-airplane plane3 city6-2 city9-2)
-3 (load-airplane package9 plane4 city5-2)
-3 (drive-truck truck9 city9-1 city9-2 city9)
+2 (load-airplane package6 plane2 city1-2)
+3 (unload-airplane package10 plane4 city9-2)
+3 (fly-airplane plane3 city10-2 city9-2)
+3 (fly-airplane plane5 city6-2 city5-2)
 3 (unload-truck package5 truck4 city4-2)
-3 (fly-airplane plane1 city4-2 city11-2)
-3 (fly-airplane plane2 city7-2 city4-2)
-3 (unload-airplane package7 plane4 city5-2)
-4 (unload-airplane package10 plane3 city9-2)
-4 (fly-airplane plane1 city11-2 city10-2)
-4 (fly-airplane plane4 city5-2 city10-2)
-4 (load-truck package7 truck5 city5-2)
-4 (load-airplane package5 plane2 city4-2)
-5 (drive-truck truck5 city5-2 city5-1 city5)
-5 (fly-airplane plane2 city4-2 city7-2)
-5 (unload-airplane package6 plane1 city10-2)
-5 (load-airplane package8 plane1 city10-2)
-5 (load-truck package10 truck9 city9-2)
-5 (fly-airplane plane4 city10-2 city11-2)
+3 (drive-truck truck5 city5-1 city5-2 city5)
+4 (load-airplane package9 plane5 city5-2)
+4 (fly-airplane plane2 city1-2 city4-2)
+4 (load-truck package10 truck9 city9-2)
+4 (load-airplane package5 plane6 city4-2)
+4 (unload-airplane package7 plane5 city5-2)
+5 (fly-airplane plane6 city4-2 city7-2)
+5 (drive-truck truck9 city9-2 city9-1 city9)
+5 (fly-airplane plane5 city5-2 city10-2)
+5 (fly-airplane plane2 city4-2 city8-2)
+5 (load-truck package7 truck5 city5-2)
+6 (fly-airplane plane2 city8-2 city2-2)
+6 (drive-truck truck5 city5-2 city5-1 city5)
+6 (unload-airplane package5 plane6 city7-2)
 6 (drive-truck truck7 city7-1 city7-2 city7)
-6 (unload-airplane package5 plane2 city7-2)
-6 (fly-airplane plane4 city11-2 city1-2)
-7 (drive-truck truck9 city9-2 city9-1 city9)
-7 (fly-airplane plane1 city10-2 city3-2)
-7 (fly-airplane plane4 city1-2 city9-2)
+6 (fly-airplane plane5 city10-2 city4-2)
 7 (load-truck package5 truck7 city7-2)
-8 (fly-airplane plane1 city3-2 city1-2)
+7 (fly-airplane plane2 city2-2 city10-2)
 8 (drive-truck truck7 city7-2 city7-1 city7)
+8 (unload-airplane package6 plane2 city10-2)
+8 (fly-airplane plane5 city4-2 city9-2)
 8 (unload-truck package10 truck9 city9-1)
+9 (unload-airplane package9 plane5 city9-2)
 9 (unload-truck package7 truck5 city5-1)
 9 (unload-truck package5 truck7 city7-1)
-9 (unload-airplane package8 plane1 city1-2)
-9 (unload-airplane package9 plane4 city9-2)
 End plan
 ----------------------------------------------------
 
-43 total actions in plan
-948 entries in hash table, 0 hash hits, avg set size 32
-956 total set-creation steps (entries + hits + plan length - 1)
-738038 actions tried
+42 total actions in plan
+1094 entries in hash table, 0 hash hits, avg set size 32
+1102 total set-creation steps (entries + hits + plan length - 1)
+954467 actions tried
 
 ####################################################
-Total elapsed time:   15.46 seconds
-Time in milliseconds: 15456
+Total elapsed time:   41.26 seconds
+Time in milliseconds: 41262
 
 ####################################################

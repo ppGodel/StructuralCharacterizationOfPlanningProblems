@@ -1,10 +1,98 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC1998/domains/logistics/prob24.pddl -x -M 99999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/prob24.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Sorry, can't handle that large MAXNODES
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/domain.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC1998/domains/logistics/prob24.pddl
+Problem name: strips-log-x-24
+Facts loaded.
+
+created
+time: 1, 1042 facts and 3901 exclusive pairs.
+time: 2, 1113 facts and 5016 exclusive pairs.
+time: 3, 1146 facts and 4950 exclusive pairs.
+time: 4, 1266 facts and 6828 exclusive pairs.
+time: 5, 1366 facts and 11630 exclusive pairs.
+time: 6, 1390 facts and 11254 exclusive pairs.
+time: 7, 1674 facts and 33421 exclusive pairs.
+time: 8, 2017 facts and 55200 exclusive pairs.
+time: 9, 2281 facts and 84559 exclusive pairs.
+time: 10, 2897 facts and 161867 exclusive pairs.
+Goals first reachable in 10 steps.
+140213 nodes created.
+
+####################################################
+goals at time 11:
+  at_package11_city8-8 at_package10_city3-2 at_package9_city1-11 at_package8_city3-4 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 391
+Performing plan justification:
+   0 actions were pruned in 0.02 seconds
+
+----------------------------------------------------
+Begin plan
+1 (drive-truck truck41 city6-8 city6-5 city6)
+1 (drive-truck truck35 city1-3 city1-12 city1)
+1 (load-truck package11 truck45 city5-4)
+1 (fly-airplane plane2 city7-12 city1-12)
+1 (load-truck package8 truck2 city1-5)
+1 (drive-truck truck43 city8-5 city8-12 city8)
+1 (load-truck package10 truck37 city2-5)
+1 (drive-truck truck42 city3-2 city3-12 city3)
+1 (fly-airplane plane4 city9-12 city5-12)
+1 (drive-truck truck48 city3-2 city3-12 city3)
+2 (drive-truck truck45 city5-4 city5-12 city5)
+2 (drive-truck truck2 city1-5 city1-12 city1)
+2 (load-truck package9 truck41 city6-5)
+2 (drive-truck truck37 city2-5 city2-12 city2)
+3 (drive-truck truck41 city6-5 city6-12 city6)
+3 (unload-truck package8 truck2 city1-12)
+3 (unload-truck package10 truck37 city2-12)
+3 (unload-truck package11 truck45 city5-12)
+4 (load-airplane package10 plane3 city2-12)
+4 (load-airplane package8 plane2 city1-12)
+4 (load-airplane package11 plane4 city5-12)
+4 (unload-truck package9 truck41 city6-12)
+5 (load-airplane package9 plane1 city6-12)
+5 (fly-airplane plane2 city1-12 city3-12)
+5 (fly-airplane plane3 city2-12 city3-12)
+5 (fly-airplane plane4 city5-12 city8-12)
+6 (unload-airplane package8 plane2 city3-12)
+6 (fly-airplane plane1 city6-12 city1-12)
+6 (unload-airplane package10 plane3 city3-12)
+6 (unload-airplane package11 plane4 city8-12)
+7 (load-truck package8 truck48 city3-12)
+7 (load-truck package10 truck42 city3-12)
+7 (load-truck package11 truck43 city8-12)
+7 (unload-airplane package9 plane1 city1-12)
+8 (drive-truck truck42 city3-12 city3-2 city3)
+8 (drive-truck truck43 city8-12 city8-8 city8)
+8 (load-truck package9 truck35 city1-12)
+8 (drive-truck truck48 city3-12 city3-4 city3)
+9 (drive-truck truck35 city1-12 city1-11 city1)
+9 (unload-truck package8 truck48 city3-4)
+9 (unload-truck package10 truck42 city3-2)
+9 (unload-truck package11 truck43 city8-8)
+10 (unload-truck package9 truck35 city1-11)
+End plan
+----------------------------------------------------
+
+43 total actions in plan
+0 entries in hash table, 
+9 total set-creation steps (entries + hits + plan length - 1)
+43 actions tried
+
+####################################################
+Total elapsed time:   122 minutes, 19 seconds
+Time in milliseconds: 7338698
+
+####################################################
