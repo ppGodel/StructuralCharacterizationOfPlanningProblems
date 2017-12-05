@@ -55,10 +55,10 @@ do
 	for dcp in $dp/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-#		if [ "$nbc" != "gripper" ] && [ "$nbc" != "assembly" ] && [ "$nbc" != "logistics" ];then
+		if [ "$nbc" != "gripper" ] && [ "$nbc" != "assembly" ] && [ "$nbc" != "logistics" ];then
 		    echo "Dominio" $nbc
 		    analysejson $dcp
-#		fi
+		fi
 
 	    fi
 	done
