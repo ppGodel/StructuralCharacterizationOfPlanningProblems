@@ -34,7 +34,7 @@ do
 	    if [ -f "$jp" ]; then
 		je="1"
 	    fi
-	    firstap=$(sed -rn 's/Goals first reachable in (.*) steps./\1/p' $sp)
+	    firstap=$(sed -En 's/Goals first reachable in (.*) steps./\1/p' $sp)
 	    #echo  "$firstap"
 	    if [ "$firstap" == "" ]; then
 	    	firstap="0"
