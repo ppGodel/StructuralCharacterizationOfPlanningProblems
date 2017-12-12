@@ -25,7 +25,7 @@ do
 	    #plan=$(sed -n "/Begin plan/,/End plan/p" $sp  )
 	    planle=$(sed -n "/Begin plan/,/End plan/p" $sp | wc -l)
 	    if(($planle > 0)); then
-		planl=$(($planle-3))
+		planl=$(($planle-2))
 	    fi
 	    ss=$(wc -c < $sp)
 	    if [ "$ss" -lt "2000" ]; then
