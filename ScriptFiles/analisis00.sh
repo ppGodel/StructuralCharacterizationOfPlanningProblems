@@ -21,10 +21,10 @@ function findlocal()
 	    continue
 	fi
 	echo "Archivos $dfn $pn $BBDIR"
-	if [ ! -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
-	    $BBDIR/blackbox -o $domf -f $p -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$RDIR$nbc-$typn-$fn.txt"
+	if [ -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
+	    echo "File exists $pn skip"	   
 	else
-	    echo "File exists $pn skip"
+	    $BBDIR/blackbox -o $domf -f $p -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$RDIR$nbc-$typn-$fn.txt"
 	    
 	fi
 	
