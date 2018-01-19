@@ -21,7 +21,7 @@ function findlocal()
 	    continue
 	fi
 	echo "Archivos $dfn $pn $BBDIR"
-	if [ -f "$RDIR$nbc-$typn-$fn.txt" ] ; then
+	if [ -f "$RDIR$nbc-$typn-$pn.txt" ] ; then
 	    echo "File exists $pn skip"	   
 	else
 	    $BBDIR/blackbox -o $domf -f $p -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$RDIR$nbc-$typn-$fn.txt"
