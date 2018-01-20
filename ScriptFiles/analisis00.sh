@@ -1,8 +1,8 @@
 #!/bin/bash
-
-ADIR=$(pwd)/CompetitionsResults/IPC2000
-BBDIR=$(pwd)/Files
-RDIR=$(pwd)/ExperimentsResults/PlanningGraphs/
+HOME=$1
+ADIR=$(HOME)CompetitionsResults/IPC2000
+BBDIR=$(HOME)Files
+RDIR=$(HOME)ExperimentsResults/PlanningGraphs/Solutions/IPC2000/
 tg=10
 to=10
 
@@ -40,12 +40,8 @@ function findlocal()
     done
 }
 
-
-notin=(gripper assembly)
-
-
 if [ ! -z "$1" ]; then
-    ADIR=$1
+    HOME=$1
 fi
 if [ ! -z "$2" ]; then
     BBDIR=$2
