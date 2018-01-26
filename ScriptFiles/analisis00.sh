@@ -1,11 +1,4 @@
 #!/bin/bash
-HOME=$1
-ADIR=$(HOME)CompetitionsResults/IPC2000
-BBDIR=$(HOME)Files
-RDIR=$(HOME)ExperimentsResults/PlanningGraphs/Solutions/IPC2000/
-tg=10
-to=10
-
 function findlocal()
 {
     echo "Procesando $1"
@@ -42,16 +35,32 @@ function findlocal()
 
 if [ ! -z "$1" ]; then
     HOME=$1
+else
+    HOME=$pwd
 fi
 if [ ! -z "$2" ]; then
-    BBDIR=$2
+    compet=$2
+else
+    compet="IPC2000"
 fi
-if [ ! -z "$3" ] && [ $4> 0 ]; then
-    tg=$3
-fi
-if [ ! -z "$4" ] && [ $5 > 0 ]; then
-    to=$4
-fi
+#if [ ! -z "$2" ]; then
+#    ADIR=$2   
+#fi
+#if [ ! -z "$3" ]; then
+#    BBDIR=$3
+#fi
+#if [ ! -z "$4" ] && [ $4> 0 ]; then
+#    tg=$3
+#fi
+#if [ ! -z "$5" ] && [ $5 > 0 ]; then
+#    to=$4
+#fi
+
+ADIR=$(HOME)CompetitionsResults/$compet
+BBDIR=$(HOME)Files
+RDIR=$(HOME)ExperimentsResults/PlanningGraphs/Solutions/$compet/
+tg=10
+to=10
 
 for dp in $ADIR;
 do
