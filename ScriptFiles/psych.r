@@ -1,14 +1,20 @@
 library('psych')
 
+library('ggplot2')
+typu="eps"
 typg<<-"eps"
+"/" <- function(x,y) {ifelse(y==0,0,base:::"/"(x,y))}
+gpath="images/"
 imprimirini= function(typ, name){
     typg<<-typ
     if(typg=="eps"){
-        postscript(paste(name,".eps", sep=""))
+        postscript(paste(gpath,name,".eps", sep=""), width=1440,height=960)
+        #dev.print(file=paste(name,".eps", sep=""), device=eps, width=1440,height=960,units = "px")
     }
     else
     {
-        png(paste(name,".eps", sep=""))
+        png(paste(gpath,name,".png", sep=""), width=1440,height=960)
+        #dev.print(file=paste(name,".png", sep=""), device=png, width=1440,height=960)
     }
     
 }
@@ -18,24 +24,152 @@ imprimirfin= function(){
     }
     else
     {
+        dev.off()
         graphics.off()
     }
     
 }
 
-#library('plyr')
-#fn="gripper"
-fns=c("gripper", "log","mprime","movie")
-for(fn in fns){
-    dataraw = read.file(f=paste("strips-",fn,"-all.csv", sep=''))
-    
-    imprimirini(typ="eps",name=paste(fn,"inexclusiveMeanByLevel",sep=""))
-    tst=aggregate(ixd~gn+type+time, dataraw, mean)
-    boxplot(tst$ixd~tst$time)
-    imprimirfin()
-    
-    imprimirini(typ="eps",name=paste(fn,"outexclusiveMAXByLevel",sep=""))
-    tst=aggregate(oxd~gn+type+time, dataraw, max)
-    boxplot(tst$oxd~tst$time )
-    imprimirfin()
+
+joinall= function(){
+    datar = read.file(f=paste("strips-gripper-all.csv", sep=''))
+    datar=cbind(dom=rep("gripper",nrow(datar)),pn=sub(".*x-", "",datar$gn),datar)
+    fns=c( "log","mprime","movie")
+    for(fn in fns){
+        datar2 = read.file(f=paste("strips-",fn,"-all.csv", sep=''))
+        datar2=cbind(dom=rep(fn,nrow(datar2)),pn=sub(".*x-", "",datar2$gn),datar2)
+        datar=rbind(datar,datar2)
+    }
+    return(datar)
 }
+
+library('plyr')
+#fn="gripper"
+#fns=c("gripper", "log","mprime","movie")
+compresultsraw = read.file(f="fullresultIPC98.csv")
+compresultsbase=aggregate(cbind(ts,fa)~probname+comp+dom, compresultsraw, max)
+compresultstan=aggregate(cbind(stantime=ptime,stansteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="STAN",], max)
+compresultsbb=aggregate(cbind(bbtime=ptime,bbsteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="BLACKBOX",], max)
+compresultsipp=aggregate(cbind(ipptime=ptime,ippsteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="IPP",], max)
+compresultshsp=aggregate(cbind(hsptime=ptime,hspsteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="HSP",], max)
+#merge(x=compresultsbase, y=compresultstan, by=c("probname","comp","dom"))
+compresults=join_all(dfs=list(compresultsbase,compresultstan,compresultsbb,compresultsipp,compresultshsp), by=c("probname","comp","dom"),type="full")
+
+#for(fn in fns){
+#    dataraw = read.file(f=paste("strips-",fn,"-all.csv", sep=''))
+dataraw=joinall()
+                                        #by graph
+    #nodes
+    factsbg=aggregate(hash~gn+dom+pn, dataraw[dataraw$type=="f",], length)
+    actionsbg=aggregate(hash~gn+dom+pn, dataraw[dataraw$type=="a",], length)
+    #edges
+    tedgbg=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+pn, dataraw, sum)
+    summedgbg=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+pn, dataraw, summary)
+                                        #by level
+    #nodes
+    nodesbl=aggregate(hash~gn+dom+pn+time+type, dataraw, length)
+    actionsbl=aggregate(hash~gn+dom+pn+time, dataraw[dataraw$type=="a",], length)
+    factsbl=aggregate(hash~gn+dom+pn+time, dataraw[dataraw$type=="f",], length)
+    actionsbl=aggregate(hash~gn+dom+pn+time, dataraw[dataraw$type=="a",], length)
+    #edges
+sumbl=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+pn+type+time, dataraw, sum)
+summbl=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+pn+type+time, dataraw, summary)
+
+
+#compresults=join_all(dfs=list(compresultsbase,compresultstan,compresultsbb,compresultsipp,compresultshsp), by=c("probname","comp","dom"),type="full")
+
+    #nodes
+    imprimirini(typ=typu,name=paste("factcountByGraph",sep=""))
+    boxplot(hash~dom+pn,data=nodesbl[nodesbl$type=="f",])
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("factcountByLevel",sep=""))
+    boxplot(hash~time,data=nodesbl[nodesbl$type=="f",])
+    imprimirfin()
+
+    imprimirini(typ=typu,name=paste("factcountByProbViol",sep=""))
+ggplot(data = nodesbl[nodesbl$type=="f",], aes(x=factor(pn), y=hash)) + labs( x="Problem", y="Fact nodes amount" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"factcountByProbViol",".",typu, sep=""), device=typu, width=15,height=10)
+    
+    imprimirini(typ=typu,name=paste("actioncountByProbViol",sep=""))
+    ggplot(data = nodesbl[nodesbl$type=="a",], aes(x=factor(pn), y=hash)) + labs( x="Problem", y="Action nodes amount" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"actioncountByProbVio",".",typu, sep=""), device=typu, width=15,height=10)
+    
+    imprimirini(typ=typu,name=paste("actioncountByLevel",sep=""))
+    boxplot(hash~time+dom,data=nodesbl[nodesbl$type=="a",])
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("actioncountByLevel",sep=""))
+    boxplot(hash~pn+dom,data=nodesbl[nodesbl$type=="a",])
+    imprimirfin()
+
+    #edges
+    imprimirini(typ=typu,name=paste("inedgesMedianByLevel",sep=""))
+    boxplot(ind[,3]~time+dom,data=summbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("inexclusiveMedianByLevel",sep=""))
+    boxplot(ixd~time,data=medianedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("outedgesMedianByLevel",sep=""))
+    boxplot(otd~time,data=medianedgbl)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste("outexclusiveMedianByLevel",sep=""))
+    boxplot(oxd~time,data=medianedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("allMedianByLevel",sep=""))
+    boxplot(ad~time,data=medianedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("inedgesMeanByLevel",sep=""))
+    boxplot(ind~time,data=meanedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("inexclusiveMeanByLevel",sep=""))
+    boxplot(ixd~time,data=meanedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("outedgesMeanByLevel",sep=""))
+    boxplot(otd~time,data=meanedgbl)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste("outexclusiveMeanByLevel",sep=""))
+    boxplot(oxd~time,data=meanedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("allMeanByLevel",sep=""))
+    boxplot(ad~time,data=meanedgbl)
+    imprimirfin()
+    
+    imprimirini(typ=typu,name=paste("outexclusiveMAXByLevel",sep=""))
+    boxplot(oxd~time,data=maxedgbl )
+    imprimirfin()
+
+    sumbl=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+type+time, dataraw, sum)
+    
+    ggplot(data = sumbl, aes(x=factor(gn), y=oxd/otd)) + labs( x="Problem", y="Percentage out mutex by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"distPercentageOMbyP",".",typu, sep=""), device=typu, width=15,height=10)
+
+    imprimirini(typ=typu,name=paste("distPercentageIMbyP",sep=""))
+    ggplot(data = sumbl, aes(x=factor(gn), y=(ixd/ind))) + labs( x="Problem", y="Percentage in mutex by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"distPercentageIMbyP",".",typu, sep=""), device=typu, width=15,height=10)
+
+    ggplot(data = sumbl[sumbl$type=="a",], aes(x=factor(gn), y=(oxd/otd))) + labs( x="Problem", y="Percentage out mutex in actions by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"distPercentageOMAbyP",".",typu, sep=""), device=typu, width=15,height=10)
+    
+    ggplot(data = sumbl[sumbl$type=="f",], aes(x=factor(gn), y=(oxd/otd))) + labs( x="Problem", y="Percentage out mutex in facts by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"distPercentageOMFbyP",".",typu, sep=""), device=typu, width=15,height=10)
+
+    ggplot(data = sumbl[sumbl$type=="a",], aes(x=factor(gn), y=(ixd/ind))) + labs( x="Problem", y="Percentage in mutex in actions by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"distPercentageIMAbyP",".",typu, sep=""), device=typu, width=15,height=10)
+
+    ggplot(data = sumbl[sumbl$type=="f",], aes(x=factor(gn), y=(ixd/ind))) + labs( x="Problem", y="Percentage in mutex in facts by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+    ggsave(paste(gpath,"distPercentageIMFbyP",".",typu, sep=""), device=typu, width=15,height=10)
+    
+#}
+
+#que puede venir en una instancia
+# dist mutex por capa
+# revisar posibles caracteristicas en lugar de por dominio
+# por ejemplo tamaño de distribucion, numero de maximos o minimos etc
