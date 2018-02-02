@@ -1,12 +1,22 @@
 #!/bin/bash
-GDIR=$(pwd)/ExperimentResults/PlanningGraphs/graphs/IPC1998
-CDIR=$(pwd)/ExperimentResults/AnalisisResults/data/IPC1998
-SDIR=$(pwd)/ScriptFiles
+
+BDIR=$(pwd)
+if [ ! -z "$1" ]; then
+    BDIR=$1
+fi
+comp=IPC1988
+if [ ! -z "$2" ]; then
+    comp=$2
+fi
+echo "base path $BDIR $comp"
+GDIR=$BDIR/ExperimentResults/PlanningGraphs/graphs/$comp
+CDIR=$BDIR/ExperimentResults/AnalisisResults/data/$comp
+SDIR=$BDIR/ScriptFiles
 tg=15
 to=10
-AFILE=$(pwd)/ScriptFiles/result98.csv
+AFILE=$BDIR/ScriptFiles/result$comp.csv
 #BFILE=$(pwd)/ScriptFiles/result98_1.csv
-
+echo "Exp $GDIR"
 function analysejson()
 {
     echo "Procesando $1"
@@ -20,7 +30,7 @@ function analysejson()
 	hg=${values[7]}
 	ipn=${values[0]}
 	#echo "$fp $hs $hg"
-	echo "File $pn will be reprocessed $(date)"
+	echo "File $pn will be reprocessed $(date) \n with values $CDIR $nbc"
 	python3 $SDIR/readjson.py $j T $CDIR/$nbc/
 	
     done
@@ -34,11 +44,8 @@ function analysejson()
 }
 
 
-if [ ! -z "$1" ]; then
-    GDIR=$1
-fi
 if [ ! -z "$2" ]; then
-    SDIR=$2
+    comp=$2
 fi
 if [ ! -z "$3" ] && [ $4> 0 ]; then
     tg=$3
