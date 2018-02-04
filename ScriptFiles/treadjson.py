@@ -12,7 +12,7 @@ def readPGjson(nf = 'graph.json', wm=True):
     vl=list()
     filesize = os.path.getsize(nf)
     if filesize >  200000000:
-        print("file of " + str(filesize/1000000) + " MB")
+        print("file of " + str(filesize/1048576) + "MB")
         data_file = open(nf)
         GNV= ijson.items(data_file, 'GN')
         for gnv in GNV:
