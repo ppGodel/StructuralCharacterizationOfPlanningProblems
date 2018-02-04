@@ -4,13 +4,15 @@ import sys
 import time
 from pprint import pprint
 import os.path
+import ijson
 
 def readPGjson(nf = 'graph.json', wm=True):
     print("loading file")
     gname=""
     vl=list()
-    if os.path.getsize(nf) >  300000000:
-        print("more than 200MB")
+    filesize = os.path.getsize(nf)
+    if filesize >  200000000:
+        print("file of " + str(filesize/1000000) + " MB")
         data_file = open(nf)
         GNV= ijson.items(data_file, 'GN')
         for gnv in GNV:
@@ -137,11 +139,16 @@ if len(sys.argv)>1:
         pathcsv=sys.argv[3]        
     tim=time.clock()
     print("reading file " + namefile)
-    g=readPGjson(namefile,withmutex)    
-    Nfilecsv=pathcsv + g.id + ".csv"
+    dfile = open(namefile)
+    GNV= ijson.items(dfile, 'GN')
+    for gnv in GNV:
+        gname=gnv
+        break 
+    Nfilecsv=pathcsv + gname + ".csv"
     if os.path.exists(Nfilecsv):
         print("File already processed")
     else:
+        g=readPGjson(namefile,withmutex)   
         print("File readed, starting analysis")
         do_analysis(g,Nfilecsv)
         print("Analysis finished time: " + str(time.clock()-tim))

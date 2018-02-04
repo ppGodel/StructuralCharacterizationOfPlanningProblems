@@ -4,6 +4,7 @@ import sys
 import time
 from pprint import pprint
 import os.path
+import ijson
 
 def readPGjson(nf = 'graph.json', wm=True):
     with open(nf) as data_file:    
