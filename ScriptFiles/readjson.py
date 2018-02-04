@@ -3,13 +3,14 @@ import graph
 import sys
 import time
 from pprint import pprint
+import os.path
 
 def readPGjson(nf = 'graph.json', wm=True):
     with open(nf) as data_file:    
         data = json.load(data_file)
-    
+    print("loading file")
     g= graph.Graph(data['GN'], directed=True)
-
+    print("File loaded, starting parse")
     for e in data['VL']:
         #read atribute vertex
         nid = e['i']#str(int(e["time"])) + "_" + e['hash']
@@ -80,9 +81,11 @@ def readPGjson(nf = 'graph.json', wm=True):
                     w=g[eisn]            
                     g.add_edge(v, w, weight=1, name = v.label['Name'] + '___' + w.label['Name'], type='S')    
                     #g.add_edge(v, w, weight=1, name = v.label['Name']+ '___' + eisn['name'] ,hash=eisn['hash'], type='S')
+    print("Parse finished")
     return g
                     
-def do_analysis(g, filename):                    
+def do_analysis(g, filename):
+    print("starting analysis of " + str(len(g.vertices)) + "nodes")
     filest = open(filename,'w')
     filest.write('id'+','+'gn'+','+ 'name'+','+ 'hash'+ ','+ 'time'+ ','+ 'type'+','
                  + 'ind'+ ',' + 'iid' + ','+ 'iod' + ','+ 'idd' + ','+ 'ixd' + ','+ 'isd' +','
@@ -107,7 +110,7 @@ def do_analysis(g, filename):
                     + str(io) + ',' + str(oo) + ',' + str(do) + ',' + str(xo) + ',' + str(so) + ','
                     + str(an)+ ','  + str(0) +  '\n')#+ str(bc[e]) +  '\n')#
     filest.close()
-
+    print("Finished analysis")
 
 
 if len(sys.argv)>1:
@@ -119,8 +122,14 @@ if len(sys.argv)>1:
     if len(sys.argv)>3:
         pathcsv=sys.argv[3]        
     tim=time.clock()
+    print("reading file " + namefile)
     g=readPGjson(namefile,withmutex)    
-    do_analysis(g,pathcsv + g.id + ".csv")
-    print(time.clock()-tim)    
+    Nfilecsv=pathcsv + g.id + ".csv"
+    if os.path.exists(Nfilecsv):
+        print("File already processed")
+    else:
+        print("File readed, starting analysis")
+        do_analysis(g,Nfilecsv)
+        print("Analysis finished time: " + str(time.clock()-tim))
 else:
     print('Using default')

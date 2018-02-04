@@ -20,7 +20,7 @@ echo "Exp $GDIR"
 function analysejson()
 {
     echo "Procesando $1"
-    jsonf=$(find $1 -maxdepth 1 -type f -iname '*.json')
+    jsonf=$(find $1 -maxdepth 1 -type f -iname '*.json' | sort -R)
     for j in $jsonf; do
 	jn=$(basename "$j")
 	faux=$(awk -F, -v apn="$jn" -v anbc="$nbc" '$5==anbc && $2==apn {print $0}' $AFILE)
@@ -30,9 +30,12 @@ function analysejson()
 	hg=${values[7]}
 	ipn=${values[0]}
 	#echo "$fp $hs $hg"
-	echo "File $pn will be reprocessed $(date) \n with values $CDIR $nbc"
-	python3 $SDIR/readjson.py $j T $CDIR/$nbc/
-	
+	#if [ ! -e $j ]; then
+	    echo "File $j will be processed $(date)"
+	    python3 $SDIR/readjson.py $j T $CDIR/$nbc/
+	#else
+	#    echo "File $j already processed"
+	#fi
     done
     
 #    for directory in $1*; do
@@ -62,8 +65,8 @@ do
 	for dcp in $dp/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-#		if [ "$nbc" != "gripper" ] && [ "$nbc" != "assembly" ] && [ "$nbc" != "logistics" ];then
-		if [ "$nbc" == "mystery" ];then
+		if [ "$nbc" != "mprime" ] && [ "$nbc" != "movie" ];then
+#		if [ "$nbc" == "mystery" ];then
 		    echo "Dominio" $nbc
 		    analysejson $dcp
 		fi
