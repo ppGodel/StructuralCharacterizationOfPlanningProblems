@@ -7,15 +7,25 @@ import os.path
 
 def readPGjson(nf = 'graph.json', wm=True):
     print("loading file")
+    gname=""
+    vl=list()
     if os.path.getsize(nf) >  300000000:
-        print("more than 300MB")
-        data = ""
+        print("more than 200MB")
+        data_file = open(nf)
+        GNV= ijson.items(data_file, 'GN')
+        for gnv in GNV:
+            gname=gnv
+            break
+        data_file = open(nf)
+        vl=ijson.items(data_file, 'VL.item')
     else:
         with open(nf) as data_file:    
             data = json.load(data_file)
-    g= graph.Graph(data['GN'], directed=True)
-    print("File loaded, starting parse")
-    for e in data['VL']:
+            gname=data['GN']
+            vl=data['VL']
+    print("File loaded, starting parse")                    
+    g= graph.Graph(gname, directed=True)
+    for e in vl:
         #read atribute vertex
         nid = e['i']#str(int(e["time"])) + "_" + e['hash']
         if nid not in g.vertices.keys():
