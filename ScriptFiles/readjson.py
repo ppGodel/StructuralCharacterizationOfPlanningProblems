@@ -7,12 +7,27 @@ import os.path
 import ijson
 
 def readPGjson(nf = 'graph.json', wm=True):
-    with open(nf) as data_file:    
-        data = json.load(data_file)
     print("loading file")
-    g= graph.Graph(data['GN'], directed=True)
-    print("File loaded, starting parse")
-    for e in data['VL']:
+    gname=""
+    vl=list()
+    filesize = os.path.getsize(nf)
+    print("file of " + str(round(filesize/1048576,2)) + "MB")
+    if filesize >  100000000:
+        data_file = open(nf)
+        GNV= ijson.items(data_file, 'GN')
+        for gnv in GNV:
+            gname=gnv
+            break
+        data_file = open(nf)
+        vl=ijson.items(data_file, 'VL.item')
+    else:
+        with open(nf) as data_file:    
+            data = json.load(data_file)
+            gname=data['GN']
+            vl=data['VL']
+    print("File loaded, starting parse")                    
+    g= graph.Graph(gname, directed=True)
+    for e in vl:
         #read atribute vertex
         nid = e['i']#str(int(e["time"])) + "_" + e['hash']
         if nid not in g.vertices.keys():
@@ -124,11 +139,18 @@ if len(sys.argv)>1:
         pathcsv=sys.argv[3]        
     tim=time.clock()
     print("reading file " + namefile)
-    g=readPGjson(namefile,withmutex)    
-    Nfilecsv=pathcsv + g.id + ".csv"
+    dfile = open(namefile)
+    GNV= ijson.items(dfile, 'GN')
+    for gnv in GNV:
+        gname=gnv
+        break 
+    Nfilecsv=pathcsv + gname + ".csv"
     if os.path.exists(Nfilecsv):
         print("File already processed")
     else:
+        
+        if filesize > 300000000:
+        g=readPGjson(namefile,withmutex)   
         print("File readed, starting analysis")
         do_analysis(g,Nfilecsv)
         print("Analysis finished time: " + str(time.clock()-tim))
