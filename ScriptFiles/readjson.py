@@ -6,25 +6,24 @@ from pprint import pprint
 import os.path
 import ijson
 
-def readPGjson(nf = 'graph.json', wm=True):
+def readPGjson(nf = 'graph.json', wm=True, option=0):
     print("loading file")
     gname=""
     vl=list()
-    filesize = os.path.getsize(nf)
-    print("file of " + str(round(filesize/1048576,2)) + "MB")
-    if filesize >  100000000:
-        data_file = open(nf)
+    if option == 1:
+        with open(nf) as data_file:    
+            data = json.load(data_file)
+            gname=data['GN']
+            vl=data['VL']
+    else:#elif option==2:
+        data_file = open(nf)        
         GNV= ijson.items(data_file, 'GN')
         for gnv in GNV:
             gname=gnv
             break
         data_file = open(nf)
         vl=ijson.items(data_file, 'VL.item')
-    else:
-        with open(nf) as data_file:    
-            data = json.load(data_file)
-            gname=data['GN']
-            vl=data['VL']
+    
     print("File loaded, starting parse")                    
     g= graph.Graph(gname, directed=True)
     for e in vl:
@@ -128,6 +127,39 @@ def do_analysis(g, filename):
     filest.close()
     print("Finished analysis")
 
+def do_raw_analysis(jsonfile, csvfile):      
+    t0=time.clock()
+    print("T0" + str(t0))
+    data_file = open(jsonfile)        
+    GNV= ijson.items(data_file, 'GN')
+    for gnv in GNV:
+        gname=gnv
+        break
+    data_file = open(jsonfile)
+    vl=ijson.items(data_file, 'VL.item')
+    t1=time.clock()
+    print("T1" + str(t1-t0))
+    filest = open(csvfile,'w')
+    filest.write('id'+','+'gn'+','+ 'name'+','+ 'hash'+ ','+ 'time'+ ','+ 'type'+','
+                 + 'ind'+ ',' + 'iid' + ','+ 'iod' + ','+ 'idd' + ','+ 'ixd' + ','+ 'isd' +','
+                 + 'otd'+ ',' + 'oid' + ','+ 'ood' + ','+ 'odd' + ','+ 'oxd' + ','+ 'osd' +','
+                 + 'ad'+ ',' + 'bc' + '\n')
+    
+    for e in vl:
+        ine = len(e['ie'])        
+        one = len(e['oe'])
+        dne = len(e['de'])
+        xne = len(e['xe'])
+        x1ne = len(e['x1e'])
+        
+        filest.write(str(e['i'])+','+ gname + ',' + str(e['N']) + ',' + str(e['h']) + ',' + str(e['T']) + ','+ str(e['y']) + ','
+                    + str('0') + ','
+                    + str('0') + ',' + str('0') + ',' + str('0') + ',' + str('0') + ',' + str('0') + ','
+                    + str('0') + ','
+                    + str(ine) + ',' + str(one) + ',' + str(dne) + ',' + str(xne) + ',' + str(x1ne) + ','
+                    + str(ine+one+dne+xne+x1ne)+ ','  + str(0) +  '\n')#+ str(bc[e]) +  '\n')#
+    filest.close()
+    
 
 if len(sys.argv)>1:
     namefile=sys.argv[1]
@@ -138,7 +170,7 @@ if len(sys.argv)>1:
     if len(sys.argv)>3:
         pathcsv=sys.argv[3]        
     tim=time.clock()
-    print("reading file " + namefile)
+    print("reading file " + namefile + " at " +str(tim))
     dfile = open(namefile)
     GNV= ijson.items(dfile, 'GN')
     for gnv in GNV:
@@ -148,11 +180,20 @@ if len(sys.argv)>1:
     if os.path.exists(Nfilecsv):
         print("File already processed")
     else:
-        
-        if filesize > 300000000:
-        g=readPGjson(namefile,withmutex)   
-        print("File readed, starting analysis")
-        do_analysis(g,Nfilecsv)
-        print("Analysis finished time: " + str(time.clock()-tim))
+        filesize = os.path.getsize(namefile)
+        print("file of " + str(round(filesize/1048576,2)) + "MB")
+        if filesize < 100000000:
+            g=readPGjson(namefile,withmutex,1)   
+            print("File readed 1, starting analysis")
+            do_analysis(g,Nfilecsv)
+            print("Analysis finished time: " + str(time.clock()-tim))
+        elif filesize < 400000000:
+            g=readPGjson(namefile,withmutex,2)   
+            print("File readed 2, starting analysis")
+            do_analysis(g,Nfilecsv)
+            print("Analysis finished time: " + str(time.clock()-tim))
+        else:
+            do_raw_analysis(namefile,Nfilecsv)
+            print("Analysis finished time: " + str(time.clock()-tim))
 else:
     print('Using default')
