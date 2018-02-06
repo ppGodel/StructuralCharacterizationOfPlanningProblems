@@ -6,7 +6,7 @@ from pprint import pprint
 import os.path
 import ijson
 
-def readPGjson(nf = 'graph.json', wm=True, option=0):
+def readPGjson(nf = 'graph.json', wm=True, option=1):
     print("loading file")
     gname=""
     vl=list()

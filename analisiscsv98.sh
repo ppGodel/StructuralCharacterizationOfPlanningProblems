@@ -32,7 +32,7 @@ function analysejson()
 	#echo "$fp $hs $hg"
 	#if [ ! -e $j ]; then
 	    echo "File $j will be processed $(date)"
-	    python3 $SDIR/treadjson.py $j T $CDIR/$nbc/
+	    python3 $SDIR/readjson.py $j T $CDIR/$nbc/
 	#else
 	#    echo "File $j already processed"
 	#fi
