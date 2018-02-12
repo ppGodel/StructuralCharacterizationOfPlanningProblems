@@ -179,7 +179,7 @@ imprimirini(typ=typu,name=paste(fn,sep=""))
 plot(log(mintime)~gaction.xp, data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
 legend(35,10, legend=c("not solved","solved"),pch=pchs )
 legend(35,8, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
-abline(v=3.76)
+#abline(h=3.76)
 imprimirfin()
 
 
@@ -216,8 +216,8 @@ yt="Min time"
 pchs=c(16,13)
 imprimirini(typ=typu,name=fn)
 plot(mintime~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
-legend(5,5000, legend=c("not solved","solved"),pch=pchs )
-legend(5,15000, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
+legend(4.6,5000, legend=c("not solved","solved"),pch=pchs )
+legend(4.6,15000, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
 imprimirfin()
 
@@ -257,49 +257,45 @@ plot(minsteps-fa~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(fa
 legend(5,50, legend=c("not solved","solved"),pch=pchs )
 legend(5,100, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
+abline(h=19)
 imprimirfin()
 
-fn="Totalfactnodes-Solved"
-title="Total fact nodes vs Solved"
+fn="Factratio-Solved"
+title="Fact ratio vs Solved"
 xt="Solved problem"
-yt="Total fact nodes"
-ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gfact.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom,scales="free")
+yt="fact ratio"
+ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gfact.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
 ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
 
-fn="Totalactionnodes-Solved"
-title="Total action nodes vs Solved"
+fn="Action ratio-Solved"
+title="Action ratio vs Solved"
 xt="Solved problem"
-yt="Total action nodes"
-ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gaction.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom,scales="free")
+yt="Action ratio nodes"
+ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gaction.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
 ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
 
-fn="Totalactionnodes-Solved"
-title="Total action nodes vs Solved"
-xt="Solved problem"
-yt="Total action nodes"
-ggplot(data = sumaresultbyl, aes(x=factor(!is.na(bbtime)), y=gaction.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom,scales="free")
-ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
-
-
-fn="Totalactionnodes-Solved"
-title="Total action nodes vs Solved"
-xt="Solved problem"
-yt="Total action nodes"
-ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gaction.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom,scales="free")
-ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
 
 fn="Solved-factnodesratioperlevel"
 title="fact nodes ratio per level vs solved"
 xt="Solved problem"
 yt="fact nodes ratio per level"
-ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*lfact.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom,scales="free")
+ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*lfact.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
 ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
+
+
+fn="Solved-factnodesratioperlevel"
+title="fact nodes ratio per level vs solved"
+xt="Solved problem"
+yt="fact nodes ratio per level"
+ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*lfact.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~round(log(lfact.count,10),0))#,scales="free")
+ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
+
 
 fn="Solved-actionnodesratioperlevel"
 title="action nodes ratio per level vs solved"
 xt="Solved problem"
 yt="action nodes ratio per level"
-ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*laction.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom,scales="free")
+ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*laction.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~round(log(lfact.count,10),0))#,scales="free")
 ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
 
 
