@@ -1,12 +1,13 @@
 library('psych')
 library('ggplot2')
 library('plyr')
+library('corrplot')
 
 typu="png"
 typg<<-"eps"
 "/" <- function(x,y) {ifelse(y==0,0,base:::"/"(x,y))}
 gpath="images/"
-imprimirini= function(typ, name){
+imprimirini= function(typ, name, w=32, h=18){
     typg<<-typ
     if(typg=="eps"){
         postscript(paste(gpath,name,".eps", sep=""), width=32,height=18, units = 'in', res= 300)
@@ -14,7 +15,7 @@ imprimirini= function(typ, name){
     }
     else
     {
-        png(paste(gpath,name,".png", sep=""), width=32,height=18, units = 'in', res=300)
+        png(paste(gpath,name,".png", sep=""), width=w,height=h, units = 'in', res=300)
         #dev.print(file=paste(name,".png", sep=""), device=png, width=1440,height=960)
     }
     
@@ -170,13 +171,33 @@ sumaresultbyl=join_all(dfs=list(sumaedgesbyl,factcountbyl,actioncountbyl), by=c(
 
 fullresults=merge(x=sumaresultbyg, y=sumaresultbyl, by=c("gn","dom"))
 #compresults=join_all(dfs=list(compresultsbase,compresultstan,compresultsbb,compresultsipp,compresultshsp), by=c("probname","comp","dom"),type="full")
+
+
+fn="correlationbyg"
+ct=sumaresultbyg[c("solved","fa","minsteps", "mintime", "levels","xp","ae.median","ae.count","xe.median","xe.count","gfact.count","gfact.ae.count","gfact.xe.count","gaction.count","gaction.ae.count","gaction.xe.count")]
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+corrplot(cor(ct, use = "complete.obs"))
+imprimirfin()
+
+fn="correlationbyl"
+ct=sumaresultbyl[, c("time","xp","ae.median","ae.count","xe.median","xe.count","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count")]
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+corrplot(cor(ct, use = "complete.obs"))
+imprimirfin()
+
+fn="correlationall"
+ct=fullresults[, c("ts","fa","time","nodes.count.x","nodes.count.x","xp.x","ae.median.x","ae.count.x","xe.median.x","xe.count.x","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count")]
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+corrplot(cor(ct, use = "complete.obs"))
+imprimirfin()
+
 fn="exclperactionratio-time"
 title="Num Total Actions vs time"
 xt="Percentage exclusive edges per action node"
 yt="time in seconds and scaled in ln"
 pchs=c(16,13)
-imprimirini(typ=typu,name=paste(fn,sep=""))
-plot(log(mintime)~gaction.xp, data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+plot(log(mintime)~gaction.xp, data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt)
 legend(35,10, legend=c("not solved","solved"),pch=pchs )
 legend(35,8, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 #abline(h=3.76)
@@ -188,10 +209,10 @@ title="Num Total Actions vs Exclusive ratio"
 xt="Number of actions in log 10"
 yt="Percentage exclusive edges per action node"
 pchs=c(16,13)
-imprimirini(typ=typu,name=paste(fn,sep=""))
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 plot(gaction.xp~log(gaction.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
-legend(4.9,75, legend=c("not solved","solved"),pch=pchs )
-legend(4.9,50, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
+legend(4.7,75, legend=c("not solved","solved"),pch=pchs )
+legend(4.7,50, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.76)
 imprimirfin()
 
@@ -201,10 +222,10 @@ title="Num Total facts vs Exclusive ratio"
 xt="Number of facts in log 10"
 yt="Percentage exclusive edges per facts node"
 pchs=c(16,13)
-imprimirini(typ=typu,name=paste(fn,sep=""))
-plot(gfact.xp~log(gfact.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt, cex=10 )
-legend(4.4,50, legend=c("not solved","solved"),pch=pchs )
-legend(4.4,30, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+plot(gfact.xp~log(gfact.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt)
+legend(4.2,50, legend=c("not solved","solved"),pch=pchs )
+legend(4.2,30, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.35)
 imprimirfin()
 
@@ -214,10 +235,10 @@ title="min time vs Total nodes"
 xt="Number of nodes in log 10"
 yt="Min time"
 pchs=c(16,13)
-imprimirini(typ=typu,name=fn)
-plot(mintime~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt, cex=2 )
-legend(4.6,5000, legend=c("not solved","solved"),pch=pchs ,cex=2)
-legend(4.6,15000, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19, cex=2)
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+plot(log(mintime,10)~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
+legend(4.6,5000, legend=c("not solved","solved"),pch=pchs)
+legend(4.6,15000, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
 imprimirfin()
 
@@ -227,10 +248,10 @@ title="min steps vs Total nodes"
 xt="Number of nodes in log 10"
 yt="Min steps"
 pchs=c(16,13)
-imprimirini(typ=typu,name=fn)
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 plot(minsteps~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
-legend(5,50, legend=c("not solved","solved"),pch=pchs )
-legend(5,100, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
+legend(4.9,50, legend=c("not solved","solved"),pch=pchs )
+legend(4.9,100, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
 imprimirfin()
 
@@ -240,39 +261,53 @@ title="First Appearance vs Total nodes"
 xt="Number of nodes in log 10"
 yt="first appearance"
 pchs=c(16,13)
-imprimirini(typ=typu,name=fn)
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 plot(fa~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
 legend(5,6, legend=c("not solved","solved"),pch=pchs )
 legend(5,3, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
 imprimirfin()
 
-fn="FirstAppearanceGap-totalnodes"
-title="First Appearance Gap vs Total nodes"
-xt="Number of nodes in log 10"
+fn="FirstAppearanceGap-time"
+title="First Appearance Gap vs Time"
+xt="Time in log 10"
 yt="first appearance gap"
 pchs=c(16,13)
-imprimirini(typ=typu,name=fn)
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 plot(minsteps-fa~log(mintime,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
+legend(5,50, legend=c("not solved","solved"),pch=pchs )
+legend(5,100, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
+abline(v=3.35)
+abline(h=19)
+imprimirfin()
+
+fn="FirstAppearanceGap-totalnodes"
+title="First Appearance Gap vs Total nodes"
+xt="Time in log 10"
+yt="first appearance gap"
+pchs=c(16,13)
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+plot(minsteps-fa~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
 legend(5,50, legend=c("not solved","solved"),pch=pchs )
 legend(5,100, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
 abline(h=19)
 imprimirfin()
 
+
 fn="Factratio-Solved"
 title="Fact ratio vs Solved"
 xt="Solved problem"
 yt="fact ratio"
 ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gfact.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
-ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
+ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=12,height=7.25)
 
 fn="Action ratio-Solved"
 title="Action ratio vs Solved"
 xt="Solved problem"
 yt="Action ratio nodes"
 ggplot(data = sumaresultbyg, aes(x=factor(!is.na(bbtime)), y=gaction.xp)) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
-ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
+ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=12,height=7.25)
 
 
 fn="Solved-factnodesratioperlevel"
@@ -280,22 +315,28 @@ title="fact nodes ratio per level vs solved"
 xt="Solved problem"
 yt="fact nodes ratio per level"
 ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*lfact.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
-ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
+ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=12,height=7.25)
 
 
-fn="Solved-factnodesratioperlevel"
+fn="Solved-factnodesratioperlevel-sized"
 title="fact nodes ratio per level vs solved"
 xt="Solved problem"
 yt="fact nodes ratio per level"
 ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*lfact.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~round(log(lfact.count,10),0))#,scales="free")
-ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
+ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=12,height=7.25)
 
+fn="Solved-actionnodesratioperlevel-sized"
+title="Action nodes ratio per level vs solved"
+xt="Solved problem"
+yt="Action nodes ratio per level"
+ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*laction.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~round(log(lfact.count,10),0))#,scales="free")
+ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=12,height=7.25)
 
 fn="Solved-actionnodesratioperlevel"
 title="action nodes ratio per level vs solved"
 xt="Solved problem"
 yt="action nodes ratio per level"
-ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*laction.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~round(log(lfact.count,10),0))#,scales="free")
+ggplot(data = fullresults, aes(x=factor(!is.na(bbtime)), y=(100*laction.count/nodes.count.y))) + labs( x=xt, y=yt, title=title ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)#,scales="free")
 ggsave(paste(gpath,fn,".",typu, sep=""), device=typu, width=32,height=18)
 
 
@@ -318,57 +359,52 @@ imprimirfin()
 
 
 #
-ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=log(nodes.count,10))) + labs( x="Problem", y="Nodes amount" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
-ggsave(paste(gpath,"nodescountByProbViol",".",typu, sep=""), device=typu, width=32,height=18)
+ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=log(nodes.count,10))) + labs( x="Problem", y="Nodes amount" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)
+ggsave(paste(gpath,"nodescountByProbViol",".",typu, sep=""), device=typu, width=12,height=7.25)
 
 #
 
-ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=log(lfact.count,10))) + labs( x="Problem", y="Fact nodes amount" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
-ggsave(paste(gpath,"factcountByProbViol",".",typu, sep=""), device=typu, width=32,height=18)
+ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=log(lfact.count,10))) + labs( x="Problem", y="Fact nodes amount in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)
+ggsave(paste(gpath,"factcountByProbViol",".",typu, sep=""), device=typu, width=12,height=7.25)
     
-ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=log(laction.count,10))) + labs( x="Problem", y="Action nodes amount" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=log(laction.count,10))) + labs( x="Problem", y="Action nodes amount in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom)
 ggsave(paste(gpath,"actioncountByProbVio",".",typu, sep=""), device=typu, width=32,height=18)
-    
-imprimirini(typ=typu,name=paste("actioncountByLevel",sep=""))
-boxplot(laction.count~time+dom,data=sumaresultbyl)
-imprimirfin()
-    
-imprimirini(typ=typu,name=paste("actioncountBygraph",sep=""))
-boxplot(laction.count~pn+dom,data=sumaresultbyl)
-imprimirfin()
 
-    #edges
-imprimirini(typ=typu,name=paste("alledgesMedianByLevel",sep=""))
-boxplot(ae.median~time+dom,data=sumaresultbyl)
-imprimirfin()
-
-imprimirini(typ=typu,name=paste("exclusiveMedianByLevel",sep=""))
-boxplot(xe.median~time+dom,data=sumaresultbyl)
-imprimirfin()
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=log(laction.count,10))) + labs( x="Problem", y="Action nodes amount in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"actioncountBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
 
 
-imprimirini(typ=typu,name=paste("alledgesMeanByLevel",sep=""))
-boxplot(ae.mean~time+dom,data=sumaresultbyl)
-imprimirfin()
-
-imprimirini(typ=typu,name=paste("exclusiveMeanByLevel",sep=""))
-boxplot(xe.mean~time+dom,data=sumaresultbyl)
-imprimirfin()
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=log(lfact.count,10))) + labs( x="Problem", y="Fact nodes amount in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"factcountBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
 
 
-imprimirini(typ=typu,name=paste("alledgesMAXByLevel",sep=""))
-boxplot(ae.max~time+dom,data=sumaresultbyl)
-imprimirfin()
 
-imprimirini(typ=typu,name=paste("exclusiveMAXByLevel",sep=""))
-boxplot(xe.max~time+dom,data=sumaresultbyl)
-imprimirfin()
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=log(laction.xe.mean))) + labs( x="Problem", y="mean mutex edges in action nodes in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"actionMeanMutexBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
+
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=(lfact.xe.mean))) + labs( x="Problem", y="mean mutex edges in action nodes in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"factMeanMutexBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
+
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=log(xe.mean,10))) + labs( x="Problem", y="mean mutex edges in all nodes in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"allnodesMeanMutexBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
 
 
-ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=xp)) + labs( x="Problem", y="Percentage out mutex by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free")
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=xp)) + labs( x="Problem", y="mean mutex edges in all nodes in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"allnodesMutexRatopBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
+
+ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=xp)) + labs( x="Problem", y="Percentage out mutex by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free_x")
 ggsave(paste(gpath,"distPercentMutexbyP",".",typu, sep=""), device=typu, width=32,height=18)
 
-ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=(laction.xp))) + labs( x="Problem", y="Percentage out mutex in actions by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=laction.xp)) + labs( x="Problem", y="mean mutex edges in all nodes in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"factnodesMutexRatopBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
+
+ggplot(data = sumaresultbyl, aes(x=factor(time), y=lfact.xp)) + labs( x="Problem", y="mean mutex edges in all nodes in log 10" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom, scales="free_x")
+ggsave(paste(gpath,"actionnodesMutexRatopBytimeVio",".",typu, sep=""), device=typu, width=32,height=18)
+
+
+
+
+ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=(laction.xp))) + labs( x="Problem", y="Percentage out mutex in actions by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free_x")
 ggsave(paste(gpath,"distPercentageOMAbyP",".",typu, sep=""), device=typu, width=32,height=18)
     
 ggplot(data = sumaresultbyl, aes(x=factor(pn, levels=sort(as.numeric(levels(pn)))), y=lfact.xp)) + labs( x="Problem", y="Percentage out mutex in facts by level" ) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))+facet_wrap(~dom,scales="free")
