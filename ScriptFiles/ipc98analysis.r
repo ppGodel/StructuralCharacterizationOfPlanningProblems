@@ -202,7 +202,7 @@ xt="Number of facts in log 10"
 yt="Percentage exclusive edges per facts node"
 pchs=c(16,13)
 imprimirini(typ=typu,name=paste(fn,sep=""))
-plot(gfact.xp~log(gfact.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
+plot(gfact.xp~log(gfact.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt, cex=10 )
 legend(4.4,50, legend=c("not solved","solved"),pch=pchs )
 legend(4.4,30, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.35)
@@ -215,9 +215,9 @@ xt="Number of nodes in log 10"
 yt="Min time"
 pchs=c(16,13)
 imprimirini(typ=typu,name=fn)
-plot(mintime~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
-legend(4.6,5000, legend=c("not solved","solved"),pch=pchs )
-legend(4.6,15000, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
+plot(mintime~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt, cex=2 )
+legend(4.6,5000, legend=c("not solved","solved"),pch=pchs ,cex=2)
+legend(4.6,15000, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19, cex=2)
 abline(v=3.9)
 imprimirfin()
 
@@ -253,7 +253,7 @@ xt="Number of nodes in log 10"
 yt="first appearance gap"
 pchs=c(16,13)
 imprimirini(typ=typu,name=fn)
-plot(minsteps-fa~log(nodes.count,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
+plot(minsteps-fa~log(mintime,10), data=sumaresultbyg, pch=pchs[as.numeric(factor(!is.na(bbtime)))], col=dom, main=title, xlab=xt, ylab=yt )
 legend(5,50, legend=c("not solved","solved"),pch=pchs )
 legend(5,100, legend=unique(sumaresultbyg$dom),col=1:length(sumaresultbyg$dom),pch=19)
 abline(v=3.9)
