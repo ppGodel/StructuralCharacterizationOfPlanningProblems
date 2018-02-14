@@ -172,6 +172,15 @@ sumaresultbyl=join_all(dfs=list(sumaedgesbyl,factcountbyl,actioncountbyl), by=c(
 fullresults=merge(x=sumaresultbyg, y=sumaresultbyl, by=c("gn","dom"))
 #compresults=join_all(dfs=list(compresultsbase,compresultstan,compresultsbb,compresultsipp,compresultshsp), by=c("probname","comp","dom"),type="full")
 
+levelsinfo= fullresults[,c("dom","gn","time","lfact.count","nodes.count.y")]
+levelsinfo$time=levelsinfo$time-1
+names(levelsinfo)[names(levelsinfo) == 'nodes.count.y'] <- 'nodes.nextl'
+names(levelsinfo)[names(levelsinfo) == 'lfact.count'] <- 'fact.nextl'
+#names(levelsinfo)[names(levelsinfo) == 'laction.count'] <- 'action.nextl'
+levelsinfo$laction.count= levelsinfo$nodes.nextl-levelsinfo$fact.nextl
+
+testlevels=merge(x=fullresults, y=levelsinfo, by=c("dom","gn","time"), all.x=T)
+
 
 fn="correlationbyg"
 ct=sumaresultbyg[c("solved","fa","minsteps", "mintime", "levels","xp","ae.median","ae.count","xe.median","xe.count","gfact.count","gfact.ae.count","gfact.xe.count","gaction.count","gaction.ae.count","gaction.xe.count")]
@@ -185,11 +194,25 @@ imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 corrplot(cor(ct, use = "complete.obs"))
 imprimirfin()
 
+fn="correlationallbyPlan"
+ct=fullresults[,c("fa","time","nodes.count.x","nodes.count.x","xp.x","ae.median.x","ae.count.x","xe.median.x","xe.count.x","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count", "density","stansteps","stantime","bbsteps","bbtime","ippsteps","ipptime","hspsteps","hsptime")]
+
+
+
+imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
+corrplot(cor(ct, use = "complete.obs"))
+imprimirfin()
+
+res.man=manova(cbind(ipptime,ippsteps,bbtime,bbsteps)~ae.count.x*laction.ae.count*laction.ae.median*laction.xe.count*laction.xe.median ,data=ct)
+summary.aov(res.man)
+
+
 fn="correlationall"
 ct=fullresults[, c("ts","fa","time","nodes.count.x","nodes.count.x","xp.x","ae.median.x","ae.count.x","xe.median.x","xe.count.x","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count")]
 imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 corrplot(cor(ct, use = "complete.obs"))
 imprimirfin()
+
 
 fn="exclperactionratio-time"
 title="Num Total Actions vs time"
