@@ -1,3 +1,4 @@
+
 library('psych')
 library('ggplot2')
 library('plyr')
@@ -84,6 +85,9 @@ dataraw=joinall()
                                         #by graph
                                         #nodes
 
+
+
+
 counttypednodesbyg=ddply(dataraw, c("gn","dom","type"),  summarise, nodes.count=length(hash), ae.count=sum(otd), xe.count=sum(oxd), xp=100*xe.count/ae.count )
 #countnodesbyg=aggregate(hash~gn+dom, dataraw, length)
 #counttypednodesbyg=aggregate(hash~gn+dom+type, dataraw, length)
@@ -117,10 +121,10 @@ names(actioncountbyg)[names(actioncountbyg) == 'xe.mean'] <- 'gaction.xe.mean'
 names(actioncountbyg)[names(actioncountbyg) == 'xe.max'] <- 'gaction.xe.max'
 names(actioncountbyg)[names(actioncountbyg) == 'xp'] <- 'gaction.xp'
                                         #edges
+
 #sumaedgesbyg=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom, dataraw, sum)
 sumaedgesbyg=ddply(dataraw, c("gn","dom","pn"),  summarise, levels=max(time), nodes.count=length(hash), ae.count=sum(otd), ae.min=min(otd), ae.median=median(otd), ae.mean=mean(otd), ae.max=max(otd), xe.count=sum(oxd), xe.min=min(oxd), xe.median=median(oxd), xe.mean=mean(oxd), xe.max=max(oxd), xp=100*xe.count/ae.count , density=100*ae.count/(nodes.count*(nodes.count-1)/2))#cbind(ind,ixd,otd,oxd,ad))
 #summaryedgesbg=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom, dataraw, summary)
-
 
 sumatypededgesbyg=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+type, dataraw, sum)
 summarytypededgesbg=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+type, dataraw, summary)
@@ -146,7 +150,7 @@ names(factcountbyl)[names(factcountbyl) == 'xe.median'] <- 'lfact.xe.median'
 names(factcountbyl)[names(factcountbyl) == 'xe.mean'] <- 'lfact.xe.mean'
 names(factcountbyl)[names(factcountbyl) == 'xe.max'] <- 'lfact.xe.max'
 names(factcountbyl)[names(factcountbyl) == 'xp'] <- 'lfact.xp'
-actioncountbyl=counttypednodesbyl[counttypednodesbyg$type=="a",]
+actioncountbyl=counttypednodesbyl[counttypednodesbyl$type=="a",]
 actioncountbyl$type=NULL
 names(actioncountbyl)[names(actioncountbyl) == 'nodes.count'] <- 'laction.count'
 names(actioncountbyl)[names(actioncountbyl) == 'ae.count'] <- 'laction.ae.count'
@@ -163,23 +167,46 @@ names(actioncountbyl)[names(actioncountbyl) == 'xp'] <- 'laction.xp'
 
 sumaedgesbyl=ddply(dataraw, c("gn","dom","pn","time"),  summarise, nodes.count=length(hash), ae.count=sum(otd), ae.min=min(otd), ae.median=median(otd), ae.mean=mean(otd), ae.max=max(otd), xe.count=sum(oxd), xe.min=min(oxd), xe.median=median(oxd), xe.mean=mean(oxd), xe.max=max(oxd), xp=100*xe.count/ae.count , leveldensity=100*ae.count/(nodes.count*(nodes.count-1)/2))
 
-    #edges
-#sumbl=aggregate(cbind(ind,ixd,otd,oxd,ad)~gn+dom+pn+type+time, dataraw, sum)
-#sumaresultbyl=merge(x=compresults, y=sumaedgesbyg, by.x=c("probname", "dom"), by.y=c("gn", "dom"))
-#nodesedgesbyl=merge(x=summaryedgesbl, y=countnodesbyl, by=c("gn","dom","pn", "time", "type"))
-sumaresultbyl=join_all(dfs=list(sumaedgesbyl,factcountbyl,actioncountbyl), by=c("gn","dom","time"),type="full")
+
+
+nlevelsinfo= sumaedgesbyl[,c("dom","gn","time","nodes.count")]
+nlevelsinfo$time=nlevelsinfo$time-1
+names(nlevelsinfo)[names(nlevelsinfo) == 'nodes.count'] <- 'nodes.count.nextl'
+
+flevelsinfo= factcountbyl[,c("dom","gn","time","lfact.count")]
+flevelsinfo$time=flevelsinfo$time-1
+names(flevelsinfo)[names(flevelsinfo) == 'lfact.count'] <- 'fact.count.nextl'
+levelsinfo=merge(x=nlevelsinfo, y=flevelsinfo, by=c("dom","gn","time"), all.x=T)
+
+levelsinfo$action.count.nextl= levelsinfo$nodes.count.nextl-levelsinfo$fact.count.nextl
+
+#testlevels=merge(x=fullresults, y=levelsinfo, by=c("dom","gn","time"), all.x=T)
+
+sumaresultbyl=join_all(dfs=list(sumaedgesbyl,factcountbyl,actioncountbyl, levelsinfo), by=c("gn","dom","time"),type="full")
+
+sumaresultbyl$Maxedge.nextl=(sumaresultbyl$nodes.count-1)*sumaresultbyl$nodes.count.nextl
+sumaresultbyl$dist.ae.mean.nextl=sumaresultbyl$ae.median/sumaresultbyl$Maxedge.nextl
+sumaresultbyl$dist.ae.max.nextl=sumaresultbyl$ae.max/sumaresultbyl$Maxedge.nextl
+
+sumaresultbyl$Maxedge.fact.nextl=(sumaresultbyl$lfact.count-1)*sumaresultbyl$fact.count.nextl
+sumaresultbyl$dist.fact.ae.mean.nextl=sumaresultbyl$lfact.ae.mean/sumaresultbyl$Maxedge.fact.nextl
+sumaresultbyl$dist.fact.ae.max.nextl=sumaresultbyl$lfact.ae.max/sumaresultbyl$Maxedge.fact.nextl
+
+sumaresultbyl$Maxedge.fact.nextl=(sumaresultbyl$lfact.count-1)*sumaresultbyl$fact.count.nextl
+sumaresultbyl$dist.fact.xe.mean.nextl=sumaresultbyl$lfact.xe.mean/sumaresultbyl$Maxedge.fact.nextl
+sumaresultbyl$dist.fact.xe.max.nextl=sumaresultbyl$lfact.xe.max/sumaresultbyl$Maxedge.fact.nextl
+
+sumaresultbyl$Maxedge.action.nextl=(sumaresultbyl$laction.count-1)*sumaresultbyl$action.count.nextl
+sumaresultbyl$dist.action.ae.mean.nextl=sumaresultbyl$laction.ae.mean/sumaresultbyl$Maxedge.action.nextl
+sumaresultbyl$dist.action.ae.max.nextl=sumaresultbyl$laction.ae.max/sumaresultbyl$Maxedge.action.nextl
+
+sumaresultbyl$Maxedge.action.nextl=(sumaresultbyl$laction.count-1)*sumaresultbyl$action.count.nextl
+sumaresultbyl$dist.action.xe.mean.nextl=sumaresultbyl$laction.xe.mean/sumaresultbyl$Maxedge.action.nextl
+sumaresultbyl$dist.action.xe.max.nextl=sumaresultbyl$laction.xe.max/sumaresultbyl$Maxedge.action.nextl
 
 fullresults=merge(x=sumaresultbyg, y=sumaresultbyl, by=c("gn","dom"))
 #compresults=join_all(dfs=list(compresultsbase,compresultstan,compresultsbb,compresultsipp,compresultshsp), by=c("probname","comp","dom"),type="full")
 
-levelsinfo= fullresults[,c("dom","gn","time","lfact.count","nodes.count.y")]
-levelsinfo$time=levelsinfo$time-1
-names(levelsinfo)[names(levelsinfo) == 'nodes.count.y'] <- 'nodes.nextl'
-names(levelsinfo)[names(levelsinfo) == 'lfact.count'] <- 'fact.nextl'
-#names(levelsinfo)[names(levelsinfo) == 'laction.count'] <- 'action.nextl'
-levelsinfo$laction.count= levelsinfo$nodes.nextl-levelsinfo$fact.nextl
-
-testlevels=merge(x=fullresults, y=levelsinfo, by=c("dom","gn","time"), all.x=T)
 
 
 fn="correlationbyg"
@@ -189,7 +216,7 @@ corrplot(cor(ct, use = "complete.obs"))
 imprimirfin()
 
 fn="correlationbyl"
-ct=sumaresultbyl[, c("time","xp","ae.median","ae.count","xe.median","xe.count","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count")]
+ct=sumaresultbyl[, c("time","xp","nodes.count","ae.median","ae.max","ae.count","xe.median","xe.count","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count", "nodes.count.nextl","dist.ae.mean.nextl","dist.ae.max.nextl","dist.fact.ae.mean.nextl","dist.fact.ae.max.nextl","dist.action.ae.mean.nextl","dist.action.ae.max.nextl")]
 imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
 corrplot(cor(ct, use = "complete.obs"))
 imprimirfin()
