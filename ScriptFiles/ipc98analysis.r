@@ -216,9 +216,11 @@ corrplot(cor(ct, use = "complete.obs"))
 imprimirfin()
 
 fn="correlationbyl"
-ct=sumaresultbyl[, c("time","xp","nodes.count","ae.median","ae.max","ae.count","xe.median","xe.count","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count", "nodes.count.nextl","dist.ae.mean.nextl","dist.ae.max.nextl","dist.fact.ae.mean.nextl","dist.fact.ae.max.nextl","dist.action.ae.mean.nextl","dist.action.ae.max.nextl")]
+ct=sumaresultbyl[, c("time","xp","nodes.count","ae.median","ae.max","ae.count","xe.median","xe.count","lfact.ae.median","lfact.ae.count","lfact.xe.median","lfact.xe.count","laction.ae.median","laction.ae.count","laction.xe.median","laction.xe.count","dist.ae.mean.nextl","dist.ae.max.nextl","dist.fact.ae.mean.nextl","dist.fact.ae.max.nextl","dist.action.ae.mean.nextl","dist.action.ae.max.nextl")]
+colnames(ct)= c("time","Ex ratio","Total N","Median E","Max E","Total E","Median XE","Total XE","Median E in F by L","Total E in F by L","Median XE in F by L","Total XE in F by L","Median E in A by L","Total E in A by L","Median XE in A by L","Total XE in A by L", "Mean E by L/NLTN ","Max E by L/NLTN","Mean E in F by L/NLTN","Max E in F by L/NLTN","Mean E in A by L/NLTN","Max E in A by L/NLTN")
+cct=cor(ct, use = "complete.obs")
 imprimirini(typ=typu,name=paste(fn,sep=""),12,7.25)
-corrplot(cor(ct, use = "complete.obs"))
+corrplot(cct, main="Medidas por nivel")#, method="color")
 imprimirfin()
 
 fn="correlationallbyPlan"
