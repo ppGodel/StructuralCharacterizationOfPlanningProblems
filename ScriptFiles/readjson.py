@@ -8,7 +8,7 @@ import ijson
 from bson.objectid import ObjectId
 from pprint import pprint
 
-def readPGjson(nf = 'graph.json', wm=True, option=1, mongo=False):
+def readPGjson(nf = 'graph.json', wm=True, option=1):
     print("loading file")
     gname=""
     vl=list()
@@ -26,36 +26,13 @@ def readPGjson(nf = 'graph.json', wm=True, option=1, mongo=False):
         data_file = open(nf)
         vl=ijson.items(data_file, 'Vertexlist.item')
     
-    if mongo:
-        client=pymongo.MongoClient('mongodb://ppgodel:123abc@192.168.47.10:27017')
-        pgdb=client.planninggraphs
-        gm=pgdb.graphs
-        nm=pgdb.nodes
-        sgn=gname.split("-")
-        gjson=gm.find_one({"gn":gname})
-        if not gjson :
-            gjson={"_id":ObjectId(),"gn":gname,"dom":sgn[1], "pn":sgn[3]}
-            gm.insert_one(gjson)
 
     uh=set()
     print("File loaded, starting parse")                    
     g= graph.Graph(gname, directed=True)
     for e in vl:
         #read atribute vertex
-        
-        if mongo:
-            if e["id"] not in uh:
-                #njson={"_id":ObjectId(),"gn":gname,"dom":sgn[1], "pn":sgn[3]}
-                dicte=nm.find_one({"_id":e["id"]})
-                if not dicte:
-                    dicte=e
-                    dicte['_id']=dicte.pop('id')
-                    dicte['gid']=gjson['_id']
-                    nm.insert_one(dicte)
-                continue
-                    
-        nid = e['i']#str(int(e["time"])) + "_" + e['hash']
-        
+        nid = e['i']#str(int(e["time"])) + "_" + e['hash']        
         if nid not in uh:
             v = graph.Vertex(e['i'], Name = e['N'], time =e['T'], type=e['y'], hash=e['h'])
         else:
@@ -155,27 +132,17 @@ def do_analysis(g, filename):
     filest.close()
     print("Finished analysis")
 
-def do_raw_analysis(jsonfile, csvfile, mongo):      
+def do_raw_analysis(jsonfile, csvfile):      
     t0=time.clock()
     print("T0" + str(t0))
     data_file = open(jsonfile)        
-    GNV= ijson.items(data_file, 'Name')
+    GNV= ijson.items(data_file, 'GN')
     for gnv in GNV:
         gname=gnv
         break
     data_file = open(jsonfile)
-    vl=ijson.items(data_file, 'Vertexlist.item')
+    vl=ijson.items(data_file, 'VL.item')
     
-    if mongo:
-        client=pymongo.MongoClient('mongodb://ppgodel:123abc@192.168.47.10:27017')
-        pgdb=client.planninggraphs
-        gm=pgdb.graphs
-        nm=pgdb.nodes
-        sgn=gname.split("-")
-        gjson=gm.find_one({"gn":gname})
-        if not gjson :
-            gjson={"_id":ObjectId(),"gn":gname,"dom":sgn[1], "pn":sgn[3]}
-            gm.insert_one(gjson)
             
     t1=time.clock()
     print("T1" + str(t1-t0))
@@ -187,16 +154,8 @@ def do_raw_analysis(jsonfile, csvfile, mongo):
 
     uh=set()    
     for e in vl:
-        if mongo:
-            if e["id"] not in uh:
-                #njson={"_id":ObjectId(),"gn":gname,"dom":sgn[1], "pn":sgn[3]}
-                dicte=nm.find_one({"_id":e["id"]})
-                if not dicte:
-                    dicte=e
-                    dicte['_id']=dicte.pop('id')
-                    dicte['gid']=gjson['_id']
-                    nm.insert_one(dicte)
-                continue
+        if e['i'] in uh:
+            continue
         ine = len(e['ie'])        
         one = len(e['oe'])
         dne = len(e['de'])
@@ -210,8 +169,44 @@ def do_raw_analysis(jsonfile, csvfile, mongo):
                     + str(ine) + ',' + str(one) + ',' + str(dne) + ',' + str(xne) + ',' + str(x1ne) + ','
                     + str(ine+one+dne+xne+x1ne)+ ','  + str(0) +  '\n')#+ str(bc[e]) +  '\n')#
     filest.close()
-    
 
+
+def parseToMongo(filename):
+    print('exporting to mongo')
+    data_file = open(filename)        
+    GNV= ijson.items(data_file, 'GN')
+    for gnv in GNV:
+        gname=gnv
+        break
+    sgn=gname.split("-")
+    client=pymongo.MongoClient('mongodb://ppgodel:123abc@192.168.47.10:27017')
+    pgdb=client.planninggraphs
+    gm=pgdb.graphs
+    nm=pgdb.nodes
+    gjson=gm.find_one({"gn":gname})
+    if not gjson :
+        gjson={"_id":ObjectId(),"gn":gname,"dom":sgn[1], "pn":sgn[3]}
+        gm.insert_one(gjson)
+
+    data_file = open(filename)
+    vl=ijson.items(data_file, 'VL.item')
+    uh=set()    
+    tim=time.clock() 
+    print('Start Export of ' + gname)
+    for e in vl:
+        if e["i"] not in uh:
+            uh.add(e["i"])
+            if len(uh)%200==0:
+                print(str(len(uh)) + '...')
+            dicte=nm.find_one({"i":e["i"], "gid":gjson['_id']})
+            if not dicte:
+                dicte=e
+                dicte['_id']=ObjectId()
+                dicte['gid']=gjson['_id']
+                nm.insert_one(dicte)
+    print('Done Parse of ' + str(len(uh)) +' ' + str(time.clock()-tim))
+
+    
 namefile=sys.argv[1]
 filesize = os.path.getsize(namefile)
 if filesize > 50:
@@ -228,27 +223,35 @@ if filesize > 50:
     tim=time.clock() 
     print("reading file " + namefile + " at " +str(tim))
     dfile = open(namefile)        
-    GNV= ijson.items(dfile, 'Name')
+    GNV= ijson.items(dfile, 'GN')
     for gnv in GNV:
         gname=gnv
         break 
     Nfilecsv=pathcsv + gname + ".csv"
-    if os.path.exists(Nfilecsv):
-        print("File already processed")
-    else:
-        print("file of " + str(round(filesize/1048576,2)) + "MB")
-        if filesize < 100000000:
-            g=readPGjson(namefile,withmutex,1,mongof)   
-            print("File readed 1, starting analysis")
-            do_analysis(g,Nfilecsv)
-            print("Analysis finished time: " + str(time.clock()-tim))
-        elif filesize < 400000000:
-            g=readPGjson(namefile,withmutex,2,mongof)   
-            print("File readed 2, starting analysis")
-            do_analysis(g,Nfilecsv)
-            print("Analysis finished time: " + str(time.clock()-tim))
+    
+    #client=pymongo.MongoClient('mongodb://ppgodel:123abc@192.168.47.10:27017')
+    #pgdb=client.planninggraphs
+    #gm=pgdb.graphs    
+    #gjson=gm.find_one({"gn":gname})
+    if mongof:
+        parseToMongo(namefile)
+    else:        
+        if os.path.exists(Nfilecsv):
+            print("File already processed")
         else:
-            do_raw_analysis(namefile,Nfilecsv,mongof)
-            print("Analysis finished time: " + str(time.clock()-tim))
+            print("file of " + str(round(filesize/1048576,2)) + "MB")
+            if filesize < 100000000:
+                g=readPGjson(namefile,withmutex,1)   
+                print("File readed 1, starting analysis")
+                do_analysis(g,Nfilecsv)
+                print("Analysis finished time: " + str(time.clock()-tim))
+            elif filesize < 400000000:
+                g=readPGjson(namefile,withmutex,2)   
+                print("File readed 2, starting analysis")
+                do_analysis(g,Nfilecsv)
+                print("Analysis finished time: " + str(time.clock()-tim))
+            else:
+                do_raw_analysis(namefile,Nfilecsv)
+                print("Analysis finished time: " + str(time.clock()-tim))
 else:
     print('File ' + namefile + ' incomplete')

@@ -16,7 +16,7 @@ tg=15
 to=10
 AFILE=$BDIR/ScriptFiles/result$comp.csv
 #BFILE=$(pwd)/ScriptFiles/result98_1.csv
-echo "Exp $GDIR"
+#echo "Exp $GDIR"
 function analysejson()
 {
     echo "Procesando $1"

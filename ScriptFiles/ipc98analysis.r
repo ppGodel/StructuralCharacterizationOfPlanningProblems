@@ -185,8 +185,8 @@ levelsinfo$action.count.nextl= levelsinfo$nodes.count.nextl-levelsinfo$fact.coun
 sumaresultbyl=join_all(dfs=list(sumaedgesbyl,factcountbyl,actioncountbyl, levelsinfo), by=c("gn","dom","time"),type="full")
 
 sumaresultbyl$Maxedge.nextl=(sumaresultbyl$nodes.count-1)*sumaresultbyl$nodes.count.nextl
-sumaresultbyl$dist.ae.mean.nextl=sumaresultbyl$ae.median/sumaresultbyl$Maxedge.nextl
-sumaresultbyl$dist.ae.max.nextl=sumaresultbyl$ae.max/sumaresultbyl$Maxedge.nextl
+sumaresultbyl$dist.ae.mean.nextl=100*sumaresultbyl$ae.mean/sumaresultbyl$Maxedge.nextl
+sumaresultbyl$dist.ae.max.nextl=100*sumaresultbyl$ae.max/sumaresultbyl$Maxedge.nextl
 
 sumaresultbyl$Maxedge.fact.nextl=(sumaresultbyl$lfact.count-1)*sumaresultbyl$fact.count.nextl
 sumaresultbyl$dist.fact.ae.mean.nextl=sumaresultbyl$lfact.ae.mean/sumaresultbyl$Maxedge.fact.nextl
