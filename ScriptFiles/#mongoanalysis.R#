@@ -1,0 +1,14 @@
+#install.packages('mongolite')
+#install.packages('jsonlite')
+library(jsonlite)
+library(mongolite)
+gcon <- mongo(url = "mongodb://ppgodel:123abc@192.168.47.10:27017",db="planninggraphs", collection="graphs")
+ncon <- mongo(url = "mongodb://ppgodel:123abc@192.168.47.10:27017",db="planninggraphs", collection="nodes")
+
+
+glist=gcon$find( query='{}', fields='{}' )
+
+ga= glist[1,]
+ncon$find(query=paste0('{"gid" : {"$oid":"',ga[1],'"} }'),fields='{}', limit=10)
+ncon$aggregate(pipeline=paste0('[{$project: { _id: "$i",T:"$T",y:"$y",oen: {$size: "$oe"}  }}]'))
+#db.nodes.aggregate([{$match: {"gid" : ObjectId("5a8bcafd9ec8e63b5deae8c8"),  "y":"a"}},{$project: { _id: "$i",T:"$T",y:"$y",oen: {$size: "$oe"}  }}])
