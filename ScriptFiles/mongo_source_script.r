@@ -37,8 +37,8 @@ names(graphsds)[names(graphsds) == '_id'] <- 'id'
 summbyLds=data.frame(glcon$find())
 colpal=c("blue","red","skyblue","orange")
 
-xtype="l"
-gtype="l"
+xtype="m"
+gtype="n"
 #for
 for(j in 1:nrow(graphsds)){
     wg=graphsds[j,]
@@ -98,20 +98,28 @@ for(j in 1:nrow(graphsds)){
             legend(1.06, 0.8, legend=c("Facts No Mut","Action No Mut","Facts Mutex","Action Mutex"),col=colpal, pch=19)
             imprimirfin()
         }else{
-            zona <- matrix(rep(0, (vert * hor)), nrow = vert, ncol = hor)
+            vert=max(ag$TANMN+ag$TAMN,ag$TFNMN+ag$TFMN)
+            zona <- matrix(rep(0, (2 * vert * hor)), nrow = vert, ncol = 2 * hor)
             for(l in 0:(hor-1)){
                 anmnm=ag[ag$T==l,]$TANMN
                 amnm=ag[ag$T==l,]$TAMN
                 fnmnm=ag[ag$T==l,]$TFNMN
                 fmnm=ag[ag$T==l,]$TFMN
                 
-                zona[0:fnmnm,l+1]=1
-                nlim=fnmnm
-                zona[(nlim+1):(nlim+anmnm),l+1]=2
-                nlim=nlim+anmnm
-                zona[(nlim+1):(nlim+fmnm),l+1]=3
-                nlim=nlim+fmnm
-                zona[(nlim+1):(nlim+amnm),l+1]=4
+                #zona[0:fnmnm,l+1]=1
+                #nlim=fnmnm
+                #zona[(nlim+1):(nlim+anmnm),l+1]=2
+                #nlim=nlim+anmnm
+                #zona[(nlim+1):(nlim+fmnm),l+1]=3
+                #nlim=nlim+fmnm
+                #zona[(nlim+1):(nlim+amnm),l+1]=4
+
+                zona[0:fnmnm,(2*l)+1]=1                
+                zona[(fnmnm+1):(fnmnm+fmnm),(2*l)+1]=2
+             
+                zona[0:(anmnm),(2*l)+2]=3
+                zona[(anmnm+1):(anmnm+amnm),(2*l)+2]=4
+
             }
             
             imprimirini(typ=typu,name=paste0("nodeDist", wg$gn),12,7.25)
