@@ -183,20 +183,23 @@ def parseToMongo(filename):
     pgdb=client.planninggraphs
     gm=pgdb.graphs
     nm=pgdb.nodes
-    gjson=gm.find_one({"gn":gname})
-    if not gjson :
-        gjson={"_id":ObjectId(),"gn":gname,"dom":sgn[1], "pn":sgn[3]}
-        gm.insert_one(gjson)
+    gjson=gm.find_one({"gn":gname,"com":"00"})
+    if gjson :
+        print('File already parsed: ' + gname)
+        return False
+    gjson={"_id":ObjectId(),"gn":gname,"dom":sgn[0], "pn":sgn[len(sgn)-1], "com":"00"}
+    gm.insert_one(gjson)
 
     data_file = open(filename)
     vl=ijson.items(data_file, 'VL.item')
-    uh=set()    
-    tim=time.clock() 
+    uh=set()
+    rep=0
+    tim=time.time() 
     print('Start Export of ' + gname)
     for e in vl:
         if e["i"] not in uh:
             uh.add(e["i"])
-            if len(uh)%200==0:
+            if len(uh)%10000==0:
                 print(str(len(uh)) + '...')
             dicte=nm.find_one({"i":e["i"], "gid":gjson['_id']})
             if not dicte:
@@ -204,8 +207,11 @@ def parseToMongo(filename):
                 dicte['_id']=ObjectId()
                 dicte['gid']=gjson['_id']
                 nm.insert_one(dicte)
-    print('Done Parse of ' + str(len(uh)) +' ' + str(time.clock()-tim))
-
+            else:
+                rep+=1
+    fin=time.time()-tim
+    print('Done Parse of ' + str(len(uh)) +' nodes in ' + str(round(fin,2))+ ' seconds  with a insert rate of ' + str(round(len(uh)/fin,2)) + ' nps and '+str(rep)+' repeated.' )
+    return True
     
 namefile=sys.argv[1]
 filesize = os.path.getsize(namefile)

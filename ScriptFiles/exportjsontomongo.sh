@@ -19,20 +19,20 @@ AFILE=$BDIR/ScriptFiles/result$comp.csv
 #echo "Exp $GDIR"
 function analysejson()
 {
-    echo "Procesando $1"
+    echo "Procesando $1 del dominio $nbc"
     jsonf=$(find $1 -maxdepth 1 -type f -iname '*.json' | sort -R)
     for j in $jsonf; do
 	jn=$(basename "$j")
-	faux=$(awk -F, -v apn="$jn" -v anbc="$nbc" '$5==anbc && $2==apn {print $0}' $AFILE)
-	IFS=',' read -a values <<< "$faux"
-	fp=${values[5]}
-	hs=${values[6]}
-	hg=${values[7]}
-	ipn=${values[0]}
+#	faux=$(awk -F, -v apn="$jn" -v anbc="$nbc" '$5==anbc && $2==apn {print $0}' $AFILE)
+#	IFS=',' read -a values <<< "$faux"
+#	fp=${values[5]}
+#	hs=${values[6]}
+#	hg=${values[7]}
+#	ipn=${values[0]}
 	#echo "$fp $hs $hg"
 	#if [ ! -e $j ]; then
 	    echo "File $j will be processed $(date)"
-	    python3 $SDIR/readjson.py $j T $CDIR/$nbc/ T
+	    python3 $SDIR/readjson.py $j T $CDIR/$nbc/ T $nbc
 	#else
 	#    echo "File $j already processed"
 	#fi
@@ -68,7 +68,7 @@ do
 		if [ "$nbc" != "assembly" ];then # && [ "$nbc" != "mprime" ] && [ "$nbc" != "movie" ] && [ "$nbc" != "mystery" ];then
 #		if [ "$nbc" == "mystery" ];then
 		    echo "Dominio" $nbc
-		    analysejson $dcp
+		    analysejson $dcp $nbc
 		fi
 
 	    fi

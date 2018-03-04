@@ -42,3 +42,16 @@ db.createView("summNodesbyLevels", "nodescedges", [     {$group:      {  _id:{ g
 
 db.nodescedges.aggregate([     {$group:      {  _id:{ gid:"$gid", dom:"$dom", T:"$T"}  , TN:{$sum:1}  , TANMN:{$sum:{$cond :[{$and:[{$eq: ["$y", "a"]},{$eq:["$im",0]}]},1,0] }}  , TAMN: {$sum:{$cond :[{$and:[{$eq: ["$y", "a"]},{$eq:["$im",1]}]},1,0] }}  , TFNMN:{$sum:{$cond :[{$and:[{$eq: ["$y", "f"]},{$eq:["$im",0]}]},1,0] }}  , TFMN: {$sum:{$cond :[{$and:[{$eq: ["$y", "f"]},{$eq:["$im",1]}]},1,0] }}      }     }, { $project:{ _id:0, gid:"$_id.gid", dom:"$_id.dom", T:"$_id.T", TN:1, TANMN:1,TAMN:1, TFNMN:1, TFMN:1}} ])
 
+//map reduce
+// Need 2 map and the reduce functions
+// map function. need to return 2 values the key and the value
+var mf= function(){emit(this.dom, 1)} 
+// reduce function. uses the 2 values from the map function and summarices them
+var rf= function(key,val){return Array.sum(val)}
+//finaly join into a new collection
+db.graphs.mapReduce(mf,rf, "mrt")
+
+
+var mf= function(){emit({this.dom, this,comp}, 1)}
+var rf= function(key,val){return Array.sum(val)}
+db.graphs.mapReduce(mf,rf, "mrt")
