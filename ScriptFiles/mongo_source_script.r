@@ -48,6 +48,7 @@ for(j in 1:nrow(graphsds)){
         limval=ddply(ag, c("gid"),  summarise, MT=max(T), MN=max(TN) )
         hor=limval$MT
         vert=limval$MN
+
         if(gtype=="l"){
             ag=ag[-length(ag),]
             imprimirini(typ=typu,name=paste0("Lines/raw/nodeDist", wg$gn),12,7.25)
