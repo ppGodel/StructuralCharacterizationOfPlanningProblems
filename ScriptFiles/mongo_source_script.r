@@ -30,15 +30,16 @@ gpath="images/"
 
 gcon = mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphs")
 ncon = mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodes")
-necon = mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodescedges")
+gscon = mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCRes")
 glcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="summNodesByLevel")
 graphsds=gcon$find( fields='{ "_id":1, "gn":1, "dom":1, "pn":1}' )
 names(graphsds)[names(graphsds) == '_id'] <- 'id'
 summbyLds=data.frame(glcon$find())
+gres=data.frame(gscon$find())
 colpal=c("blue","red","skyblue","orange")
 
 xtype="r"
-gtype="m"
+gtype="l"
 #for
 for(j in 1:nrow(graphsds)){
     wg=graphsds[j,]
@@ -63,6 +64,13 @@ for(j in 1:nrow(graphsds)){
             polygon(x=c(ag$T, rev(ag$T)), y=c(ag$TFNMN+ag$TANMN+ag$TFMN, rev(ag$TFNMN+ag$TANMN+ag$TFMN+ag$TAMN)), col=colpal[4], border=NA)
             par(xpd=TRUE)
             legend(hor*1.06, vert*0.8, legend=c("Facts No Mut","Action No Mut","Facts Mutex","Action Mutex"),col=colpal, pch=19)
+            pl=gres[gres$gid==wg$id,]
+            if(dim(pl)[1]>0){
+                auxv=apply(pl,1, function(item){ paste0(item["Planner"],' ',item["Steps"],' ',item["Time"])})
+                legend(hor*1.06, vert*0.5, legend=auxv)
+                par(xpd=FALSE)
+                abline(v=min(pl$Steps))
+            }
             imprimirfin()
             
         }else{
