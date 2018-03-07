@@ -95,3 +95,29 @@ db.createView("graphRes","IPC00Res",[{$group:{_id:"$Problem", mTime:{$min:"$Time
 db.graphRes.aggregate([{$lookup:{from:"summNodesByLevel", localField:"_id", foreignField:"gid",as:"graphResByLevel"}}]).pretty()
 
 db.graphResByLevel.insertMany(db.summNodesByLevel.aggregate([{$lookup:{from:"graphRes", localField:"gid", foreignField:"_id",as:"graphResByLevel"}},{$match:{"graphResByLevel":{$ne:[]}}},{$project:{_id:1,gid:1,T:1,TN:1,TANMN:1,TAMN:1,TFNMN:1,TFMN:1, gn:"$graphResByLevel.gn",dom:"$graphResByLevel.dom", com:"$graphResByLevel.com", mTime:"$graphResByLevel.mTime", mSteps:"$graphResByLevel.dom"}}, {$unwind: "$gn"},{$unwind: "$dom"},{$unwind: "$com"}, {$unwind: "$mTime"},{$unwind: "$mSteps"}]).toArray())
+
+
+db.nodes.aggregate([{$group: {_id:"$gid", TN:{$sum:1}, MT:{$max:"$T"}, TE:{$sum:{$add:[{$size:"$oe"},{$size:"$ie"},{$size:"$de"},{$size:"$xe"},{$size:"$x1e"} ]}} }}])
+
+// map reduce graph summ
+var mf= function(){
+    emit({ gid:this.gid}, { TN:1, T:this.T,TE:this.oe.length+this.ie.length+this.de.length+this.xe.length+this.x1e.length})
+}
+var rf= function(key,val){
+    rval = { TN:0, MT:0,TE:0 };
+    mv=0
+    for (var idx = 0; idx < val.length; idx++) {
+        rval.TN += val[idx].TN;
+        rval.TE+= val[idx].TE;
+	if(rval.MT<val[idx].T){
+		rval.MT=val[idx].T
+	}
+    }
+    
+    return rval
+}
+db.nodes.mapReduce(mf,rf, "summnodesbyg") 
+
+
+db.graphIPCRes.aggregate([{$lookup: {from:"summnodesbyg", localField:"gid", foreignField:"_id.gid", as:"snbg" }}])
+db.graphIPCRes.aggregate([{$lookup: {from:"summnodesbygc", localField:"gid", foreignField:"gid", as:"snbg" }}])

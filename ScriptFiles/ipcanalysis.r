@@ -48,11 +48,24 @@ distfunc= function(dis){
     m= which.min(lol3[h1:h2])
 }
 
-grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCRes")
+grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCResComp")
+
 compresultsraw=data.frame(grcon$find())
-compresultsbase=aggregate(cbind(ts,fa)~probname+comp+dom, compresultsraw, max)
-compresultstan=aggregate(cbind(stantime=ptime,stansteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="STAN",], max)
-compresultsbb=aggregate(cbind(bbtime=ptime,bbsteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="BLACKBOX",], max)
-compresultsipp=aggregate(cbind(ipptime=ptime,ippsteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="IPP",], max)
-compresultshsp=aggregate(cbind(hsptime=ptime,hspsteps=psteps)~probname+comp+dom, compresultsraw[compresultsraw$planner=="HSP",], max)
-compresultMIN=aggregate(cbind(mintime=ptime,minsteps=psteps)~probname+comp+dom, compresultsraw, function(x) {min(x[x > 0], na.rm=T)})
+pl= unique(compresultsraw$Planner)
+pchs=c(3,4,1,0,2,20,21,18,10)
+for(p in pl){
+    auxres=compresultsraw[compresultsraw$Planner==p,]
+    cl= unique(auxres$com)
+    for(c in cl){
+        ares=compresultsraw[compresultsraw$com==c,]
+        dl=unique(ares$Dom)
+        colores=rainbow(length(dl))
+        imprimirini(typ=typu,name=paste0("Layers/", p, c),12,7.25)
+        plot(0,type='n', xlim=c(0,max(ares$TN)), ylim=c(0,max(ares$Time)), xlab="Nodes", ylab="Time", main=paste0("Planner: ",p) )
+        for(d in range(1,length(dl))){
+            points(Time~TN, col=colores[d], pch=20, data=ares[ares$Dom==dl[d],])
+        }
+    }
+}
+
+
