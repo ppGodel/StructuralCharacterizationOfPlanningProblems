@@ -121,3 +121,34 @@ db.nodes.mapReduce(mf,rf, "summnodesbyg")
 
 db.graphIPCRes.aggregate([{$lookup: {from:"summnodesbyg", localField:"gid", foreignField:"_id.gid", as:"snbg" }}])
 db.graphIPCRes.aggregate([{$lookup: {from:"summnodesbygc", localField:"gid", foreignField:"gid", as:"snbg" }}])
+
+
+var mf= function(){
+    emit({ gid:this.gid}, { TN:this.TN, T:this.T })
+}
+var rf= function(key,val){
+    rval = { MT:0, PE:0, PM:0, TN:0 };
+    pval=0
+    for (var idx = 0; idx < val.length; idx++) {
+	if(rval.MT<val[idx].T){
+		rval.MT=val[idx].T
+	}
+        rval.PE += val[idx].TN*pval;
+	pval=val[idx].TN;
+        rval.PM += val[idx].TN - (val[idx].TN>0?1:0);
+        rval.TN += val[idx].TN;
+
+    }
+    
+    return rval
+}
+db.summNodesByLevel.mapReduce(mf,rf, "graphDen")
+
+
+db.graphDen.aggregate({$project:{ _id:"$_id.gid", TN:"$value.TN",PE:"$value.PE",PM:"$value.PM",MT:"$value.MT"}},{$out:"graphDenComp"})
+
+db.summnodesbygc.aggregate([{$lookup: {from:"graphDenComp", localField:"gid", foreignField:"_id", as: "edg"} }, {$project: {_id:1, gid:1, TN:1, MT:1, TE:{$multiply:["$TE",0.5]}, PE:"$edg.PE", PM:"$edg.PM"  } }, {$unwind:"$PE"}, {$unwind:"$PM"}, {$project: {_id:1, gid:1, TN:1, MT:1, TE:1, PE:1, PM:1, D:{$divide:[ "$TE", {$add: ["$PE","$PM"]} ]} } }, {$out: "summgraphComp"} ])
+
+
+
+db.graphIPCRes.aggregate([{$lookup: {from:"summgraphComp", localField:"gid", foreignField:"gid", as:"snbg" }}, {$project: {_id:1, Planner:1, Dom:1, Time:1, Steps:1, comp:1, gid:1, gn:1, TN:"$snbg.TN", TE:"$snbg.TE", MT:"$snbg.MT", PE:"$snbg.PE", PM:"$snbg.PM", D:"$snbg.D" } }, {$unwind: "$TN"},{$unwind: "$TE"}, {$unwind: "$MT"}, {$unwind: "$PE"}, {$unwind: "$PM"}, {$unwind: "$D"}, {$out:"graphIPCResComp"}])
