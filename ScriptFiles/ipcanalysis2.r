@@ -85,11 +85,6 @@ reg.conf.intervals <- function(x, y, intx) {
   return(bands)
 }
 
-
-grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCRes")
-compresultsraw=data.frame(grcon$find())
-compresultsraw$Diff=NA
-
 allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
     fy=ifelse(logy,paste0('log(',y,')'),y)#paste0('data$',y))
     fx=ifelse(logx,paste0('log(',x,')'),x)#paste0('data$',x))
@@ -169,6 +164,11 @@ allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
     names(data)[names(data) == 'Diff'] <- paste0('C',x,'v',y)
     return(data)
 }
+
+
+grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCRes")
+compresultsraw=data.frame(grcon$find())
+compresultsraw$Diff=NA
 
 clas1=allplanners(x="D",y="Time", data=compresultsraw, logx=FALSE,logy=TRUE)
 clas2=allplanners(x="TN",y="Time", data=compresultsraw, logx=FALSE,logy=TRUE)

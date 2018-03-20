@@ -124,23 +124,54 @@ db.graphIPCRes.aggregate([{$lookup: {from:"summnodesbygc", localField:"gid", for
 
 
 var mf= function(){
-    emit({ gid:this.gid}, { TN:this.TN, T:this.T })
+    emit({ gid:this.gid}, { TN:this.TN, T:this.T, TANMN:this.TANMN, TAMN:this.TAMN, TAN:this.TANMN+this.TAMN, TFNMN:this.TFNMN, TFMN:this.TFMN, TFN:this.TFNMN+this.TFMN   });
 }
 var rf= function(key,val){
-    rval = { MT:0, PE:0, PM:0, TN:0 };
-    pval=0
+    rval = { MT:0, PE:0, PEM:0, PAEM:0, PFEM:0, TANMN:0, TAMN:0, TFNMN:0, TFMN:0, TN:0 };
+    pval=0;
     for (var idx = 0; idx < val.length; idx++) {
 	if(rval.MT<val[idx].T){
-		rval.MT=val[idx].T
+	    rval.MT=val[idx].T;
 	}
         rval.PE += val[idx].TN*pval;
 	pval=val[idx].TN;
-        rval.PM += val[idx].TN - (val[idx].TN>0?1:0);
+        rval.PAEM += val[idx].TAN - (val[idx].TAN>0?1:0);
+        rval.PFEM += val[idx].TFN - (val[idx].TFN>0?1:0);
+        rval.PEM += val[idx].TFN + val[idx].TAN - (val[idx].TAN>0?1:0) - (val[idx].TFN>0?1:0);
+        rval.TANMN += val[idx].TANMN;
+        rval.TAMN += val[idx].TAMN;
+        rval.TFNMN += val[idx].TFNMN;
+        rval.TFMN += val[idx].TFMN;
         rval.TN += val[idx].TN;
-
     }
     
-    return rval
+    return rval;
+}
+
+var mf= function(){
+    emit({ gid:this.gid}, { TN:this.TN, T:this.T, TANMN:this.TANMN, TAMN:this.TAMN, TAN:this.TANMN+this.TAMN   });
+}
+var rf= function(key,val){
+    rval = { MT:0, PE:0, TAMN:0, TANMN:0, PAEM:0, TN:0 };//, TFNMN:0, TFMN:0, PFEM:00
+    pval=0;
+    for (var idx = 0; idx < val.length; idx++) {
+	if(rval.MT<val[idx].T){
+	    rval.MT=val[idx].T;
+	}
+        rval.PE += val[idx].TN*pval;
+	pval=val[idx].TN;
+        rval.TN += val[idx].TN;
+	
+        rval.PAEM += val[idx].TAN - (val[idx].TAN>0?1:0);
+        //rval.PFEM += val[idx].TFN - (val[idx].TFN>0?1:0);
+        rval.TANMN += val[idx].TANMN;
+        rval.TAMN += val[idx].TAMN;
+        //rval.TFNMN += val[idx].TFNMN;
+        //rval.TFMN += val[idx].TFMN;
+	
+    }
+    
+    return rval;
 }
 db.summNodesByLevel.mapReduce(mf,rf, "graphDen")
 
