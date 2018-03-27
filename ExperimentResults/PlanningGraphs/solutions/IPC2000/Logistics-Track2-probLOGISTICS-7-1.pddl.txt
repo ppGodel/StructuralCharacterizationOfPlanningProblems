@@ -1,0 +1,222 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Logistics/Track2//domain.pddl -f CompetitionResults/IPC2000/domains/Logistics/Track2//probLOGISTICS-7-1.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Logistics/Track2//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Logistics/Track2//probLOGISTICS-7-1.pddl
+Problem name: logistics-7-1
+Facts loaded.
+
+created
+time: 1, 58 facts and 24 exclusive pairs.
+time: 2, 58 facts and 15 exclusive pairs.
+time: 3, 67 facts and 42 exclusive pairs.
+time: 4, 76 facts and 105 exclusive pairs.
+time: 5, 76 facts and 87 exclusive pairs.
+time: 6, 94 facts and 357 exclusive pairs.
+time: 7, 112 facts and 807 exclusive pairs.
+time: 8, 112 facts and 357 exclusive pairs.
+time: 9, 130 facts and 528 exclusive pairs.
+Goals reachable at 9 steps but mutually exclusive.
+time: 10, 130 facts and 411 exclusive pairs.
+Goals first reachable in 10 steps.
+2707 nodes created.
+
+####################################################
+goals at time 11:
+  at_obj33_apt1 at_obj23_apt1 at_obj11_pos3 at_obj32_pos1 at_obj13_pos2 
+at_obj21_apt3 at_obj12_apt3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 1050
+
+----------------------------------------------------
+Can't solve in 10 steps
+time: 11, 130 facts and 411 exclusive pairs.
+434 new nodes added.
+
+####################################################
+goals at time 12:
+  at_obj33_apt1 at_obj23_apt1 at_obj11_pos3 at_obj32_pos1 at_obj13_pos2 
+at_obj21_apt3 at_obj12_apt3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 202967
+
+----------------------------------------------------
+Can't solve in 11 steps
+time: 12, 130 facts and 411 exclusive pairs.
+434 new nodes added.
+
+####################################################
+goals at time 13:
+  at_obj33_apt1 at_obj23_apt1 at_obj11_pos3 at_obj32_pos1 at_obj13_pos2 
+at_obj21_apt3 at_obj12_apt3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 31695509
+
+----------------------------------------------------
+Can't solve in 12 steps
+time: 13, 130 facts and 411 exclusive pairs.
+434 new nodes added.
+
+####################################################
+goals at time 14:
+  at_obj33_apt1 at_obj23_apt1 at_obj11_pos3 at_obj32_pos1 at_obj13_pos2 
+at_obj21_apt3 at_obj12_apt3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 28790900
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 1576
+number of fluent variables = 897
+total number variables = 2473
+number clauses = 24340
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 35661594
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 7419
+numatom = 2473, numclause = 24340, numliterals = 49345
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         1         9      7.97      2.69      2.96    100000         0
+         2         9      7.25      3.07      2.36    100000         0
+         4        10      8.73      2.73      3.20    100000         0
+         3         6      7.86      2.80      2.81    100000         0
+         1         5      5.45      3.77      1.44    100000         0
+         1         4      5.76      3.76      1.53    100000         0
+         2        12      8.60      3.04      2.83    100000         0
+         2         8      7.62      2.79      2.73    100000         0
+         1         7      6.45      3.72      1.73    100000         0
+         1         5      5.92      3.71      1.60    100000         0
+
+total elapsed seconds = 0.320000
+average flips per second = 3125000
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 7.161284
+      overall mean noise std deviation = 3.208921
+      overall ratio mean noise to mean std dev = 2.231680
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 7.161284
+      nonsuccessful mean noise std deviation = 3.208921
+      nonsuccessful ratio mean noise to mean std dev = 2.231680
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 35985868
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 2 32 31 0 3845 182 0.050 1
+****the instance is satisfiable *****
+****verification of solution is OK****
+NB_MONO= 504, NB_UNIT= 1964, NB_BRANCHE= 32, NB_BACK= 2 
+Program terminated in 0.050 seconds.
+Result is Sat
+Iteration was 32
+Performing plan justification:
+   21 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck obj13 tru1 pos1)
+1 (load-truck obj33 tru3 pos3)
+1 (load-truck obj12 tru1 pos1)
+1 (load-truck obj21 tru2 pos2)
+1 (load-truck obj23 tru2 pos2)
+1 (load-truck obj32 tru3 pos3)
+1 (load-truck obj11 tru1 pos1)
+2 (drive-truck tru3 pos3 apt3 cit3)
+2 (drive-truck tru1 pos1 apt1 cit1)
+2 (drive-truck tru2 pos2 apt2 cit2)
+3 (unload-truck obj23 tru2 apt2)
+3 (unload-truck obj32 tru3 apt3)
+3 (unload-truck obj11 tru1 apt1)
+3 (unload-truck obj13 tru1 apt1)
+3 (unload-truck obj33 tru3 apt3)
+3 (fly-airplane apn1 apt3 apt1)
+3 (unload-truck obj12 tru1 apt1)
+3 (unload-truck obj21 tru2 apt2)
+4 (load-airplane obj11 apn1 apt1)
+4 (load-airplane obj13 apn1 apt1)
+4 (load-airplane obj12 apn1 apt1)
+5 (fly-airplane apn1 apt1 apt3)
+6 (load-airplane obj33 apn1 apt3)
+6 (unload-airplane obj11 apn1 apt3)
+6 (load-airplane obj32 apn1 apt3)
+6 (unload-airplane obj12 apn1 apt3)
+7 (load-truck obj11 tru3 apt3)
+7 (fly-airplane apn1 apt3 apt2)
+8 (unload-airplane obj13 apn1 apt2)
+8 (drive-truck tru3 apt3 pos3 cit3)
+8 (load-airplane obj23 apn1 apt2)
+8 (load-airplane obj21 apn1 apt2)
+9 (unload-truck obj11 tru3 pos3)
+9 (fly-airplane apn1 apt2 apt1)
+10 (unload-airplane obj33 apn1 apt1)
+10 (unload-airplane obj23 apn1 apt1)
+10 (unload-airplane obj32 apn1 apt1)
+11 (fly-airplane apn1 apt1 apt3)
+11 (load-truck obj13 tru2 apt2)
+11 (load-truck obj32 tru1 apt1)
+12 (drive-truck tru2 apt2 pos2 cit2)
+12 (drive-truck tru1 apt1 pos1 cit1)
+12 (unload-airplane obj21 apn1 apt3)
+13 (unload-truck obj32 tru1 pos1)
+13 (unload-truck obj13 tru2 pos2)
+End plan
+----------------------------------------------------
+
+45 total actions in plan
+427512 entries in hash table, 5155636 hash hits, avg set size 36
+5583160 total set-creation steps (entries + hits + plan length - 1)
+8702263 actions tried
+
+####################################################
+Total elapsed time:   29.72 seconds
+Time in milliseconds: 29719
+
+####################################################

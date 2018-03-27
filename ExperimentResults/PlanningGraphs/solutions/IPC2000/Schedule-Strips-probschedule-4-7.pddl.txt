@@ -1,0 +1,56 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-4-7.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-4-7.pddl
+Problem name: schedule-4-7
+Facts loaded.
+
+created
+time: 1, 460 facts and 1017 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 513 facts and 2441 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 529 facts and 2034 exclusive pairs.
+Goals first reachable in 3 steps.
+5401 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_d0_rough painted_d0_blue surface-condition_a0_smooth shape_c0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 29
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-grind a0 unwantedargs red rough)
+1 (do-spray-paint d0 blue unwantedargs red smooth)
+1 (delete-strip-holes d0 one back nowidth noorient)
+1 (do-lathe c0 unwantedargs circular blue polished)
+2 (do-time-step unwantedargs d0 spray-painter)
+3 (do-punch d0 two back unwantedargs undefined nowidth noorient)
+End plan
+----------------------------------------------------
+
+6 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+6 actions tried
+
+####################################################
+Total elapsed time:   0.24 seconds
+Time in milliseconds: 237
+
+####################################################

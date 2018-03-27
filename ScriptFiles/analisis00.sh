@@ -18,7 +18,7 @@ function findlocal()
 	if [ -f "$txtf" ] ; then
 	    echo "File exists $pn skip"	   
 	else
-	    $BBDIR/blackbox -o $domf -f $p -x -M 9999 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$txtf"
+	    $BBDIR/blackbox -o $domf -f $p -x -M 32760 -maxauto 200 -solver -maxsec $tg graphplan -then -maxsec $to walksat -then -maxsec $to satz -then -maxsec $to compact > "$txtf"
 	    
 	fi
 	
@@ -56,10 +56,10 @@ fi
 #    to=$4
 #fi
 
-ADIR=$(HOME)CompetitionsResults/$compet
-BBDIR=$(HOME)Files
-RDIR=$(HOME)ExperimentsResults/PlanningGraphs/Solutions/$compet/
-tg=10
+ADIR=$(HOME)CompetitionResults/$compet
+BBDIR=$(HOME)ScriptFiles
+RDIR=$(HOME)ExperimentResults/PlanningGraphs/Solutions/$compet/
+tg=15
 to=10
 
 for dp in $ADIR;
@@ -70,7 +70,7 @@ do
 	for dcp in $dp/domains/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-		if [ "$nbc" != "Blocks" ];then #||[ "$nbc" = "assembly" ];then
+		if [ "$nbc" == "Blocks" ];then #||[ "$nbc" = "assembly" ];then
 		    echo "Dominio" $nbc
 		    for typ in $dcp/*; do
 			typn=$(basename $typ)

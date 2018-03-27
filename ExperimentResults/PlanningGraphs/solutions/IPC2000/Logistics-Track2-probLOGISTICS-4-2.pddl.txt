@@ -1,0 +1,69 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Logistics/Track2//domain.pddl -f CompetitionResults/IPC2000/domains/Logistics/Track2//probLOGISTICS-4-2.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Logistics/Track2//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Logistics/Track2//probLOGISTICS-4-2.pddl
+Problem name: logistics-4-2
+Facts loaded.
+
+created
+time: 1, 39 facts and 15 exclusive pairs.
+time: 2, 39 facts and 9 exclusive pairs.
+time: 3, 45 facts and 27 exclusive pairs.
+time: 4, 51 facts and 54 exclusive pairs.
+time: 5, 51 facts and 48 exclusive pairs.
+time: 6, 57 facts and 78 exclusive pairs.
+time: 7, 63 facts and 135 exclusive pairs.
+time: 8, 63 facts and 102 exclusive pairs.
+time: 9, 69 facts and 144 exclusive pairs.
+Goals first reachable in 9 steps.
+1338 nodes created.
+
+####################################################
+goals at time 10:
+  at_obj21_apt1 at_obj11_pos2 at_obj23_pos2 at_obj12_pos1 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 153
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck obj21 tru2 pos2)
+1 (load-truck obj11 tru1 pos1)
+2 (drive-truck tru1 pos1 apt1 cit1)
+2 (drive-truck tru2 pos2 apt2 cit2)
+3 (unload-truck obj11 tru1 apt1)
+3 (unload-truck obj21 tru2 apt2)
+4 (load-airplane obj11 apn1 apt1)
+5 (fly-airplane apn1 apt1 apt2)
+6 (unload-airplane obj11 apn1 apt2)
+6 (load-airplane obj21 apn1 apt2)
+7 (fly-airplane apn1 apt2 apt1)
+7 (load-truck obj11 tru2 apt2)
+8 (drive-truck tru2 apt2 pos2 cit2)
+8 (unload-airplane obj21 apn1 apt1)
+9 (unload-truck obj11 tru2 pos2)
+End plan
+----------------------------------------------------
+
+15 total actions in plan
+0 entries in hash table, 
+8 total set-creation steps (entries + hits + plan length - 1)
+15 actions tried
+
+####################################################
+Total elapsed time:   0.03 seconds
+Time in milliseconds: 27
+
+####################################################

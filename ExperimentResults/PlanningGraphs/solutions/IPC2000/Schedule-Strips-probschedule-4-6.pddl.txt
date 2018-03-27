@@ -1,0 +1,56 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-4-6.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-4-6.pddl
+Problem name: schedule-4-6
+Facts loaded.
+
+created
+time: 1, 460 facts and 992 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 513 facts and 2396 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 529 facts and 2026 exclusive pairs.
+Goals first reachable in 3 steps.
+5401 nodes created.
+
+####################################################
+goals at time 4:
+  painted_a0_red painted_b0_yellow painted_c0_red shape_c0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 33
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-immersion-paint a0 red unwantedargs black)
+1 (do-spray-paint b0 yellow unwantedargs black smooth)
+1 (do-lathe c0 unwantedargs oblong black polished)
+2 (do-time-step unwantedargs c0 lathe)
+2 (do-time-step unwantedargs a0 immersion-painter)
+3 (do-immersion-paint c0 red unwantedargs nopaint)
+End plan
+----------------------------------------------------
+
+6 total actions in plan
+1 entries in hash table, 0 hash hits, avg set size 12
+3 total set-creation steps (entries + hits + plan length - 1)
+8 actions tried
+
+####################################################
+Total elapsed time:   0.24 seconds
+Time in milliseconds: 242
+
+####################################################

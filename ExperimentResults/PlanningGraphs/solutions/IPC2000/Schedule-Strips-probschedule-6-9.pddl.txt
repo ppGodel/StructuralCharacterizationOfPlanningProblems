@@ -1,0 +1,93 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-9.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-9.pddl
+Problem name: schedule-6-9
+Facts loaded.
+
+created
+time: 1, 560 facts and 1629 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 639 facts and 3774 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 663 facts and 3117 exclusive pairs.
+Goals first reachable in 3 steps.
+7295 nodes created.
+
+####################################################
+goals at time 4:
+  painted_f0_red painted_b0_blue surface-condition_f0_smooth shape_f0_cylindrical surface-condition_e0_smooth 
+painted_d0_red 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 163
+
+----------------------------------------------------
+Can't solve in 3 steps
+time: 4, 699 facts and 3204 exclusive pairs.
+3246 new nodes added.
+
+####################################################
+goals at time 5:
+  painted_f0_red painted_b0_blue surface-condition_f0_smooth shape_f0_cylindrical surface-condition_e0_smooth 
+painted_d0_red 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 73616
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 699 facts and 2226 exclusive pairs.
+3318 new nodes added.
+
+####################################################
+goals at time 6:
+  painted_f0_red painted_b0_blue surface-condition_f0_smooth shape_f0_cylindrical surface-condition_e0_smooth 
+painted_d0_red 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 367814
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-immersion-paint b0 blue unwantedargs black)
+1 (do-spray-paint d0 red unwantedargs blue smooth)
+1 (do-lathe f0 unwantedargs circular blue rough)
+1 (do-grind e0 unwantedargs blue polished)
+2 (do-time-step unwantedargs e0 grinder)
+2 (do-time-step unwantedargs f0 lathe)
+2 (do-time-step unwantedargs b0 immersion-painter)
+3 (do-grind f0 unwantedargs nopaint rough)
+4 (do-time-step unwantedargs f0 grinder)
+5 (do-immersion-paint f0 red unwantedargs nopaint)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+20859 entries in hash table, 2482 hash hits, avg set size 21
+23345 total set-creation steps (entries + hits + plan length - 1)
+92505 actions tried
+
+####################################################
+Total elapsed time:   16.83 seconds
+Time in milliseconds: 16826
+
+####################################################

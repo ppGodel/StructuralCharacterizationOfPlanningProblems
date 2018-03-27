@@ -1,0 +1,61 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-5.pddl
+Problem name: schedule-6-5
+Facts loaded.
+
+created
+time: 1, 558 facts and 1568 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 637 facts and 3706 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 661 facts and 3101 exclusive pairs.
+Goals first reachable in 3 steps.
+7085 nodes created.
+
+####################################################
+goals at time 4:
+  painted_c0_yellow surface-condition_e0_rough surface-condition_b0_rough painted_b0_yellow shape_a0_cylindrical 
+surface-condition_a0_polished 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 131
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (delete-strip-holes b0 one front nowidth noorient)
+1 (do-immersion-paint c0 yellow unwantedargs red)
+1 (do-spray-paint b0 yellow unwantedargs red polished)
+1 (do-lathe a0 unwantedargs oblong blue rough)
+1 (do-punch e0 one front unwantedargs smooth two back)
+2 (do-time-step unwantedargs e0 punch)
+2 (do-time-step unwantedargs b0 spray-painter)
+2 (do-time-step unwantedargs a0 lathe)
+3 (do-punch b0 two back unwantedargs undefined nowidth noorient)
+3 (do-polish a0 unwantedargs rough)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+6 entries in hash table, 0 hash hits, avg set size 22
+8 total set-creation steps (entries + hits + plan length - 1)
+41 actions tried
+
+####################################################
+Total elapsed time:   0.39 seconds
+Time in milliseconds: 391
+
+####################################################

@@ -1,0 +1,61 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-0.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-0.pddl
+Problem name: schedule-6-0
+Facts loaded.
+
+created
+time: 1, 561 facts and 1678 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 640 facts and 3835 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 664 facts and 3129 exclusive pairs.
+Goals first reachable in 3 steps.
+7400 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_e0_polished painted_c0_blue surface-condition_f0_polished shape_f0_cylindrical shape_b0_cylindrical 
+surface-condition_c0_rough 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 43
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-lathe f0 unwantedargs oblong red rough)
+1 (do-punch c0 two back unwantedargs smooth three front)
+1 (delete-strip-holes b0 two back nowidth noorient)
+1 (do-polish e0 unwantedargs rough)
+2 (do-roll b0 unwantedargs polished cold oblong blue)
+2 (do-time-step unwantedargs c0 punch)
+2 (do-time-step unwantedargs e0 polisher)
+2 (do-time-step unwantedargs f0 lathe)
+3 (do-polish f0 unwantedargs rough)
+3 (do-immersion-paint c0 blue unwantedargs yellow)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+10 actions tried
+
+####################################################
+Total elapsed time:   0.40 seconds
+Time in milliseconds: 397
+
+####################################################

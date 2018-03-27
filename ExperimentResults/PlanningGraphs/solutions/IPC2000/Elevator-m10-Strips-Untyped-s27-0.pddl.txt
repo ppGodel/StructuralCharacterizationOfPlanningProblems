@@ -1,0 +1,204 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl -f CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s27-0.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s27-0.pddl
+Problem name: mixed-f54-p27-u0-v0-g0-a0-n0-a0-b0-n0-f0-r0
+Facts loaded.
+
+created
+time: 1, 1620 facts and 1431 exclusive pairs.
+time: 2, 1647 facts and 3211 exclusive pairs.
+time: 3, 1647 facts and 1780 exclusive pairs.
+time: 4, 1674 facts and 3922 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 1674 facts and 1800 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 1674 facts and 1431 exclusive pairs.
+Goals first reachable in 6 steps.
+35938 nodes created.
+
+####################################################
+goals at time 7:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 served_p17 served_p18 served_p19 
+served_p20 served_p21 served_p22 served_p23 served_p24 
+served_p25 served_p26 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 3
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 1674 facts and 1431 exclusive pairs.
+6264 new nodes added.
+
+####################################################
+goals at time 8:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 served_p17 served_p18 served_p19 
+served_p20 served_p21 served_p22 served_p23 served_p24 
+served_p25 served_p26 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 750
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 1674 facts and 1431 exclusive pairs.
+6264 new nodes added.
+
+####################################################
+goals at time 9:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 served_p17 served_p18 served_p19 
+served_p20 served_p21 served_p22 served_p23 served_p24 
+served_p25 served_p26 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 57932
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 1674 facts and 1431 exclusive pairs.
+6264 new nodes added.
+
+####################################################
+goals at time 10:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 served_p17 served_p18 served_p19 
+served_p20 served_p21 served_p22 served_p23 served_p24 
+served_p25 served_p26 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 338200
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 29664
+number of fluent variables = 12755
+total number variables = 42419
+number clauses = 27136436
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 33652534
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 127257
+numatom = 42419, numclause = 27136436, numliterals = 54289727
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        30        43      0.00      0.00      0.00     40999         0
+
+total elapsed seconds = 5.580000
+average flips per second = 7347
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 41000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 40438823
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Malloc failed. Exiting.

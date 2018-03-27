@@ -1,0 +1,61 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-7-9.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-7-9.pddl
+Problem name: schedule-7-9
+Facts loaded.
+
+created
+time: 1, 609 facts and 1914 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 701 facts and 4410 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 729 facts and 3663 exclusive pairs.
+Goals first reachable in 3 steps.
+8137 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_a0_polished surface-condition_b0_rough shape_e0_cylindrical painted_f0_yellow painted_e0_black 
+shape_g0_cylindrical shape_b0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 50196
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-polish a0 unwantedargs smooth)
+1 (do-lathe e0 unwantedargs circular red smooth)
+1 (do-spray-paint f0 yellow unwantedargs blue smooth)
+1 (do-immersion-paint g0 black unwantedargs blue)
+1 (delete-strip-holes b0 two front nowidth noorient)
+2 (do-roll b0 unwantedargs smooth cold circular red)
+2 (do-time-step unwantedargs g0 immersion-painter)
+2 (do-time-step unwantedargs e0 lathe)
+3 (do-immersion-paint e0 black unwantedargs nopaint)
+3 (do-lathe g0 unwantedargs circular black smooth)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+639 entries in hash table, 0 hash hits, avg set size 26
+641 total set-creation steps (entries + hits + plan length - 1)
+17875 actions tried
+
+####################################################
+Total elapsed time:   0.64 seconds
+Time in milliseconds: 640
+
+####################################################

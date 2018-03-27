@@ -1,0 +1,49 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-3-4.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-3-4.pddl
+Problem name: schedule-3-4
+Facts loaded.
+
+created
+time: 1, 410 facts and 713 exclusive pairs.
+Goals first reachable in 1 steps.
+1130 nodes created.
+
+####################################################
+goals at time 2:
+  surface-condition_a0_rough surface-condition_b0_rough surface-condition_c0_polished 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 4
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-punch b0 one back unwantedargs polished two front)
+1 (do-lathe a0 unwantedargs cylindrical yellow polished)
+1 (do-polish c0 unwantedargs smooth)
+End plan
+----------------------------------------------------
+
+3 total actions in plan
+0 entries in hash table, 
+0 total set-creation steps (entries + hits + plan length - 1)
+3 actions tried
+
+####################################################
+Total elapsed time:   0.02 seconds
+Time in milliseconds: 16
+
+####################################################

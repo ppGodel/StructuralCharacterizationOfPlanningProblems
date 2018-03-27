@@ -1,0 +1,74 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/FreeCell/Untyped//domain.pddl -f CompetitionResults/IPC2000/domains/FreeCell/Untyped//probfreecell-2-3.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/FreeCell/Untyped//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/FreeCell/Untyped//probfreecell-2-3.pddl
+Problem name: freecell-2-3
+Facts loaded.
+
+created
+time: 1, 79 facts and 70 exclusive pairs.
+time: 2, 94 facts and 189 exclusive pairs.
+time: 3, 102 facts and 232 exclusive pairs.
+Goals reachable at 3 steps but mutually exclusive.
+time: 4, 105 facts and 222 exclusive pairs.
+Goals first reachable in 4 steps.
+1686 nodes created.
+
+####################################################
+goals at time 5:
+  home_c2 home_d2 home_h2 home_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 370
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 107 facts and 221 exclusive pairs.
+944 new nodes added.
+
+####################################################
+goals at time 6:
+  home_c2 home_d2 home_h2 home_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 10340
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (sendtofree c2 sa n4 n3)
+1 (sendtohome-b da d n1 d0 n0 n3 n4)
+1 (sendtohome ha ca h n1 h0 n0)
+2 (sendtohome-b ca c n1 c0 n0 n4 n5)
+2 (sendtohome sa d2 s n1 s0 n0)
+3 (homefromfreecell c2 c n2 ca n1 n3 n4)
+3 (sendtohome-b h2 h n2 ha n1 n5 n6)
+4 (sendtohome-b s2 s n2 sa n1 n6 n7)
+5 (sendtohome-b d2 d n2 da n1 n7 n8)
+End plan
+----------------------------------------------------
+
+9 total actions in plan
+389 entries in hash table, 124 hash hits, avg set size 29
+517 total set-creation steps (entries + hits + plan length - 1)
+1003 actions tried
+
+####################################################
+Total elapsed time:   0.61 seconds
+Time in milliseconds: 610
+
+####################################################

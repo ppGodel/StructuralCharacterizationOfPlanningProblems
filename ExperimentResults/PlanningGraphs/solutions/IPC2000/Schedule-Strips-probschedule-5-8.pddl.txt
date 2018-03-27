@@ -1,0 +1,61 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-5-8.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-5-8.pddl
+Problem name: schedule-5-8
+Facts loaded.
+
+created
+time: 1, 509 facts and 1267 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 575 facts and 3026 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 595 facts and 2554 exclusive pairs.
+Goals first reachable in 3 steps.
+6243 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_d0_smooth painted_b0_black painted_a0_red surface-condition_c0_smooth shape_b0_cylindrical 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 39
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-immersion-paint a0 red unwantedargs yellow)
+1 (do-spray-paint d0 blue unwantedargs red polished)
+1 (do-lathe b0 unwantedargs oblong yellow polished)
+1 (do-grind c0 unwantedargs red polished)
+2 (do-time-step unwantedargs d0 spray-painter)
+2 (do-time-step unwantedargs b0 lathe)
+2 (do-time-step unwantedargs c0 grinder)
+2 (do-time-step unwantedargs a0 immersion-painter)
+3 (do-grind d0 unwantedargs blue undefined)
+3 (do-immersion-paint b0 black unwantedargs nopaint)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+1 entries in hash table, 0 hash hits, avg set size 18
+3 total set-creation steps (entries + hits + plan length - 1)
+13 actions tried
+
+####################################################
+Total elapsed time:   0.31 seconds
+Time in milliseconds: 309
+
+####################################################

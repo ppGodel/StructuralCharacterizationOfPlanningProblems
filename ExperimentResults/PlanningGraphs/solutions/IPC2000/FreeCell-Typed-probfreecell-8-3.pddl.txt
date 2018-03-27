@@ -1,0 +1,65 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-8-3.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-8-3.pddl
+Problem name: freecell-8-3
+Facts loaded.
+
+created
+time: 1, 206 facts and 142 exclusive pairs.
+time: 2, 237 facts and 581 exclusive pairs.
+time: 3, 271 facts and 983 exclusive pairs.
+time: 4, 321 facts and 2150 exclusive pairs.
+time: 5, 340 facts and 1857 exclusive pairs.
+time: 6, 351 facts and 1539 exclusive pairs.
+time: 7, 357 facts and 1557 exclusive pairs.
+time: 8, 363 facts and 1810 exclusive pairs.
+time: 9, 368 facts and 2014 exclusive pairs.
+time: 10, 372 facts and 2175 exclusive pairs.
+time: 11, 375 facts and 2272 exclusive pairs.
+Goals first reachable in 11 steps.
+39469 nodes created.
+
+####################################################
+goals at time 12:
+  home_c8 home_d8 home_h8 home_s8 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 3000
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 22261
+number of fluent variables = 3056
+total number variables = 25317
+number clauses = 31459119
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 40616511
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+ERROR - clause too long

@@ -1,0 +1,95 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//probBLOCKS-5-1.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//probBLOCKS-5-1.pddl
+Problem name: blocks-5-1
+Facts loaded.
+
+created
+time: 1, 13 facts and 17 exclusive pairs.
+time: 2, 20 facts and 74 exclusive pairs.
+time: 3, 22 facts and 84 exclusive pairs.
+time: 4, 28 facts and 152 exclusive pairs.
+time: 5, 29 facts and 137 exclusive pairs.
+time: 6, 36 facts and 241 exclusive pairs.
+Goals reachable at 6 steps but mutually exclusive.
+time: 7, 36 facts and 205 exclusive pairs.
+Goals reachable at 7 steps but mutually exclusive.
+time: 8, 36 facts and 175 exclusive pairs.
+Goals first reachable in 8 steps.
+677 nodes created.
+
+####################################################
+goals at time 9:
+  on_d_c on_c_b on_b_a on_a_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 13
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 36 facts and 175 exclusive pairs.
+122 new nodes added.
+
+####################################################
+goals at time 10:
+  on_d_c on_c_b on_b_a on_a_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 32
+
+----------------------------------------------------
+Can't solve in 9 steps
+time: 10, 36 facts and 175 exclusive pairs.
+122 new nodes added.
+
+####################################################
+goals at time 11:
+  on_d_c on_c_b on_b_a on_a_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 101
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (unstack b a)
+2 (put-down b)
+3 (unstack a d)
+4 (stack a e)
+5 (pick-up b)
+6 (stack b a)
+7 (pick-up c)
+8 (stack c b)
+9 (pick-up d)
+10 (stack d c)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+8 entries in hash table, 10 hash hits, avg set size 6
+27 total set-creation steps (entries + hits + plan length - 1)
+19 actions tried
+
+####################################################
+Total elapsed time:   0.42 seconds
+Time in milliseconds: 417
+
+####################################################

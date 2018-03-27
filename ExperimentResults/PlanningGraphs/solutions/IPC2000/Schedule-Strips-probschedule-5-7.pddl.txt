@@ -1,0 +1,60 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-5-7.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-5-7.pddl
+Problem name: schedule-5-7
+Facts loaded.
+
+created
+time: 1, 509 facts and 1272 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 575 facts and 3041 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 595 facts and 2558 exclusive pairs.
+Goals first reachable in 3 steps.
+6243 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_c0_rough painted_e0_black painted_d0_red surface-condition_b0_smooth painted_c0_red 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 4634
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-lathe e0 unwantedargs circular red polished)
+1 (do-spray-paint c0 red unwantedargs blue smooth)
+1 (do-grind b0 unwantedargs red rough)
+1 (do-immersion-paint d0 red unwantedargs black)
+2 (do-time-step unwantedargs c0 spray-painter)
+2 (do-time-step unwantedargs d0 immersion-painter)
+2 (do-time-step unwantedargs e0 lathe)
+3 (do-immersion-paint e0 black unwantedargs nopaint)
+3 (do-punch c0 two back unwantedargs undefined three front)
+End plan
+----------------------------------------------------
+
+9 total actions in plan
+484 entries in hash table, 0 hash hits, avg set size 20
+486 total set-creation steps (entries + hits + plan length - 1)
+1303 actions tried
+
+####################################################
+Total elapsed time:   0.32 seconds
+Time in milliseconds: 322
+
+####################################################

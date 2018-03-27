@@ -1,14 +1,14 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Untyped/Additional/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Untyped/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/probblocks-28-1.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//domain.pddl -f CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//probblocks-28-1.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/domain.pddl
-Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/probblocks-28-1.pddl
+Loading domain file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//probblocks-28-1.pddl
 Problem name: blocks-28-1
 Facts loaded.
 
@@ -320,20 +320,40 @@ on_c_j on_j_k
 
 ----------------------------------------------------
 Invoking solver graphplan
+Result is Unsat
+Iteration was 94679
+
+----------------------------------------------------
+Can't solve in 43 steps
+time: 44, 841 facts and 23520 exclusive pairs.
+3250 new nodes added.
+
+####################################################
+goals at time 45:
+  on_a_x on_x_f on_f_e on_e_m on_m_p 
+on_p_h on_h_g on_g_b1 on_b1_u on_u_a1 
+on_a1_o on_o_b on_b_r on_r_l on_l_t 
+on_t_w on_w_z on_z_i on_i_d on_d_n 
+on_n_s on_s_v on_v_y on_y_q on_q_c 
+on_c_j on_j_k 
+
+
+----------------------------------------------------
+Invoking solver graphplan
 ** Turning off completeness check **
 Result is Timeout
-Iteration was 73600
+Iteration was 191600
 
 ----------------------------------------------------
 Converting graph to wff
-number of action variables = 59198
-number of fluent variables = 21225
-total number variables = 80423
-number clauses = 30643471
+number of action variables = 61607
+number of fluent variables = 22066
+total number variables = 83673
+number clauses = 32075197
 Invoking solver walksat version 36
 walksat version 36 (Huge)
 command line = walksat
-seed = 37364463
+seed = 48566310
 cutoff = 100000
 tries = 10
 heuristic = best, noise 50 / 100

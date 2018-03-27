@@ -1,0 +1,68 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-7-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-7-5.pddl
+Problem name: freecell-7-5
+Facts loaded.
+
+created
+time: 1, 189 facts and 133 exclusive pairs.
+time: 2, 217 facts and 476 exclusive pairs.
+time: 3, 257 facts and 1359 exclusive pairs.
+time: 4, 290 facts and 1327 exclusive pairs.
+time: 5, 299 facts and 836 exclusive pairs.
+time: 6, 305 facts and 884 exclusive pairs.
+time: 7, 311 facts and 1040 exclusive pairs.
+time: 8, 317 facts and 1239 exclusive pairs.
+time: 9, 323 facts and 1473 exclusive pairs.
+time: 10, 328 facts and 1670 exclusive pairs.
+time: 11, 332 facts and 1817 exclusive pairs.
+Goals first reachable in 11 steps.
+34627 nodes created.
+
+####################################################
+goals at time 12:
+  home_c7 home_d7 home_h7 home_s7 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 741
+
+----------------------------------------------------
+Can't solve in 11 steps
+time: 12, 334 facts and 1840 exclusive pairs.
+8926 new nodes added.
+
+####################################################
+goals at time 13:
+  home_c7 home_d7 home_h7 home_s7 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 13400
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 26847
+number of fluent variables = 3071
+total number variables = 29918
+number clauses = 42223119
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 122779506
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100

@@ -1,0 +1,63 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-7.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-6-7.pddl
+Problem name: schedule-6-7
+Facts loaded.
+
+created
+time: 1, 562 facts and 1682 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 641 facts and 3820 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 665 facts and 3129 exclusive pairs.
+Goals first reachable in 3 steps.
+7505 nodes created.
+
+####################################################
+goals at time 4:
+  shape_a0_cylindrical surface-condition_e0_rough shape_c0_cylindrical painted_e0_red shape_b0_cylindrical 
+surface-condition_c0_smooth 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 178
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-spray-paint e0 red unwantedargs blue polished)
+1 (delete-strip-holes e0 three front nowidth noorient)
+1 (do-lathe c0 unwantedargs circular yellow polished)
+1 (delete-strip-holes b0 one back nowidth noorient)
+1 (do-immersion-paint a0 black unwantedargs red)
+2 (do-time-step unwantedargs c0 lathe)
+2 (do-time-step unwantedargs e0 spray-painter)
+2 (do-roll b0 unwantedargs polished cold circular blue)
+2 (do-time-step unwantedargs a0 immersion-painter)
+3 (do-lathe a0 unwantedargs circular black polished)
+3 (do-grind c0 unwantedargs nopaint rough)
+3 (do-punch e0 two back unwantedargs undefined nowidth noorient)
+End plan
+----------------------------------------------------
+
+12 total actions in plan
+1 entries in hash table, 0 hash hits, avg set size 27
+3 total set-creation steps (entries + hits + plan length - 1)
+61 actions tried
+
+####################################################
+Total elapsed time:   0.40 seconds
+Time in milliseconds: 401
+
+####################################################

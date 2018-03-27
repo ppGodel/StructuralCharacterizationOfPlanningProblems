@@ -1,0 +1,227 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-9-3.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-9-3.pddl
+Problem name: schedule-9-3
+Facts loaded.
+
+created
+time: 1, 706 facts and 2542 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 824 facts and 5792 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 860 facts and 4796 exclusive pairs.
+Goals first reachable in 3 steps.
+9716 nodes created.
+
+####################################################
+goals at time 4:
+  painted_d0_black surface-condition_f0_polished surface-condition_e0_rough shape_g0_cylindrical surface-condition_g0_rough 
+surface-condition_b0_polished painted_f0_red shape_b0_cylindrical painted_g0_black 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 4
+
+----------------------------------------------------
+Can't solve in 3 steps
+time: 4, 914 facts and 4898 exclusive pairs.
+4420 new nodes added.
+
+####################################################
+goals at time 5:
+  painted_d0_black surface-condition_f0_polished surface-condition_e0_rough shape_g0_cylindrical surface-condition_g0_rough 
+surface-condition_b0_polished painted_f0_red shape_b0_cylindrical painted_g0_black 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 518300
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 2014
+number of fluent variables = 703
+total number variables = 2717
+number clauses = 187125
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 108401455
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 8151
+numatom = 2717, numclause = 187125, numliterals = 376960
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         1        12      8.63      4.48      1.93    100000         0
+         2         9      9.38      4.36      2.15    100000         0
+         1         7     10.01      4.59      2.18    100000         0
+         2         6      9.69      4.47      2.17    100000         0
+         1         6      9.81      4.71      2.08    100000         0
+         2        12      9.43      4.24      2.22    100000         0
+         1         5      9.79      4.61      2.12    100000         0
+         2         8     10.66      4.63      2.30    100000         0
+         2        10      9.89      4.35      2.27    100000         0
+         2         5     10.04      4.36      2.31    100000         0
+
+total elapsed seconds = 1.490000
+average flips per second = 671140
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 9.732833
+      overall mean noise std deviation = 4.478888
+      overall ratio mean noise to mean std dev = 2.173047
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 9.732833
+      nonsuccessful mean noise std deviation = 4.478888
+      nonsuccessful ratio mean noise to mean std dev = 2.173047
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 109893252
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+****the instance is unsatisfiable *****
+NB_MONO= 12640, NB_UNIT= 121065, NB_BRANCHE= 1163371, NB_BACK= 956 
+Program terminated in 9.960 seconds.
+Result is Unsat
+Iteration was 1163380
+
+----------------------------------------------------
+time: 5, 914 facts and 3431 exclusive pairs.
+4528 new nodes added.
+
+####################################################
+goals at time 6:
+  painted_d0_black surface-condition_f0_polished surface-condition_e0_rough shape_g0_cylindrical surface-condition_g0_rough 
+surface-condition_b0_polished painted_f0_red shape_b0_cylindrical painted_g0_black 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 4294
+number of fluent variables = 1132
+total number variables = 5426
+number clauses = 706316
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 122501502
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+tail starts after flip = 16278
+numatom = 5426, numclause = 706316, numliterals = 1421119
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         2        19     12.64      5.38      2.35    100000         0
+         1         8     12.09      5.58      2.16    100000         0
+         1        13     10.79      5.43      1.99    100000         0
+         2         8     13.48      5.37      2.51    100000         0
+         1        19     12.26      5.19      2.36    100000         0
+         1         8     11.42      5.31      2.15    100000         0
+         1        14     13.07      5.36      2.44    100000         0
+         2        11     12.03      5.55      2.17    100000         0
+         2        15     12.01      4.96      2.42    100000         0
+         1         9     11.81      5.45      2.17    100000         0
+
+total elapsed seconds = 7.020000
+average flips per second = 142450
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 12.159450
+      overall mean noise std deviation = 5.358149
+      overall ratio mean noise to mean std dev = 2.269338
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 12.159450
+      nonsuccessful mean noise std deviation = 5.358149
+      nonsuccessful ratio mean noise to mean std dev = 2.269338
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 1554756
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 1 1 0 0 273 96 21.150 0
+****the instance is unsatisfiable *****
+NB_MONO= 40, NB_UNIT= 349, NB_BRANCHE= 1, NB_BACK= 1 
+Program terminated in 21.150 seconds.
+Result is Unsat
+Iteration was 1
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 914 facts and 2297 exclusive pairs.
+4528 new nodes added.
+
+####################################################
+goals at time 7:
+  painted_d0_black surface-condition_f0_polished surface-condition_e0_rough shape_g0_cylindrical surface-condition_g0_rough 
+surface-condition_b0_polished painted_f0_red shape_b0_cylindrical painted_g0_black 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 7082
+number of fluent variables = 1605
+total number variables = 8687
+number clauses = 1539100
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 26308663
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+ERROR - clause too long

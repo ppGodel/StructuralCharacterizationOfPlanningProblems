@@ -1,0 +1,188 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl -f CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s4-2.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s4-2.pddl
+Problem name: mixed-f8-p4-u0-v0-g0-a0-n0-a0-b0-n0-f0-r2
+Facts loaded.
+
+created
+time: 1, 56 facts and 28 exclusive pairs.
+time: 2, 60 facts and 62 exclusive pairs.
+time: 3, 60 facts and 34 exclusive pairs.
+time: 4, 64 facts and 77 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 64 facts and 38 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 64 facts and 28 exclusive pairs.
+Goals first reachable in 6 steps.
+1093 nodes created.
+
+####################################################
+goals at time 7:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 3
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 8:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 50
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 9:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 511
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 10:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 4585
+
+----------------------------------------------------
+Can't solve in 9 steps
+time: 10, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 11:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 40002
+
+----------------------------------------------------
+Can't solve in 10 steps
+time: 11, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 12:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 297280
+
+----------------------------------------------------
+Can't solve in 11 steps
+time: 12, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 13:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 2221717
+
+----------------------------------------------------
+Can't solve in 12 steps
+time: 13, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 14:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 13870272
+
+----------------------------------------------------
+Can't solve in 13 steps
+time: 14, 64 facts and 28 exclusive pairs.
+192 new nodes added.
+
+####################################################
+goals at time 15:
+  served_p0 served_p1 served_p2 served_p3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 4102628
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (up f0 f1)
+2 (board f1 p2)
+3 (up f1 f6)
+4 (board f6 p3)
+4 (depart f6 p2)
+5 (up f6 f7)
+6 (depart f7 p3)
+7 (down f7 f4)
+8 (board f4 p1)
+9 (down f4 f3)
+10 (board f3 p0)
+11 (down f3 f2)
+12 (depart f2 p1)
+13 (down f2 f0)
+14 (depart f0 p0)
+End plan
+----------------------------------------------------
+
+15 total actions in plan
+720610 entries in hash table, 359059 hash hits, avg set size 17
+1079682 total set-creation steps (entries + hits + plan length - 1)
+1768649 actions tried
+
+####################################################
+Total elapsed time:   11.70 seconds
+Time in milliseconds: 11704
+
+####################################################

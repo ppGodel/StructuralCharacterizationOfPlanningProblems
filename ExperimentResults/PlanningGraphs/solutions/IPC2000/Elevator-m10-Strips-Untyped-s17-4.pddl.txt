@@ -1,0 +1,375 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl -f CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s17-4.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s17-4.pddl
+Problem name: mixed-f34-p17-u0-v0-g0-a0-n0-a0-b0-n0-f0-r4
+Facts loaded.
+
+created
+time: 1, 681 facts and 594 exclusive pairs.
+time: 2, 697 facts and 1219 exclusive pairs.
+time: 3, 698 facts and 725 exclusive pairs.
+time: 4, 714 facts and 1460 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 714 facts and 695 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 714 facts and 561 exclusive pairs.
+Goals first reachable in 6 steps.
+14814 nodes created.
+
+####################################################
+goals at time 7:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 3
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 714 facts and 561 exclusive pairs.
+2584 new nodes added.
+
+####################################################
+goals at time 8:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 387
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 714 facts and 561 exclusive pairs.
+2584 new nodes added.
+
+####################################################
+goals at time 9:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 14053
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 714 facts and 561 exclusive pairs.
+2584 new nodes added.
+
+####################################################
+goals at time 10:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 601359
+
+----------------------------------------------------
+Can't solve in 9 steps
+time: 10, 714 facts and 561 exclusive pairs.
+2584 new nodes added.
+
+####################################################
+goals at time 11:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 2184600
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 14108
+number of fluent variables = 6216
+total number variables = 20324
+number clauses = 5129953
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 41403135
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 60972
+numatom = 20324, numclause = 5129953, numliterals = 10267764
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        17        30     25.41      3.50      7.26    100000         0
+        17        29     24.96      3.31      7.55    100000         0
+        16        27     26.06      3.58      7.28    100000         0
+     61651     61651      0.00      0.00      0.00      3499         0
+
+total elapsed seconds = 9.470000
+average flips per second = 32048
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 25.476757
+      overall mean noise std deviation = 3.462897
+      overall ratio mean noise to mean std dev = 7.357065
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 25.476757
+      nonsuccessful mean noise std deviation = 3.462897
+      nonsuccessful ratio mean noise to mean std dev = 7.357065
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 303500
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 51040779
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 664
+Variables forced false: 0
+Clauses output: 5129170
+Variables undetermined: 19660
+Non-unary clauses output: 5128506
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+time: 11, 714 facts and 561 exclusive pairs.
+2584 new nodes added.
+
+####################################################
+goals at time 12:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 15978
+number of fluent variables = 6930
+total number variables = 22908
+number clauses = 5843476
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 61434191
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 68724
+numatom = 22908, numclause = 5843476, numliterals = 11695966
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        16        25     25.51      3.48      7.34    100000         0
+        17        22     26.00      3.67      7.09    100000         0
+        18        31     25.77      3.50      7.35     97499         0
+
+total elapsed seconds = 9.360000
+average flips per second = 31784
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 25.761005
+      overall mean noise std deviation = 3.549846
+      overall ratio mean noise to mean std dev = 7.256936
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 25.761005
+      nonsuccessful mean noise std deviation = 3.549846
+      nonsuccessful ratio mean noise to mean std dev = 7.256936
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 297500
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 71023095
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 664
+Variables forced false: 0
+Clauses output: 5842693
+Variables undetermined: 22244
+Non-unary clauses output: 5842029
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 11 steps
+time: 12, 714 facts and 561 exclusive pairs.
+2584 new nodes added.
+
+####################################################
+goals at time 13:
+  served_p0 served_p1 served_p2 served_p3 served_p4 
+served_p5 served_p6 served_p7 served_p8 served_p9 
+served_p10 served_p11 served_p12 served_p13 served_p14 
+served_p15 served_p16 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 17848
+number of fluent variables = 7644
+total number variables = 25492
+number clauses = 6556999
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 82586685
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 76476
+numatom = 25492, numclause = 6556999, numliterals = 13124168
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        17        24     27.24      3.93      6.93    100000         0
+        17        28     27.38      4.04      6.78    100000         0
+        17        25     26.55      2.63     10.09     76999         0
+
+total elapsed seconds = 9.280000
+average flips per second = 29849
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 27.055570
+      overall mean noise std deviation = 3.534184
+      overall ratio mean noise to mean std dev = 7.655394
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 27.055570
+      nonsuccessful mean noise std deviation = 3.534184
+      nonsuccessful ratio mean noise to mean std dev = 7.655394
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 277000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 92119225
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Malloc failed. Exiting.

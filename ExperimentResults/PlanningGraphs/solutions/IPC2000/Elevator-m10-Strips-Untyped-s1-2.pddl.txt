@@ -1,0 +1,53 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl -f CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s1-2.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Elevator/m10-Strips-Untyped//s1-2.pddl
+Problem name: mixed-f2-p1-u0-v0-g0-a0-n0-a0-b0-n0-f0-r2
+Facts loaded.
+
+created
+time: 1, 8 facts and 1 exclusive pairs.
+time: 2, 9 facts and 2 exclusive pairs.
+time: 3, 9 facts and 1 exclusive pairs.
+time: 4, 10 facts and 3 exclusive pairs.
+Goals first reachable in 4 steps.
+88 nodes created.
+
+####################################################
+goals at time 5:
+  served_p0 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 24
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (up f0 f1)
+2 (board f1 p0)
+3 (down f1 f0)
+4 (depart f0 p0)
+End plan
+----------------------------------------------------
+
+4 total actions in plan
+0 entries in hash table, 
+3 total set-creation steps (entries + hits + plan length - 1)
+4 actions tried
+
+####################################################
+Total elapsed time:   0.00 seconds
+Time in milliseconds: 1
+
+####################################################

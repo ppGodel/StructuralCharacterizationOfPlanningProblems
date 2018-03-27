@@ -1,0 +1,243 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-49-9.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-49-9.pddl
+Problem name: schedule-49-9
+Facts loaded.
+
+created
+time: 1, 2699 facts and 29479 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 3337 facts and 49061 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 3533 facts and 37000 exclusive pairs.
+Goals first reachable in 3 steps.
+46861 nodes created.
+
+####################################################
+goals at time 4:
+  shape_a0_cylindrical painted_b1_blue painted_u1_black surface-condition_h1_rough painted_m0_yellow 
+surface-condition_b2_polished painted_f0_yellow surface-condition_n0_polished surface-condition_s1_rough painted_c2_black 
+surface-condition_m1_polished surface-condition_b0_rough surface-condition_c2_rough painted_c0_red painted_a0_yellow 
+shape_q0_cylindrical surface-condition_m0_rough surface-condition_e1_polished surface-condition_c1_polished surface-condition_c0_smooth 
+surface-condition_b1_smooth surface-condition_j1_rough painted_k1_yellow painted_a1_blue surface-condition_a0_smooth 
+painted_k0_blue painted_l1_red painted_n1_blue surface-condition_p0_smooth surface-condition_o0_rough 
+shape_v1_cylindrical shape_k1_cylindrical surface-condition_k1_polished painted_w0_yellow painted_i1_red 
+surface-condition_z0_rough surface-condition_o1_rough surface-condition_j0_smooth painted_w1_blue shape_i1_cylindrical 
+surface-condition_a2_rough surface-condition_f0_polished shape_g1_cylindrical shape_m1_cylindrical shape_z1_cylindrical 
+surface-condition_i0_rough shape_c2_cylindrical painted_d0_blue surface-condition_e0_polished 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 142900
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 3805
+number of fluent variables = 2040
+total number variables = 5845
+number clauses = 402955
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 106691659
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 17535
+numatom = 5845, numclause = 402955, numliterals = 809433
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        46        63     67.61      7.64      8.85    100000         0
+        46        75     68.31      7.57      9.02    100000         0
+        46        75     68.43      7.49      9.13    100000         0
+        45        72     67.70      7.42      9.12    100000         0
+        45        69     67.31      7.73      8.71    100000         0
+        44        75     66.98      7.53      8.90    100000         0
+        44        58     67.71      7.53      8.99    100000         0
+        44        62     68.25      7.51      9.09    100000         0
+        45        77     66.75      7.52      8.88    100000         0
+        46        71     67.86      7.44      9.13    100000         0
+
+total elapsed seconds = 3.450000
+average flips per second = 289855
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 67.690842
+      overall mean noise std deviation = 7.537015
+      overall ratio mean noise to mean std dev = 8.981121
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 67.690842
+      nonsuccessful mean noise std deviation = 7.537015
+      nonsuccessful ratio mean noise to mean std dev = 8.981121
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 110165031
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 85 163 84 0 126092 1604 7.970 0
+****the instance is unsatisfiable *****
+NB_MONO= 3315, NB_UNIT= 36098, NB_BRANCHE= 163, NB_BACK= 85 
+Program terminated in 7.970 seconds.
+Result is Unsat
+Iteration was 167
+
+----------------------------------------------------
+time: 4, 3827 facts and 34550 exclusive pairs.
+22946 new nodes added.
+
+####################################################
+goals at time 5:
+  shape_a0_cylindrical painted_b1_blue painted_u1_black surface-condition_h1_rough painted_m0_yellow 
+surface-condition_b2_polished painted_f0_yellow surface-condition_n0_polished surface-condition_s1_rough painted_c2_black 
+surface-condition_m1_polished surface-condition_b0_rough surface-condition_c2_rough painted_c0_red painted_a0_yellow 
+shape_q0_cylindrical surface-condition_m0_rough surface-condition_e1_polished surface-condition_c1_polished surface-condition_c0_smooth 
+surface-condition_b1_smooth surface-condition_j1_rough painted_k1_yellow painted_a1_blue surface-condition_a0_smooth 
+painted_k0_blue painted_l1_red painted_n1_blue surface-condition_p0_smooth surface-condition_o0_rough 
+shape_v1_cylindrical shape_k1_cylindrical surface-condition_k1_polished painted_w0_yellow painted_i1_red 
+surface-condition_z0_rough surface-condition_o1_rough surface-condition_j0_smooth painted_w1_blue shape_i1_cylindrical 
+surface-condition_a2_rough surface-condition_f0_polished shape_g1_cylindrical shape_m1_cylindrical shape_z1_cylindrical 
+surface-condition_i0_rough shape_c2_cylindrical painted_d0_blue surface-condition_e0_polished 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 12403
+number of fluent variables = 3841
+total number variables = 16244
+number clauses = 4825681
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 25712524
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 48732
+numatom = 16244, numclause = 4825681, numliterals = 9668574
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        48        87     72.86      8.56      8.52    100000         0
+        45        49     72.93      9.12      8.00     90499         0
+
+total elapsed seconds = 8.730000
+average flips per second = 21821
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 72.898576
+      overall mean noise std deviation = 8.838759
+      overall ratio mean noise to mean std dev = 8.247603
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 72.898576
+      nonsuccessful mean noise std deviation = 8.838759
+      nonsuccessful ratio mean noise to mean std dev = 8.247603
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 190500
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 34631554
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 517
+Variables forced false: 0
+Clauses output: 4820435
+Variables undetermined: 15727
+Non-unary clauses output: 4819918
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 3827 facts and 26563 exclusive pairs.
+23534 new nodes added.
+
+####################################################
+goals at time 6:
+  shape_a0_cylindrical painted_b1_blue painted_u1_black surface-condition_h1_rough painted_m0_yellow 
+surface-condition_b2_polished painted_f0_yellow surface-condition_n0_polished surface-condition_s1_rough painted_c2_black 
+surface-condition_m1_polished surface-condition_b0_rough surface-condition_c2_rough painted_c0_red painted_a0_yellow 
+shape_q0_cylindrical surface-condition_m0_rough surface-condition_e1_polished surface-condition_c1_polished surface-condition_c0_smooth 
+surface-condition_b1_smooth surface-condition_j1_rough painted_k1_yellow painted_a1_blue surface-condition_a0_smooth 
+painted_k0_blue painted_l1_red painted_n1_blue surface-condition_p0_smooth surface-condition_o0_rough 
+shape_v1_cylindrical shape_k1_cylindrical surface-condition_k1_polished painted_w0_yellow painted_i1_red 
+surface-condition_z0_rough surface-condition_o1_rough surface-condition_j0_smooth painted_w1_blue shape_i1_cylindrical 
+surface-condition_a2_rough surface-condition_f0_polished shape_g1_cylindrical shape_m1_cylindrical shape_z1_cylindrical 
+surface-condition_i0_rough shape_c2_cylindrical painted_d0_blue surface-condition_e0_polished 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 26104
+number of fluent variables = 6109
+total number variables = 32213
+number clauses = 17634500
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 95510671
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+ERROR - clause too long

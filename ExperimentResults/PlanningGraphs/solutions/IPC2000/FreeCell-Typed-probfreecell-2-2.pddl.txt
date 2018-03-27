@@ -1,0 +1,88 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-2-2.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-2-2.pddl
+Problem name: freecell-2-2
+Facts loaded.
+
+created
+time: 1, 81 facts and 66 exclusive pairs.
+time: 2, 97 facts and 283 exclusive pairs.
+time: 3, 100 facts and 210 exclusive pairs.
+Goals reachable at 3 steps but mutually exclusive.
+time: 4, 103 facts and 186 exclusive pairs.
+Goals first reachable in 4 steps.
+1594 nodes created.
+
+####################################################
+goals at time 5:
+  home_c2 home_d2 home_h2 home_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 156
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 105 facts and 199 exclusive pairs.
+822 new nodes added.
+
+####################################################
+goals at time 6:
+  home_c2 home_d2 home_h2 home_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 15605
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 107 facts and 214 exclusive pairs.
+1036 new nodes added.
+
+####################################################
+goals at time 7:
+  home_c2 home_d2 home_h2 home_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 90355
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (sendtohome ca d2 c n1 c0 n0)
+1 (sendtohome-b da d n1 d0 n0 n2 n3)
+1 (sendtohome sa ha s n1 s0 n0)
+2 (sendtohome-b ha h n1 h0 n0 n3 n4)
+3 (sendtohome-b h2 h n2 ha n1 n4 n5)
+4 (sendtohome-b d2 d n2 da n1 n5 n6)
+5 (sendtohome-b s2 s n2 sa n1 n6 n7)
+6 (sendtohome-b c2 c n2 ca n1 n7 n8)
+End plan
+----------------------------------------------------
+
+8 total actions in plan
+1914 entries in hash table, 1280 hash hits, avg set size 32
+3199 total set-creation steps (entries + hits + plan length - 1)
+8626 actions tried
+
+####################################################
+Total elapsed time:   1.42 seconds
+Time in milliseconds: 1424
+
+####################################################

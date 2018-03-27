@@ -1,0 +1,56 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-3-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-3-5.pddl
+Problem name: schedule-3-5
+Facts loaded.
+
+created
+time: 1, 412 facts and 766 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 452 facts and 1826 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 464 facts and 1517 exclusive pairs.
+Goals first reachable in 3 steps.
+4664 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_c0_smooth surface-condition_b0_smooth painted_c0_red 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 25
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-spray-paint b0 red unwantedargs yellow polished)
+1 (do-grind c0 unwantedargs yellow polished)
+2 (do-time-step unwantedargs b0 spray-painter)
+2 (do-time-step unwantedargs c0 grinder)
+3 (do-grind b0 unwantedargs red undefined)
+3 (do-immersion-paint c0 red unwantedargs nopaint)
+End plan
+----------------------------------------------------
+
+6 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+6 actions tried
+
+####################################################
+Total elapsed time:   0.18 seconds
+Time in milliseconds: 175
+
+####################################################

@@ -1,0 +1,87 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//probBLOCKS-4-0.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//probBLOCKS-4-0.pddl
+Problem name: blocks-4-0
+Facts loaded.
+
+created
+time: 1, 13 facts and 18 exclusive pairs.
+time: 2, 25 facts and 156 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 25 facts and 132 exclusive pairs.
+Goals reachable at 3 steps but mutually exclusive.
+time: 4, 25 facts and 96 exclusive pairs.
+Goals first reachable in 4 steps.
+257 nodes created.
+
+####################################################
+goals at time 5:
+  on_d_c on_c_b on_b_a 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 2
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 25 facts and 96 exclusive pairs.
+82 new nodes added.
+
+####################################################
+goals at time 6:
+  on_d_c on_c_b on_b_a 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 10
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 25 facts and 96 exclusive pairs.
+82 new nodes added.
+
+####################################################
+goals at time 7:
+  on_d_c on_c_b on_b_a 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 44
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (pick-up b)
+2 (stack b a)
+3 (pick-up c)
+4 (stack c b)
+5 (pick-up d)
+6 (stack d c)
+End plan
+----------------------------------------------------
+
+6 total actions in plan
+4 entries in hash table, 3 hash hits, avg set size 4
+12 total set-creation steps (entries + hits + plan length - 1)
+9 actions tried
+
+####################################################
+Total elapsed time:   0.02 seconds
+Time in milliseconds: 23
+
+####################################################

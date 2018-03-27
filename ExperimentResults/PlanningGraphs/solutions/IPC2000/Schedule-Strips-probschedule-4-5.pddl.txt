@@ -1,0 +1,57 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-4-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-4-5.pddl
+Problem name: schedule-4-5
+Facts loaded.
+
+created
+time: 1, 462 facts and 1087 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 515 facts and 2532 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 531 facts and 2054 exclusive pairs.
+Goals first reachable in 3 steps.
+5611 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_c0_polished surface-condition_b0_polished shape_d0_cylindrical shape_b0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 30
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-lathe b0 unwantedargs circular red rough)
+1 (do-polish c0 unwantedargs smooth)
+1 (delete-strip-holes d0 two front nowidth noorient)
+2 (do-roll d0 unwantedargs rough cold circular blue)
+2 (do-time-step unwantedargs b0 lathe)
+2 (do-time-step unwantedargs c0 polisher)
+3 (do-polish b0 unwantedargs rough)
+End plan
+----------------------------------------------------
+
+7 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+7 actions tried
+
+####################################################
+Total elapsed time:   0.24 seconds
+Time in milliseconds: 240
+
+####################################################

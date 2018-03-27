@@ -1,0 +1,46 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-8-1.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/FreeCell/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/FreeCell/Typed//probfreecell-8-1.pddl
+Problem name: freecell-8-1
+Facts loaded.
+
+created
+time: 1, 208 facts and 144 exclusive pairs.
+time: 2, 232 facts and 410 exclusive pairs.
+time: 3, 279 facts and 1195 exclusive pairs.
+time: 4, 314 facts and 1366 exclusive pairs.
+time: 5, 340 facts and 1224 exclusive pairs.
+time: 6, 346 facts and 1113 exclusive pairs.
+time: 7, 352 facts and 1279 exclusive pairs.
+time: 8, 358 facts and 1489 exclusive pairs.
+time: 9, 364 facts and 1741 exclusive pairs.
+time: 10, 370 facts and 2029 exclusive pairs.
+time: 11, 375 facts and 2263 exclusive pairs.
+time: 12, 378 facts and 2360 exclusive pairs.
+Goals first reachable in 12 steps.
+49553 nodes created.
+
+####################################################
+goals at time 13:
+  home_c8 home_d8 home_h8 home_s8 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 2900
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 30405
+number of fluent variables = 3418
+total number variables = 33823

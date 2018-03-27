@@ -1,14 +1,14 @@
 blackbox version 43
-command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/Files/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Untyped/Additional/domain.pddl /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Untyped/domain.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/probblocks-22-0.pddl -x -M 9999 -solver -maxsec 10 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//domain.pddl -f CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//probblocks-22-0.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
 
 Begin solver specification
-    -maxint        0   -maxsec 10.000000  graphplan
+    -maxint        0   -maxsec 15.000000  graphplan
     -maxint        0   -maxsec 10.000000  walksat
     -maxint        0   -maxsec 10.000000  satz
     -maxint        0   -maxsec 10.000000  compact
 End solver specification
-Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/domain.pddl
-Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionsResults/IPC2000/domains/Blocks/Track1/Typed/Additional/probblocks-22-0.pddl
+Loading domain file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed/Additional//probblocks-22-0.pddl
 Problem name: blocks-22-0
 Facts loaded.
 
@@ -340,7 +340,7 @@ on_v_j
 Invoking solver graphplan
 ** Turning off completeness check **
 Result is Timeout
-Iteration was 173200
+Iteration was 238800
 
 ----------------------------------------------------
 Converting graph to wff
@@ -351,7 +351,7 @@ number clauses = 12907422
 Invoking solver walksat version 36
 walksat version 36 (Huge)
 command line = walksat
-seed = 3840597
+seed = 76548117
 cutoff = 100000
 tries = 10
 heuristic = best, noise 50 / 100
@@ -390,21 +390,21 @@ wff read in
       this      this      this      this      this      this   success   success       until         std
        try       try       try       try       try       try      rate     tries      assign         dev
 
-        61       102      0.00      0.00      0.00    100000         0
-        74        98      0.00      0.00      0.00     50499         0
+        55        95      0.00      0.00      0.00    100000         0
+        70        98      0.00      0.00      0.00     45999         0
 
-total elapsed seconds = 8.790000
-average flips per second = 17121
+total elapsed seconds = 8.700000
+average flips per second = 16781
 number solutions found = 0
 final success rate = 0.000000
 average length successful tries = 0
 ASSIGNMENT NOT FOUND
 Result is Timeout
-Iteration was 150500
+Iteration was 146000
 
 ----------------------------------------------------
 Invoking solver satz-rand version satz-rand-214
-seed: 13080223
+seed: 85799766
 cutoff: 1000000000
 noise: 0.400000
 restart: 1
@@ -445,14 +445,9 @@ number clauses = 13474782
 Invoking solver walksat version 36
 walksat version 36 (Huge)
 command line = walksat
-seed = 31329051
+seed = 110665449
 cutoff = 100000
 tries = 10
 heuristic = best, noise 50 / 100
-allocating memory...
-allocating memory...
-allocating memory...
-allocating memory...
-allocating memory...
 allocating memory...
 allocating memory...

@@ -1,0 +1,83 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-8-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-8-5.pddl
+Problem name: schedule-8-5
+Facts loaded.
+
+created
+time: 1, 662 facts and 2396 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 767 facts and 5271 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 799 facts and 4264 exclusive pairs.
+Goals first reachable in 3 steps.
+9399 nodes created.
+
+####################################################
+goals at time 4:
+  shape_h0_cylindrical surface-condition_d0_polished shape_d0_cylindrical painted_b0_blue shape_f0_cylindrical 
+surface-condition_g0_rough surface-condition_a0_polished shape_g0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 979986
+
+----------------------------------------------------
+Can't solve in 3 steps
+time: 4, 847 facts and 4344 exclusive pairs.
+4318 new nodes added.
+
+####################################################
+goals at time 5:
+  shape_h0_cylindrical surface-condition_d0_polished shape_d0_cylindrical painted_b0_blue shape_f0_cylindrical 
+surface-condition_g0_rough surface-condition_a0_polished shape_g0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 1491811
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-polish a0 unwantedargs smooth)
+1 (do-immersion-paint h0 yellow unwantedargs red)
+1 (delete-strip-holes h0 two front nowidth noorient)
+1 (delete-strip-holes f0 two front nowidth noorient)
+1 (do-spray-paint b0 blue unwantedargs black smooth)
+1 (do-lathe d0 unwantedargs circular black smooth)
+1 (do-grind g0 unwantedargs yellow polished)
+2 (do-time-step unwantedargs a0 polisher)
+2 (do-roll f0 unwantedargs smooth cold oblong blue)
+2 (do-time-step unwantedargs d0 lathe)
+2 (do-time-step unwantedargs h0 immersion-painter)
+2 (do-time-step unwantedargs g0 grinder)
+3 (do-time-step unwantedargs f0 roller)
+3 (do-polish d0 unwantedargs rough)
+3 (do-lathe g0 unwantedargs circular nopaint smooth)
+4 (do-roll h0 unwantedargs rough cold oblong yellow)
+End plan
+----------------------------------------------------
+
+16 total actions in plan
+108011 entries in hash table, 16308 hash hits, avg set size 35
+124322 total set-creation steps (entries + hits + plan length - 1)
+707545 actions tried
+
+####################################################
+Total elapsed time:   20.18 seconds
+Time in milliseconds: 20178
+
+####################################################

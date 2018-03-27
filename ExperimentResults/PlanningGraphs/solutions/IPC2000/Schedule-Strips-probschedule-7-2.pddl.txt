@@ -1,0 +1,131 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-7-2.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-7-2.pddl
+Problem name: schedule-7-2
+Facts loaded.
+
+created
+time: 1, 612 facts and 2010 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 704 facts and 4506 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 732 facts and 3687 exclusive pairs.
+Goals first reachable in 3 steps.
+8452 nodes created.
+
+####################################################
+goals at time 4:
+  painted_e0_black shape_g0_cylindrical painted_f0_blue shape_b0_cylindrical painted_b0_blue 
+shape_d0_cylindrical surface-condition_d0_polished 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 53244
+
+----------------------------------------------------
+Can't solve in 3 steps
+time: 4, 774 facts and 3774 exclusive pairs.
+3844 new nodes added.
+
+####################################################
+goals at time 5:
+  painted_e0_black shape_g0_cylindrical painted_f0_blue shape_b0_cylindrical painted_b0_blue 
+shape_d0_cylindrical surface-condition_d0_polished 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 864200
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 1678
+number of fluent variables = 613
+total number variables = 2291
+number clauses = 147438
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 52965176
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 6873
+numatom = 2291, numclause = 147438, numliterals = 297086
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         1         6      7.51      3.76      2.00    100000         0
+         1         7      7.10      3.63      1.95    100000         0
+         0         0      6.17      3.73      1.66     67588        33     67588   267588.00
+
+total elapsed seconds = 0.350000
+average flips per second = 764537
+number solutions found = 1
+final success rate = 33.333333
+average length successful tries = 67588
+mean flips until assign = 267588.000000
+mean seconds until assign = 0.350000
+mean restarts until assign = 3.000000
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 6.927209
+      overall mean noise std deviation = 3.707316
+      overall ratio mean noise to mean std dev = 1.868524
+    statistics on successful runs:
+      successful mean average noise level = 6.172541
+      successful mean noise std deviation = 3.729578
+      successful ratio mean noise to mean std dev = 1.655024
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 7.304543
+      nonsuccessful mean noise std deviation = 3.696186
+      nonsuccessful ratio mean noise to mean std dev = 1.976238
+ASSIGNMENT FOUND
+Result is Sat
+Iteration was 267588
+Performing plan justification:
+   6 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (delete-strip-holes b0 one front nowidth noorient)
+1 (do-immersion-paint f0 blue unwantedargs black)
+1 (do-lathe d0 unwantedargs circular red smooth)
+2 (do-time-step unwantedargs d0 lathe)
+2 (do-roll b0 unwantedargs smooth cold circular red)
+2 (do-time-step unwantedargs f0 immersion-painter)
+3 (do-lathe g0 unwantedargs oblong blue rough)
+3 (do-spray-paint e0 black unwantedargs blue polished)
+3 (do-polish d0 unwantedargs rough)
+3 (do-time-step unwantedargs b0 roller)
+4 (do-immersion-paint b0 blue unwantedargs nopaint)
+End plan
+----------------------------------------------------
+
+11 total actions in plan
+18043 entries in hash table, 4500 hash hits, avg set size 29
+22546 total set-creation steps (entries + hits + plan length - 1)
+297735 actions tried
+
+####################################################
+Total elapsed time:   17.24 seconds
+Time in milliseconds: 17242
+
+####################################################

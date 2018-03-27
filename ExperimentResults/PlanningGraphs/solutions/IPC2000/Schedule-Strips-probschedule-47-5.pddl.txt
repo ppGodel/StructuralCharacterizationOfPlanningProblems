@@ -1,0 +1,177 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-47-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-47-5.pddl
+Problem name: schedule-47-5
+Facts loaded.
+
+created
+time: 1, 2596 facts and 27485 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 3208 facts and 46447 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 3396 facts and 34959 exclusive pairs.
+Goals first reachable in 3 steps.
+44652 nodes created.
+
+####################################################
+goals at time 4:
+  shape_i0_cylindrical painted_n0_red surface-condition_m0_rough shape_n1_cylindrical surface-condition_d1_rough 
+painted_m1_red painted_v1_yellow painted_b0_yellow painted_g0_black surface-condition_h0_polished 
+painted_a2_black painted_q1_yellow shape_g0_cylindrical surface-condition_k0_rough surface-condition_v0_rough 
+painted_j0_red shape_i1_cylindrical painted_f0_red painted_o0_yellow painted_k1_black 
+surface-condition_z0_smooth surface-condition_q1_smooth painted_c0_red painted_l1_black shape_v0_cylindrical 
+surface-condition_b0_polished painted_o1_blue surface-condition_f0_rough painted_b1_blue painted_h0_red 
+shape_o1_cylindrical shape_r1_cylindrical shape_a2_cylindrical painted_z1_black surface-condition_g0_smooth 
+painted_e0_yellow painted_p1_red surface-condition_w0_polished surface-condition_s0_rough surface-condition_o0_polished 
+surface-condition_u0_polished surface-condition_r1_smooth surface-condition_z1_rough shape_v1_cylindrical shape_a1_cylindrical 
+painted_r1_red shape_l0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 3291
+
+----------------------------------------------------
+Can't solve in 3 steps
+time: 4, 3678 facts and 32750 exclusive pairs.
+21812 new nodes added.
+
+####################################################
+goals at time 5:
+  shape_i0_cylindrical painted_n0_red surface-condition_m0_rough shape_n1_cylindrical surface-condition_d1_rough 
+painted_m1_red painted_v1_yellow painted_b0_yellow painted_g0_black surface-condition_h0_polished 
+painted_a2_black painted_q1_yellow shape_g0_cylindrical surface-condition_k0_rough surface-condition_v0_rough 
+painted_j0_red shape_i1_cylindrical painted_f0_red painted_o0_yellow painted_k1_black 
+surface-condition_z0_smooth surface-condition_q1_smooth painted_c0_red painted_l1_black shape_v0_cylindrical 
+surface-condition_b0_polished painted_o1_blue surface-condition_f0_rough painted_b1_blue painted_h0_red 
+shape_o1_cylindrical shape_r1_cylindrical shape_a2_cylindrical painted_z1_black surface-condition_g0_smooth 
+painted_e0_yellow painted_p1_red surface-condition_w0_polished surface-condition_s0_rough surface-condition_o0_polished 
+surface-condition_u0_polished surface-condition_r1_smooth surface-condition_z1_rough shape_v1_cylindrical shape_a1_cylindrical 
+painted_r1_red shape_l0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 74400
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 11077
+number of fluent variables = 3533
+total number variables = 14610
+number clauses = 3797711
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 44917011
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 43830
+numatom = 14610, numclause = 3797711, numliterals = 7610824
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        43        68     70.27      9.11      7.71    100000         0
+        43        78     72.39      9.26      7.82    100000         0
+        46        65      0.00      0.00      0.00     23499         0
+
+total elapsed seconds = 8.960000
+average flips per second = 24944
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 71.329877
+      overall mean noise std deviation = 9.182863
+      overall ratio mean noise to mean std dev = 7.767716
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 71.329877
+      nonsuccessful mean noise std deviation = 9.182863
+      nonsuccessful ratio mean noise to mean std dev = 7.767716
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 223500
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 54023428
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 497
+Variables forced false: 0
+Clauses output: 3792683
+Variables undetermined: 14113
+Non-unary clauses output: 3792186
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+time: 5, 3678 facts and 25089 exclusive pairs.
+22376 new nodes added.
+
+####################################################
+goals at time 6:
+  shape_i0_cylindrical painted_n0_red surface-condition_m0_rough shape_n1_cylindrical surface-condition_d1_rough 
+painted_m1_red painted_v1_yellow painted_b0_yellow painted_g0_black surface-condition_h0_polished 
+painted_a2_black painted_q1_yellow shape_g0_cylindrical surface-condition_k0_rough surface-condition_v0_rough 
+painted_j0_red shape_i1_cylindrical painted_f0_red painted_o0_yellow painted_k1_black 
+surface-condition_z0_smooth surface-condition_q1_smooth painted_c0_red painted_l1_black shape_v0_cylindrical 
+surface-condition_b0_polished painted_o1_blue surface-condition_f0_rough painted_b1_blue painted_h0_red 
+shape_o1_cylindrical shape_r1_cylindrical shape_a2_cylindrical painted_z1_black surface-condition_g0_smooth 
+painted_e0_yellow painted_p1_red surface-condition_w0_polished surface-condition_s0_rough surface-condition_o0_polished 
+surface-condition_u0_polished surface-condition_r1_smooth surface-condition_z1_rough shape_v1_cylindrical shape_a1_cylindrical 
+painted_r1_red shape_l0_cylindrical 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 23819
+number of fluent variables = 5678
+total number variables = 29497
+number clauses = 14842989
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 108666151
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+ERROR - clause too long

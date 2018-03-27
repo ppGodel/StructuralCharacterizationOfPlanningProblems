@@ -1,0 +1,54 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-3-7.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-3-7.pddl
+Problem name: schedule-3-7
+Facts loaded.
+
+created
+time: 1, 412 facts and 778 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 452 facts and 1848 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 464 facts and 1521 exclusive pairs.
+Goals first reachable in 3 steps.
+4664 nodes created.
+
+####################################################
+goals at time 4:
+  painted_a0_yellow surface-condition_a0_polished shape_c0_cylindrical 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 21
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-polish a0 unwantedargs rough)
+1 (do-lathe c0 unwantedargs circular blue polished)
+2 (do-time-step unwantedargs a0 polisher)
+3 (do-immersion-paint a0 yellow unwantedargs blue)
+End plan
+----------------------------------------------------
+
+4 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+4 actions tried
+
+####################################################
+Total elapsed time:   0.17 seconds
+Time in milliseconds: 173
+
+####################################################

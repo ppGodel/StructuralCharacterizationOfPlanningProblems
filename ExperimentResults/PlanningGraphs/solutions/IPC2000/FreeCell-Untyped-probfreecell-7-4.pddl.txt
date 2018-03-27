@@ -1,0 +1,72 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/FreeCell/Untyped//domain.pddl -f CompetitionResults/IPC2000/domains/FreeCell/Untyped//probfreecell-7-4.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/FreeCell/Untyped//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/FreeCell/Untyped//probfreecell-7-4.pddl
+Problem name: freecell-7-4
+Facts loaded.
+
+created
+time: 1, 186 facts and 142 exclusive pairs.
+time: 2, 216 facts and 583 exclusive pairs.
+time: 3, 258 facts and 1625 exclusive pairs.
+time: 4, 293 facts and 1697 exclusive pairs.
+time: 5, 302 facts and 985 exclusive pairs.
+time: 6, 308 facts and 1062 exclusive pairs.
+time: 7, 314 facts and 1222 exclusive pairs.
+time: 8, 320 facts and 1448 exclusive pairs.
+time: 9, 325 facts and 1631 exclusive pairs.
+time: 10, 329 facts and 1773 exclusive pairs.
+Goals reachable at 10 steps but mutually exclusive.
+time: 11, 331 facts and 1790 exclusive pairs.
+Goals first reachable in 11 steps.
+34741 nodes created.
+
+####################################################
+goals at time 12:
+  home_c7 home_d7 home_h7 home_s7 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 7400
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 20161
+number of fluent variables = 2745
+total number variables = 22906
+number clauses = 25105206
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 21311319
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+ERROR - clause too long

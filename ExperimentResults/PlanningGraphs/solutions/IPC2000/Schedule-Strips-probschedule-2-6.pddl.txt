@@ -1,0 +1,48 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-2-6.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-2-6.pddl
+Problem name: schedule-2-6
+Facts loaded.
+
+created
+time: 1, 361 facts and 482 exclusive pairs.
+Goals first reachable in 1 steps.
+1011 nodes created.
+
+####################################################
+goals at time 2:
+  painted_b0_black painted_a0_yellow 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 3
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-spray-paint b0 black unwantedargs blue rough)
+1 (do-immersion-paint a0 yellow unwantedargs black)
+End plan
+----------------------------------------------------
+
+2 total actions in plan
+0 entries in hash table, 
+0 total set-creation steps (entries + hits + plan length - 1)
+2 actions tried
+
+####################################################
+Total elapsed time:   0.01 seconds
+Time in milliseconds: 13
+
+####################################################

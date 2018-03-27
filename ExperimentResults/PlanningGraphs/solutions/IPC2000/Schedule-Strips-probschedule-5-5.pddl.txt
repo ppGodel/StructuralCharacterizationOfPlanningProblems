@@ -1,0 +1,87 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-5-5.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-5-5.pddl
+Problem name: schedule-5-5
+Facts loaded.
+
+created
+time: 1, 508 facts and 1244 exclusive pairs.
+Goals first reachable in 1 steps.
+1368 nodes created.
+
+####################################################
+goals at time 2:
+  painted_e0_yellow painted_b0_yellow surface-condition_d0_rough shape_a0_cylindrical painted_c0_yellow 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 9
+
+----------------------------------------------------
+Can't solve in 1 steps
+time: 2, 574 facts and 3007 exclusive pairs.
+2192 new nodes added.
+
+####################################################
+goals at time 3:
+  painted_e0_yellow painted_b0_yellow surface-condition_d0_rough shape_a0_cylindrical painted_c0_yellow 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 2596
+
+----------------------------------------------------
+Can't solve in 2 steps
+time: 3, 594 facts and 2550 exclusive pairs.
+2578 new nodes added.
+
+####################################################
+goals at time 4:
+  painted_e0_yellow painted_b0_yellow surface-condition_d0_rough shape_a0_cylindrical painted_c0_yellow 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 3687
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-immersion-paint c0 yellow unwantedargs red)
+1 (do-spray-paint b0 yellow unwantedargs black smooth)
+1 (do-punch d0 two back unwantedargs smooth three front)
+1 (do-lathe a0 unwantedargs circular blue rough)
+1 (do-grind e0 unwantedargs red polished)
+2 (do-time-step unwantedargs c0 immersion-painter)
+2 (do-time-step unwantedargs e0 grinder)
+3 (do-immersion-paint e0 yellow unwantedargs nopaint)
+End plan
+----------------------------------------------------
+
+8 total actions in plan
+689 entries in hash table, 2 hash hits, avg set size 23
+693 total set-creation steps (entries + hits + plan length - 1)
+1276 actions tried
+
+####################################################
+Total elapsed time:   0.36 seconds
+Time in milliseconds: 358
+
+####################################################

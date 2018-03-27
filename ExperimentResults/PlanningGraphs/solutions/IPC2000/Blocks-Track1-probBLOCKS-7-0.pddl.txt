@@ -1,0 +1,148 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//domain.pddl -f CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//probBLOCKS-7-0.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Blocks/Track1/Typed//probBLOCKS-7-0.pddl
+Problem name: blocks-7-0
+Facts loaded.
+
+created
+time: 1, 11 facts and 6 exclusive pairs.
+time: 2, 12 facts and 6 exclusive pairs.
+time: 3, 14 facts and 16 exclusive pairs.
+time: 4, 16 facts and 24 exclusive pairs.
+time: 5, 18 facts and 36 exclusive pairs.
+time: 6, 22 facts and 68 exclusive pairs.
+time: 7, 24 facts and 79 exclusive pairs.
+time: 8, 30 facts and 149 exclusive pairs.
+time: 9, 32 facts and 150 exclusive pairs.
+time: 10, 40 facts and 272 exclusive pairs.
+time: 11, 42 facts and 255 exclusive pairs.
+time: 12, 52 facts and 443 exclusive pairs.
+time: 13, 53 facts and 381 exclusive pairs.
+time: 14, 64 facts and 621 exclusive pairs.
+Goals reachable at 14 steps but mutually exclusive.
+time: 15, 64 facts and 521 exclusive pairs.
+Goals reachable at 15 steps but mutually exclusive.
+time: 16, 64 facts and 441 exclusive pairs.
+Goals first reachable in 16 steps.
+1753 nodes created.
+
+####################################################
+goals at time 17:
+  on_a_g on_g_d on_d_b on_b_c on_c_f 
+on_f_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 4
+
+----------------------------------------------------
+Can't solve in 16 steps
+time: 17, 64 facts and 441 exclusive pairs.
+226 new nodes added.
+
+####################################################
+goals at time 18:
+  on_a_g on_g_d on_d_b on_b_c on_c_f 
+on_f_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 13
+
+----------------------------------------------------
+Can't solve in 17 steps
+time: 18, 64 facts and 441 exclusive pairs.
+226 new nodes added.
+
+####################################################
+goals at time 19:
+  on_a_g on_g_d on_d_b on_b_c on_c_f 
+on_f_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 37
+
+----------------------------------------------------
+Can't solve in 18 steps
+time: 19, 64 facts and 441 exclusive pairs.
+226 new nodes added.
+
+####################################################
+goals at time 20:
+  on_a_g on_g_d on_d_b on_b_c on_c_f 
+on_f_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 65
+
+----------------------------------------------------
+Can't solve in 19 steps
+time: 20, 64 facts and 441 exclusive pairs.
+226 new nodes added.
+
+####################################################
+goals at time 21:
+  on_a_g on_g_d on_d_b on_b_c on_c_f 
+on_f_e 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 237
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (unstack e g)
+2 (put-down e)
+3 (unstack g b)
+4 (put-down g)
+5 (unstack b a)
+6 (put-down b)
+7 (unstack a f)
+8 (put-down a)
+9 (unstack f c)
+10 (stack f e)
+11 (unstack c d)
+12 (stack c f)
+13 (pick-up b)
+14 (stack b c)
+15 (pick-up d)
+16 (stack d b)
+17 (pick-up g)
+18 (stack g d)
+19 (pick-up a)
+20 (stack a g)
+End plan
+----------------------------------------------------
+
+20 total actions in plan
+13 entries in hash table, 17 hash hits, avg set size 8
+49 total set-creation steps (entries + hits + plan length - 1)
+37 actions tried
+
+####################################################
+Total elapsed time:   0.37 seconds
+Time in milliseconds: 371
+
+####################################################

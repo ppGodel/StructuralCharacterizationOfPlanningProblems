@@ -1,0 +1,71 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-11-1.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-11-1.pddl
+Problem name: schedule-11-1
+Facts loaded.
+
+created
+time: 1, 807 facts and 3314 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 951 facts and 7297 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 995 facts and 5993 exclusive pairs.
+Goals first reachable in 3 steps.
+11715 nodes created.
+
+####################################################
+goals at time 4:
+  shape_g0_cylindrical painted_k0_blue surface-condition_j0_smooth surface-condition_c0_rough surface-condition_i0_polished 
+shape_j0_cylindrical painted_i0_red surface-condition_f0_smooth surface-condition_b0_polished surface-condition_d0_rough 
+painted_d0_blue 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 3034
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-grind f0 unwantedargs yellow polished)
+1 (do-punch c0 two front unwantedargs smooth three back)
+1 (delete-strip-holes d0 three back nowidth noorient)
+1 (do-lathe j0 unwantedargs circular black polished)
+1 (do-immersion-paint i0 red unwantedargs yellow)
+1 (do-polish b0 unwantedargs rough)
+1 (delete-strip-holes g0 three front nowidth noorient)
+1 (do-spray-paint d0 blue unwantedargs black polished)
+2 (do-time-step unwantedargs d0 spray-painter)
+2 (do-time-step unwantedargs i0 immersion-painter)
+2 (do-roll g0 unwantedargs smooth cold circular black)
+2 (do-time-step unwantedargs f0 grinder)
+2 (do-time-step unwantedargs c0 punch)
+2 (do-time-step unwantedargs j0 lathe)
+2 (do-time-step unwantedargs b0 polisher)
+3 (do-immersion-paint k0 blue unwantedargs black)
+3 (do-polish i0 unwantedargs rough)
+3 (do-grind j0 unwantedargs nopaint rough)
+3 (do-punch d0 two back unwantedargs undefined nowidth noorient)
+End plan
+----------------------------------------------------
+
+19 total actions in plan
+102 entries in hash table, 10 hash hits, avg set size 39
+114 total set-creation steps (entries + hits + plan length - 1)
+1159 actions tried
+
+####################################################
+Total elapsed time:   0.94 seconds
+Time in milliseconds: 945
+
+####################################################

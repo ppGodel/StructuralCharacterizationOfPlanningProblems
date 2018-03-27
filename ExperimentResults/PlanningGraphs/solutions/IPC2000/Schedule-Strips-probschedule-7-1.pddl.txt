@@ -1,0 +1,62 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl -f CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-7-1.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Schedule/Strips//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Schedule/Strips//probschedule-7-1.pddl
+Problem name: schedule-7-1
+Facts loaded.
+
+created
+time: 1, 610 facts and 1967 exclusive pairs.
+Goals reachable at 1 steps but mutually exclusive.
+time: 2, 702 facts and 4474 exclusive pairs.
+Goals reachable at 2 steps but mutually exclusive.
+time: 3, 730 facts and 3675 exclusive pairs.
+Goals first reachable in 3 steps.
+8242 nodes created.
+
+####################################################
+goals at time 4:
+  surface-condition_b0_rough painted_c0_blue painted_g0_yellow painted_e0_black painted_f0_yellow 
+shape_g0_cylindrical surface-condition_e0_smooth 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 115
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (do-immersion-paint f0 yellow unwantedargs black)
+1 (do-lathe g0 unwantedargs circular black polished)
+1 (do-spray-paint c0 blue unwantedargs yellow rough)
+1 (do-punch b0 two front unwantedargs polished one back)
+1 (do-grind e0 unwantedargs blue polished)
+2 (do-time-step unwantedargs f0 immersion-painter)
+2 (do-time-step unwantedargs c0 spray-painter)
+2 (do-time-step unwantedargs g0 lathe)
+2 (do-time-step unwantedargs e0 grinder)
+3 (do-immersion-paint e0 black unwantedargs nopaint)
+3 (do-spray-paint g0 yellow unwantedargs nopaint rough)
+End plan
+----------------------------------------------------
+
+11 total actions in plan
+7 entries in hash table, 0 hash hits, avg set size 22
+9 total set-creation steps (entries + hits + plan length - 1)
+39 actions tried
+
+####################################################
+Total elapsed time:   0.49 seconds
+Time in milliseconds: 486
+
+####################################################

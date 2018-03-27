@@ -1,0 +1,127 @@
+blackbox version 43
+command line:  ScriptFiles/blackbox -o CompetitionResults/IPC2000/domains/Logistics/Track2//domain.pddl -f CompetitionResults/IPC2000/domains/Logistics/Track2//probLOGISTICS-7-0.pddl -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: CompetitionResults/IPC2000/domains/Logistics/Track2//domain.pddl
+Loading fact file: CompetitionResults/IPC2000/domains/Logistics/Track2//probLOGISTICS-7-0.pddl
+Problem name: logistics-7-0
+Facts loaded.
+
+created
+time: 1, 58 facts and 24 exclusive pairs.
+time: 2, 58 facts and 15 exclusive pairs.
+time: 3, 67 facts and 42 exclusive pairs.
+time: 4, 76 facts and 105 exclusive pairs.
+time: 5, 76 facts and 87 exclusive pairs.
+time: 6, 94 facts and 357 exclusive pairs.
+time: 7, 112 facts and 807 exclusive pairs.
+time: 8, 112 facts and 357 exclusive pairs.
+time: 9, 130 facts and 528 exclusive pairs.
+Goals reachable at 9 steps but mutually exclusive.
+time: 10, 130 facts and 411 exclusive pairs.
+Goals first reachable in 10 steps.
+2707 nodes created.
+
+####################################################
+goals at time 11:
+  at_obj22_pos2 at_obj33_apt1 at_obj12_pos2 at_obj13_apt3 at_obj31_apt2 
+at_obj23_apt1 at_obj32_pos1 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 5859
+
+----------------------------------------------------
+Can't solve in 10 steps
+time: 11, 130 facts and 411 exclusive pairs.
+434 new nodes added.
+
+####################################################
+goals at time 12:
+  at_obj22_pos2 at_obj33_apt1 at_obj12_pos2 at_obj13_apt3 at_obj31_apt2 
+at_obj23_apt1 at_obj32_pos1 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 752474
+
+----------------------------------------------------
+Can't solve in 11 steps
+time: 12, 130 facts and 411 exclusive pairs.
+434 new nodes added.
+
+####################################################
+goals at time 13:
+  at_obj22_pos2 at_obj33_apt1 at_obj12_pos2 at_obj13_apt3 at_obj31_apt2 
+at_obj23_apt1 at_obj32_pos1 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 5532138
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck obj13 tru1 pos1)
+1 (fly-airplane apn1 apt1 apt3)
+1 (load-truck obj31 tru3 pos3)
+1 (load-truck obj33 tru3 pos3)
+1 (load-truck obj12 tru1 pos1)
+1 (load-truck obj23 tru2 pos2)
+1 (load-truck obj32 tru3 pos3)
+2 (drive-truck tru3 pos3 apt3 cit3)
+2 (drive-truck tru1 pos1 apt1 cit1)
+2 (drive-truck tru2 pos2 apt2 cit2)
+3 (unload-truck obj23 tru2 apt2)
+3 (unload-truck obj32 tru3 apt3)
+3 (unload-truck obj13 tru1 apt1)
+3 (unload-truck obj31 tru3 apt3)
+3 (unload-truck obj33 tru3 apt3)
+3 (unload-truck obj12 tru1 apt1)
+4 (load-airplane obj31 apn1 apt3)
+4 (load-airplane obj33 apn1 apt3)
+4 (load-airplane obj32 apn1 apt3)
+5 (fly-airplane apn1 apt3 apt1)
+6 (unload-airplane obj33 apn1 apt1)
+6 (load-airplane obj13 apn1 apt1)
+6 (unload-airplane obj32 apn1 apt1)
+6 (load-airplane obj12 apn1 apt1)
+7 (fly-airplane apn1 apt1 apt2)
+7 (load-truck obj32 tru1 apt1)
+8 (unload-airplane obj31 apn1 apt2)
+8 (load-airplane obj23 apn1 apt2)
+8 (drive-truck tru1 apt1 pos1 cit1)
+8 (unload-airplane obj12 apn1 apt2)
+9 (unload-truck obj32 tru1 pos1)
+9 (fly-airplane apn1 apt2 apt1)
+9 (load-truck obj12 tru2 apt2)
+10 (unload-airplane obj23 apn1 apt1)
+10 (drive-truck tru2 apt2 pos2 cit2)
+11 (fly-airplane apn1 apt1 apt3)
+11 (unload-truck obj12 tru2 pos2)
+12 (unload-airplane obj13 apn1 apt3)
+End plan
+----------------------------------------------------
+
+38 total actions in plan
+66363 entries in hash table, 353238 hash hits, avg set size 31
+419612 total set-creation steps (entries + hits + plan length - 1)
+879615 actions tried
+
+####################################################
+Total elapsed time:   2.89 seconds
+Time in milliseconds: 2894
+
+####################################################
