@@ -4,7 +4,7 @@ BDIR=$(pwd)
 if [ ! -z "$1" ]; then
     BDIR=$1
 fi
-comp=IPC1988
+comp=IPC1998
 if [ ! -z "$2" ]; then
     comp=$2
 fi
@@ -56,7 +56,7 @@ fi
 if [ ! -z "$4" ] && [ $5 > 0 ]; then
     to=$4
 fi
-
+echo $comp
 for dp in $GDIR;
 do
     if [[ -d $dp ]]; then
@@ -65,7 +65,7 @@ do
 	for dcp in $dp/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-		if [ "$nbc" != "assembly" ];then # && [ "$nbc" != "mprime" ] && [ "$nbc" != "movie" ] && [ "$nbc" != "mystery" ];then
+		if [ "$nbc" == "Blocks" ];then # && [ "$nbc" != "mprime" ] && [ "$nbc" != "movie" ] && [ "$nbc" != "mystery" ];then
 #		if [ "$nbc" == "mystery" ];then
 		    echo "Dominio" $nbc
 		    analysejson $dcp $nbc

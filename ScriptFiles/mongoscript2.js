@@ -183,3 +183,20 @@ db.summnodesbygc.aggregate([{$lookup: {from:"graphDenComp", localField:"gid", fo
 
 
 db.graphIPCRes.aggregate([{$lookup: {from:"summgraphComp", localField:"gid", foreignField:"gid", as:"snbg" }}, {$project: {_id:1, Planner:1, Dom:1, Time:1, Steps:1, comp:1, gid:1, gn:1, TN:"$snbg.TN", TE:"$snbg.TE", MT:"$snbg.MT", PE:"$snbg.PE", PM:"$snbg.PM", D:"$snbg.D" } }, {$unwind: "$TN"},{$unwind: "$TE"}, {$unwind: "$MT"}, {$unwind: "$PE"}, {$unwind: "$PM"}, {$unwind: "$D"}, {$out:"graphIPCResComp"}])
+
+
+// addfieldupdate
+db.IPCRes.aggregate([{$group:{_id:{com:"$comp",dom:"$Dom", planner:"$Planner"}, t:{$sum:1}}}, {$replaceRoot: {newRoot: "$_id"}}, {$out:"CompDomPlanner"} ])
+db.CompDomPlanner.aggregate([{$addFields: {cdkey: {$concat:["$com","-", "$dom"]}}}, {$out:"CompDomPlanner"} ])
+db.CompDomPlanner.aggregate([{$addFields: {akey: {$concat:["$com","-", "$dom","-", "$planner"]}}}, {$out:"CompDomPlanner"} ])
+
+db.IPCRes.aggregate([{$addFields: {akey: {$concat:["$comp","-", "$Dom","-", "$Planner" ]}, fkey: {$concat:["$comp","-", "$Dom","-", "$Planner","-","$Problem" ]}, cdkey: {$concat:["$comp","-", "$Dom"]} } }, {$out:"IPCRes"}])
+
+db.IPCRes.aggregate([{$addFields: {pkey: {$concat:["$comp","-", "$Dom","-","$Problem" ]}}}, {$out:"IPCRes"} ])
+//db.IPCRes.aggregate([{$addFields: {cdkey: {$concat:["$comp","-", "$Dom"]}}}, {$out:"IPCRes"} ])
+
+db.CompDomPlanner.aggregate([{$lookup:{from:"CompProblems", localField:"cdkey", foreignField:"cdkey", as:"resu"}}, {$project:{_id:0, com:1, dom:1, planner:1,cdkey:1, akey:1 , problems:{ gn:"$resu.gn"}  } }, {$unwind:"$problems.gn"}, {$project: {_id:1, com:1, dom:1, planner:1,cdkey:1, akey:1 ,  gn:"$problems.gn"  }} , {$out:"CompDomPlannerProblem"}])
+db.CompDomPlannerProblem.aggregate([{$addFields: {pkey: {$concat:["$com","-", "$dom","-", "$gn"]}}}, {$out:"CompDomPlannerProblem"} ])
+
+
+db.CompDomPlannerProblem.aggregate([{$lookup:{from:"IPCRes",localField:"fkey",foreignField:"fkey",as:"resu"}}, {$project:{ _id:0, com:1, dom:1, gn:1, planner:1, cdkey:1, akey:1, fkey:1, pkey:1, solved:{$cond:{ if:{$ne:["$resu",[]]}, then: 1, else:0 } }, Time:{$cond:{ if:{$ne:["$resu",[]]}, then: "$resu.Time", else:"NA" } }, Steps:{$cond:{ if:{$ne:["$resu",[]]}, then: "$resu.Steps", else:"NA" } },   }}, {$unwind:"$Time"}, {$unwind:"$Steps"}, {$out:"CompletePlannerResults"} ])
