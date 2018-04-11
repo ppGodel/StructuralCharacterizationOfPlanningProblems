@@ -37,7 +37,21 @@ imprimirfin= function(){
 substrRight <- function(x, n){
   substr(x, nchar(x)-n+1, nchar(x))
 }
-
+tukeyLadder = function(x, q = NULL) {
+    if (is.null(q)) {
+        return(x)
+    }
+    if (q == 0) {
+        x.new = log(x)
+    } else {
+        if (q < 0) {
+            x.new = -x^q
+        } else {
+            x.new = x^q
+        }
+    }
+    return(x.new)
+}
 reg.conf.intervals <- function(x, y, intx) {
   n <- length(y) # Find length of y to use as sample size
   lmmodel <- lm(y ~ x) # Fit linear model
@@ -167,7 +181,7 @@ allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
 
 
 grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCRes")
-compresultsraw=data.frame(grcon$find())
+compresultsraw=data.frame(grcon$find(fields='{"_id":1,"Planner":1, "Dom":1, "Time":1, "Steps":1, "comp":1,"gid":1, "gn":1,"TN":1, "TE":1, "MT":1, "PE":1, "PM":1, "D":1 }'))
 compresultsraw$Diff=NA
 
 clas1=allplanners(x="D",y="Time", data=compresultsraw, logx=FALSE,logy=TRUE)

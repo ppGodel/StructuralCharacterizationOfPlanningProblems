@@ -38,10 +38,11 @@ db.graphs.aggregate([{ $group: { _id:null, Total:{$sum:1} } }] )
 // 
 db.nodescedges.aggregate([{$group: { _id:{ gid:"$gid", dom:"$dom", T:"$T"}, TN:{$sum:1}, TAN:{$sum:{$cond :[{$eq: ["$y", "a"]},1,0] }}, TFN:{$sum:{$cond :[{$eq: ["$y", "f"]},1,0] }} } }, {$project:{ _id:0, gid:"$_id.gid", dom:"$_id.dom", T:"$_id.T", TN:1, TAN:1, TFN:1}}])
 //
+/*
 db.createView("summNodesbyLevels", "nodescedges", [     {$group:      {  _id:{ gid:"$gid", dom:"$dom", T:"$T"}  , TN:{$sum:1}  , TANMN:{$sum:{$cond :[{$and:[{$eq: ["$y", "a"]},{$eq:["$im",0]}]},1,0] }}  , TAMN: {$sum:{$cond :[{$and:[{$eq: ["$y", "a"]},{$eq:["$im",1]}]},1,0] }}  , TFNMN:{$sum:{$cond :[{$and:[{$eq: ["$y", "f"]},{$eq:["$im",0]}]},1,0] }}  , TFMN: {$sum:{$cond :[{$and:[{$eq: ["$y", "f"]},{$eq:["$im",1]}]},1,0] }}      }     }, { $project:{ _id:0, gid:"$_id.gid", dom:"$_id.dom", T:"$_id.T", TN:1, TANMN:1,TAMN:1, TFNMN:1, TFMN:1}} ])
 
 db.nodescedges.aggregate([     {$group:      {  _id:{ gid:"$gid", dom:"$dom", T:"$T"}  , TN:{$sum:1}  , TANMN:{$sum:{$cond :[{$and:[{$eq: ["$y", "a"]},{$eq:["$im",0]}]},1,0] }}  , TAMN: {$sum:{$cond :[{$and:[{$eq: ["$y", "a"]},{$eq:["$im",1]}]},1,0] }}  , TFNMN:{$sum:{$cond :[{$and:[{$eq: ["$y", "f"]},{$eq:["$im",0]}]},1,0] }}  , TFMN: {$sum:{$cond :[{$and:[{$eq: ["$y", "f"]},{$eq:["$im",1]}]},1,0] }}      }     }, { $project:{ _id:0, gid:"$_id.gid", dom:"$_id.dom", T:"$_id.T", TN:1, TANMN:1,TAMN:1, TFNMN:1, TFMN:1}} ])
-
+*/
 //map reduce
 // Need 2 map and the reduce functions
 // map function. need to return 2 values the key and the value
@@ -70,7 +71,7 @@ var mf= function(){
 	    tanmn++;
 	}
     }
-    emit({ gid:this.gid, dom:this.dom, T:this.T}, { TN:1, TANMN:tanmn,TAMN:tamn, TFNMN:tfnmn, TFMN:tfmn})
+    emit({ gid:this.gid, T:this.T}, { TN:1, TANMN:tanmn,TAMN:tamn, TFNMN:tfnmn, TFMN:tfmn})
 }
 var rf= function(key,val){
     rval = { TN:0, TANMN:0,TAMN:0, TFNMN:0, TFMN:0 };
@@ -87,10 +88,11 @@ db.nodes.mapReduce(mf,rf, "summnodesbyL")
 
 db.summnodesbyL.aggregate({$project:{ _id:0, gid:"$_id.gid", T:"$_id.T", TN:"$value.TN",TANMN:"$value.TANMN",TAMN:"$value.TAMN",TFNMN:"$value.TFNMN",TFMN:"$value.TFMN"}},{$out:"summNodesByLevel"})
 
-
+/*
 db.IPC00Res.aggregate([{$group:{_id:"$Problem", mTime:{$min:"$Time"}, mSteps:{$min:"$Steps"} }}, {$lookup:{from:"graphs", localField:"_id", foreignField:"gn", as:"graphwres"}}, {$project:{_id:"$graphwres._id", gn:"$_id",dom:"$graphwres.dom", pn:"$graphwres.pn", com:"$graphwres.com", mTime:"$mTime", mSteps:"$mSteps" }},{$unwind:"$_id"},{$unwind:"$gn"},{$unwind:"$dom"},{$unwind:"$pn"}, {$unwind:"$com"}])
 
 db.createView("graphRes","IPC00Res",[{$group:{_id:"$Problem", mTime:{$min:"$Time"}, mSteps:{$min:"$Steps"} }}, {$lookup:{from:"graphs", localField:"_id", foreignField:"gn", as:"graphwres"}}, {$project:{_id:"$graphwres._id", gn:"$_id",dom:"$graphwres.dom", pn:"$graphwres.pn", com:"$graphwres.com", mTime:"$mTime", mSteps:"$mSteps" }},{$unwind:"$_id"},{$unwind:"$gn"},{$unwind:"$dom"},{$unwind:"$pn"}, {$unwind:"$com"}])
+*/
 
 db.graphRes.aggregate([{$lookup:{from:"summNodesByLevel", localField:"_id", foreignField:"gid",as:"graphResByLevel"}}]).pretty()
 
@@ -147,7 +149,7 @@ var rf= function(key,val){
     
     return rval;
 }
-
+/*
 var mf= function(){
     emit({ gid:this.gid}, { TN:this.TN, T:this.T, TANMN:this.TANMN, TAMN:this.TAMN, TAN:this.TANMN+this.TAMN   });
 }
@@ -173,10 +175,19 @@ var rf= function(key,val){
     
     return rval;
 }
+*/
 db.summNodesByLevel.mapReduce(mf,rf, "graphDen")
 
 
-db.graphDen.aggregate({$project:{ _id:"$_id.gid", TN:"$value.TN",PE:"$value.PE",PM:"$value.PM",MT:"$value.MT"}},{$out:"graphDenComp"})
+db.graphDen.aggregate(
+    {$project:{ _id:"$_id.gid",
+		TN:"$value.TN",
+		PE:"$value.PE",
+		PEM:"$value.PEM",
+		MT:"$value.MT"
+	      }},
+    {$out:"graphDenComp"}
+)
 
 db.summnodesbygc.aggregate([{$lookup: {from:"graphDenComp", localField:"gid", foreignField:"_id", as: "edg"} }, {$project: {_id:1, gid:1, TN:1, MT:1, TE:{$multiply:["$TE",0.5]}, PE:"$edg.PE", PM:"$edg.PM"  } }, {$unwind:"$PE"}, {$unwind:"$PM"}, {$project: {_id:1, gid:1, TN:1, MT:1, TE:1, PE:1, PM:1, D:{$divide:[ "$TE", {$add: ["$PE","$PM"]} ]} } }, {$out: "summgraphComp"} ])
 

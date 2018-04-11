@@ -38,7 +38,7 @@ substrRight <- function(x, n){
   substr(x, nchar(x)-n+1, nchar(x))
 }
 
-reg.conf.intervals <- function(x, y, intx) {
+reg.conf.intervals <- function(x, y, intx, prnt=TRUE) {
   n <- length(y) # Find length of y to use as sample size
   lmmodel <- lm(y ~ x) # Fit linear model
 #  lines(lm.model, col="red")
@@ -73,22 +73,54 @@ reg.conf.intervals <- function(x, y, intx) {
   # Collect the computed confidence bands into a data.frame and name the colums
   bands <- data.frame(cbind(x_new2,slope.lower, y.fit2, slope.upper))
   colnames(bands) <- c('xval','LowBand','fitval', 'UpperBand')
-  
-  # Plot the fitted linear regression line and the computed confidence bands
+  if(prnt){
+  #Plot the fitted linear regression line and the computed confidence bands
   #plot(x, y, cex = 1.75, pch = 21, bg = 'gray')
-  xpol=c(x_new2,rev(x_new2))
-  ypol=c(slope.lower, rev(slope.upper))
-  polygon(x=xpol, y=ypol, border=NA, col="antiquewhite2")
-  lines(x=x_new2, y=y.fit2, col = 'black', lwd = 2)
-  lines(x=x_new2, y=slope.upper, col = 'brown', lty = 2, lwd = 2)
-  lines(x=x_new2, y=slope.lower, col = 'brown', lty = 2, lwd = 2)
+      xpol=c(x_new2,rev(x_new2))
+      ypol=c(slope.lower, rev(slope.upper))
+      polygon(x=xpol, y=ypol, border=NA, col="antiquewhite2")
+      lines(x=x_new2, y=y.fit2, col = 'black', lwd = 2)
+      lines(x=x_new2, y=slope.upper, col = 'brown', lty = 2, lwd = 2)
+      lines(x=x_new2, y=slope.lower, col = 'brown', lty = 2, lwd = 2)
+  }
   return(bands)
 }
 
-allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
-    fy=ifelse(logy,paste0('log(',y,')'),y)#paste0('data$',y))
-    fx=ifelse(logx,paste0('log(',x,')'),x)#paste0('data$',x))
-    frml=as.formula(paste0(fy,'~',fx))
+tukeyLadder = function(x, q = NULL) {
+    if (is.null(q)) {
+        return(x)
+    }
+    if (q == 0) {
+        x.new = log(x+1)
+    } else {
+        if (q < 0) {
+            x.new = -(x+0.0000001)^q
+        } else {
+            x.new = x^q
+        }
+    }
+    return(x.new)
+}
+
+choose.lm <-function(px,py){
+    inter=c(seq(-10,-2,1),seq(-1,1,0.1),seq(2,10,1))
+    result=data.frame(tx=numeric(),ty=numeric(),r2=numeric())
+    for(i in inter){
+        for(j in inter){
+            x=tukeyLadder(px,i)
+            y=tukeyLadder(py,j)
+            #print(paste(i,j))
+            #print(cbind(x,y))
+            lmmodel <- lm(y ~ x)
+            result=rbind(result,c(tx=i,ty=j,r2=summary(lmmodel)$r.squared) )
+        }
+    }
+    colnames(result)=c("tx","ty","r2")
+    return( result[which.max(result$r2),] )
+}
+
+
+allplanners = function(nx,ny, data, prnt=TRUE){
     #print(frml)
     pchs=c(1:15,17,18,20,22,26,27)
     apl=unique(data$Planner)
@@ -96,6 +128,8 @@ allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
     cl= unique(data$com)
     colores=rainbow(length(labls))
 
+    
+    
     for(p in 1:length(apl)){
         auxres=data[data$Planner==apl[p],]
         labls=unique(apply(data[,c("comp","Dom")],1, function(item){paste0(item["comp"],'-',item["Dom"])}))
@@ -103,14 +137,33 @@ allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
         dcaux=c()
         cl= unique(auxres$comp)
         colores=rainbow(length(labls))
-        maxVx=ifelse(logx,log(max(auxres[,x]+1)),max(auxres[,x]))
-        minVx=ifelse(logx,log(min(auxres[,x]+1)),min(auxres[,x]))
-        maxVy=ifelse(logy,log(max(auxres[,y]+1)),max(auxres[,y]))
-        minVy=ifelse(logy,log(min(auxres[,y]+1)),min(auxres[,y]))
+        x=auxres[,nx]
+        y=auxres[,ny]
+        fitval=choose.lm(x,y)
+        lx=nx
+        ly=nx
+        if(fitval$tx==0){
+            lx=paste0('log(',nx,")")  
+        }
+        if(fitval$ty==0){
+            lx=paste0('log(',nx,")")  
+        }
+        if(fitval$tx!=1){
+            lx=paste0(nx,"^",fitval$tx)  
+        }
+        if(fitval$ty!=1){
+            ly=paste0(ny,"^",fitval$ty)  
+        }
+        
+        maxVx= max(x) #ifelse(logx,log(max(auxres[,x]+1)),max(auxres[,x]))
+        minVx= min(x) #ifelse(logx,log(min(auxres[,x]+1)),min(auxres[,x]))
+        maxVy= max(y) #ifelse(logy,log(max(auxres[,y]+1)),max(auxres[,y]))
+        minVy= min(y) #ifelse(logy,log(min(auxres[,y]+1)),min(auxres[,y]))
         ranx=maxVx-minVx
         rany=maxVy-minVy
         dpx=log(ranx,10)
         dpy=log(rany,10)
+        #aqui voee
         if(dpx>1.6){
             dpx=0
         }else{
@@ -121,18 +174,20 @@ allplanners = function(x,y, data, logx=FALSE, logy=FALSE){
         }else{
             dpy=floor(log(rany,10))-1
         }
-        imprimirini(typ=typu,name=paste0("Layers/", apl[p],y,"vs",x),12,7.25)
-        par(mar=c(5,5,3,9),xpd=FALSE)
-        plot(0,type='n', xlim=c(0,maxVx), ylim=c(0,maxVy), xlab=fx, ylab=fy, main=paste0("Planner: ", apl[p]) )
+        if(prnt){
+            imprimirini(typ=typu,name=paste0("Layers/", apl[p],y,"vs",x),12,7.25)
+            par(mar=c(5,5,3,9),xpd=FALSE)
+            plot(0,type='n', xlim=c(0,maxVx), ylim=c(0,maxVy), xlab=fx, ylab=fy, main=paste0("Planner: ", apl[p]) )
+        }
                                         #alm=lm(log(Time+1)~log(TE),data=auxres)
                                         #abline(alm)
-        aval=auxres[,c(x, y,"gn")]
-        if(logx){aval$xval=log(aval[,x]+1)}else{aval$xval=aval[,x]}
-        #aval$xval= ifelse(logx,log(aval[,x]+1),aval[,x])
-        if(logy){aval$yval=log(aval[,y]+1)}else{aval$yval=aval[,y]}
-        #aval$yval= ifelse(logy,log(aval[,y]+1),aval[,y])
+        aval=auxres[,c(nx, ny,"gn")]
+        #if(logx){aval$xval=log(aval[,x]+1)}else{aval$xval=aval[,x]}
+        aval$xval= x# ifelse(logx,log(aval[,x]+1),aval[,x])
+        #if(logy){aval$yval=log(aval[,y]+1)}else{aval$yval=aval[,y]}
+        aval$yval= y# ifelse(logy,log(aval[,y]+1),aval[,y])
         aval$lab=0
-        bands= reg.conf.intervals(x=aval$xval, y=aval$yval, intx=dpx)
+        bands= reg.conf.intervals(x=aval$xval, y=aval$yval, intx=dpx, prnt=FALSE)
         aval$xval=round(aval$xval,abs(dpx))
         plbls= merge(x=aval, y=bands, by=c("xval"), all.x=TRUE)
         dwn=plbls$yval<plbls$LowBand
@@ -170,14 +225,7 @@ grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27
 compresultsraw=data.frame(grcon$find())
 compresultsraw$Diff=NA
 
-clas1=allplanners(x="D",y="Time", data=compresultsraw, logx=FALSE,logy=TRUE)
-clas2=allplanners(x="TN",y="Time", data=compresultsraw, logx=FALSE,logy=TRUE)
-clas3=allplanners(x="TE",y="Time", data=compresultsraw, logx=TRUE,logy=TRUE)
-clas4=allplanners(x="PM",y="Time", data=compresultsraw, logx=TRUE,logy=TRUE)
-#'Planner','comp','Dom', 'gn'
-c1=clas1[,c('gid','Planner','CDvTime')]
-c2=clas2[,c('gid','Planner','CTNvTime')]
-c3=clas3[,c('gid','Planner','CTEvTime')]
-c4=clas4[,c('gid','Planner','CPMvTime')]
-
-sumaresultbyr=join_all(dfs=list(c1,c2,c3,c4), by=c("gid",'Planner'),type="left")
+clas1=allplanners(x="D" ,y="Time", data=compresultsraw)
+clas2=allplanners(x="TN",y="Time", data=compresultsraw)
+clas3=allplanners(x="TE",y="Time", data=compresultsraw)
+clas4=allplanners(x="PM",y="Time", data=compresultsraw)
