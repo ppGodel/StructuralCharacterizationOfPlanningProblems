@@ -86,3 +86,8 @@ var rf= function(key,val){
 db.nodes.mapReduce(mf,rf, "summnodesbyL")
 
 db.summnodesbyL.aggregate({$project:{ _id:0, gid:"$_id.gid", T:"$_id.T", TN:"$value.TN",TANMN:"$value.TANMN",TAMN:"$value.TAMN",TFNMN:"$value.TFNMN",TFMN:"$value.TFMN"}},{$out:"summNodesByLevel"})
+
+
+db.summnodesbygc.aggregate([{$lookup: {from:"graphDenComp", localField:"gid", foreignField:"_id", as: "edg"} }, {$project: {_id:1, gid:1, TN:1, MT:1, TE:{$multiply:["$TE",0.5]}, PE:"$edg.PE", PM:"$edg.PM"  } }, {$unwind:"$PE"}, {$unwind:"$PM"}, {$project: {_id:1, gid:1, TN:1, MT:1, TE:1, PE:1, PM:1, D:{$divide:[ "$TE", {$add: ["$PE","$PM"]} ]} } }, {$out: "summgraphComp"} ])
+
+db.graphIPCRes.aggregate([{$lookup: {from:"summgraphComp", localField:"gid", foreignField:"gid", as:"snbg" }}, {$project: {_id:1, Planner:1, Dom:1, Time:1, Steps:1, comp:1, gid:1, gn:1, TN:"$snbg.TN", TE:"$snbg.TE", MT:"$snbg.MT", PE:"$snbg.PE", PM:"$snbg.PM", D:"$snbg.D" } }, {$unwind: "$TN"},{$unwind: "$TE"}, {$unwind: "$MT"}, {$unwind: "$PE"}, {$unwind: "$PM"}, {$unwind: "$D"}, {$out:"graphIPCResComp"}])

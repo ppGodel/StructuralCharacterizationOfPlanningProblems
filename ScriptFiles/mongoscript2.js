@@ -211,3 +211,6 @@ db.CompDomPlannerProblem.aggregate([{$addFields: {pkey: {$concat:["$com","-", "$
 
 
 db.CompDomPlannerProblem.aggregate([{$lookup:{from:"IPCRes",localField:"fkey",foreignField:"fkey",as:"resu"}}, {$project:{ _id:0, com:1, dom:1, gn:1, planner:1, cdkey:1, akey:1, fkey:1, pkey:1, solved:{$cond:{ if:{$ne:["$resu",[]]}, then: 1, else:0 } }, Time:{$cond:{ if:{$ne:["$resu",[]]}, then: "$resu.Time", else:"NA" } }, Steps:{$cond:{ if:{$ne:["$resu",[]]}, then: "$resu.Steps", else:"NA" } },   }}, {$unwind:"$Time"}, {$unwind:"$Steps"}, {$out:"CompletePlannerResults"} ])
+
+
+db.IPCRes.aggregate([{$addFields: {akey: {$concat:["$comp","-", "$Dom","-", "$Planner" ]}, fkey: {$concat:["$comp","-", "$Dom","-", "$Planner","-","$Problem" ]}, cdkey: {$concat:["$comp","-", "$Dom"]},pkey: {$concat:["$comp","-", "$Dom","-","$Problem" ]} } }, {$out:"IPCRes"}])
