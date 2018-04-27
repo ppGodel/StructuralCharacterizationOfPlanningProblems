@@ -6,12 +6,12 @@ exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
 compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey")
 compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
 compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
-compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$gcomp==1&compresultexec$parallel==1,]
+compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1&compresultexec$parallel==1,]
 compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
 compresultsgraphsolved$Class=0
 compresultsgraphsolved$R2=0
 compresultsgraphsolved$Dist=0
-destfile="allclassifications-noparallel.csv"
+destfile="allclassifications-parallelbydom.csv"
 allclass=NULL
 prin=TRUE
 if(!file.exists(destfile)){
@@ -26,12 +26,15 @@ if(!file.exists(destfile)){
     allclass = read.csv(destfile)
 }
 
+
+
+
 boxplot(R2~Cresp+Cfactor, data=allclass)
 #ggplot(data = allclass[allclass$R2>=0.85&allclass$R2<0.985,], aes(x=factor(Cfactor), y=log(abs(Dist)+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom)
 #ggsave(paste0(gpath,"Layers/","DistanceDistribution.",typu), device=typu, width=12,height=7.25)
 
 sqv=seq(0,1,0.025)
-tda=aggregate(gn~R2+Cfactor+planner+com, allclass, FUN=length)
+tda=aggregate(planner~R2+Cfactor+com, allclass, FUN=length)
 tda=cbind(1:dim(tda)[1],tda[order(tda$R2, decreasing=TRUE),])
 higm=sapply(X=sqv, FUN=function(item){    
     #return(100*sum(tda$R2>=item)/length(tda$R2))
@@ -39,23 +42,23 @@ higm=sapply(X=sqv, FUN=function(item){
 })
 #logm=100-higm
 logm=length(tda$R2)-higm
-td=data.frame(x=sqv,value="pass", count=higm)
-tp=data.frame(x=sqv,value="no pass", count=logm)
+td=data.frame(x=sqv,value="acepted", count=higm)
+tp=data.frame(x=sqv,value="rejected", count=logm)
 td=rbind(tp,td)
-ggplot(data=td, aes(x=x, y=count, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=16), axis.title=element_text(size=20, face="bold"))+labs(x = "R^2", y="Model Count", fill="Value")+scale_x_continuous(breaks=seq(0, 1, 0.05))
-ggsave(paste0(gpath,"Layers/","R2Dist.",typu), device=typu, width=12,height=7.25)
+ggplot(data=td, aes(x=x, y=count, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=16), axis.title=element_text(size=20, face="bold"))+labs(x = expression(R^2), y="Model Count", fill="Value")+scale_x_continuous(breaks=seq(0, 1, 0.05))
+ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,height=7.25)
 
 acinterval=allclass$R2>=0.85&allclass$R2<=0.985
 #td2=aggregate(planner~Class+Cfactor, allclass[allclass$R2>=0.85&allclass$R2<=0.985,], FUN=length)
-td2=aggregate(planner~Class+gn, allclass[acinterval,], FUN=length)
+td2=aggregate(planner~Class+Cfactor, allclass[acinterval,], FUN=length)
 td2$Diff=""
 td2[td2$Class==0,]$Diff="1 Average"
 td2[td2$Class==1,]$Diff="2 Easy"
 td2[td2$Class==2,]$Diff="3 Hard"
-ggplot(data=td2, aes(x=(td2$Cfactor), y=gn, fill=as.factor(Diff)) )+geom_bar(stat="identity")+labs(x = "Property", y="Count", fill="Difficulty")
+ggplot(data=td2, aes(x=(td2$Cfactor), y=planner, fill=as.factor(Diff)) )+geom_bar(stat="identity")+labs(x = "Property", y="Count", fill="Difficulty")
 ggsave(paste0(gpath,"Layers/","InstanceDifficultyatR20.9.",typu), device=typu, width=12,height=7.25)
 
-lr2=0.85
+
 td3=aggregate(Dist~Class+Cfactor+gn, allclass[acinterval,], FUN=sum)
 names(td3)[names(td3) == 'abs(Dist)'] <- 'Dist'
 dtp=log(abs(td3[td3$Class==1,]$Dist)+1)#allclass$Cfactor=="DM"&

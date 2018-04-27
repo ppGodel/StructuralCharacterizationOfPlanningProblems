@@ -206,24 +206,35 @@ allplanners = function(nx,ny, data, prnt=TRUE){
                 #if(dtl<0){dtl=0}
             #    return(dtl)
             #})
-            bands= reg.conf.intervals(x=aval$xval, y=aval$yval, prnt)
+            bands= reg.conf.intervals(x=aval$xval, y=aval$yval, prnt=prnt)
             plbls= merge(x=aval, y=bands, by=c("xval"), all.x=TRUE)
             plbls=plbls[order(plbls$rn),]
             plbls$dwn=plbls$yval<plbls$LowBand
             plbls$upp=plbls$yval>plbls$UpperBand
             plbls$dist=0
-            if(sum(plbls$dwn)>0){
+            plbls$tdist=0
+            if(!is.na(sum(plbls$dwn))&&sum(plbls$dwn)>0){
                 plbls[plbls$dwn,]$lab=1
                 plbls[plbls$dwn,]$dist=plbls[plbls$dwn,]$LowBand-plbls[plbls$dwn,]$yval
+                if(fitval$ty!=0){
+                    plbls[plbls$dwn,]$tdist=tukeyLadder(abs(plbls[plbls$dwn,]$LowBand),1/fitval$ty)-plbls[plbls$dwn,ny]
+                }else{
+                    plbls[plbls$dwn,]$tdist=plbls[plbls$dwn,ny]-exp(plbls[plbls$dwn,]$yval)
+                }                
             }
-            if(sum(plbls$upp)>0){
+            if(!is.na(sum(plbls$upp))&&sum(plbls$upp)>0){
                 plbls[plbls$upp,]$lab=2
                 plbls[plbls$upp,]$dist=plbls[plbls$upp,]$yval-plbls[plbls$upp,]$UpperBand
+                if(fitval$ty!=0){
+                    plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-tukeyLadder(abs(plbls[plbls$upp,]$UpperBand),1/fitval$ty)
+                }else{
+                    plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-exp(plbls[plbls$upp,]$UpperBand)
+                }
             }
             data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$Class= plbls$lab
             data[data$planner==apl[p]&data$com==cl[c],]$R2= rep(x=fitval$r2,times=dim(data[data$planner==apl[p]&data$com==cl[c],])[1])
             #data[data$planner==apl[p]&data$com==cl[c],]$MaxDist= rep(x=max(plbls$dist),times=dim(data[data$planner==apl[p]&data$com==cl[c],])[1])
-            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$Dist = plbls$dist
+            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$Dist = plbls$tdist
         
             if(prnt){
             #for(c in 1:length(cl)){
@@ -334,17 +345,28 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE){
                 plbls$dwn=plbls$yval<plbls$LowBand
                 plbls$upp=plbls$yval>plbls$UpperBand
                 plbls$dist=0
+                plbls$tdist=0
                 if(!is.na(sum(plbls$dwn))&&sum(plbls$dwn)>0){
                     plbls[plbls$dwn,]$lab=1
                     plbls[plbls$dwn,]$dist=plbls[plbls$dwn,]$LowBand-plbls[plbls$dwn,]$yval
+                    if(fitval$ty!=0){
+                        plbls[plbls$dwn,]$tdist=tukeyLadder(abs(plbls[plbls$dwn,]$LowBand),1/fitval$ty)-plbls[plbls$dwn,ny]
+                    }else{
+                        plbls[plbls$dwn,]$tdist=plbls[plbls$dwn,ny]-exp(plbls[plbls$dwn,]$yval)
+                    }                
                 }
-                if(!is.na(sum(plbls$dwn))&&sum(plbls$upp)>0){
+                if(!is.na(sum(plbls$upp))&&sum(plbls$upp)>0){
                     plbls[plbls$upp,]$lab=2
                     plbls[plbls$upp,]$dist=plbls[plbls$upp,]$yval-plbls[plbls$upp,]$UpperBand
+                    if(fitval$ty!=0){
+                        plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-tukeyLadder(abs(plbls[plbls$upp,]$UpperBand),1/fitval$ty)
+                    }else{
+                        plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-exp(plbls[plbls$upp,]$UpperBand)
+                    }
                 }
                 data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$Class= plbls$lab
                 data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]$R2= rep(x=fitval$r2,times=dim(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],])[1])
-                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$Dist = plbls$dist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$Dist = plbls$tdist
         
             if(prnt){
             #for(c in 1:length(cl)){
