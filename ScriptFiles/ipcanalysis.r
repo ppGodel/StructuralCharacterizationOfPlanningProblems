@@ -1,4 +1,44 @@
-source("rfunctions.r") 
+source("rfunctions.r")
+
+plotInstancesDifficulty <- function(bdf,fn){
+    td2=aggregate(planner~Class+Cfactor, bdf, FUN=length)
+    td2$Diff=""
+    td2[td2$Class==0,]$Diff="2 Average"
+    td2[td2$Class==1,]$Diff="1 Easy"
+    td2[td2$Class==2,]$Diff="3 Hard"
+    ggplot(data=td2, aes(x=(td2$Cfactor), y=planner, fill=as.factor(Diff)))+geom_bar(stat="identity", position = "dodge")+labs(x = "Property", y="Count", fill="Difficulty")+ scale_fill_manual(values=c("skyblue", "orange1", "red"))
+    ggsave(paste0(gpath,fn,".",typu), device=typu, width=12,height=7.25)
+}
+createDataSetbyDomWithClassification <- function(basedataframe, filename, prin, prefn){
+    if(!file.exists(filename)){
+        c1=allplannersbydom(nx="D" ,ny="Time", data=basedataframe prnt=prin, prefn=prefn)
+        c2=allplannersbydom(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c3=allplannersbydom(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c4=allplannersbydom(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c5=allplannersbydom(nx="TME",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        rdf=rbind(c1,c2,c3,c4,c5)
+        write.csv(rdf, filename)
+    }else{
+        rdf = read.csv(filename)
+    }
+    return(rdf)
+}
+
+createDataSetbyComWithClassification <- function(basedataframe, filename, prin, prefn){
+    if(!file.exists(filename)){
+        c1=allplanners(nx="D" ,ny="Time", data=basedataframe prnt=prin, prefn=prefn)
+        c2=allplanners(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c3=allplanners(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c4=allplanners(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c5=allplanners(nx="TME",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        rdf=rbind(c1,c2,c3,c4,c5)
+        write.csv(rdf, filename)
+    }else{
+        rdf = read.csv(filename)
+    }
+    return(rdf)
+}
+
 grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCResComp")
 compresultsraw=data.frame(grcon$find())
 exeres= read.csv("executionresults.csv")
@@ -6,30 +46,22 @@ exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
 compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey")
 compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
 compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
-compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1&compresultexec$parallel==1,]
+compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1,]
 compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
 compresultsgraphsolved$Class=0
 compresultsgraphsolved$R2=0
 compresultsgraphsolved$Dist=0
-destfile="allclassifications-parallelbydom.csv"
-allclass=NULL
-prin=TRUE
-if(!file.exists(destfile)){
-    clas1=allplannersbydom(nx="D" ,ny="Time", data=compresultsgraphsolved, prnt=prin)
-    clas2=allplannersbydom(nx="DM",ny="Time", data=compresultsgraphsolved,prnt=prin)
-    clas3=allplannersbydom(nx="TN",ny="Time", data=compresultsgraphsolved,prnt=prin)
-    clas4=allplannersbydom(nx="TE",ny="Time", data=compresultsgraphsolved,prnt=prin)
-    clas5=allplannersbydom(nx="TME",ny="Time", data=compresultsgraphsolved,prnt=prin)
-    allclass=rbind(clas1,clas2,clas3,clas4,clas5)
-    write.csv(allclass, destfile)
-}else{
-    allclass = read.csv(destfile)
-}
+
+prin=FALSE
+allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultexec$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
+allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultexec$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
+
+allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultexec$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
+allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultexec$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
 
 
-
-
-boxplot(R2~Cresp+Cfactor, data=allclass)
+boxplot(R2~Cresp+Cfactor, data=allclassdompar)
+boxplot(R2~Cresp+Cfactor, data=allclassdomnpar)
 #ggplot(data = allclass[allclass$R2>=0.85&allclass$R2<0.985,], aes(x=factor(Cfactor), y=log(abs(Dist)+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom)
 #ggsave(paste0(gpath,"Layers/","DistanceDistribution.",typu), device=typu, width=12,height=7.25)
 
@@ -48,24 +80,25 @@ td=rbind(tp,td)
 ggplot(data=td, aes(x=x, y=count, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=16), axis.title=element_text(size=20, face="bold"))+labs(x = expression(R^2), y="Model Count", fill="Value")+scale_x_continuous(breaks=seq(0, 1, 0.05))
 ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,height=7.25)
 
-acinterval=allclass$R2>=0.85&allclass$R2<=0.985
+
 #td2=aggregate(planner~Class+Cfactor, allclass[allclass$R2>=0.85&allclass$R2<=0.985,], FUN=length)
-td2=aggregate(planner~Class+Cfactor, allclass[acinterval,], FUN=length)
-td2$Diff=""
-td2[td2$Class==0,]$Diff="1 Average"
-td2[td2$Class==1,]$Diff="2 Easy"
-td2[td2$Class==2,]$Diff="3 Hard"
-ggplot(data=td2, aes(x=(td2$Cfactor), y=planner, fill=as.factor(Diff)) )+geom_bar(stat="identity")+labs(x = "Property", y="Count", fill="Difficulty")
-ggsave(paste0(gpath,"Layers/","InstanceDifficultyatR20.9.",typu), device=typu, width=12,height=7.25)
+plotinstancesDifficult(allclasspar[between(allclasspar$R2,0.85,0.98),], "Layers/InstanceDifficultyPar")
+plotinstancesDifficult(allclassnpar[between(allclassnpar$R2,0.85,0.98),], "Layers/InstanceDifficultyNPar")
 
 
-td3=aggregate(Dist~Class+Cfactor+gn, allclass[acinterval,], FUN=sum)
+td3=droplevels(aggregate(abs(Dist)~Class+Cfactor+gn, bdf[bdf$Class>0,], FUN=sum))
 names(td3)[names(td3) == 'abs(Dist)'] <- 'Dist'
+td3$Diff=NA
+td3[td3$Class==0,]$Diff="2 Average"
+td3[td3$Class==1,]$Diff="1 Easy"
+td3[td3$Class==2,]$Diff="3 Hard"
 dtp=log(abs(td3[td3$Class==1,]$Dist)+1)#allclass$Cfactor=="DM"&
 #mdtp=1 / max(dtp)
 #dtp=dtp*mdtp
 imprimirini(typ=typu,name=paste0("Layers/","HistDistanceR2",lr2,"All"),12,7.25)
-hist(dtp, xlab="Normalized Distance", main=paste("Histogram of Distance"))
+#hist(dtp, xlab="Normalized Distance", main=paste("Histogram of Distance"))
+boxplot(log(Dist+1)~Class+Cfactor,data=td3)
+ggplot(data = td3, aes(x=factor(Cfactor), y=log(Dist+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30)) + labs(x="Factor", y="logaritmic time in seconds") +facet_wrap(~Diff)
 imprimirfin()
 met=unique(allclass$Cfactor)
 for(m in met){

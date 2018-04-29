@@ -33,6 +33,13 @@ imprimirfin= function(){
     
 }
 
+between <- function(x,a,b){
+    if(length(x)>1){
+        return(sapply(x,FUN=function(i){between(i,a,b)}))
+    }else{
+        return(x>=a&&x<=b)
+    }
+}
 
 substrRight <- function(x, n){
   substr(x, nchar(x)-n+1, nchar(x))
@@ -133,19 +140,15 @@ pointlinedist<-function(m,b,x,y){
     return(dis)
 }
 
-allplanners = function(nx,ny, data, prnt=TRUE){
+allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
     pchs=c(1:15,17,18,20,22,26,27)
     apl=unique(data$planner)
     labls=unique(apply(data[,c("com","dom")],1, function(item){paste0(item["com"],'-',item["dom"])}))
     cl= unique(data$com)
     colores=rainbow(length(labls))
-   # data$MaxDist=0
-    
     for(p in 1:length(apl)){
         auxre=data[data$planner==apl[p],]
-        #labls=unique(apply(auxres[,c("com","dom")],1, function(item){paste0(item["com"],'-',item["dom"])}))
         cl= unique(auxre$com)
-        #colores=rainbow(length(labls))
         for(c in 1:length(cl)){
             auxres=auxre[auxre$com==cl[c],]
             dlaux=c()
@@ -188,7 +191,7 @@ allplanners = function(nx,ny, data, prnt=TRUE){
                 dpy=floor(log(rany,10))-1
             }
             if(prnt){
-                imprimirini(typ=typu,name=paste0("Layers/",cl[c],"_", apl[p],"_",ny,"vs",nx),12,7.25)
+                imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_",ny,"vs",nx),12,7.25)
                 par(mar=c(5,5,3,9),xpd=FALSE)
                 plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p],"R^2:",round(fitval$r2*100,2)) )
             }
@@ -199,13 +202,6 @@ allplanners = function(nx,ny, data, prnt=TRUE){
             aval$xval= tranx
             aval$yval= trany
             aval$lab=0
-            #auxdist=mean(bands$regval-bands$LowBand)
-            #aval$dist=apply(X=aval, MARGIN=1, FUN=function(item){
-            #    dtl=pointlinedist(m=fitval$m,b=fitval$b, x=as.numeric(item["xval"]),y=as.numeric(item["yval"]))/auxdist#(fitval$u)
-                #if(dtl>-0.01&dtl<0){dtl=round(dtl)}
-                #if(dtl<0){dtl=0}
-            #    return(dtl)
-            #})
             bands= reg.conf.intervals(x=aval$xval, y=aval$yval, prnt=prnt)
             plbls= merge(x=aval, y=bands, by=c("xval"), all.x=TRUE)
             plbls=plbls[order(plbls$rn),]
@@ -269,14 +265,12 @@ allplanners = function(nx,ny, data, prnt=TRUE){
 }
 
 
-allplannersbydom = function(nx,ny, data, prnt=TRUE){
+allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
     pchs=c(1:15,17,18,20,22,26,27)
     apl=unique(data$planner)
     labls=unique(apply(data[,c("com","dom")],1, function(item){paste0(item["com"],'-',item["dom"])}))
     cl= unique(data$com)
     colores=rainbow(length(labls))
-    #data$MaxDist=0
-    
     for(p in 1:length(apl)){
         auxre=data[data$planner==apl[p],]
         cl= unique(auxre$com)
@@ -328,7 +322,7 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE){
                     dpy=floor(log(rany,10))-1
                 }
                 if(prnt){
-                    imprimirini(typ=typu,name=paste0("Layers/",cl[c],"_", apl[p],"_", dl[d],"_",ny,"vs",nx),12,7.25)
+                    imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_", dl[d],"_",ny,"vs",nx),12,7.25)
                     par(mar=c(5,5,3,9),xpd=FALSE)
                     plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p], "Domain:", dl[d],"R^2:",round(fitval$r2*100,2)) )
             }
