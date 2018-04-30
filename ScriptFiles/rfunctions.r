@@ -59,6 +59,14 @@ reg.conf.intervals <- function(x, y, prnt=TRUE) {
 #  mse <- sse / (n - 2)
   
   t.val <- qt(0.975, n - 2) # Calculate critical t-value
+  cookds =cooks.distance(lmmod)  
+  mdf=cbind(x,y)
+  cvmdf=cov(mdf)
+  if(cvmdf[1,2]!=cvmdf[2,1]){
+      m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))
+  }else{
+      m_dist=x*0
+  }
   
   # Fit linear model with extracted coefficients
   #x_new <- seq(min(x),max(x), length.out=length(x))
@@ -69,27 +77,26 @@ reg.conf.intervals <- function(x, y, prnt=TRUE) {
   
   # Fit a new linear model that extends past the given data points (for plotting)
   x_int <- max(x)-min(x)
-  #print(paste("minx:",min(x),"maxx:",max(x),"x_int:",x_int,"intx:", intx))
-  x_new2 <- unique(c(x-x_int,x,x+x_int)) #round(seq(min(x)-x_int,max(x)+x_int, 10**intx),abs(intx))
-  #x_new2 <- 0:max(x + 100)
+  x_new2 <- unique(c(x-x_int,x,x+x_int))
   y.fit2 <- b1 * x_new2 + b0
   
   # Warnings of mismatched lengths are suppressed
-  slope.upper <- suppressWarnings(y.fit2 + t.val * se)
-  slope.lower <- suppressWarnings(y.fit2 - t.val * se)
-  
+  slope.upper <- suppressWarnings(y.fit + t.val * se)
+  slope.lower <- suppressWarnings(y.fit - t.val * se)
   # Collect the computed confidence bands into a data.frame and name the colums
-  bands <- data.frame(cbind(x_new2,slope.lower, y.fit2, slope.upper))
-  colnames(bands) <- c('xval','LowBand','regval', 'UpperBand')
+  bands <- data.frame(cbind(x,slope.lower, y.fit, slope.upper, cookds, m_dist))
+  colnames(bands) <- c('xval','LowBand','regval', 'UpperBand', 'CookDist', "MahaDist")
   if(prnt){
   #Plot the fitted linear regression line and the computed confidence bands
   #plot(x, y, cex = 1.75, pch = 21, bg = 'gray')
+      p.slope.upper <- suppressWarnings(y.fit2 + t.val * se)
+      p.slope.lower <- suppressWarnings(y.fit2 - t.val * se)
       xpol=c(x_new2,rev(x_new2))
-      ypol=c(slope.lower, rev(slope.upper))
+      ypol=c(p.slope.lower, rev(p.slope.upper))
       polygon(x=xpol, y=ypol, border=NA, col="antiquewhite2")
       lines(x=x_new2, y=y.fit2, col = 'black', lwd = 2)
-      lines(x=x_new2, y=slope.upper, col = 'brown', lty = 2, lwd = 2)
-      lines(x=x_new2, y=slope.lower, col = 'brown', lty = 2, lwd = 2)
+      lines(x=x_new2, y=p.slope.upper, col = 'brown', lty = 2, lwd = 2)
+      lines(x=x_new2, y=p.slope.lower, col = 'brown', lty = 2, lwd = 2)
   }
   return(bands)
 }
@@ -98,8 +105,8 @@ choose.lm <-function(px,py){
     inter=c(seq(-10,-2,1),seq(-1,1,0.1),seq(2,10,1))
     result=data.frame(tx=numeric(),ty=numeric(),r2=numeric(),m=numeric(),b=numeric(),u=numeric())
     for(i in inter){
+        x=tukeyLadder(px,i)
         for(j in inter){
-            x=tukeyLadder(px,i)
             y=tukeyLadder(py,j)
             #print(paste(i,j))
             #print(cbind(x,y))

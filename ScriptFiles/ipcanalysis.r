@@ -1,5 +1,10 @@
 source("rfunctions.r")
-
+if(FALSE){
+    nx="D"
+    ny="Time"
+    data=compresultsgraphsolved[compresultsgraphsolved$parallel==1,]
+    prnt=FALSE    
+}
 plotInstancesDifficulty <- function(bdf,fn){
     td2=aggregate(planner~Class+Cfactor, bdf, FUN=length)
     td2$Diff=""
@@ -59,6 +64,40 @@ allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[comp
 allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
 allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
 
+tdf=compresultsgraphsolved[compresultsgraphsolved$parallel==1&compresultsgraphsolved$com=="IPC2000"&compresultsgraphsolved$planner=="blackbox",]
+bv=choose.lm(px=tdf$TN,py=tdf$Time)
+trx=tukeyLadder(tdf$TN,bv$tx)
+try=tukeyLadder(tdf$Time,bv$ty)
+mod=lm(try~trx)
+cookds = cooks.distance(mod)
+#mdf=cbind(trx,try)
+mdf=cbind(try,trx)
+cvmdf=cov(mdf)
+if(cvmdf[1,2]!=cvmdf[2,1]){
+    m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))
+}else{
+    m_dist=trx*0
+}
+outmaha=sqrt(qchisq(0.995,2))
+plot(m_dist, pch="*", cex=2, main="Influential Obs by mahalanobis distance")
+abline(h = outmaha, col="red")
+text(x=1:length(m_dist)+1, y=m_dist, labels=ifelse(m_dist> outmaha,tdf$gn,""), col="red", xpd=TRUE)
+
+plot(cookds, pch="*", cex=2, main="Influential Obs by Cooks distance")
+abline(h = 4*mean(cookds, na.rm=T), col="red")
+text(x=1:length(cookds)+1, y=cookds, labels=ifelse(cookds>4*mean(cookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
+plot(x=trx, y=try)
+abline(mod)
+text(x=trx, y=try, labels=ifelse(cookds>4*mean(cookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
+text(x=trx, y=try, labels=ifelse(m_dist>outmaha&cookds<4*mean(cookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
+
+
+plot(x=tdf$TN, y=tdf$Time)
+rmod=lm(tdf$Time~tdf$TN)
+rcookds = cooks.distance(rmod)
+abline(rmod)
+text(x=tdf$TN, y=tdf$Time, labels=ifelse(rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
+text(x=tdf$TN, y=tdf$Time, labels=ifelse(m_dist>outmaha&rcookds<4*mean(rcookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
 
 boxplot(R2~Cresp+Cfactor, data=allclassdompar)
 boxplot(R2~Cresp+Cfactor, data=allclassdomnpar)
