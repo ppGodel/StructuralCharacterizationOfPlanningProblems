@@ -11,7 +11,7 @@ plotInstancesDifficulty <- function(bdf,fn){
 }
 createDataSetbyDomWithClassification <- function(basedataframe, filename, prin, prefn){
     if(!file.exists(filename)){
-        c1=allplannersbydom(nx="D" ,ny="Time", data=basedataframe prnt=prin, prefn=prefn)
+        c1=allplannersbydom(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c2=allplannersbydom(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c3=allplannersbydom(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c4=allplannersbydom(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
@@ -26,7 +26,7 @@ createDataSetbyDomWithClassification <- function(basedataframe, filename, prin, 
 
 createDataSetbyComWithClassification <- function(basedataframe, filename, prin, prefn){
     if(!file.exists(filename)){
-        c1=allplanners(nx="D" ,ny="Time", data=basedataframe prnt=prin, prefn=prefn)
+        c1=allplanners(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c2=allplanners(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c3=allplanners(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c4=allplanners(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
@@ -52,12 +52,12 @@ compresultsgraphsolved$Class=0
 compresultsgraphsolved$R2=0
 compresultsgraphsolved$Dist=0
 
-prin=FALSE
-allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultexec$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
-allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultexec$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
+prin=TRUE
+allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
+allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
 
-allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultexec$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
-allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultexec$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
+allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
+allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
 
 
 boxplot(R2~Cresp+Cfactor, data=allclassdompar)
