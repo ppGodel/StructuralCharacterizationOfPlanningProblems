@@ -59,14 +59,10 @@ reg.conf.intervals <- function(x, y, prnt=TRUE) {
 #  mse <- sse / (n - 2)
   
   t.val <- qt(0.975, n - 2) # Calculate critical t-value
-  cookds =cooks.distance(lmmod)  
+  cookds =cooks.distance(lmmodel)  
   mdf=cbind(x,y)
   cvmdf=cov(mdf)
-  if(cvmdf[1,2]!=cvmdf[2,1]){
-      m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))
-  }else{
-      m_dist=x*0
-  }
+  tryCatch({ m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))},error=function(erm){ m_dist=trx*0 })
   
   # Fit linear model with extracted coefficients
   #x_new <- seq(min(x),max(x), length.out=length(x))
@@ -81,11 +77,14 @@ reg.conf.intervals <- function(x, y, prnt=TRUE) {
   y.fit2 <- b1 * x_new2 + b0
   
   # Warnings of mismatched lengths are suppressed
-  slope.upper <- suppressWarnings(y.fit + t.val * se)
-  slope.lower <- suppressWarnings(y.fit - t.val * se)
+  slope.upper <- suppressWarnings(y.fit + (t.val * se))
+  slope.lower <- suppressWarnings(y.fit - (t.val * se))
   # Collect the computed confidence bands into a data.frame and name the colums
-  bands <- data.frame(cbind(x,slope.lower, y.fit, slope.upper, cookds, m_dist))
-  colnames(bands) <- c('xval','LowBand','regval', 'UpperBand', 'CookDist', "MahaDist")
+  mdist <- rep(0,n)
+  mdist <- ifelse(y>slope.upper,y-slope.upper,mdist)
+  mdist <- ifelse(y<slope.lower,slope.lower-y,mdist)
+  bands <- data.frame(cbind(x,slope.lower, y.fit, slope.upper, abs(mdist), mdist>0, cookds, cookds>4*mean(cookds), m_dist, m_dist>sqrt(qchisq(0.995,2)) ))
+  colnames(bands) <- c('xval','LowBand','regval', 'UpperBand', 'Dist', 'Out', 'CookDist', 'CookOut', "MahaDist","MahaOut")
   if(prnt){
   #Plot the fitted linear regression line and the computed confidence bands
   #plot(x, y, cex = 1.75, pch = 21, bg = 'gray')
@@ -214,6 +213,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             aval$lab=0
             bands= reg.conf.intervals(x=aval$xval, y=aval$yval, prnt=prnt)
             plbls= merge(x=aval, y=bands, by=c("xval"), all.x=TRUE)
+            plbls=plbls[!duplicated(plbls$rn),]            
             plbls=plbls[order(plbls$rn),]
             plbls$dwn=plbls$yval<plbls$LowBand
             plbls$upp=plbls$yval>plbls$UpperBand
@@ -221,7 +221,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             plbls$tdist=0
             if(!is.na(sum(plbls$dwn))&&sum(plbls$dwn)>0){
                 plbls[plbls$dwn,]$lab=1
-                plbls[plbls$dwn,]$dist=plbls[plbls$dwn,]$LowBand-plbls[plbls$dwn,]$yval
+                #plbls[plbls$dwn,]$dist=plbls[plbls$dwn,]$LowBand-plbls[plbls$dwn,]$yval
                 if(fitval$ty!=0){
                     plbls[plbls$dwn,]$tdist=tukeyLadder(abs(plbls[plbls$dwn,]$LowBand),1/fitval$ty)-plbls[plbls$dwn,ny]
                 }else{
@@ -230,7 +230,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             }
             if(!is.na(sum(plbls$upp))&&sum(plbls$upp)>0){
                 plbls[plbls$upp,]$lab=2
-                plbls[plbls$upp,]$dist=plbls[plbls$upp,]$yval-plbls[plbls$upp,]$UpperBand
+                #plbls[plbls$upp,]$dist=plbls[plbls$upp,]$yval-plbls[plbls$upp,]$UpperBand
                 if(fitval$ty!=0){
                     plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-tukeyLadder(abs(plbls[plbls$upp,]$UpperBand),1/fitval$ty)
                 }else{
@@ -241,6 +241,10 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             data[data$planner==apl[p]&data$com==cl[c],]$R2= rep(x=fitval$r2,times=dim(data[data$planner==apl[p]&data$com==cl[c],])[1])
             #data[data$planner==apl[p]&data$com==cl[c],]$MaxDist= rep(x=max(plbls$dist),times=dim(data[data$planner==apl[p]&data$com==cl[c],])[1])
             data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$Dist = plbls$tdist
+            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$MahaDist = plbls$MahaDist
+            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$MahaOut = plbls$MahaOut
+            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$CookDist = plbls$CookDist
+            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$CookOut = plbls$CookOut
         
             if(prnt){
             #for(c in 1:length(cl)){
@@ -271,7 +275,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
     data$Cresp=ny
     data$Ctran=paste0(lx,'v',ly)
     
-    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist")]) 
+    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut")]) 
 }
 
 
@@ -345,6 +349,7 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
                 aval$lab=0
                 bands= reg.conf.intervals(x=aval$xval, y=aval$yval, prnt)
                 plbls= merge(x=aval, y=bands, by=c("xval"), all.x=TRUE)
+                plbls=plbls[!duplicated(plbls$rn),]            
                 plbls=plbls[order(plbls$rn),]
                 plbls$dwn=plbls$yval<plbls$LowBand
                 plbls$upp=plbls$yval>plbls$UpperBand
@@ -371,6 +376,10 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
                 data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$Class= plbls$lab
                 data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]$R2= rep(x=fitval$r2,times=dim(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],])[1])
                 data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$Dist = plbls$tdist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$MahaDist = plbls$MahaDist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$MahaOut = plbls$MahaOut
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$CookDist = plbls$CookDist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$CookOut = plbls$CookOut
         
             if(prnt){
             #for(c in 1:length(cl)){
@@ -400,5 +409,5 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
     data$Cresp=ny
     data$Ctran=paste0(lx,'v',ly)
     
-    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist")]) 
+    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut")]) 
 }
