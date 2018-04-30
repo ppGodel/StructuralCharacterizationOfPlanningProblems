@@ -151,6 +151,9 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
         cl= unique(auxre$com)
         for(c in 1:length(cl)){
             auxres=auxre[auxre$com==cl[c],]
+            if(dim(auxres)[1]<4){
+                next
+            }
             dlaux=c()
             dcaux=c()
             fitval=choose.lm(px=auxres[,nx],py=auxres[,ny])
