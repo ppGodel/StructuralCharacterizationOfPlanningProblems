@@ -59,6 +59,7 @@ compresultsgraphsolved$R2=0
 compresultsgraphsolved$Dist=0
 compresultsgraphsolved$MahaDist=0
 compresultsgraphsolved$CookDist=0
+compresultsgraphsolved$Disc=0
 compresultsgraphsolved$MahaOut=FALSE
 compresultsgraphsolved$CookOut=FALSE
 
@@ -164,7 +165,7 @@ for(m in met){
 
 #aggregate(gn~planner+com+dom, allclass, FUN=length)
 #md=max(abs(allclass$Dist))
-bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
+bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98)&allclassdompar$Disc==2,]
 td4=ddply(.data=bdf, c("com","dom","gn","Cfactor","Class"),  summarise, Class.count=length(planner), Class.sum=sum(Class), Dist.sum=sum(abs(Dist)),Dist.max=max(abs(Dist)) )
 
 td4$Vote=0

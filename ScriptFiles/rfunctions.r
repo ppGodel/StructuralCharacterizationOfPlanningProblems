@@ -83,8 +83,8 @@ reg.conf.intervals <- function(x, y, prnt=TRUE) {
   mdist <- rep(0,n)
   mdist <- ifelse(y>slope.upper,y-slope.upper,mdist)
   mdist <- ifelse(y<slope.lower,slope.lower-y,mdist)
-  bands <- data.frame(cbind(x,slope.lower, y.fit, slope.upper, abs(mdist), mdist>0, cookds, cookds>4*mean(cookds), m_dist, m_dist>sqrt(qchisq(0.995,2)) ))
-  colnames(bands) <- c('xval','LowBand','regval', 'UpperBand', 'Dist', 'Out', 'CookDist', 'CookOut', "MahaDist","MahaOut")
+  bands <- data.frame(cbind(x,slope.lower, y.fit, slope.upper, abs(mdist), mdist>0, cookds, cookds>4*mean(cookds), m_dist, m_dist>sqrt(qchisq(0.995,2)), ifelse(y>y.fit,2,ifelse(y<y.fit,0,1)) ))
+  colnames(bands) <- c('xval','LowBand','regval', 'UpperBand', 'Dist', 'Out', 'CookDist', 'CookOut', "MahaDist","MahaOut", "Disc")
   if(prnt){
   #Plot the fitted linear regression line and the computed confidence bands
   #plot(x, y, cex = 1.75, pch = 21, bg = 'gray')
@@ -245,6 +245,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$MahaOut = plbls$MahaOut
             data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$CookDist = plbls$CookDist
             data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$CookOut = plbls$CookOut
+            data[rownames(data[data$planner==apl[p]&data$com==cl[c],]),]$Disc = plbls$Disc
         
             if(prnt){
             #for(c in 1:length(cl)){
@@ -275,7 +276,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
     data$Cresp=ny
     data$Ctran=paste0(lx,'v',ly)
     
-    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut")]) 
+    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut","Disc")]) 
 }
 
 
@@ -380,6 +381,7 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
                 data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$MahaOut = plbls$MahaOut
                 data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$CookDist = plbls$CookDist
                 data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$CookOut = plbls$CookOut
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$dom==dl[d],]),]$Disc = plbls$Disc
         
             if(prnt){
             #for(c in 1:length(cl)){
@@ -409,5 +411,5 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
     data$Cresp=ny
     data$Ctran=paste0(lx,'v',ly)
     
-    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut")]) 
+    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut","Disc")]) 
 }
