@@ -68,7 +68,7 @@ allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[comp
 
 allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
 allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
-
+if(FALSE){
 tdf=compresultsgraphsolved[compresultsgraphsolved$parallel==1&compresultsgraphsolved$com=="IPC1998"&compresultsgraphsolved$planner=="blackbox",]
 bv=choose.lm(px=tdf$TN,py=tdf$Time)
 trx=tukeyLadder(tdf$TN,bv$tx)
@@ -100,7 +100,9 @@ rcookds = cooks.distance(rmod)
 abline(rmod)
 text(x=tdf$TN, y=tdf$Time, labels=ifelse(rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
 text(x=tdf$TN, y=tdf$Time, labels=ifelse(m_dist>outmaha&rcookds<4*mean(rcookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
-
+}
+boxplot(R2~Cresp+Cfactor, data=allclasscompar)
+boxplot(R2~Cresp+Cfactor, data=allclasscomnpar)
 boxplot(R2~Cresp+Cfactor, data=allclassdompar)
 boxplot(R2~Cresp+Cfactor, data=allclassdomnpar)
 #ggplot(data = allclass[allclass$R2>=0.85&allclass$R2<0.985,], aes(x=factor(Cfactor), y=log(abs(Dist)+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom)
@@ -123,10 +125,10 @@ ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,hei
 
 
 #td2=aggregate(planner~Class+Cfactor, allclass[allclass$R2>=0.85&allclass$R2<=0.985,], FUN=length)
-plotinstancesDifficult(allclasspar[between(allclasspar$R2,0.85,0.98),], "Layers/InstanceDifficultyPar")
-plotinstancesDifficult(allclassnpar[between(allclassnpar$R2,0.85,0.98),], "Layers/InstanceDifficultyNPar")
+plotinstancesDifficult(allclassdompar[between(allclassdompar$R2,0.85,0.98),], "Layers/InstanceDifficultyPar")
+plotinstancesDifficult(allclassdomnpar[between(allclassdomnpar$R2,0.85,0.98),], "Layers/InstanceDifficultyNPar")
 
-
+bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
 td3=droplevels(aggregate(abs(Dist)~Class+Cfactor+gn, bdf[bdf$Class>0,], FUN=sum))
 names(td3)[names(td3) == 'abs(Dist)'] <- 'Dist'
 td3$Diff=NA
@@ -162,15 +164,17 @@ for(m in met){
 
 #aggregate(gn~planner+com+dom, allclass, FUN=length)
 #md=max(abs(allclass$Dist))
-td4=ddply(.data=allclass[allclass$R2>lr2,], c("com","dom","gn","Cfactor","Class"),  summarise, Class.count=length(planner), Class.sum=sum(Class), Dist.sum=sum(abs(Dist)),Dist.max=max(abs(Dist)) )
+bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
+td4=ddply(.data=bdf, c("com","dom","gn","Cfactor","Class"),  summarise, Class.count=length(planner), Class.sum=sum(Class), Dist.sum=sum(abs(Dist)),Dist.max=max(abs(Dist)) )
 
 td4$Vote=0
 td4[td4$Class==0,]$Vote=1
 td4[td4$Class==1,]$Vote=0
 td4[td4$Class==2,]$Vote=2
+td5=ddply(td4, c("com","dom","gn","Cfactor"),  summarise, Class.MaxVote=sum(Class.count)*2, Class.Vote=sum(Class.count*Vote), Class.Score=sum(Class.count*Vote)/(2*sum(Class.count)), Dist.sum=sum(Dist.sum)  )
 
 
-td5=ddply(td4, c("com","dom","gn","Cfactor"),  summarise, Class.MaxVote=sum(Class.count)*2, Class.Vote=sum(Class.count*Vote), Class.Score=sum(Class.count*Vote)/(2*sum(Class.count))   )
+plot(td5$Class.Score~td5$Dist.sum)
 
 #imprimirini(typ=typu,name=paste0("Layers/","HistDistanceR2",lr2,m,"C",c),12,7.25)
 #boxplot(Class.Score~dom ,data=td5)
