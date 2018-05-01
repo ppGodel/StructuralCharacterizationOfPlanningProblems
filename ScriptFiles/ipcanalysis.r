@@ -129,20 +129,22 @@ ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,hei
 plotinstancesDifficult(allclassdompar[between(allclassdompar$R2,0.85,0.98),], "Layers/InstanceDifficultyPar")
 plotinstancesDifficult(allclassdomnpar[between(allclassdomnpar$R2,0.85,0.98),], "Layers/InstanceDifficultyNPar")
 
-bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
-td3=droplevels(aggregate(abs(Dist)~Class+Cfactor+gn, bdf[bdf$Class>0,], FUN=sum))
-names(td3)[names(td3) == 'abs(Dist)'] <- 'Dist'
+bdf=allclassdompar[between(allclassdomnpar$R2,0.85,0.98),]
+td3=droplevels(aggregate(planner~Class+Cfactor+gn, bdf[bdf$Class>0,], FUN=length))
+#names(td3)[names(td3) == 'length(planner)'] <- 'planner.count'
 td3$Diff=NA
 td3[td3$Class==0,]$Diff="2 Average"
-td3[td3$Class==1,]$Diff="1 Easy"
-td3[td3$Class==2,]$Diff="3 Hard"
+td3[td3$Class==1,]$Diff="Easy"
+td3[td3$Class==2,]$Diff="Hard"
+td3[td3$Class==1,]$planner=-td3[td3$Class==1,]$planner
 dtp=log(abs(td3[td3$Class==1,]$Dist)+1)#allclass$Cfactor=="DM"&
 #mdtp=1 / max(dtp)
 #dtp=dtp*mdtp
 imprimirini(typ=typu,name=paste0("Layers/","HistDistanceR2",lr2,"All"),12,7.25)
 #hist(dtp, xlab="Normalized Distance", main=paste("Histogram of Distance"))
 boxplot(log(Dist+1)~Class+Cfactor,data=td3)
-ggplot(data = td3, aes(x=factor(Cfactor), y=log(Dist+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30)) + labs(x="Factor", y="logaritmic time in seconds") +facet_wrap(~Diff)
+#ggplot(data = td3, aes(x=factor(gn), y=log(Dist+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30)) + labs(x="Factor", y="logaritmic time in seconds") +facet_wrap(~Diff)
+ggplot(data = td3, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=30)) + labs(x="Instance", y="vote count", fill="Difficulty")+ coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red"))  + scale_x_discrete(labels=1:length(td3$gn)) #+facet_wrap(~Diff)
 imprimirfin()
 met=unique(allclass$Cfactor)
 for(m in met){
@@ -165,34 +167,32 @@ for(m in met){
 
 #aggregate(gn~planner+com+dom, allclass, FUN=length)
 #md=max(abs(allclass$Dist))
-bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98)&allclassdompar$Disc==2,]
+bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
 td4=ddply(.data=bdf, c("com","dom","gn","Cfactor","Class"),  summarise, Class.count=length(planner), Class.sum=sum(Class), Dist.sum=sum(abs(Dist)),Dist.max=max(abs(Dist)) )
 
 td4$Vote=0
 td4[td4$Class==0,]$Vote=1
 td4[td4$Class==1,]$Vote=0
 td4[td4$Class==2,]$Vote=2
-td5=ddply(td4, c("com","dom","gn","Cfactor"),  summarise, Class.MaxVote=sum(Class.count)*2, Class.Vote=sum(Class.count*Vote), Class.Score=sum(Class.count*Vote)/(2*sum(Class.count)), Dist.sum=sum(Dist.sum)  )
+td5=ddply(td4, c("com","dom","gn","Cfactor"),  summarise, Class.MaxVote=sum(Class.count), Class.Vote=sum(Class.count*Vote), Class.Score=sum(Class.count*Vote)/(2*sum(Class.count)), Dist.sum=sum(ifelse(Dist.max==0,1,Dist.sum/Dist.max))  )
+plot(td5$Class.Score~td5$Dist.sum)
+
+
+
+bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
+
+td4=ddply(.data=bdf, c("com","dom","gn","Cfactor","Disc"),  summarise, Class.count=length(planner), Class.sum=sum(Disc*MahaOut), Dist.sum=sum(abs(MahaDist)),Dist.max=max(abs(MahaDist)) )
+
+td5=ddply(td4, c("com","dom","gn","Cfactor"),  summarise, Class.MaxVote=2*sum(Class.count), Class.Vote=sum(Class.sum), Class.Score=sum(Class.sum)/(2*sum(Class.count)), Dist.sum=sum(Dist.sum)  )
 
 
 plot(td5$Class.Score~td5$Dist.sum)
 
-#imprimirini(typ=typu,name=paste0("Layers/","HistDistanceR2",lr2,m,"C",c),12,7.25)
-#boxplot(Class.Score~dom ,data=td5)
-#imprimirfin()
 
-#hist(log(allclass[allclass$Cfactor=="TME"&allclass$R2>=0.9&allclass$Class==1,]$Dist+1))
+bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
 
 
-#+ labs( x=xt, y=yt, title=title )
 
-#clas5=allplanners(nx="D" ,ny="LogTime", data=compresultsraw)
-#boxplot(clas5$R2)
-#clas6=allplanners(nx="TN",ny="LogTime", data=compresultsraw)
-#clas7=allplanners(nx="TE",ny="LogTime", data=compresultsraw)
-#clas8=allplanners(nx="PM",ny="LogTime", data=compresultsraw)
-
-#allclass= join_all(dfs=list(clas1,clas2,clas3,clas4,clas5,clas6,clas7,clas8), by=c("comp","Planner","Dom","gn"),type="left")
 
 #write.csv(allclass,'allclass.csv')
 plannerclass= read.csv('planners.csv',sep=",")
