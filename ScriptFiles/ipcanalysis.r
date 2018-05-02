@@ -70,38 +70,58 @@ allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[comp
 allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
 allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
 if(FALSE){
-tdf=compresultsgraphsolved[compresultsgraphsolved$parallel==1&compresultsgraphsolved$com=="IPC1998"&compresultsgraphsolved$planner=="blackbox",]
-bv=choose.lm(px=tdf$TN,py=tdf$Time)
-trx=tukeyLadder(tdf$TN,bv$tx)
-try=tukeyLadder(tdf$Time,bv$ty)
-mod=lm(try~trx)
-cookds = cooks.distance(mod)
-#mdf=cbind(trx,try)
-mdf=cbind(try,trx)
-cvmdf=cov(mdf)
-#if(cvmdf[1,2]!=cvmdf[2,1]){
-tryCatch({ m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))},error=function(erm){ m_dist=trx*0 })
-outmaha=sqrt(qchisq(0.995,2))
-plot(m_dist, pch="*", cex=2, main="Influential Obs by mahalanobis distance")
-abline(h = outmaha, col="red")
-text(x=1:length(m_dist)+1, y=m_dist, labels=ifelse(m_dist> outmaha,tdf$gn,""), col="red", xpd=TRUE)
 
-plot(cookds, pch="*", cex=2, main="Influential Obs by Cooks distance")
-abline(h = 4*mean(cookds, na.rm=T), col="red")
-text(x=1:length(cookds)+1, y=cookds, labels=ifelse(cookds>4*mean(cookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
-plot(x=trx, y=try)
-abline(mod)
-text(x=trx, y=try, labels=ifelse(cookds>4*mean(cookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
-text(x=trx, y=try, labels=ifelse(m_dist>outmaha&cookds<4*mean(cookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
+    sx="TN"
+    tdf=compresultsgraphsolved[compresultsgraphsolved$parallel==1&compresultsgraphsolved$com=="IPC1998"&compresultsgraphsolved$planner=="stan",]
+    bv=choose.lm(px=tdf[,sx],py=tdf$Time)
+    trx=tukeyLadder(tdf[,sx],bv$tx)
+    try=tukeyLadder(tdf$Time,bv$ty)
+    #mod=lm(try~trx)
+    #cookds = cooks.distance(mod)
+                                        #mdf=cbind(trx,try)
+    
+    outmaha=sqrt(qchisq(0.995,2))
+    #plot(m_dist, pch="*", cex=2, main="Influential Obs by mahalanobis distance")
+    #abline(h = outmaha, col="red")
+    #text(x=1:length(m_dist)+1, y=m_dist, labels=ifelse(m_dist> outmaha,tdf$gn,""), col="red", xpd=TRUE)
+    
+    #plot(cookds, pch="*", cex=2, main="Influential Obs by Cooks distance")
+    #abline(h = 4*mean(cookds, na.rm=T), col="red")
+    #text(x=1:length(cookds)+1, y=cookds, labels=ifelse(cookds>4*mean(cookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
+
+    
+    
+    ppx=trx
+    ppy=try
+    plot(x=ppx, y=ppy)
+    rmod=lm(ppy~ppx)
+    rcookds = cooks.distance(rmod)
+    mdf=cbind(try,trx)
+    cvmdf=cov(mdf)
+    tryCatch({ m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))},error=function(erm){ m_dist=trx*0 })  
+    abline(rmod)
+    text(x=ppx, y=ppy, labels=ifelse(m_dist<outmaha&rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
+    text(x=ppx, y=ppy, labels=ifelse(m_dist>outmaha&rcookds<4*mean(rcookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
+    text(x=ppx, y=ppy, labels=ifelse(m_dist>outmaha&rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="green", xpd=TRUE)
+
+    ppx=tdf[,sx]
+    ppy=tdf$Time
+    plot(x=ppx, y=ppy)
+    rmod=lm(ppy~ppx)
+    rcookds = cooks.distance(rmod)
+    mdf=cbind(try,trx)
+    cvmdf=cov(mdf)
+    tryCatch({ m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))},error=function(erm){ m_dist=trx*0 })    
+    abline(rmod)
+    text(x=ppx, y=ppy, labels=ifelse(m_dist<outmaha&rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
+    text(x=ppx, y=ppy, labels=ifelse(m_dist>outmaha&rcookds<4*mean(rcookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
+    text(x=ppx, y=ppy, labels=ifelse(m_dist>outmaha&rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="green", xpd=TRUE)
+    
+    
 
 
-plot(x=tdf$TN, y=tdf$Time)
-rmod=lm(tdf$Time~tdf$TN)
-rcookds = cooks.distance(rmod)
-abline(rmod)
-text(x=tdf$TN, y=tdf$Time, labels=ifelse(rcookds>4*mean(rcookds, na.rm=T),tdf$gn,""), col="red", xpd=TRUE)
-text(x=tdf$TN, y=tdf$Time, labels=ifelse(m_dist>outmaha&rcookds<4*mean(rcookds, na.rm=T),tdf$gn,""), col="blue", xpd=TRUE)
 }
+
 boxplot(R2~Cresp+Cfactor, data=allclasscompar)
 boxplot(R2~Cresp+Cfactor, data=allclasscomnpar)
 boxplot(R2~Cresp+Cfactor, data=allclassdompar)
@@ -126,25 +146,51 @@ ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,hei
 
 
 #td2=aggregate(planner~Class+Cfactor, allclass[allclass$R2>=0.85&allclass$R2<=0.985,], FUN=length)
+#diff comparison
+
+
+
 plotinstancesDifficult(allclassdompar[between(allclassdompar$R2,0.85,0.98),], "Layers/InstanceDifficultyPar")
 plotinstancesDifficult(allclassdomnpar[between(allclassdomnpar$R2,0.85,0.98),], "Layers/InstanceDifficultyNPar")
 
-bdf=allclassdompar[between(allclassdomnpar$R2,0.85,0.98),]
-td3=droplevels(aggregate(planner~Class+Cfactor+gn, bdf[bdf$Class>0,], FUN=length))
-#names(td3)[names(td3) == 'length(planner)'] <- 'planner.count'
+bdf=allclasscompar[between(allclasscompar$R2,0.85,0.98),]
+td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Class+dom+gn, bdf, FUN=length))
+td3[td3$Disc==2,]$Disc=2
+td3[td3$Disc==0,]$Disc=1
 td3$Diff=NA
-td3[td3$Class==0,]$Diff="2 Average"
+td3$MahaDiff="Average"
+td3$CookDiff="Average"
+td3[td3$Class==0,]$Diff="Average"
 td3[td3$Class==1,]$Diff="Easy"
 td3[td3$Class==2,]$Diff="Hard"
-td3[td3$Class==1,]$planner=-td3[td3$Class==1,]$planner
-dtp=log(abs(td3[td3$Class==1,]$Dist)+1)#allclass$Cfactor=="DM"&
-#mdtp=1 / max(dtp)
-#dtp=dtp*mdtp
-imprimirini(typ=typu,name=paste0("Layers/","HistDistanceR2",lr2,"All"),12,7.25)
-#hist(dtp, xlab="Normalized Distance", main=paste("Histogram of Distance"))
-boxplot(log(Dist+1)~Class+Cfactor,data=td3)
-#ggplot(data = td3, aes(x=factor(gn), y=log(Dist+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30)) + labs(x="Factor", y="logaritmic time in seconds") +facet_wrap(~Diff)
-ggplot(data = td3, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=30)) + labs(x="Instance", y="vote count", fill="Difficulty")+ coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red"))  + scale_x_discrete(labels=1:length(td3$gn)) #+facet_wrap(~Diff)
+td3[td3$Disc==1 & td3$MahaOut==1,]$MahaDiff="Easy"
+td3[td3$Disc==2 & td3$MahaOut==1,]$MahaDiff="Hard"
+td3[td3$Disc==1 & td3$CookOut==1,]$CookDiff="Easy"
+td3[td3$Disc==2 & td3$CookOut==1,]$CookDiff="Hard"
+
+td3ND=aggregate(planner~dom+gn+Diff, td3,FUN=sum)
+td3MD=aggregate(planner~dom+gn+MahaDiff, td3,FUN=sum)
+td3CD=aggregate(planner~dom+gn+CookDiff, td3,FUN=sum)
+
+td3ND[td3ND$Diff=="Easy",]$planner=-td3ND[td3ND$Diff=="Easy",]$planner
+td3CD[td3CD$CookDiff=="Easy",]$planner=-td3CD[td3CD$CookDiff=="Easy",]$planner
+td3MD[td3MD$MahaDiff=="Easy",]$planner=-td3MD[td3MD$MahaDiff=="Easy",]$planner
+names(td3MD)[names(td3MD) == 'MahaDiff'] <- 'Diff'
+names(td3CD)[names(td3CD) == 'CookDiff'] <- 'Diff'
+
+pltdf= droplevels(td3ND[td3ND$Diff!="Average",])
+ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=10)) + labs(x="Instance", y="vote count", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(pltdf$gn)))
+ggsave(paste0(gpath,"Layers/","ClassByNormDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
+
+pltdf= droplevels(td3CD[td3CD$Diff!="Average",])
+ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=10)) + labs(x="Instance", y="vote count", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(pltdf$gn)))
+ggsave(paste0(gpath,"Layers/","ClassByCookDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
+
+pltdf= droplevels(td3MD[td3MD$Diff!="Average",])
+ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=10)) + labs(x="Instance", y="vote count", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(pltdf$gn)))
+ggsave(paste0(gpath,"Layers/","ClassByMahaDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
+
+
 imprimirfin()
 met=unique(allclass$Cfactor)
 for(m in met){
