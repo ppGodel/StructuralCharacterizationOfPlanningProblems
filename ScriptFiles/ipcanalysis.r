@@ -63,7 +63,8 @@ compresultsgraphsolved$Disc=0
 compresultsgraphsolved$MahaOut=FALSE
 compresultsgraphsolved$CookOut=FALSE
 
-prin=FALSE
+typu="eps"
+prin=TRUE
 allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
 allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
 
@@ -191,7 +192,6 @@ ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_b
 ggsave(paste0(gpath,"Layers/","ClassByMahaDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
 
 
-imprimirfin()
 met=unique(allclass$Cfactor)
 for(m in met){
     dtp=log(abs(td3[td3$Cfactor==m&td3$Class>0,]$Dist+1))#
@@ -237,7 +237,22 @@ plot(td5$Class.Score~td5$Dist.sum)
 
 bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
 
-
+scom='IPC2000'
+#my_data= compresultsraw[compresultsraw$com==scom ,c("Time","Steps","MT","TE","TN","D","DM","TME")]
+my_data= compresultsraw[compresultsraw$com==scom ,c("Time","TE","TN","D","DM","TME")]
+#colnames(my_data) = c("Time","Steps","Graph \nLevels","Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
+colnames(my_data) = c("Time","Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
+typu="eps"
+#cex.before <- par("cex")
+#par(cex = 3)
+imprimirini(typ=typu,name=paste0("Layers/","CorrKendall",scom),12,7.25)
+corrplot.mixed(cor(my_data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+imprimirfin()
+imprimirini(typ=typu,name=paste0("Layers/","CorrSpearman",scom),12,7.25)
+corrplot.mixed(cor(my_data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "spearman", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+imprimirfin()
+#par(cex = cex.before)
+#ggscatter(my_data, x = "D", y = "Time", add = "reg.line", conf.int = TRUE, cor.coef = TRUE, cor.method = "kendall")
 
 
 #write.csv(allclass,'allclass.csv')
@@ -254,42 +269,91 @@ plannerclass$tlfbase=ifelse(plannerclass$tlfbase==1,'temporal-logic','no-tempora
 domainclass= read.csv('domains.csv')
 
 
-scom='IPC1998'
+scom='IPC2000'
 
 summary.planner.inst=ddply(.data=compresultsraw, c("com","dom","gn","planner","Time","Steps"),  summarise, Solved.count=sum(solved) )
 summary.planner.inst.bycom=summary.planner.inst[summary.planner.inst$com==scom&!is.na(summary.planner.inst$Time),]
 summary.planner.inst.bycom=merge(summary.planner.inst.bycom,plannerclass,by="planner") 
-summary.planner.inst.bycom=merge(summary.planner.inst.bycom,domainclass,by="dom") 
+summary.planner.inst.bycom=merge(summary.planner.inst.bycom,domainclass,by="dom")
+tdcom=summary.planner.inst.bycom[summary.planner.inst.bycom$com==scom,]
 dl=unique(summary.planner.inst.bycom$dom)
 pl=unique(summary.planner.inst.bycom$planner)
+ps= length(pl)
+ds= length(dl)
 lgv=log(summary.planner.inst.bycom$Time+1,10)
-collist=c("red1","aquamarine2","darkgoldenrod3", "brown4","burlywood1","chocolate2","darkolivegreen3")
+
+pl=unique(tdcom$planner)
+pc=primary.colors(length(pl))
+pcl=cbind(pc, pl[order(pl)])
+colnames(pcl) = c( "color","planner")
+tdcom$col=apply(tdcom, MARGIN=1, function(row){ pcl[pcl[,"planner"]==row["planner"],"color"]})
+
+collist=rainbow(length(pl))#c("red1","aquamarine2","darkgoldenrod3", "brown4","burlywood1","chocolate2","darkolivegreen3")
 tam=1.5
-imprimirini(typ='eps',name=paste0("Layers/","bxplt_All_GDomain_Planner_Time"),12,7.25)
-par(mar=c(5,5,3,3),xpd=FALSE)
+imprimirini(typ='eps',name=paste0("Layers/","bxplt_All_GDomain00_Planner_Time"),12,7.25)
 yti <- bquote("Time in milliseconds "~10^x)
-boxplot( log(Time+1,10) ~ planner+dom,data=td98, las=2,col=collist, xaxt="n", xlab="Domains", ylab=yti, cex=tam, cex.lab=tam,cex.axis=tam)
-axis(side=1, labels=sort(dl), cex.axis=tam, at=seq(2.5,20,4))
-abline(v=4.5,xpd=FALSE)
-abline(v=8.5,xpd=FALSE)
-abline(v=12.5,xpd=FALSE)
-abline(v=16.5,xpd=FALSE)
-legend(x=17,y=6.7, sort(pl),fill=collist,cex=tam)
+
+par(mar=c(5,5,3,13),xpd=FALSE)
+boxplot( log(Time+1,10) ~ planner+dom,data=tdcom, las=2,col=pc, xaxt="n", xlab="Domains", ylab=yti, cex=tam, cex.lab=tam,cex.axis=tam, xlim=c(0,ps*ds))
+axis(side=1, labels=sort(dl), cex.axis=tam, at=seq(ps/2,(ds*(ps)),ps) )
+for( l in 1:(ds-1)){
+    abline(v=(ps*l)+0.5,xpd=FALSE)
+}
+legend(x=ps*ds+3.5,y=round(max(log(tdcom$Time,10))), sort(pl),fill=pc,cex=tam, xpd=TRUE)
 imprimirfin()
 
-imprimirini(typ='eps',name=paste0("Layers/","bxplt_All_GDomain_Planner_Steps"),12,7.25)
-par(mar=c(5,5,3,3),xpd=FALSE)
-boxplot( Steps ~ planner+dom,data=td98, las=2, xaxt="n", xlab="Domains", ylab="Number of steps",col=collist, cex=tam, cex.lab=tam,cex.axis=tam)
-axis(side=1, labels=sort(dl), cex.axis=tam, at=seq(2.5,20,4))
-abline(v=4.5,xpd=FALSE)
-abline(v=8.5,xpd=FALSE)
-abline(v=12.5,xpd=FALSE)
-abline(v=16.5,xpd=FALSE)
-legend(x=17,y=150, sort(pl),fill=collist,cex=tam)
+imprimirini(typ='eps',name=paste0("Layers/","bxplt_All_GDomain00_Planner_Steps"),12,7.25)
+yti <- bquote("Number of steps at"~10^x)
+
+par(mar=c(5,5,3,13),xpd=FALSE)
+boxplot( log(Steps,10) ~ planner+dom,data=tdcom, las=2, xaxt="n", xlab="Domains", ylab=yti,col=pc, cex=tam, cex.lab=tam, cex.axis=tam, xlim=c(0,ps*ds))
+axis(side=1, labels=sort(dl), cex.axis=tam, at=seq(ps/2,(ds*(ps)),ps) )
+for( l in 1:(ds-1)){
+    abline(v=(ps*l)+0.5,xpd=FALSE)
+}
+legend(x=ps*ds+3.5,y=max(log(tdcom$Steps,10)), sort(pl),fill=pc,cex=tam, xpd=TRUE)
+
 imprimirfin()
 
-unique(td98$type)
-td98=droplevels(td98)
+#tdp=ddply(.data=tdcom, c("com","dom","planner","type"),  summarise, Solved.Count=sum(Solved.count) )
+tdbar=ddply(.data=tdcom, c("com","dom","planner"),  summarise, Solved.Count=sum(Solved.count) )
+tdbar$xval=paste0(tdbar$dom,'-',tdbar$planner)
+maxprobdom=data.frame(dom=c("blocks","elevator","freecell","logistics","schedule"), prob=c(100,150,60,285,500))
+myv= apply(tdbar,1,function(row){ as.numeric(row["Solved.Count"]) / maxprobdom[maxprobdom[,"dom"]==row["dom"],"prob"]})
+
+myv=myv*100
+#tdbar$Solved.Count
+names(myv)=tdbar$xval
+
+pl=unique(tdcom$planner)
+pc=primary.colors(length(pl))
+pcl=cbind(pc, pl[order(pl)])
+colnames(pcl) = c( "color","planner")
+tdbar$col=apply(tdbar, MARGIN=1, function(row){ pcl[pcl[,"planner"]==row["planner"],"color"]})
+
+imprimirini(typ='eps',name=paste0("Layers/","barplt_All_GDomain00_Planner_Solved"),64,36)
+
+par(mar=c(11,5,3,13),xpd=FALSE)
+barplot(myv,ylab = "Percentage of solved instancies",xlab = "Domain", las=2, cex=tam, cex.lab=tam,cex.axis=tam, col=tdbar$col,xaxt="n") #
+tpd=ddply(.data=tdbar,"dom", summarise, tp=length(planner) )
+abl=0
+pdl=c()
+for( l in 1:(ds-1)){
+    fv=abl+(tpd[l,]$tp*1.2)
+    abline(v=fv+.1,xpd=FALSE)
+    pdl=rbind(pdl,abl+(tpd[l,]$tp*1.2)/2 )    
+    abl=fv
+}
+pdl=rbind(pdl,abl+(tpd[ds,]$tp*1.2)/2 )
+legend(x=dim(tdbar)[1]+11,y=max(myv), legend=pcl[,"planner"],fill=pcl[,"color"],cex=tam,xpd=TRUE)
+axis(side=1, labels=dl, cex.axis=tam, at=pdl )
+
+imprimirfin()
+
+
+
+#unique(td98$type)
+tdcom=droplevels(tdcom)
 boxplot(log(Time,10)~gpbase+type,data=td98)
 boxplot(log(Time,10)~heuristicbase+type,data=td98)
 boxplot(log(Time,10)~satbase+type,data=td98)
@@ -301,20 +365,6 @@ boxplot(Solved.Count~gpbase+type,data=td98p)
 boxplot(Solved.Count~heuristicbase+type,data=td98p)
 boxplot(Solved.Count~satbase+type,data=td98p)
 boxplot(Solved.Count~planner+type,data=td98p)
-td98bar=ddply(.data=td98p, c("com","dom","planner"),  summarise, Solved.Count=sum(Solved.Count) )
-td98bar$xval=paste0(td98bar$dom,'-',td98bar$planner)
-myv=td98bar$Solved.Count
-names(myv)=td98bar$xval
-#par(mar=c(11,5,3,3),xpd=FALSE)
-imprimirini(typ='eps',name=paste0("Layers/","barplt_All_GDomain_Planner_Solved"),12,7.25)
-barplot(myv,ylab = "Solved instancies",xlab = "Domain",xaxt="n", las=2,col=collist, cex=tam, cex.lab=tam,cex.axis=tam)
-abline(v=4.9,xpd=FALSE)
-abline(v=9.7,xpd=FALSE)
-abline(v=14.5,xpd=FALSE)
-abline(v=19.3,xpd=FALSE)
-legend(x=19.5,y=29, sort(pl),fill=collist,cex=tam)
-axis(side=1, labels=dl, cex.axis=tam, at=seq(2.5,22.5,4.8) )
-imprimirfin()
 
 td6=ddply(.data=compresultsraw, c("com","dom","gn","planner","Time","Steps"),  summarise, Solved.count=sum(solved) )
 td00=td6[td6$com=='IPC2000'&!is.na(td6$Time),]

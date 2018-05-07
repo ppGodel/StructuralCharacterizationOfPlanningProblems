@@ -3,6 +3,7 @@ library('psych')
 library('ggplot2')
 library('plyr')
 library('corrplot')
+library("colorRamps")
 
 typu="png"
 typg<<-"eps"
@@ -11,7 +12,7 @@ gpath="images/"
 imprimirini= function(typ, name, w=32, h=18){
     typg<<-typ
     if(typg=="eps"){
-        postscript(paste(gpath,name,".eps", sep=""), width=32,height=18)
+        postscript(paste(gpath,name,".eps", sep=""), width=w,height=h)
         #dev.print(file=paste(name,".eps", sep=""), device=eps, width=1440,height=960,units = "px")
     }
     else
