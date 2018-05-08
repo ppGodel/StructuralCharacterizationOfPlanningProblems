@@ -130,8 +130,8 @@ boxplot(R2~Cresp+Cfactor, data=allclassdomnpar)
 #ggplot(data = allclass[allclass$R2>=0.85&allclass$R2<0.985,], aes(x=factor(Cfactor), y=log(abs(Dist)+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom)
 #ggsave(paste0(gpath,"Layers/","DistanceDistribution.",typu), device=typu, width=12,height=7.25)
 
-sqv=seq(0,1,0.025)
-tda=aggregate(planner~R2+Cfactor+com, allclass, FUN=length)
+sqv=seq(0.8,1,0.01)
+tda=aggregate(planner~R2+Cfactor+com, allclassdompar, FUN=length)
 tda=cbind(1:dim(tda)[1],tda[order(tda$R2, decreasing=TRUE),])
 higm=sapply(X=sqv, FUN=function(item){    
     #return(100*sum(tda$R2>=item)/length(tda$R2))
@@ -139,10 +139,10 @@ higm=sapply(X=sqv, FUN=function(item){
 })
 #logm=100-higm
 logm=length(tda$R2)-higm
-td=data.frame(x=sqv,value="acepted", count=higm)
+td=data.frame(x=sqv,value="accepted", count=higm)
 tp=data.frame(x=sqv,value="rejected", count=logm)
 td=rbind(tp,td)
-ggplot(data=td, aes(x=x, y=count, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=16), axis.title=element_text(size=20, face="bold"))+labs(x = expression(R^2), y="Model Count", fill="Value")+scale_x_continuous(breaks=seq(0, 1, 0.05))
+ggplot(data=td, aes(x=x, y=count, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=20), axis.title=element_text(size=25,  face="bold"))+labs(x = expression(R^2), y="Model Count", fill="Value")+scale_x_continuous(breaks=seq(0.8, 1, 0.01))+ theme_bw(base_size=20)
 ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,height=7.25)
 
 
@@ -155,7 +155,11 @@ plotinstancesDifficult(allclassdompar[between(allclassdompar$R2,0.85,0.98),], "L
 plotinstancesDifficult(allclassdomnpar[between(allclassdomnpar$R2,0.85,0.98),], "Layers/InstanceDifficultyNPar")
 
 bdf=allclasscompar[between(allclasscompar$R2,0.85,0.98),]
-td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Class+dom+gn, bdf, FUN=length))
+mddf=aggregate(abs(Dist)~com+dom+planner,bdf,FUN=max)
+names(mddf)= c("com","dom","planner","maxDist")
+bdf= merge(bdf,mddf, by=c("com","dom","planner"))
+
+td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Dist+maxDist+MahaDist+CookDist+Class+dom+gn, bdf[bdf$Class!=0,], FUN=length))
 td3[td3$Disc==2,]$Disc=2
 td3[td3$Disc==0,]$Disc=1
 td3$Diff=NA
