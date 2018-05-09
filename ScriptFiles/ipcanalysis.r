@@ -157,12 +157,21 @@ plotinstancesDifficult(allclassdomnpar[between(allclassdomnpar$R2,0.85,0.98),], 
 bdf=allclasscompar[between(allclasscompar$R2,0.85,0.98),]
 mddf=aggregate(abs(Dist)~com+dom+planner,bdf,FUN=max)
 names(mddf)= c("com","dom","planner","maxDist")
+sddf=aggregate(abs(Dist)~com+dom+planner,bdf,FUN=sum)
+names(sddf)= c("com","dom","planner","sumDist")
+tddf=aggregate(Dist~com+dom+planner,bdf,FUN=length)
+names(tddf)= c("com","dom","planner","totDist")
 bdf= merge(bdf,mddf, by=c("com","dom","planner"))
+bdf= merge(bdf,sddf, by=c("com","dom","planner"))
+bdf= merge(bdf,tddf, by=c("com","dom","planner"))
 
-td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Dist+maxDist+MahaDist+CookDist+Class+dom+gn, bdf[bdf$Class!=0,], FUN=length))
+td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Dist+sumDist+MahaDist+CookDist+Class+com+dom+gn, bdf, FUN=length))
+td3tg=ddply(.data=td3, c("com","dom","gn"),  summarise, tp=length(planner) )
+td3=merge(td3, td3tg, by=c("com","dom","gn"))
 td3[td3$Disc==2,]$Disc=2
 td3[td3$Disc==0,]$Disc=1
 td3$Diff=NA
+td3$Ndist=abs(td3$Dist)/td3$sumDist
 td3$MahaDiff="Average"
 td3$CookDiff="Average"
 td3[td3$Class==0,]$Diff="Average"
@@ -173,15 +182,31 @@ td3[td3$Disc==2 & td3$MahaOut==1,]$MahaDiff="Hard"
 td3[td3$Disc==1 & td3$CookOut==1,]$CookDiff="Easy"
 td3[td3$Disc==2 & td3$CookOut==1,]$CookDiff="Hard"
 
-td3ND=aggregate(planner~dom+gn+Diff, td3,FUN=sum)
-td3MD=aggregate(planner~dom+gn+MahaDiff, td3,FUN=sum)
-td3CD=aggregate(planner~dom+gn+CookDiff, td3,FUN=sum)
+#td3ND=aggregate(planner~dom+gn+Diff, td3,FUN=sum)
+td3ND=ddply(.data=td3, c("com","dom","gn","Diff","tp"),  summarise, planner=sum(planner), DistV=mean(Ndist) )
+td3ND$score=td3ND$planner*td3ND$DistV/td3ND$tp
+td3MD=ddply(.data=td3, c("com","dom","gn","MahaDiff"),  summarise, planner=sum(planner), DistV=mean(Ndist) )
+td3CD=ddply(.data=td3, c("com","dom","gn","CookDiff"),  summarise, planner=sum(planner), DistV=mean(CookDist) )
 
 td3ND[td3ND$Diff=="Easy",]$planner=-td3ND[td3ND$Diff=="Easy",]$planner
 td3CD[td3CD$CookDiff=="Easy",]$planner=-td3CD[td3CD$CookDiff=="Easy",]$planner
 td3MD[td3MD$MahaDiff=="Easy",]$planner=-td3MD[td3MD$MahaDiff=="Easy",]$planner
 names(td3MD)[names(td3MD) == 'MahaDiff'] <- 'Diff'
 names(td3CD)[names(td3CD) == 'CookDiff'] <- 'Diff'
+
+
+
+> td3ND$coun= round(td3ND$score,3)
+> tdf=ddply(.data=td3ND[td3ND$Diff=="Easy",], c("coun"), summarise, t=length(gn))
+> plot(x=tdf$coun,y=tdf$t )
+> td3ND$coun= round(td3ND$score,2)
+> tdf=ddply(.data=td3ND[td3ND$Diff=="Easy",], c("coun"), summarise, t=length(gn))
+> plot(x=tdf$coun,y=tdf$t )
+> plot(x=tdf$coun,y=log(tdf$t) )
+> plot(x=tdf$coun,y=log(tdf$t), xlab="Score", ylab="freq" )
+
+
+
 
 pltdf= droplevels(td3ND[td3ND$Diff!="Average",])
 ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=10)) + labs(x="Instance", y="vote count", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(pltdf$gn)))
