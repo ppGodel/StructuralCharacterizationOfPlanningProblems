@@ -196,14 +196,6 @@ names(td3CD)[names(td3CD) == 'CookDiff'] <- 'Diff'
 
 
 
-> td3ND$coun= round(td3ND$score,3)
-> tdf=ddply(.data=td3ND[td3ND$Diff=="Easy",], c("coun"), summarise, t=length(gn))
-> plot(x=tdf$coun,y=tdf$t )
-> td3ND$coun= round(td3ND$score,2)
-> tdf=ddply(.data=td3ND[td3ND$Diff=="Easy",], c("coun"), summarise, t=length(gn))
-> plot(x=tdf$coun,y=tdf$t )
-> plot(x=tdf$coun,y=log(tdf$t) )
-> plot(x=tdf$coun,y=log(tdf$t), xlab="Score", ylab="freq" )
 
 
 
@@ -219,6 +211,31 @@ ggsave(paste0(gpath,"Layers/","ClassByCookDistParallelbyComR2Int.",typu), device
 pltdf= droplevels(td3MD[td3MD$Diff!="Average",])
 ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=10)) + labs(x="Instance", y="vote count", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(pltdf$gn)))
 ggsave(paste0(gpath,"Layers/","ClassByMahaDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
+
+
+
+
+
+diffic="Easy"
+td3ND$score=td3ND$DistV*(td3ND$planner/td3ND$tp)
+td3ND$coun= round(td3ND$score,2)
+tdf=ddply(.data=td3ND[td3ND$Diff==diffic,], c("coun"), summarise, t=length(gn))
+plot(x=abs(tdf$coun),y=log(tdf$t), type='l', xlab="Score", ylab="freq", main=diffic )
+
+pres=td3ND[td3ND$Diff!="Average",c("com","dom","gn","Diff","score")]
+
+merge(x=pres,y=compresultsgraphsolved, by=)
+prest=pres
+prest$score=prest$score*ifelse(prest$Diff==diffic,-1,1)
+#position = position_dodge()
+ggplot(data =prest, aes(x=factor(gn), y=score, fill=as.factor(Diff) )) +geom_bar(stat="identity", position=position_stack(reverse = TRUE)) + theme(text = element_text(size=10)) + labs(x="Instance", y="score", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(prest$gn)))
+#ggsave(paste0(gpath,"Layers/","ClassByMahaDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
+
+
+
+
+
+
 
 
 met=unique(allclass$Cfactor)
