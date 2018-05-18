@@ -91,37 +91,52 @@ db.nodes.aggregate([
 
 
 var mf= function(){
-    tanmn=0;
-    tfnmn=0;
-    tamn=0;
-    tfmn=0;
+    poe=0;
+    pde=0;    //des=this.de.length;
     if(this.y=="f"){
-	if(this.xe.length>1){
-	    tfmn++;
-	}else{
-	    tfnmn++;
-	}
+	tan=this.al.TAMN+this.al.TANMN
+	if(tan==0){
+	    tan=1
+	}	
+	poe=this.oe.length/tan;
+	pde=this.de.length/tan;	
     }else{
-	if(this.xe.length>1){
-	    tamn++;
-	}else{
-	    tanmn++;
+	tfn=this.nl.TFMN+this.nl.TFNMN
+	if(tfn==0){
+	    tfn=1
 	}
+	poe=this.oe.length/tfn;
+	pde=this.de.length/tfn;
     }
-    emit({ gid:this.gid, T:this.T}, { TN:1, TANMN:tanmn,TAMN:tamn, TFNMN:tfnmn, TFMN:tfmn})
+    emit({ gid:this.gid, T:this.T, Y:this.y}, { TN:1, POE:poe })
 }
+//, PDE:pde,PM:this.PM
+//, sumPDE:0, minPDE:999999, maxPDE:0, meanPDE:0, sdPDE:0, kurPDE:0, skwePDE:0, sumPME:0, minPME:999999, maxPME:0, meanPME:0, sdPME:0, kurPME:0, skwePME:0
 var rf= function(key,val){
-    rval = { TN:0, TANMN:0,TAMN:0, TFNMN:0, TFMN:0 };
-    for (var idx = 0; idx < val.length; idx++) {
-        rval.TN += val[idx].TN;
-        rval.TANMN += val[idx].TANMN;
-        rval.TAMN += val[idx].TAMN;
-        rval.TFNMN += val[idx].TFNMN;
-        rval.TFMN += val[idx].TFMN;
+    rval = { N:0, sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0 };
+    for (var idx = 0; idx < val.length; idx++) {	
+        rval.minPOE = Math.min(rval.minPOE,val[idx].POE);
+        rval.maxPOE = Math.max(rval.maxPOE,val[idx].POE);
+        rval.N += val[idx].N;
+	rval.sumPOE+=val[idx].POE
+	rval.sqsPOE+=(val[idx].POE)**2
+	rval.cusPOE+=(val[idx].POE)**3
+	rval.hcsPOE+=(val[idx].POE)**4
     }
     return rval
 }
-db.nodesAndLevels.mapReduce(mf,rf, "summnodesbyL")
+
+function fz(key, value){ 
+    value.meanPOE = value.sumPOE / value.N;
+    value.sdPOE = Math.sqrt((value.sqsPOE / value.N)- value.avg**2);
+    value.skewPOE = (value.sdPOE**3)*((value.cusSum/value.N) - (value.avg*value.sqsPOE/value.N ));
+    value.kurtPOE = (value.sdPOE**4)*((value.hcsSum/value.N)-4*value.avg*(value.cusSum/value.N)+6*(value.avg**2)*(value.sqsPOE/value.N )-3*value.avg**4);
+    return value;
+}
+
+
+
+db.nodesAndLevels.mapReduce(mf,rf, {out:"summNLbyL", finalize:fz})
 
 
 ,
