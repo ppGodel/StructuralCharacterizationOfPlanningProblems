@@ -82,13 +82,13 @@ bdf= merge(bdf,mddf, by=c("com","dom","planner"))
 bdf= merge(bdf,sddf, by=c("com","dom","planner"))
 bdf= merge(bdf,tddf, by=c("com","dom","planner"))
 
-td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Dist+sumDist+MahaDist+CookDist+Class+com+dom+gn, bdf, FUN=length))
+td3=droplevels(aggregate(planner~Disc+MahaOut+CookOut+Dist+sumDist+MahaDist+CookDist+R2+Class+com+dom+gn, bdf, FUN=length))
 td3tg=ddply(.data=td3, c("com","dom","gn"),  summarise, tp=length(planner) )
 td3=merge(td3, td3tg, by=c("com","dom","gn"))
 td3[td3$Disc==2,]$Disc=2
 td3[td3$Disc==0,]$Disc=1
 td3$Diff=NA
-td3$Ndist=abs(td3$Dist)/td3$sumDist
+td3$Ndist=(abs(td3$Dist))/td3$sumDist
 td3$MahaDiff="Average"
 td3$CookDiff="Average"
 td3[td3$Class==0,]$Diff="Average"
@@ -137,13 +137,58 @@ diffic="Easy"
 td3ND$score=td3ND$DistV*(td3ND$planner/td3ND$tp)
 td3ND$coun= round(td3ND$score,2)
 tdf=ddply(.data=td3ND[td3ND$Diff==diffic,], c("coun"), summarise, t=length(gn))
+
 plot(x=abs(tdf$coun),y=log(tdf$t), type='l', xlab="Score", ylab="freq", main=diffic )
 
 pres=td3ND[td3ND$Diff!="Average",c("com","dom","gn","Diff","score")]
 
-merge(x=pres,y=compresultsgraphsolved, by=)
+#merge(x=pres,y=compresultsgraphsolved, by=)
 prest=pres
 prest$score=prest$score*ifelse(prest$Diff==diffic,-1,1)
 #position = position_dodge()
-ggplot(data =prest, aes(x=factor(gn), y=score, fill=as.factor(Diff) )) +geom_bar(stat="identity", position=position_stack(reverse = TRUE)) + theme(text = element_text(size=10)) + labs(x="Instance", y="score", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(prest$gn)))
+ggplot(data =prest[!between(prest$score,-0.001,0.001),], aes(x=factor(gn), y=score, fill=as.factor(Diff) )) +geom_bar(stat="identity", position=position_stack(reverse = TRUE)) + theme(text = element_text(size=10)) + labs(x="Instance", y="score", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(prest$gn)))
 #ggsave(paste0(gpath,"Layers/","ClassByMahaDistParallelbyComR2Int.",typu), device=typu, width=12,height=7.25)
+
+
+head(prest)
+hist(prest$score,breaks=seq(-1, 1, 0.01))
+dim(prest)
+dim(prest[!between(prest$score,-0.09,0.092),])
+
+
+tdfe=ddply(.data=prest, c("com","dom","gn"), summarise, easyScore= min(score), hardScore= max(score))
+tdfe[tdfe$easyScore>0,]$easyScore=0
+tdfe[tdfe$hardScore<0,]$hardScore=0
+dim(tdfe)
+dim(tdfe[tdfe$easyScore==0|tdfe$hardScore==0,])
+dim(tdfe[((tdfe$easyScore==0&tdfe$hardScore<0.001)|(tdfe$hardScore==0&tdfe$easyScore>(-0.001))),])
+tdfe1=tdfe[tdfe$easyScore<(-0.001)&tdfe$hardScore>0.001,]
+tdfe1$sumScore=tdfe1$hardScore+abs(tdfe1$easyScore)
+tdfe1$difScore=tdfe1$hardScore+tdfe1$easyScore
+tdfe1$minScore=ifelse(tdfe1$hardScore<abs(tdfe1$easyScore),tdfe1$hardScore,tdfe1$easyScore)
+tdfe1$maxScore=ifelse(tdfe1$hardScore>abs(tdfe1$easyScore),tdfe1$hardScore,tdfe1$easyScore)
+tdfe1$Dmdcore=abs(tdfe1$minScore)-abs(tdfe1$difScore)
+tdfe1$pdif=tdfe1$difScore/(tdfe1$maxScore)
+dim(tdfe1)
+tdfe1[which.min(tdfe1$easyScore),]
+tdfe1[which.max(tdfe1$hardScore),]
+tdfe1[which.max(abs(tdfe1$sumScore)),]
+tdfe1[which.max(abs(tdfe1$difScore)),]
+tdfe1[which.min(abs(tdfe1$difScore)),]
+tdfe1[which.max(abs(tdfe1$maxScore)),]
+#[!between(prest$score,-0.001,0.001),]
+hist(c(tdfe1$easyScore,tdfe1$hardScore),breaks=seq(-1, 1, 0.01))
+
+
+tdfe2=tdfe1[tdfe1$Dmdcore>0,]
+tdfe1[tdfe1$pdif>0.33&abs(tdfe1$difScore)>0.001,]
+dim(tdfe1[tdfe1$pdif>0.33&abs(tdfe1$difScore)>0.001,])
+
+tdfe1$difScore/abs(tdfe1$maxScore)
+tdfe2[which.min(tdfe2$Dmdcore),]
+
+tdfe1$rscore=round(tdfe1$score,2)
+110 T
+56 NC                                  54 PC
+24 PC             32 CN                21 CN           33 C
+5CN     19 C

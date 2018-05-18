@@ -91,46 +91,54 @@ db.nodes.aggregate([
 
 
 var mf= function(){
-    poe=0;
-    pde=0;    //des=this.de.length;
+    var poe=0;
+    //var pde=0;    //des=this.de.length;
     if(this.y=="f"){
-	tan=this.al.TAMN+this.al.TANMN
-	if(tan==0){
-	    tan=1
+	var tan=this.al.TAMN+this.al.TANMN;
+	if(tan==0|isNaN(tan)){
+	    tan=1;
 	}	
 	poe=this.oe.length/tan;
-	pde=this.de.length/tan;	
+	//pde=this.de.length/tan;	
     }else{
-	tfn=this.nl.TFMN+this.nl.TFNMN
-	if(tfn==0){
-	    tfn=1
+	var tfn=this.nl.TFMN+this.nl.TFNMN;
+	if(tfn==0|isNaN(tfn)){
+	    tfn=1;
 	}
 	poe=this.oe.length/tfn;
-	pde=this.de.length/tfn;
+	//pde=this.de.length/tfn;
+	if(isNaN(poe)){
+	    poe=0
+	}
     }
-    emit({ gid:this.gid, T:this.T, Y:this.y}, { TN:1, POE:poe })
+    emit({gid:this.gid, T:this.T, Y:this.y}, {N:1, POE:poe})
 }
+
+var mf = function(){
+    emit({gid:this.gid, T:this.T, Y:this.y}, {N:1, POE:this.oe.length})    
+}
+
 //, PDE:pde,PM:this.PM
 //, sumPDE:0, minPDE:999999, maxPDE:0, meanPDE:0, sdPDE:0, kurPDE:0, skwePDE:0, sumPME:0, minPME:999999, maxPME:0, meanPME:0, sdPME:0, kurPME:0, skwePME:0
 var rf= function(key,val){
-    rval = { N:0, sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0 };
+    var rval = { N:0, sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0 };
     for (var idx = 0; idx < val.length; idx++) {	
         rval.minPOE = Math.min(rval.minPOE,val[idx].POE);
         rval.maxPOE = Math.max(rval.maxPOE,val[idx].POE);
         rval.N += val[idx].N;
-	rval.sumPOE+=val[idx].POE
-	rval.sqsPOE+=(val[idx].POE)**2
-	rval.cusPOE+=(val[idx].POE)**3
-	rval.hcsPOE+=(val[idx].POE)**4
+	rval.sumPOE+=val[idx].POE;
+	rval.sqsPOE+=Math.pow(val[idx].POE,2);
+	rval.cusPOE+=Math.pow(val[idx].POE,3);
+	rval.hcsPOE+=Math.pow(val[idx].POE,4);
     }
     return rval
 }
 
-function fz(key, value){ 
+var fz = function (key, value){ 
     value.meanPOE = value.sumPOE / value.N;
-    value.sdPOE = Math.sqrt((value.sqsPOE / value.N)- value.avg**2);
-    value.skewPOE = (value.sdPOE**3)*((value.cusSum/value.N) - (value.avg*value.sqsPOE/value.N ));
-    value.kurtPOE = (value.sdPOE**4)*((value.hcsSum/value.N)-4*value.avg*(value.cusSum/value.N)+6*(value.avg**2)*(value.sqsPOE/value.N )-3*value.avg**4);
+    value.sdPOE = Math.sqrt((value.sqsPOE / value.N)- Math.pow(value.avg,2));
+    value.skewPOE = Math.pow(value.sdPOE,3)*((value.cusSum/value.N) - (value.avg*value.sqsPOE/value.N ));
+    value.kurtPOE = Math.pow(value.sdPOE,4)*((value.hcsSum/value.N)-4*value.avg*(value.cusSum/value.N)+6*Math.pow(value.avg,2)*(value.sqsPOE/value.N )-3*Math.pow(value.avg,4)) - 3;
     return value;
 }
 
