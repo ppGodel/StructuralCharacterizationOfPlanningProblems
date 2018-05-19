@@ -111,28 +111,26 @@ var mf= function(){
 	    poe=0
 	}
     }
-    emit({gid:this.gid, T:this.T, Y:this.y}, {N:1, POE:poe})
-}
-
-var mf = function(){
-    emit({gid:this.gid, T:this.T, Y:this.y}, {N:1, POE:this.oe.length})    
+    emit({gid:this.gid, T:this.T, Y:this.y}, {count:1, sumPOE:poe, minPOE:poe, maxPOE:poe, sqsPOE:Math.pow(poe,2),cusPOE:Math.pow(poe,3),hcsPOE:Math.pow(poe,4), meanPOE:0, sdPOE:0 })
 }
 
 //, PDE:pde,PM:this.PM
 //, sumPDE:0, minPDE:999999, maxPDE:0, meanPDE:0, sdPDE:0, kurPDE:0, skwePDE:0, sumPME:0, minPME:999999, maxPME:0, meanPME:0, sdPME:0, kurPME:0, skwePME:0
-var rf= function(key,val){
-    var rval = { N:0, sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0 };
-    for (var idx = 0; idx < val.length; idx++) {	
-        rval.minPOE = Math.min(rval.minPOE,val[idx].POE);
-        rval.maxPOE = Math.max(rval.maxPOE,val[idx].POE);
-        rval.N += val[idx].N;
-	rval.sumPOE+=val[idx].POE;
-	rval.sqsPOE+=Math.pow(val[idx].POE,2);
-	rval.cusPOE+=Math.pow(val[idx].POE,3);
-	rval.hcsPOE+=Math.pow(val[idx].POE,4);
+
+var rf = function(key,val){
+    rval = { count:0, sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0};
+    for (var idx = 0; idx < val.length; idx++) {
+	rval.sumPOE += val[idx].sumPOE;
+	rval.sqsPOE += val[idx].sqsPOE;
+	rval.cusPOE += val[idx].cusPOE;
+	rval.hcsPOE += val[idx].hcsPOE;
+        rval.minPOE = Math.min(rval.minPOE,val[idx].minPOE);
+        rval.maxPOE = Math.max(rval.maxPOE,val[idx].minPOE);
+        rval.count += val[idx].count;
     }
-    return rval
-}
+    return rval;
+};
+
 
 var fz = function (key, value){ 
     value.meanPOE = value.sumPOE / value.N;
@@ -144,7 +142,7 @@ var fz = function (key, value){
 
 
 
-db.nodesAndLevels.mapReduce(mf,rf, {out:"summNLbyL", finalize:fz})
+db.TestnodesAndLevels.mapReduce(mf,rf, {out:"summNLbyL", finalize:fz})
 
 
 ,
