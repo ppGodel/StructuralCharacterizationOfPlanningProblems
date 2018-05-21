@@ -92,85 +92,111 @@ db.nodes.aggregate([
 
 var mf= function(){
     var poe=0;
-    //var pde=0;    //des=this.de.length;
+    var pde=0;
+    var pme=this.PM*100;
     if(this.y=="f"){
 	var tan=this.al.TAMN+this.al.TANMN;
 	if(tan==0|isNaN(tan)){
 	    tan=1;
 	}	
-	poe=this.oe.length/tan;
-	//pde=this.de.length/tan;	
+	poe=this.oe.length/tan*100;
+	pde=this.de.length/tan*100;	
     }else{
 	var tfn=this.nl.TFMN+this.nl.TFNMN;
 	if(tfn==0|isNaN(tfn)){
 	    tfn=1;
 	}
-	poe=this.oe.length/tfn;
-	//pde=this.de.length/tfn;
+	poe=this.oe.length/tfn*100;
+	pde=this.de.length/tfn*100;
 	if(isNaN(poe)){
 	    poe=0
 	}
     }
-    emit({gid:this.gid, T:this.T, Y:this.y}, {count:1, sumPOE:poe, minPOE:poe, maxPOE:poe, sqsPOE:Math.pow(poe,2),cusPOE:Math.pow(poe,3),hcsPOE:Math.pow(poe,4), meanPOE:0, sdPOE:0 })
+    emit({gid:this.gid,T:this.T, Y:this.y}, {count:1, sumPME:pme, minPME:pme, maxPME:pme, sqsPME:Math.pow(pme,2),cusPME:Math.pow(pme,3),hcsPME:Math.pow(pme,4), meanPME:0, sdPME:0, kurtPME:0, skewPME:0, sumPOE:poe, minPOE:poe, maxPOE:poe, sqsPOE:Math.pow(poe,2),cusPOE:Math.pow(poe,3),hcsPOE:Math.pow(poe,4), meanPOE:0, sdPOE:0, kurtPOE:0, skewPOE:0, sumPDE:pde, minPDE:pde, maxPDE:pde, sqsPDE:Math.pow(pde,2), cusPDE:Math.pow(pde,3), hcsPDE:Math.pow(pde,4), meanPDE:0, sdPDE:0})
 }
 
-//, PDE:pde,PM:this.PM
-//, sumPDE:0, minPDE:999999, maxPDE:0, meanPDE:0, sdPDE:0, kurPDE:0, skwePDE:0, sumPME:0, minPME:999999, maxPME:0, meanPME:0, sdPME:0, kurPME:0, skwePME:0
-
 var rf = function(key,val){
-    rval = { count:0, sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0};
+    rval = { count:0,
+	     sumPME:0, minPME:999999, maxPME:0, sqsPME:0,cusPME:0,hcsPME:0, meanPME:0, sdPME:0, kurtPME:0, skewPME:0,
+	     sumPOE:0, minPOE:999999, maxPOE:0, sqsPOE:0,cusPOE:0,hcsPOE:0, meanPOE:0, sdPOE:0, kurtPOE:0, skewPOE:0,
+	     sumPDE:0, minPDE:999999, maxPDE:0, sqsPDE:0,cusPDE:0,hcsPDE:0, meanPDE:0, sdPDE:0, kurtPDE:0, skewPDE:0};
     for (var idx = 0; idx < val.length; idx++) {
 	rval.sumPOE += val[idx].sumPOE;
 	rval.sqsPOE += val[idx].sqsPOE;
 	rval.cusPOE += val[idx].cusPOE;
 	rval.hcsPOE += val[idx].hcsPOE;
         rval.minPOE = Math.min(rval.minPOE,val[idx].minPOE);
-        rval.maxPOE = Math.max(rval.maxPOE,val[idx].minPOE);
+        rval.maxPOE = Math.max(rval.maxPOE,val[idx].maxPOE);
+	
+	rval.sumPDE += val[idx].sumPDE;
+	rval.sqsPDE += val[idx].sqsPDE;
+	rval.cusPDE += val[idx].cusPDE;
+	rval.hcsPDE += val[idx].hcsPDE;
+        rval.minPDE = Math.min(rval.minPDE,val[idx].minPDE);
+        rval.maxPDE = Math.max(rval.maxPDE,val[idx].maxPDE);
+	
+	rval.sumPME += val[idx].sumPME;
+	rval.sqsPME += val[idx].sqsPME;
+	rval.cusPME += val[idx].cusPME;
+	rval.hcsPME += val[idx].hcsPME;
+        rval.minPME = Math.min(rval.minPME,val[idx].minPME);
+        rval.maxPME = Math.max(rval.maxPME,val[idx].maxPME);
         rval.count += val[idx].count;
     }
     return rval;
 };
 
-
 var fz = function (key, value){ 
-    value.meanPOE = value.sumPOE / value.N;
-    value.sdPOE = Math.sqrt((value.sqsPOE / value.N)- Math.pow(value.avg,2));
-    value.skewPOE = Math.pow(value.sdPOE,3)*((value.cusSum/value.N) - (value.avg*value.sqsPOE/value.N ));
-    value.kurtPOE = Math.pow(value.sdPOE,4)*((value.hcsSum/value.N)-4*value.avg*(value.cusSum/value.N)+6*Math.pow(value.avg,2)*(value.sqsPOE/value.N )-3*Math.pow(value.avg,4)) - 3;
+    value.meanPOE = value.sumPOE / value.count;
+    value.sdPOE = Math.sqrt((value.sqsPOE / value.count)- Math.pow(value.meanPOE,2));
+    value.skewPOE = Math.pow(value.sdPOE,3)*((value.cusPOE/value.count) - (value.meanPOE*value.sqsPOE/value.count ));
+    value.kurtPOE = Math.pow(value.sdPOE,4)*((value.hcsPOE/value.count)-4*value.meanPOE*(value.cusPOE/value.count)+6*Math.pow(value.meanPOE,2)*(value.sqsPOE/value.count )-3*Math.pow(value.meanPOE,4)) - 3;
+    
+    value.meanPDE = value.sumPDE / value.count;
+    value.sdPDE = Math.sqrt((value.sqsPDE / value.count)- Math.pow(value.meanPDE,2));
+    value.skewPDE = Math.pow(value.sdPDE,3)*((value.cusPDE/value.count) - (value.meanPDE*value.sqsPDE/value.count ));
+    value.kurtPDE = Math.pow(value.sdPDE,4)*((value.hcsPDE/value.count)-4*value.meanPDE*(value.cusPDE/value.count)+6*Math.pow(value.meanPDE,2)*(value.sqsPDE/value.count )-3*Math.pow(value.meanPDE,4)) - 3;
+    
+    value.meanPME = value.sumPME / value.count;
+    value.sdPME = Math.sqrt((value.sqsPME / value.count)- Math.pow(value.meanPME,2));
+    value.skewPME = Math.pow(value.sdPME,3)*((value.cusPME/value.count) - (value.meanPME*value.sqsPME/value.count ));
+    value.kurtPME = Math.pow(value.sdPME,4)*((value.hcsPME/value.count)-4*value.meanPME*(value.cusPME/value.count)+6*Math.pow(value.meanPME,2)*(value.sqsPME/value.count )-3*Math.pow(value.meanPME,4)) - 3;
     return value;
 }
 
+db.nodesAndLevels.mapReduce(mf,rf, {out:"summNLbyL", finalize:fz})
 
-
-db.TestnodesAndLevels.mapReduce(mf,rf, {out:"summNLbyL", finalize:fz})
-
-
-,
-    {$group:{
-	_id:{ gid:"$gid", T:"$T"},
-	minPM: {$min: "$PM"},
-	meanPM: {$avg: "$PM"},
-	maxPM: {$max: "$PM"},
-	SDPM: {$stdDevPop : "$PM"},	
-	NPM: {$sum: 1},
-	PMList: {$push:{ soe:"$PM"}}
-    }},
-
-
-
-
-{$cond[{$neq:["",0]},,0]}
-{$cond: [{$eq:["$y","f"]},{$divide: [{$size: "$oe"},{$cond:[{$ne:["$c2.TAMN",0]},"$c2.TAMN",1]} ] },0 ]}
-
-,
-	kurPM: {
-	    $let : {
-		vars: {
-		    nv: {$sum: 1},
-		    sd: {$$stdDevPop : "$PM"},		    
-		    mv: {$avg: "$PM"},
-		},
-		    in: { $divide:  [{ $divide:  [{ $pow: [ {$sum:{ $subtract: ["$PM","$$mv" ] }},3] }, "$$nv"] }, { $pow: [ "$$sd",3] }]}
-		
-	    }
+var mf= function(){
+    var poe=0;
+    var pde=0;
+    var pme=this.PM*100;
+    if(this.y=="f"){
+	var tan=this.al.TAMN+this.al.TANMN;
+	if(tan==0|isNaN(tan)){
+	    tan=1;
+	}	
+	poe=this.oe.length/tan*100;
+	pde=this.de.length/tan*100;	
+    }else{
+	var tfn=this.nl.TFMN+this.nl.TFNMN;
+	if(tfn==0|isNaN(tfn)){
+	    tfn=1;
 	}
+	poe=this.oe.length/tfn*100;
+	pde=this.de.length/tfn*100;
+	if(isNaN(poe)){
+	    poe=0
+	}
+    }
+    emit({gid:this.gid, Y:this.y}, {count:1, sumPME:pme, minPME:pme, maxPME:pme, sqsPME:Math.pow(pme,2),cusPME:Math.pow(pme,3),hcsPME:Math.pow(pme,4), meanPME:0, sdPME:0, kurtPME:0, skewPME:0, sumPOE:poe, minPOE:poe, maxPOE:poe, sqsPOE:Math.pow(poe,2),cusPOE:Math.pow(poe,3),hcsPOE:Math.pow(poe,4), meanPOE:0, sdPOE:0, kurtPOE:0, skewPOE:0, sumPDE:pde, minPDE:pde, maxPDE:pde, sqsPDE:Math.pow(pde,2), cusPDE:Math.pow(pde,3), hcsPDE:Math.pow(pde,4), meanPDE:0, sdPDE:0})
+}
+
+
+db.nodesAndLevels.mapReduce(mf,rf, {out:"summNLbyG", finalize:fz})
+
+db.summNLbyL.aggregate([{$project:{ _id:0, gid:"$_id.gid", T:"$_id.T", Y:"$_id.Y", count:"$value.count", sumPOE:"$value.sumPOE", minPOE:"$value.minPOE", maxPOE:"$value.maxPOE",  meanPOE:"$value.meanPOE", sdPOE:"$value.sdPOE", kurtPOE:"$value.kurtPOE", skewPOE:"$value.skewPOE", sumPDE:"$value.sumPDE", minPDE:"$value.minPDE", maxPDE:"$value.maxPDE", meanPDE:"$value.meanPDE", sdPDE:"$value.sdPDE", kurtPDE:"$value.kurtPDE", skewPDE:"$value.skewPDE", sumPME:"$value.sumPME", minPME:"$value.minPME", maxPME:"$value.maxPME",  meanPME:"$value.meanPME", sdPME:"$value.sdPME", kurtPME:"$value.kurtPME", skewPME:"$value.skewPME"}} ,{$unwind:"$count"},{$unwind:"$sumPOE"},{$unwind:"$minPOE"},{$unwind:"$maxPOE"},{$unwind:"$meanPOE"},{$unwind:"$sdPOE"},{$unwind:"$kurtPOE"},{$unwind:"$skewPOE"},{$unwind:"$sumPDE"},{$unwind:"$minPDE"},{$unwind:"$maxPDE"},{$unwind:"$meanPDE"},{$unwind:"$sdPDE"},{$unwind:"$kurtPDE"},{$unwind:"$skewPDE"},{$unwind:"$sumPME"},{$unwind:"$minPME"},{$unwind:"$maxPME"},{$unwind:"$meanPME"},{$unwind:"$sdPME"},{$unwind:"$kurtPME"},{$unwind:"$skewPME"}, {$out:"summNLbyLC"} ])
+
+db.summNLbyG.aggregate([{$project:{ _id:0, gid:"$_id.gid", Y:"$_id.Y", count:"$value.count", sumPOE:"$value.sumPOE", minPOE:"$value.minPOE", maxPOE:"$value.maxPOE",  meanPOE:"$value.meanPOE", sdPOE:"$value.sdPOE", kurtPOE:"$value.kurtPOE", skewPOE:"$value.skewPOE", sumPDE:"$value.sumPDE", minPDE:"$value.minPDE", maxPDE:"$value.maxPDE", meanPDE:"$value.meanPDE", sdPDE:"$value.sdPDE", kurtPDE:"$value.kurtPDE", skewPDE:"$value.skewPDE", sumPME:"$value.sumPME", minPME:"$value.minPME", maxPME:"$value.maxPME",  meanPME:"$value.meanPME", sdPME:"$value.sdPME", kurtPME:"$value.kurtPME", skewPME:"$value.skewPME"}} ,{$unwind:"$count"},{$unwind:"$sumPOE"},{$unwind:"$minPOE"},{$unwind:"$maxPOE"},{$unwind:"$meanPOE"},{$unwind:"$sdPOE"},{$unwind:"$kurtPOE"},{$unwind:"$skewPOE"},{$unwind:"$sumPDE"},{$unwind:"$minPDE"},{$unwind:"$maxPDE"},{$unwind:"$meanPDE"},{$unwind:"$sdPDE"},{$unwind:"$kurtPDE"},{$unwind:"$skewPDE"},{$unwind:"$sumPME"},{$unwind:"$minPME"},{$unwind:"$maxPME"},{$unwind:"$meanPME"},{$unwind:"$sdPME"},{$unwind:"$kurtPME"},{$unwind:"$skewPME"}, {$out:"summNLbyGC"} ])
+
+
+

@@ -71,7 +71,7 @@ allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[comp
 allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
 allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
 
-bdf=allclasscompar[between(allclasscompar$R2,0.85,0.98),]
+bdf=allclassdompar[between(allclasscompar$R2,0.85,0.98),]
 mddf=aggregate(abs(Dist)~com+dom+planner,bdf,FUN=max)
 names(mddf)= c("com","dom","planner","maxDist")
 sddf=aggregate(abs(Dist)~com+dom+planner,bdf,FUN=sum)
@@ -192,3 +192,325 @@ tdfe1$rscore=round(tdfe1$score,2)
 56 NC                                  54 PC
 24 PC             32 CN                21 CN           33 C
 5CN     19 C
+
+prcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="summNLbyGC")
+graphc=mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphs")
+propraw=data.frame(prcon$find())
+graphraw=data.frame(graphc$find(fields='{"_id":1 , "gn":1, "dom":1, "pn":1, "com":1,"cdkey":1, "pkey":1}'))
+colnames(graphraw)=c("gid","gn", "dom", "pn", "com", "cdkey", "pkey")
+#propertiesres= read.csv("propertiesresults.csv")
+
+analisisfn =function( type){
+    testp=testres[testres$Y==substr(type,0,1),c("easyScore", "hardScore","count", "minPOE", "maxPOE", "meanPOE", "sdPOE", "kurtPOE", "skewPOE", "maxPDE", "meanPDE", "sdPDE", "kurtPDE", "skewPDE", "maxPME","meanPME", "sdPME", "kurtPME", "skewPME")]
+    #Easy
+    diff="easy"
+    data= testp[ testp$hardScore==0&testp$easyScore<(-0.001),]
+    data$easyScore=abs(data$easyScore)
+    data$skewPOE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPOE)
+    data$skewPDE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPDE)
+    data$skewPME=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPME)
+    
+    imprimirini(typ=typu,name=paste0("Layers/","CorrKendallprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste0("Layers/","CorrSpearmanprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+
+    tdata= testres[testres$hardScore==0&testres$easyScore<(-0.001),]
+    plot(x=tdata$meanPDE,y=-tdata$easyScore)
+    text(x=tdata$meanPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPDE,y=-tdata$easyScore)
+    text(x=tdata$sdPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPDE,y=-tdata$easyScore)
+    text(x=tdata$kurtPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPDE,y=-tdata$easyScore)
+    text(x=tdata$skewPDE,y=-tdata$easyScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPOE,y=-tdata$easyScore)
+    text(x=tdata$meanPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPOE,y=-tdata$easyScore)
+    text(x=tdata$sdPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPOE,y=-tdata$easyScore)
+    text(x=tdata$kurtPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPOE,y=-tdata$easyScore)
+    text(x=tdata$skewPOE,y=-tdata$easyScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPME,y=-tdata$easyScore)
+    text(x=tdata$meanPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPME,y=-tdata$easyScore)
+    text(x=tdata$sdPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPME,y=-tdata$easyScore)
+    text(x=tdata$kurtPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPME,y=-tdata$easyScore)
+    text(x=tdata$skewPME,y=-tdata$easyScore, labels=tdata$gn)
+
+    #primary easy and hard
+    data= testp[ testp$hardScore>0&testp$easyScore<(-0.001)&abs(testp$easyScore)>testp$hardScore,]
+    data$easyScore=abs(data$easyScore)
+    data$skewPOE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPOE)
+    data$skewPDE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPDE)
+    data$skewPME=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPME)
+    
+    imprimirini(typ=typu,name=paste0("Layers/","CorrKendallprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste0("Layers/","CorrSpearmanprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+
+    tdata= testres[testres$hardScore>0&testres$easyScore<(-0.001)&abs(testres$easyScore)>testres$hardScore,]
+    plot(x=tdata$meanPDE,y=-tdata$easyScore)
+    text(x=tdata$meanPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPDE,y=-tdata$easyScore)
+    text(x=tdata$sdPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPDE,y=-tdata$easyScore)
+    text(x=tdata$kurtPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPDE,y=-tdata$easyScore)
+    text(x=tdata$skewPDE,y=-tdata$easyScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPOE,y=-tdata$easyScore)
+    text(x=tdata$meanPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPOE,y=-tdata$easyScore)
+    text(x=tdata$sdPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPOE,y=-tdata$easyScore)
+    text(x=tdata$kurtPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPOE,y=-tdata$easyScore)
+    text(x=tdata$skewPOE,y=-tdata$easyScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPME,y=-tdata$easyScore)
+    text(x=tdata$meanPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPME,y=-tdata$easyScore)
+    text(x=tdata$sdPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPME,y=-tdata$easyScore)
+    text(x=tdata$kurtPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPME,y=-tdata$easyScore)
+    text(x=tdata$skewPME,y=-tdata$easyScore, labels=tdata$gn)
+
+    #both
+    data= testp[ testp$hardScore>=0&testp$easyScore<(-0.001)&abs(testp$easyScore)>testp$hardScore,]
+    data$easyScore=abs(data$easyScore)
+    data$skewPOE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPOE)
+    data$skewPDE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPDE)
+    data$skewPME=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPME)
+    
+    imprimirini(typ=typu,name=paste0("Layers/","CorrKendallprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste0("Layers/","CorrSpearmanprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+
+    tdata= testres[testres$hardScore>=0&testres$easyScore<(-0.001)&abs(testres$easyScore)>testres$hardScore,]
+    plot(x=tdata$meanPDE,y=-tdata$easyScore)
+    text(x=tdata$meanPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPDE,y=-tdata$easyScore)
+    text(x=tdata$sdPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPDE,y=-tdata$easyScore)
+    #plot(x=tdata[tdata$kurtPDE>0,]$kurtPDE,y=-tdata[tdata$kurtPDE>0,]$easyScore)
+    text(x=tdata$kurtPDE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPDE,y=-tdata$easyScore)
+    text(x=tdata$skewPDE,y=-tdata$easyScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPOE,y=-tdata$easyScore)
+    text(x=tdata$meanPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPOE,y=-tdata$easyScore)
+    text(x=tdata$sdPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPOE,y=-tdata$easyScore)
+    text(x=tdata$kurtPOE,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPOE,y=-tdata$easyScore)
+    text(x=tdata$skewPOE,y=-tdata$easyScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPME,y=-tdata$easyScore)
+    text(x=tdata$meanPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$sdPME,y=-tdata$easyScore)
+    text(x=tdata$sdPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$kurtPME,y=-tdata$easyScore)
+    text(x=tdata$kurtPME,y=-tdata$easyScore, labels=tdata$gn)
+    plot(x=tdata$skewPME,y=-tdata$easyScore)
+    text(x=tdata$skewPME,y=-tdata$easyScore, labels=tdata$gn)
+
+
+   
+    diff="hard"
+    data= testp[ testp$easyScore==0&testp$hardScore>0.001,]
+    data$skewPOE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPOE)
+    data$skewPDE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPDE)
+    data$skewPME=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPME)
+    
+    imprimirini(typ=typu,name=paste0("Layers/","CorrKendallprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste0("Layers/","CorrSpearmanprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+
+    tdata= testres[testres$easyScore==0&testres$hardScore>0.001,]
+    plot(x=tdata$meanPDE,y=tdata$hardScore)
+    text(x=tdata$meanPDE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPDE,y=tdata$hardScore)
+    text(x=tdata$sdPDE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPDE,y=tdata$hardScore)
+    text(x=tdata$kurtPDE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPDE,y=tdata$hardScore)
+    text(x=tdata$skewPDE,y=tdata$hardScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPOE,y=tdata$hardScore)
+    text(x=tdata$meanPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPOE,y=tdata$hardScore)
+    text(x=tdata$sdPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPOE,y=tdata$hardScore)
+    text(x=tdata$kurtPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPOE,y=tdata$hardScore)
+    text(x=tdata$skewPOE,y=tdata$hardScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPME,y=tdata$hardScore)
+    text(x=tdata$meanPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPME,y=tdata$hardScore)
+    text(x=tdata$sdPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPME,y=tdata$hardScore)
+    text(x=tdata$kurtPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPME,y=tdata$hardScore)
+    text(x=tdata$skewPME,y=tdata$hardScore, labels=tdata$gn)
+    
+    #principally hard
+    data= testp[ testp$hardScore>0&testp$easyScore<(-0.001)&abs(testp$easyScore)<testp$hardScore,]
+    data$skewPOE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPOE)
+    data$skewPDE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPDE)
+    data$skewPME=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPME)
+    
+    imprimirini(typ=typu,name=paste0("Layers/","CorrKendallprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste0("Layers/","CorrSpearmanprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+
+    tdata= testres[testres$easyScore<(-0.001)&testres$hardScore>0.001&abs(testres$easyScore)<testres$hardScore,]
+    plot(x=tdata$meanPDE,y=tdata$hardScore)
+    text(x=tdata$meanPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$meanPDE))
+    plot(x=tdata$sdPDE,y=tdata$hardScore)
+    text(x=tdata$sdPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$sdPDE))
+    plot(x=tdata$kurtPDE,y=tdata$hardScore)
+    text(x=tdata$kurtPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$kurtPDE))
+    plot(x=tdata$skewPDE,y=tdata$hardScore)
+    text(x=tdata$skewPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$skewPDE))
+    
+    plot(x=tdata$meanPOE,y=tdata$hardScore)
+    text(x=tdata$meanPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPOE,y=tdata$hardScore)
+    text(x=tdata$sdPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPOE,y=tdata$hardScore)
+    text(x=tdata$kurtPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPOE,y=tdata$hardScore)
+    text(x=tdata$skewPOE,y=tdata$hardScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPME,y=tdata$hardScore)
+    text(x=tdata$meanPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPME,y=tdata$hardScore)
+    text(x=tdata$sdPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPME,y=tdata$hardScore)
+    text(x=tdata$kurtPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPME,y=tdata$hardScore)
+    text(x=tdata$skewPME,y=tdata$hardScore, labels=tdata$gn)
+
+    #both 
+    data= testp[ testp$hardScore>0.001&testp$easyScore<=0&abs(testp$easyScore)<testp$hardScore,]
+    data$skewPOE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPOE)
+    data$skewPDE=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPDE)
+    data$skewPME=abs((sqrt(data$count*(data$count-1)))/(data$count-2)*data$skewPME)
+    
+    imprimirini(typ=typu,name=paste0("Layers/","CorrKendallprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+    imprimirini(typ=typu,name=paste0("Layers/","CorrSpearmanprop",diff,type),12,7.25)
+    corrplot.mixed(cor(data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.05, insig="pch")#,cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+    imprimirfin()
+
+    tdata= testres[testres$easyScore<=0&testres$hardScore>0.001&abs(testres$easyScore)<testres$hardScore,]
+    plot(x=tdata$meanPDE,y=tdata$hardScore)
+    text(x=tdata$meanPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$meanPDE))
+    plot(x=tdata$sdPDE,y=tdata$hardScore)
+    text(x=tdata$sdPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$sdPDE))
+    plot(x=tdata$kurtPDE,y=tdata$hardScore)
+    text(x=tdata$kurtPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$kurtPDE))
+    plot(x=tdata$skewPDE,y=tdata$hardScore)
+    text(x=tdata$skewPDE,y=tdata$hardScore, labels=tdata$gn)
+    abline(lm(tdata$hardScore~tdata$skewPDE))
+    
+    plot(x=tdata$meanPOE,y=tdata$hardScore)
+    text(x=tdata$meanPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPOE,y=tdata$hardScore)
+    text(x=tdata$sdPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPOE,y=tdata$hardScore)
+    text(x=tdata$kurtPOE,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPOE,y=tdata$hardScore)
+    text(x=tdata$skewPOE,y=tdata$hardScore, labels=tdata$gn)
+    
+    plot(x=tdata$meanPME,y=tdata$hardScore)
+    text(x=tdata$meanPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$sdPME,y=tdata$hardScore)
+    text(x=tdata$sdPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$kurtPME,y=tdata$hardScore)
+    text(x=tdata$kurtPME,y=tdata$hardScore, labels=tdata$gn)
+    plot(x=tdata$skewPME,y=tdata$hardScore)
+    text(x=tdata$skewPME,y=tdata$hardScore, labels=tdata$gn)
+    
+}
+
+dim(graphraw)
+dim(propraw)
+propgres=merge(propraw,graphraw, by="gid")
+testres=merge(propgres,tdfe, by=c("com","dom","gn"))
+
+Diffy="easy"
+testp=testres[testres$Y=="a",c("easyScore", "hardScore","count", "minPOE", "maxPOE", "meanPOE", "sdPOE", "kurtPOE", "skewPOE", "maxPDE", "meanPDE", "sdPDE", "kurtPDE", "skewPDE", "maxPME","meanPME", "sdPME", "kurtPME", "skewPME")]
+
+cort= testp[ testp$hardScore==0&testp$easyScore<(-0.001),]
+cort$easyScore=abs(cort$easyScore)
+cort$skewPOE=abs((sqrt(cort$count*(cort$count-1)))/(cort$count-2)*cort$skewPOE)
+cort$skewPDE=abs((sqrt(cort$count*(cort$count-1)))/(cort$count-2)*cort$skewPDE)
+cort$skewPME=abs((sqrt(cort$count*(cort$count-1)))/(cort$count-2)*cort$skewPME)
+
+analisisfn(data=cort, diff=Diffy, type="action")
+
+
+tdata= testres
+tdata$clas=1
+tdata[tdata$easyScore==0&tdata$hardScore>0.001,]$clas=0
+tdata[tdata$hardScore==0&tdata$easyScore<(-0.001),]$clas=2
+
+plot(x=testres$meanPOE , y=testres$easyScore)
+
+
+plot(x=corth$meanPDE,y=corth$hardScore)
+plot(x=corth$sdPDE,y=corth$hardScore)
+hisd=testp[testp$sdPDE>1,]
+plot(x=hisd$kurtPDE,y=hisd$hardScore)
+plot(x=corth$kurtPDE,y=corth$hardScore)
+plot(x=corth$skewPDE,y=corth$hardScore)
+#deleted edges distribution, is not easy if the delete edges distribution have long tails, is distributed around the mean with high sd values. this make it harder? no.
+plot(x=corth$meanPOE,y=corth$hardScore)
+plot(x=corth$sdPOE,y=corth$hardScore)
+hisd=testp[testp$hardScore>0.01&testp$meanPOE>1.5,]
+plot(x=hisd$kurtPDE,y=hisd$hardScore)
+plot(x=corth$kurtPOE,y=corth$hardScore)
+plot(x=corth$skewPOE,y=corth$hardScore)
+
+plot(x=corth$meanPME,y=corth$hardScore)
+plot(x=corth$sdPME,y=corth$hardScore)
+hisd=testres[testres$hardScore>0.001&testres$easyScore<(-0.001)&testres$hardScore>abs(testres$easyScore),]
+plot(x=hisd$meanPME,y=hisd$hardScore)
+text(x=hisd$meanPME,y=hisd$hardScore, labels=hisd$gn)
+plot(x=corth$kurtPME,y=corth$hardScore)
+plot(x=corth$skewPME,y=corth$hardScore)
+
+
+
