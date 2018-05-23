@@ -67,11 +67,10 @@ td3ND[td3ND$Diff=="Easy",]$planner=-td3ND[td3ND$Diff=="Easy",]$planner
 diffic="Easy"
 td3ND$score=td3ND$DistV*(td3ND$planner/td3ND$tp)
 td3ND$coun= round(td3ND$score,2)
-tdf=ddply(.data=td3ND[td3ND$Diff==diffic,], c("coun"), summarise, t=length(gn))
-pres=td3ND[td3ND$Diff!="Average",c("com","dom","gn","Diff","score")]
-prest=pres
+#tdf=ddply(.data=td3ND[td3ND$Diff==diffic,], c("coun"), summarise, t=length(gn))
+prest=td3ND[td3ND$Diff!="Average",c("type","com","dom","gn","Diff","score")]
 prest$score=prest$score*ifelse(prest$Diff==diffic,-1,1)
-tdfe=ddply(.data=prest, c("com","dom","gn"), summarise, easyScore= min(score), hardScore= max(score))
+tdfe=ddply(.data=prest, c("type","com","dom","gn"), summarise, easyScore= min(score), hardScore= max(score))
 tdfe[tdfe$easyScore>0,]$easyScore=0
 tdfe[tdfe$hardScore<0,]$hardScore=0
 
@@ -81,27 +80,36 @@ dim(graphraw)
 dim(propraw)
 propgres=merge(propraw,graphraw, by="gid")
 testres=merge(propgres,tdfe, by=c("com","dom","gn"))
-write.csv(testres,"propertiesnpresults.csv")
+write.csv(testres,"propertiesresults.csv")
 
 
 analisisfn(data=testres, diff=Diffy, type="action")
 
 testres$Class="4 ND"
-testres[(testres$easyScore==0&testres$hardScore>0.001)|(testres$easyScore>0.001&testres$hardScore>0.001&testres$hardScore>(3/2*testres$easyScore) ),]$Class="3 Hard"
-testres[(testres$hardScore==0&testres$easyScore>0.001)|(testres$easyScore>0.001&testres$hardScore>0.001&testres$easyScore>(3/2*testres$hardScore) ),]$Class="1 Easy"
-testres[(testres$hardScore<0.001&testres$easyScore<0.001),]$Class="2 Fit"
+testres[(testres$easyScore==0&testres$hardScore>0.001)|(abs(testres$easyScore)>0.001&testres$hardScore>0.001&testres$hardScore>(3/2*abs(testres$easyScore)) ),]$Class="3 Hard"
+testres[(testres$hardScore==0&abs(testres$easyScore)>0.001)|(abs(testres$easyScore)>0.001&testres$hardScore>0.001&abs(testres$easyScore)>(3/2*testres$hardScore) ),]$Class="1 Easy"
+testres[(testres$hardScore<0.001&abs(testres$easyScore)<0.001),]$Class="2 Fit"
 
-ptype="parallel"
+ptypel=c("Parallel","NoParallel")
+typel=c("facts","actions")
 diffl=c("PDE","POE","PME")
 propl=c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
-typel=c("facts","actions")
-for(type in typel){
-    for(p in propl){
-        for(s in sdisl){
-            imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
-            boxplot(testres[,paste0(s,p)]~testres$Class, ylab=paste0(s,p),xlab=)
-            imprimirfin()
+for(ptype in ptypel){
+    for(type in typel){
+        for(p in propl){
+            for(s in sdisl){
+                info=testres[testres$type==ptype&testres$Y==strtrim(type,1),]
+                if(dim(info)[1]>0){
+                    #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
+                                        #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
+                    ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")  + theme(text = element_text(size=30))+labs(x="Difficult Set", y=paste0(s,p))+ geom_boxplot(width=0.03, fill="blue", color="white")
+
+                                        #+facet_wrap(~dom)
+                    #imprimirfin()
+                    ggsave(paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,p,".",typu), device=typu, width=12,height=7.25)
+                }
+            }
         }
     }
 }
