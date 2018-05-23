@@ -414,3 +414,43 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
     
     return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut","Disc")]) 
 }
+
+
+plotInstancesDifficulty <- function(bdf,fn){
+    td2=aggregate(planner~Class+Cfactor, bdf, FUN=length)
+    td2$Diff=""
+    td2[td2$Class==0,]$Diff="2 Average"
+    td2[td2$Class==1,]$Diff="1 Easy"
+    td2[td2$Class==2,]$Diff="3 Hard"
+    ggplot(data=td2, aes(x=(td2$Cfactor), y=planner, fill=as.factor(Diff)))+geom_bar(stat="identity", position = "dodge")+labs(x = "Property", y="Count", fill="Difficulty")+ scale_fill_manual(values=c("skyblue", "orange1", "red"))
+    ggsave(paste0(gpath,fn,".",typu), device=typu, width=12,height=7.25)
+}
+createDataSetbyDomWithClassification <- function(basedataframe, filename, prin, prefn){
+    if(!file.exists(filename)){
+        c1=allplannersbydom(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c2=allplannersbydom(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c3=allplannersbydom(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c4=allplannersbydom(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c5=allplannersbydom(nx="TME",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        rdf=rbind(c1,c2,c3,c4,c5)
+        write.csv(rdf, filename)
+    }else{
+        rdf = read.csv(filename)
+    }
+    return(rdf)
+}
+
+createDataSetbyComWithClassification <- function(basedataframe, filename, prin, prefn){
+    if(!file.exists(filename)){
+        c1=allplanners(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c2=allplanners(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c3=allplanners(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c4=allplanners(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c5=allplanners(nx="TME",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        rdf=rbind(c1,c2,c3,c4,c5)
+        write.csv(rdf, filename)
+    }else{
+        rdf = read.csv(filename)
+    }
+    return(rdf)
+}

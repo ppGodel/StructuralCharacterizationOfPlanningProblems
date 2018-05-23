@@ -470,22 +470,26 @@ write.csv(testres,"propertiesnpresults.csv")
 
 
 analisisfn(data=testres, diff=Diffy, type="action")
+
+testres$Class="4 ND"
+testres[(testres$easyScore==0&testres$hardScore>0.001)|(testres$easyScore>0.001&testres$hardScore>0.001&testres$hardScore>(3/2*testres$easyScore) ),]$Class="3 Hard"
+testres[(testres$hardScore==0&testres$easyScore>0.001)|(testres$easyScore>0.001&testres$hardScore>0.001&testres$easyScore>(3/2*testres$hardScore) ),]$Class="1 Easy"
+testres[(testres$hardScore<0.001&testres$easyScore<0.001),]$Class="2 Fit"
+
+ptype="parallel"
 diffl=c("PDE","POE","PME")
 propl=c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
-
-testres$Class="Average"
-
-
-
-for(p in propl){
-    for(s in sdisl){
-        imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",s,p,ptype,pdiff,type),12,7.25)
-        boxplot(testres[,paste0(s,p)]~testres$Class, ylab=paste0(s,p),xlab=)
-        imprimirfin()
+typel=c("facts","actions")
+for(type in typel){
+    for(p in propl){
+        for(s in sdisl){
+            imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
+            boxplot(testres[,paste0(s,p)]~testres$Class, ylab=paste0(s,p),xlab=)
+            imprimirfin()
+        }
     }
 }
-
 
 
 
