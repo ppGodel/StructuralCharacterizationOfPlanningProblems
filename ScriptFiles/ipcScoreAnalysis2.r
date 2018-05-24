@@ -33,6 +33,7 @@ graphc=mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27
 propraw=data.frame(prcon$find())
 graphraw=data.frame(graphc$find(fields='{"_id":1 , "gn":1, "dom":1, "pn":1, "com":1,"cdkey":1, "pkey":1}'))
 colnames(graphraw)=c("gid","gn", "dom", "pn", "com", "cdkey", "pkey")
+propgres=merge(propraw,graphraw, by="gid")
 
 allclasscompar$type="Parallel"
 allclasscomnpar$type="NoParallel"
@@ -68,27 +69,35 @@ diffic="Easy"
 td3ND$score=td3ND$DistV*(td3ND$planner/td3ND$tp)
 td3ND$coun= round(td3ND$score,2)
 #tdf=ddply(.data=td3ND[td3ND$Diff==diffic,], c("coun"), summarise, t=length(gn))
-prest=td3ND[td3ND$Diff!="Average",c("type","com","dom","gn","Diff","score")]
-prest$score=prest$score*ifelse(prest$Diff==diffic,-1,1)
+prest=td3ND[,c("type","com","dom","gn","Diff","score")]
+#prest$score=prest$score*ifelse(prest$Diff==diffic,-1,1)
 tdfe=ddply(.data=prest, c("type","com","dom","gn"), summarise, easyScore= min(score), hardScore= max(score))
-tdfe[tdfe$easyScore>0,]$easyScore=0
+tdfe[tdfe$easyScore>=0,]$easyScore=0
 tdfe[tdfe$hardScore<0,]$hardScore=0
+tdfe$Class="4 ND"
+tdfe[(tdfe$easyScore==0&tdfe$hardScore>0.001)|(abs(tdfe$easyScore)>0.001&tdfe$hardScore>0.001&tdfe$hardScore>(3/2*abs(tdfe$easyScore)) ),]$Class="3 Hard"
+tdfe[(tdfe$hardScore==0&abs(tdfe$easyScore)>0.001)|(abs(tdfe$easyScore)>0.001&tdfe$hardScore>0.001&abs(tdfe$easyScore)>(3/2*tdfe$hardScore) ),]$Class="1 Easy"
+tdfe[(tdfe$hardScore<0.001&abs(tdfe$easyScore)<0.001),]$Class="2 Fit"
+
+
+baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph), fap=min(fap), graphSize=min(gl), parallel=min(parallel) )
 
 
 
-dim(graphraw)
-dim(propraw)
-propgres=merge(propraw,graphraw, by="gid")
-testres=merge(propgres,tdfe, by=c("com","dom","gn"))
+tdfec=tdfe[,c("type","com","dom","gn","Class")]
+
+testres=merge(baseres,tdfec, by=c("com","dom","gn"),all.x=TRUE)
+testres[is.na(testres$Class)&testres$solved==1&testres$graph==1,]$Class="6 NCG"
+testres[is.na(testres$Class)&testres$solved==1&testres$graph==0,]$Class="6 NCNG"
+testres[is.na(testres$Class)&testres$solved==0&testres$graph==1,]$Class="5 NSG"
+testres[is.na(testres$Class)&testres$solved==0&testres$graph==0,]$Class="5 NSNG"
+
+testres=merge(testres,propgres, by=c("com","dom","gn"), all.x=T)
+
 write.csv(testres,"propertiesresults.csv")
 
 
-analisisfn(data=testres, diff=Diffy, type="action")
 
-testres$Class="4 ND"
-testres[(testres$easyScore==0&testres$hardScore>0.001)|(abs(testres$easyScore)>0.001&testres$hardScore>0.001&testres$hardScore>(3/2*abs(testres$easyScore)) ),]$Class="3 Hard"
-testres[(testres$hardScore==0&abs(testres$easyScore)>0.001)|(abs(testres$easyScore)>0.001&testres$hardScore>0.001&abs(testres$easyScore)>(3/2*testres$hardScore) ),]$Class="1 Easy"
-testres[(testres$hardScore<0.001&abs(testres$easyScore)<0.001),]$Class="2 Fit"
 
 ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
@@ -99,11 +108,12 @@ for(ptype in ptypel){
     for(type in typel){
         for(p in propl){
             for(s in sdisl){
-                info=testres[testres$type==ptype&testres$Y==strtrim(type,1),]
+                info=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1),]
                 if(dim(info)[1]>0){
                     #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
-                    ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")  + theme(text = element_text(size=30))+labs(x="Difficult Set", y=paste0(s,p))+ geom_boxplot(width=0.03, fill="blue", color="white")
+                    anov =aov(info[,paste0(s,p)]~info[,"Class"])
+                    ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")  + theme(text = element_text(size=30))+labs(x="Difficult Set", y=paste0(type," ",s,p))+ geom_boxplot(width=0.03, fill="blue", color="white")
 
                                         #+facet_wrap(~dom)
                     #imprimirfin()
