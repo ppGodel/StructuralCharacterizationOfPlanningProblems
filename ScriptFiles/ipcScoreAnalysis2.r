@@ -101,7 +101,6 @@ write.csv(testres,"propertiesresults.csv")
 
 ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
-diffl=c("PDE","POE","PME")
 propl=c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
 for(ptype in ptypel){
@@ -112,7 +111,9 @@ for(ptype in ptypel){
                 if(dim(info)[1]>0){
                     #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
-                    anov =aov(info[,paste0(s,p)]~info[,"Class"])
+                    anov=aov(info[,paste0(s,p)]~info[,"Class"])
+                    summary(anov)
+                    TukeyHSD(anov)
                     ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")  + theme(text = element_text(size=30))+labs(x="Difficult Set", y=paste0(type," ",s,p))+ geom_boxplot(width=0.03, fill="blue", color="white")
 
                                         #+facet_wrap(~dom)
