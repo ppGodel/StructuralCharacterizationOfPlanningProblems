@@ -1,4 +1,6 @@
 source("rfunctions.r")
+library(gridExtra)
+library(grid)
 
 grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCResComp")
 compresultsraw=data.frame(grcon$find())
@@ -74,7 +76,7 @@ prest=td3ND[,c("type","com","dom","gn","Diff","score")]
 tdfe=ddply(.data=prest, c("type","com","dom","gn"), summarise, easyScore= min(score), hardScore= max(score))
 tdfe[tdfe$easyScore>=0,]$easyScore=0
 tdfe[tdfe$hardScore<0,]$hardScore=0
-tdfe$Class="4 ND"
+tdfe$Class="4 Not Class"
 tdfe[(tdfe$easyScore==0&tdfe$hardScore>0.001)|(abs(tdfe$easyScore)>0.001&tdfe$hardScore>0.001&tdfe$hardScore>(3/2*abs(tdfe$easyScore)) ),]$Class="3 Hard"
 tdfe[(tdfe$hardScore==0&abs(tdfe$easyScore)>0.001)|(abs(tdfe$easyScore)>0.001&tdfe$hardScore>0.001&abs(tdfe$easyScore)>(3/2*tdfe$hardScore) ),]$Class="1 Easy"
 tdfe[(tdfe$hardScore<0.001&abs(tdfe$easyScore)<0.001),]$Class="2 Fit"
@@ -87,16 +89,16 @@ baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,
 tdfec=tdfe[,c("type","com","dom","gn","Class")]
 
 testres=merge(baseres,tdfec, by=c("com","dom","gn"),all.x=TRUE)
-testres[is.na(testres$Class)&testres$solved==1&testres$graph==1,]$Class="6 NCG"
-testres[is.na(testres$Class)&testres$solved==1&testres$graph==0,]$Class="6 NCNG"
-testres[is.na(testres$Class)&testres$solved==0&testres$graph==1,]$Class="5 NSG"
-testres[is.na(testres$Class)&testres$solved==0&testres$graph==0,]$Class="5 NSNG"
+testres[is.na(testres$Class)&testres$solved==1&testres$graph==1,]$Class="6 Not Proc"
+testres[is.na(testres$Class)&testres$solved==1&testres$graph==0,]$Class="6 Not Processed NG"
+testres[is.na(testres$Class)&testres$solved==0&testres$graph==1,]$Class="5 Not Solv"
+testres[is.na(testres$Class)&testres$solved==0&testres$graph==0,]$Class="5 Not Solved NG"
 
 testres=merge(testres,propgres, by=c("com","dom","gn"), all.x=T)
 
 write.csv(testres,"propertiesresults.csv")
 
-
+testres= as.data.frame(read.csv("propertiesresults.csv"))
 
 
 ptypel=c("Parallel","NoParallel")
@@ -111,14 +113,45 @@ for(ptype in ptypel){
                 if(dim(info)[1]>0){
                     #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
-                    anov=aov(info[,paste0(s,p)]~info[,"Class"])
-                    summary(anov)
-                    TukeyHSD(anov)
-                    ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")  + theme(text = element_text(size=30))+labs(x="Difficult Set", y=paste0(type," ",s,p))+ geom_boxplot(width=0.03, fill="blue", color="white")
+                    linM=lm(info[,paste0(s,p)]~info[,"Class"])
+                    residuales<-resid(linM)
+                    sht=shapiro.test(residuales)
+                    #qqnorm(residuales,col=rgb(0,1,0,0.5))
+                    #qqline(residuales,col="red")
+                    if(sht$p.value>0.05){                   
+                        rno="residuals are from a normal dist"                    
+                        anov=aov(info[,paste0(s,p)]~info[,"Class"])
+                        if(summary.aov(anov)[[1]][["Pr(>F)"]][1]<0.05){
+                            me="means are different"
+                            TukeyHSD(anov)
+                        }else{
+                            me="means are equal"
+                        }
+                    }else{          
+                        rno="resid arent from a norm dist"   
+                        krus=kruskal.test(info[,paste0(s,p)]~info[,"Class"])
+                        if(krus$p.value<0.05){
+                            me="means are different"
+                            dn=dunn.test(x=info[,paste0(s,p)], g=info[,"Class"])
+                        }else{
+                            me="means are equal"
+                        }
+                    }
+                    #print(paste0(rno,", ",me))
+                    #print(dn$comparisons[dn$P.adjusted<0.005])
+                    collaps="\n"
+                    dr=paste(dn$comparisons[dn$P.adjusted<0.005],collapse=collaps)
+                    labrc=c(rno,me,"for: ", dr )
+                    labr=paste(labrc,collapse=collaps)
+                    pg=ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=30), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(info[,paste0(s,p)], na.rm=T),2)*.9, ymax = round(max(info[,paste0(s,p)], na.rm=T),2)*.8)
 
+
+                    gt <- ggplot_gtable(ggplot_build(pg))
+                    gt$layout$clip[gt$layout$name=="panel"] <- "off"
+                    grid.draw(gt)
                                         #+facet_wrap(~dom)
                     #imprimirfin()
-                    ggsave(paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,p,".",typu), device=typu, width=12,height=7.25)
+                    ggsave(filename=paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,p,".",typu), device=typu, width=12,height=7.25, plot=gt)
                 }
             }
         }

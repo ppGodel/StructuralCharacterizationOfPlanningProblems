@@ -200,3 +200,57 @@ db.summNLbyG.aggregate([{$project:{ _id:0, gid:"$_id.gid", Y:"$_id.Y", count:"$v
 
 
 
+db.nodesAndLevels.aggregate([{$project:{
+    _id:1, gid:1,
+    T:1,
+    "PM": {$cond: [{$eq:["$y","f"]},{$divide: [{$size: "$xe"},{$cond:[{$ne:["$al.TFMN",0]},"$al.TFMN",1]} ] },{$divide: [{$size: "$xe"},{$cond:[{$ne:["$al.TAMN",0]},"$al.TAMN",1]}] }]},    
+    "POE": {
+	$let: {
+            vars: {
+                tanl: { $add: [ "$al.TAMN", "$al.TANMN" ] },
+                tfnl: { $add: [ "$nl.TFMN", "$al.TFNMN" ] },
+            },
+		in: {$cond: [{$eq:["$y","f"]},{$divide: [{$size: "$oe"},{$cond:[{$ne:["$$tanl",0]},"$$tanl",1]} ] }, {$divide: [{$size: "$oe"},{$cond:[{$ne:["$$tfnl",0]},"$$tfnl",1]} ] }  ]}
+	}
+    },
+    "PDE": {
+	$let: {
+            vars: {
+                tanl: { $add: [ "$al.TAMN", "$al.TANMN" ] },
+                tfnl: { $add: [ "$nl.TFMN", "$al.TFNMN" ] },
+            },
+		in: {$cond: [{$eq:["$y","f"]},{$divide: [{$size: "$de"},{$cond:[{$ne:["$$tanl",0]},"$$tanl",1]} ] }, {$divide: [{$size: "$de"},{$cond:[{$ne:["$$tfnl",0]},"$$tfnl",1]} ] }  ]}
+	}
+    },
+}}, {$out: "nodesAndLevelsSumm"} ])
+
+
+var mf= function(){
+    var poe=0;
+    var pde=0;
+    var pme=this.PM*100;
+    if(this.y=="f"){
+	var tan=this.al.TAMN+this.al.TANMN;
+	if(tan==0|isNaN(tan)){
+	    tan=1;
+	}	
+	poe=this.oe.length/tan*100;
+	pde=this.de.length/tan*100;	
+    }else{
+	var tfn=this.nl.TFMN+this.nl.TFNMN;
+	if(tfn==0|isNaN(tfn)){
+	    tfn=1;
+	}
+	poe=this.oe.length/tfn*100;
+	pde=this.de.length/tfn*100;
+	if(isNaN(poe)){
+	    poe=0
+	}
+    }
+    emit({_id:this._id, gid:this.gid,T:this.T, Y:this.y}, { POE:poe, PME:pme, PDE:pde })
+}
+var rf = function(key,val){
+    return val;
+};
+
+db.nodesAndLevels.mapReduce(mf,rf, {out:"nodesAndLevelsSumm"})
