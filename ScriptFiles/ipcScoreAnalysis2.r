@@ -1,6 +1,7 @@
 source("rfunctions.r")
 library(gridExtra)
 library(grid)
+library(dunn.test)
 
 grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCResComp")
 compresultsraw=data.frame(grcon$find())
@@ -143,7 +144,7 @@ for(ptype in ptypel){
                     dr=paste(dn$comparisons[dn$P.adjusted<0.005],collapse=collaps)
                     labrc=c(rno,me,"for: ", dr )
                     labr=paste(labrc,collapse=collaps)
-                    pg=ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=30), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(info[,paste0(s,p)], na.rm=T),2)*.9, ymax = round(max(info[,paste0(s,p)], na.rm=T),2)*.8)
+                    pg=ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(info[,paste0(s,p)], na.rm=T),2)*.9, ymax = round(max(info[,paste0(s,p)], na.rm=T),2)*.8)
 
 
                     gt <- ggplot_gtable(ggplot_build(pg))
