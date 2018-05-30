@@ -108,11 +108,29 @@ propl=c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
 for(ptype in ptypel){
     for(type in typel){
+        tin=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1),c("Class", "minPOE", "maxPOE",  "meanPOE", "sdPOE", "kurtPOE", "skewPOE", "minPDE", "maxPDE", "meanPDE", "sdPDE", "kurtPDE", "skewPDE", "minPME", "maxPME", "meanPME", "sdPME", "kurtPME", "skewPME")]
+        tin$easy=tin$Class=="1 Easy"
+        tin$fit=tin$Class=="2 Fit"
+        tin$hard=tin$Class=="3 Hard"
+        tin$NoClass=tin$Class=="4 Not Class"
+        tin$NoSolv=tin$Class=="5 Not Solv"
+        
+        
+        tin$Class=NULL
+        nco=dim(tin)[2]
+        rco=nco-4
+        methl=c("spearman","kendall")
+        for(meth in methl){
+            imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,"Classification",meth),12,7.25)
+            corrplot(cor(tin, method=meth, use="complete.obs")[rco:nco,1:(rco-1)], method="number", p.mat=cor.mtest(tin, method=meth, use="complete.obs")$p[rco:nco,1:(rco-1)])
+            imprimirfin()
+        }
+        
         for(p in propl){
             for(s in sdisl){
                 info=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1),]
                 if(dim(info)[1]>0){
-                    #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
+                                        #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
                     linM=lm(info[,paste0(s,p)]~info[,"Class"])
                     residuales<-resid(linM)
