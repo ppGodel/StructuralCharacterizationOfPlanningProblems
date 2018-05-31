@@ -145,9 +145,9 @@ for(ptype in ptypel){
             for(g in gids){
                 ginfo=info[info$gid==g,]
                 graphdistvalues=data.frame(npcon$find(query=paste0('{"gid":{"$oid":"',g,'"}}')))
-                poeplot=qplot(POE, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T)
+                poeplot=qplot(POE, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T)+ ggtitle(paste(ginfo$gn,ginfo$Class)) 
                 pdeplot=qplot(PDE, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T)
-                pmeplot=qplot(PME, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T)
+                pmeplot=qplot(PME, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T) 
                 finplo=multiplot(poeplot, pdeplot, pmeplot, cols=1)
                 ggsave(filename=paste0(gpath,"PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25, plot=finplo)
             }
