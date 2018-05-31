@@ -107,12 +107,11 @@ ppieinfo=ddply(.data=preinf,c("Class", "com"), summarise, countn=length(gn))
 totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
 pieinfo=merge(ppieinfo,totinf, by="com")
 pieinfo$percentage=pieinfo$countn/pieinfo$total*100
-piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_grid(~com) #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)
+                                        #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
 ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycom",".",typu), device=typu, width=12,height=7.25, plot=piplot)
 
 
-grcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphIPCResComp")
-compresultsraw=data.frame(grcon$find())
 
 npcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodePercentageEdges")
 ptypel=c("Parallel","NoParallel")
@@ -145,11 +144,14 @@ for(ptype in ptypel){
             for(g in gids){
                 ginfo=info[info$gid==g,]
                 graphdistvalues=data.frame(npcon$find(query=paste0('{"gid":{"$oid":"',g,'"}}')))
-                poeplot=qplot(POE, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T)+ ggtitle(paste(ginfo$gn,ginfo$Class)) 
-                pdeplot=qplot(PDE, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T)
-                pmeplot=qplot(PME, data=graphdistvalues, geom='histogram', alpha=I(.5), fill=factor(Y))+ facet_grid(Y~T) 
-                finplo=multiplot(poeplot, pdeplot, pmeplot, cols=1)
-                ggsave(filename=paste0(gpath,"PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25, plot=finplo)
+                poeplot=qplot(POE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ ggtitle(paste(ginfo$gn,ginfo$Class)) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)
+                pdeplot=qplot(PDE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2) + theme(strip.text.x = element_blank())+ guides(fill=FALSE)
+                pmeplot=qplot(PME, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
+                                        #multiplot(poeplot, pdeplot, pmeplot, cols=1)
+                imprimirini(typ=typu,name=paste0("PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn),12,7.25)
+                grid.arrange(poeplot, pdeplot, pmeplot, ncol=1)
+                #ggsave(filename=paste0(gpath,"PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu)
+                imprimirfin()
             }
             for(p in propl){
                 for(s in sdisl){
