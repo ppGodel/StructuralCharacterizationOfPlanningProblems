@@ -147,10 +147,12 @@ for(ptype in ptypel){
                 poeplot=qplot(POE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ ggtitle(paste(ginfo$gn,ginfo$Class)) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)
                 pdeplot=qplot(PDE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2) + theme(strip.text.x = element_blank())+ guides(fill=FALSE)
                 pmeplot=qplot(PME, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
-                                        #multiplot(poeplot, pdeplot, pmeplot, cols=1)
+
+                graphdistvaluesbyl=ddply(.data=graphdistvalues,c ("gid","T","Y"), summarise, TNodes=length(PDE))
+                lvlplot=qplot(x=T,y=TNodes, data=graphdistvaluesbyl, fill=factor(Y))+geom_area()
+                
                 imprimirini(typ=typu,name=paste0("PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn),12,7.25)
-                grid.arrange(poeplot, pdeplot, pmeplot, ncol=1)
-                #ggsave(filename=paste0(gpath,"PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu)
+                grid.arrange(poeplot, pdeplot, pmeplot,lvlplot, ncol=1)
                 imprimirfin()
             }
             for(p in propl){
