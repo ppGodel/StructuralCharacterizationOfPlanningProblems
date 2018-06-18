@@ -118,6 +118,7 @@ ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
 propl=c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
+
 for(ptype in ptypel){
     for(type in typel){
         tin=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1),c("Class", "minPOE", "maxPOE",  "meanPOE", "sdPOE", "kurtPOE", "skewPOE", "minPDE", "maxPDE", "meanPDE", "sdPDE", "kurtPDE", "skewPDE", "minPME", "maxPME", "meanPME", "sdPME", "kurtPME", "skewPME")]
@@ -168,13 +169,13 @@ for(ptype in ptypel){
                 graphdistvaluesbylgpme=merge(graphdistvaluesbyppme,graphdistvaluesbyl, by=c("gid","T","Y"))
                 
                 head(graphdistvaluesbylgpde)
-                graphdistvaluesbylgpoe$PNodesbyL=graphdistvaluesbylgpoe$TNodes/graphdistvaluesbylgpoe$TNodesL
-                graphdistvaluesbylgpde$PNodesbyL=graphdistvaluesbylgpde$TNodes/graphdistvaluesbylgpde$TNodesL
-                graphdistvaluesbylgpme$PNodesbyL=graphdistvaluesbylgpme$TNodes/graphdistvaluesbylgpme$TNodesL
+                graphdistvaluesbylgpoe$PNodesbyL=graphdistvaluesbylgpoe$TNodes/graphdistvaluesbylgpoe$TNodesL*100
+                graphdistvaluesbylgpde$PNodesbyL=graphdistvaluesbylgpde$TNodes/graphdistvaluesbylgpde$TNodesL*100
+                graphdistvaluesbylgpme$PNodesbyL=graphdistvaluesbylgpme$TNodes/graphdistvaluesbylgpme$TNodesL*100
 
-                                poeplot= ggplot(data=graphdistvaluesbylgpoe, aes(x=LPOE, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + ggtitle(paste(ginfo$gn,ginfo$Class)) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)
-                pdeplot= ggplot(data=graphdistvaluesbylgpde, aes(x=LPDE, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + ggtitle(paste(ginfo$gn,ginfo$Class)) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)
-                pmeplot= ggplot(data=graphdistvaluesbylgpme, aes(x=LPME, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + ggtitle(paste(ginfo$gn,ginfo$Class)) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)
+                poeplot=ggplot(data=graphdistvaluesbylgpoe, aes(x=LPOE, y=PNodesbyL, fill=factor(Y)))+ scale_y_sqrt() + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + ggtitle(paste(ginfo$gn,ginfo$Class)) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)
+                pdeplot= ggplot(data=graphdistvaluesbylgpde, aes(x=LPDE, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ scale_y_sqrt()
+                pmeplot= ggplot(data=graphdistvaluesbylgpme, aes(x=LPME, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ scale_y_sqrt()
                 
                 #poeplot= qplot(POE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
                 #pdeplot= qplot(PDE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
@@ -253,13 +254,4 @@ for(ptype in ptypel){
         }
     }
 }
-
-
-
-
-
-
-
-
-
 
