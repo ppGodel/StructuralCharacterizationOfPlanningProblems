@@ -5,7 +5,7 @@ library('plyr')
 library('corrplot')
 library("colorRamps")
 
-typu="png"
+#typu="png"
 typg<<-"eps"
 "/" <- function(x,y) {ifelse(y==0,0,base:::"/"(x,y))}
 gpath="images/"
