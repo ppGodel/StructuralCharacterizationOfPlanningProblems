@@ -63,7 +63,8 @@ reg.conf.intervals <- function(x, y, prnt=TRUE) {
   cookds =cooks.distance(lmmodel)  
   mdf=cbind(x,y)
   cvmdf=cov(mdf)
-  tryCatch({ m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))},error=function(erm){ m_dist=trx*0 })
+  m_dist=x*0
+  tryCatch({ m_dist <- sqrt(mahalanobis(mdf, colMeans(mdf), cvmdf))},error=function(erm){ m_dist=x*0 })
   
   # Fit linear model with extracted coefficients
   #x_new <- seq(min(x),max(x), length.out=length(x))
