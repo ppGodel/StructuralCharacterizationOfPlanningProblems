@@ -96,5 +96,15 @@ colnames(graphraw)=c("gid","gn", "dom", "pn", "com", "cdkey", "pkey")
 propgres=merge(propraw,graphraw, by="gid")
 testres=merge(testres,propgres, by=c("com","dom","gn"), all.x=T)
 write.csv(testres,"propertiesresults.csv")
-testres= as.data.frame(read.csv("propertiesresults.csv"))
+#testres= as.data.frame(read.csv("propertiesresults.csv"))
+
 head(testres)
+
+preinf=ddply(.data=testres,c("Class","com","dom","gn"), summarise, countn=length(Class))
+ppieinfo=ddply(.data=preinf,c("Class", "com"), summarise, countn=length(gn))
+totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
+pieinfo=merge(ppieinfo,totinf, by="com")
+pieinfo$percentage=pieinfo$countn/pieinfo$total*100
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)
+                                        #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
+ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycom",".",typu), device=typu, width=12,height=7.25, plot=piplot)
