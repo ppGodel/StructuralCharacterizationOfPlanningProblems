@@ -5,7 +5,7 @@ library(gridExtra)
 library(grid)
 library(dunn.test)
 library(ggplot2)
-
+library(wesanderson)
 
 compresultsraw=data.frame(grcon$find())
 exeres= read.csv("executionresults.csv")
@@ -28,19 +28,29 @@ compresultsgraphsolved$CookOut=FALSE
 
 #typu="eps"
 #prin=TRUE
-if(bycom==T){
-    allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
-    allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
-    allclasscompar$type="Parallel"
-    allclasscomnpar$type="NoParallel"
-    allclasscom=rbind(allclasscompar,allclasscomnpar)    
+if(FALSE){
+    allclassplanpar=createDataSetbyPlanWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbyplan.csv",prin,"ParByPlan" )
+    allclassplannpar=createDataSetbyPlanWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbyplan.csv",prin,"NoParByPlan" )
+    allclassplanpar$type="Parallel"
+    allclassplannpar$type="NoParallel"
+    allclasscom=rbind(allclassplanpar,allclassplannpar)
 }else{
-    allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
-    allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
-    allclassdompar$type="Parallel"
-    allclassdomnpar$type="NoParallel"
-    allclasscom=rbind(allclassdompar,allclassdomnpar)
+    if(bycom==T){
+        allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
+        allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
+        allclasscompar$type="Parallel"
+        allclasscomnpar$type="NoParallel"
+        allclasscom=rbind(allclasscompar,allclasscomnpar)    
+    }else{
+        allclassdompar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbydom.csv",prin,"ParByDom" )
+        allclassdomnpar=createDataSetbyDomWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbydom.csv",prin,"NoParByDom" )
+        allclassdompar$type="Parallel"
+        allclassdomnpar$type="NoParallel"
+        allclasscom=rbind(allclassdompar,allclassdomnpar)  
+    }
 }
+
+
 
 bdf=allclasscom[between(allclasscom$R2,0.85,0.98),]
 mddf=aggregate(abs(Dist)~com+dom+planner+type,bdf,FUN=max)
@@ -95,16 +105,16 @@ graphraw=data.frame(graphc$find(fields='{"_id":1 , "gn":1, "dom":1, "pn":1, "com
 colnames(graphraw)=c("gid","gn", "dom", "pn", "com", "cdkey", "pkey")
 propgres=merge(propraw,graphraw, by="gid")
 testres=merge(testres,propgres, by=c("com","dom","gn"), all.x=T)
-write.csv(testres,"propertiesresults.csv")
-#testres= as.data.frame(read.csv("propertiesresults.csv"))
-
-head(testres)
+write.csv(testres,"propertiesresultsbyplan.csv")
+#testres= as.data.frame(read.csv("propertiesresultsbyplan.csv"))
+#head(testres)
 
 preinf=ddply(.data=testres,c("Class","com","dom","gn"), summarise, countn=length(Class))
 ppieinfo=ddply(.data=preinf,c("Class", "com"), summarise, countn=length(gn))
 totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
 pieinfo=merge(ppieinfo,totinf, by="com")
 pieinfo$percentage=pieinfo$countn/pieinfo$total*100
-piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)
+pieinfo$Class=factor(pieinfo$Class, levels=levels(pieinfo$Class)[order(levels(pieinfo$Class), decreasing=T)])
+piplot=ggplot(pieinfo[order(pieinfo$Class,decreasing=T),], aes(x="", y=percentage, fill=Class)) + geom_bar(width = 1, stat="identity", position="fill") + facet_wrap(~com) + scale_fill_brewer(palette="RdYlGn") + coord_polar(theta="y") + guides(fill = guide_legend(reverse = T))
                                         #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
-ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycom",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbyplan",".",typu), device=typu, width=12,height=7.25, plot=piplot)

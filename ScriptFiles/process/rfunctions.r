@@ -124,7 +124,8 @@ choose.lm <-function(px,py){
         }
     }
     colnames(result)=c("tx","ty","r2","m","b","u")
-    return( result[which.max(result$r2),] )
+    fres=result[result$r2<=0.95,]
+    return( fres[which.max(fres$r2),] )
 }
 
 tukeyLadder = function(x, q = NULL) {
@@ -417,6 +418,141 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
 }
 
 
+allplannersbyplan = function(nx,ny, data, prnt=TRUE, prefn=""){
+    pchs=c(1:15,17,18,20,22,26,27)
+    apl=unique(data$planner)
+    labls=unique(apply(data[,c("com","dom")],1, function(item){paste0(item["com"],'-',item["dom"])}))
+    cl= unique(data$com)
+    colores=rainbow(length(labls))
+    for(p in 1:length(apl)){
+        auxre=data[data$planner==apl[p],]
+        cl= unique(auxre$com)
+        for(c in 1:length(cl)){
+            auxred=auxre[auxre$com==cl[c],]
+            sl=unique(auxred$Steps)
+            for(s in 1:length(sl)){
+                auxres=auxred[auxred$Steps==sl[s],]
+                if(dim(auxres)[1]<=4){
+                    next
+                }
+                dlaux=c()
+                dcaux=c()
+                fitval=choose.lm(px=auxres[,nx],py=auxres[,ny])
+                tranx=tukeyLadder(auxres[,nx],fitval$tx)
+                trany=tukeyLadder(auxres[,ny],fitval$ty)
+                lx=nx
+                ly=ny
+                if(fitval$tx!=1){
+                    lx=paste0(nx,"^",fitval$tx)  
+                }
+                if(fitval$ty!=1){
+                    ly=paste0(ny,"^",fitval$ty)  
+                }
+                
+                if(fitval$tx==0){
+                    lx=paste0('log(',nx,")")  
+                }
+                if(fitval$ty==0){
+                    ly=paste0('log(',ny,")")  
+                }
+                maxVx= max(tranx)
+                minVx= min(tranx)
+                maxVy= max(trany)
+                minVy= min(trany)
+                
+                ranx=maxVx-minVx
+                rany=maxVy-minVy
+                dpx=log(ranx,10)
+                dpy=log(rany,10)
+                if(dpx>1.6&&dpx<4){
+                    dpx=0
+                }else{
+                    dpx=floor(log(ranx,10))-1
+                }
+                if(dpy>1.6){
+                    dpy=0
+                }else{
+                    dpy=floor(log(rany,10))-1
+                }
+                if(prnt){
+                    imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_Plan", sl[s],"_",ny,"vs",nx),12,7.25)
+                    par(mar=c(5,5,3,9),xpd=FALSE)
+                    plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p], "Plan Lenght:", sl[s],"R^2:",round(fitval$r2*100,2)) )
+            }
+                                        #alm=lm(log(Time+1)~log(TE),data=auxres)
+                                        #abline(alm)
+                aval=auxres[,c(nx, ny,"gn","com","dom","planner","Steps")]
+                aval=cbind(rn=rownames(aval),aval)
+                aval$xval= tranx
+                aval$yval= trany
+                aval$lab=0
+                bands= reg.conf.intervals(x=aval$xval, y=aval$yval, prnt)
+                plbls= merge(x=aval, y=bands, by=c("xval"), all.x=TRUE)
+                plbls=plbls[!duplicated(plbls$rn),]            
+                plbls=plbls[order(plbls$rn),]
+                plbls$dwn=plbls$yval<plbls$LowBand
+                plbls$upp=plbls$yval>plbls$UpperBand
+                plbls$dist=0
+                plbls$tdist=0
+                if(!is.na(sum(plbls$dwn))&&sum(plbls$dwn)>0){
+                    plbls[plbls$dwn,]$lab=1
+                    plbls[plbls$dwn,]$dist=plbls[plbls$dwn,]$LowBand-plbls[plbls$dwn,]$yval
+                    if(fitval$ty!=0){
+                        plbls[plbls$dwn,]$tdist=tukeyLadder(abs(plbls[plbls$dwn,]$LowBand),1/fitval$ty)-plbls[plbls$dwn,ny]
+                    }else{
+                        plbls[plbls$dwn,]$tdist=plbls[plbls$dwn,ny]-exp(plbls[plbls$dwn,]$yval)
+                    }                
+                }
+                if(!is.na(sum(plbls$upp))&&sum(plbls$upp)>0){
+                    plbls[plbls$upp,]$lab=2
+                    plbls[plbls$upp,]$dist=plbls[plbls$upp,]$yval-plbls[plbls$upp,]$UpperBand
+                    if(fitval$ty!=0){
+                        plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-tukeyLadder(abs(plbls[plbls$upp,]$UpperBand),1/fitval$ty)
+                    }else{
+                        plbls[plbls$upp,]$tdist=plbls[plbls$upp,ny]-exp(plbls[plbls$upp,]$UpperBand)
+                    }
+                }
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$Class= plbls$lab
+                data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]$R2= rep(x=fitval$r2,times=dim(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],])[1])
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$Dist = plbls$tdist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$MahaDist = plbls$MahaDist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$MahaOut = plbls$MahaOut
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$CookDist = plbls$CookDist
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$CookOut = plbls$CookOut
+                data[rownames(data[data$planner==apl[p]&data$com==cl[c]&data$Steps==sl[s],]),]$Disc = plbls$Disc
+        
+            if(prnt){
+            #for(c in 1:length(cl)){
+                #ares=aval[auxres$com==cl[c],]
+                dl=unique(aval$dom)
+                for(d in 1:length(dl)){
+                an=paste0(cl[c],'-',dl[d])
+                ni=match(an,labls)
+                dcaux=c(ni,dcaux)
+                dlaux=c(an,dlaux)
+                }
+                points(x=aval[aval$Steps==sl[s]&aval$com==cl[c],"xval"], y=aval[aval$Steps==sl[s]&aval$com==cl[c],"yval"], pch=19, col=colores[ni])
+                #}
+            #}        
+                par(xpd=TRUE)
+                if(sum(plbls$lab>0)>0){
+                    text(x=plbls[plbls$lab>0,"xval"],y=(plbls[plbls$lab>0,"yval"]+ifelse(dpy==0,0.25,0.25*10**dpy)), labels=substrRight(plbls[plbls$lab>0,]$gn,5) )
+                }
+        
+                                        #    legend(maxTN*1.06, log(maxT)*0.6, legend=apl, pch=pchs)
+                legend(maxVx*1.06, maxVy*1, legend=dlaux,col=colores[dcaux], pch=19)
+                imprimirfin()
+            }
+            }
+        }
+    }
+    data$Cfactor=nx#paste0('C',nx),'v',ny)
+    data$Cresp=ny
+    data$Ctran=paste0(lx,'v',ly)
+    
+    return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut","Disc")]) 
+}
+
 plotInstancesDifficulty <- function(bdf,fn){
     td2=aggregate(planner~Class+Cfactor, bdf, FUN=length)
     td2$Diff=""
@@ -455,6 +591,22 @@ createDataSetbyComWithClassification <- function(basedataframe, filename, prin, 
     }
     return(rdf)
 }
+
+createDataSetbyPlanWithClassification <- function(basedataframe, filename, prin, prefn){
+    if(!file.exists(filename)){
+        c1=allplannersbyplan(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c2=allplannersbyplan(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c3=allplannersbyplan(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c4=allplannersbyplan(nx="TE",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        c5=allplannersbyplan(nx="TME",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
+        rdf=rbind(c1,c2,c3,c4,c5)
+        write.csv(rdf, filename)
+    }else{
+        rdf = read.csv(filename)
+    }
+    return(rdf)
+}
+
 multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL) {
   library(grid)
 
