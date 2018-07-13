@@ -1,0 +1,258 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//StripsRover.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//pfile12 -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//StripsRover.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//pfile12
+Problem name: roverprob5146
+Facts loaded.
+
+created
+time: 1, 178 facts and 67 exclusive pairs.
+time: 2, 203 facts and 243 exclusive pairs.
+time: 3, 229 facts and 467 exclusive pairs.
+time: 4, 246 facts and 660 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 246 facts and 219 exclusive pairs.
+Goals first reachable in 5 steps.
+3287 nodes created.
+
+####################################################
+goals at time 6:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint3 communicated-rock-data_waypoint6 communicated-image-data_objective2_low-res communicated-image-data_objective1_high-res 
+communicated-image-data_objective3_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 6
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 246 facts and 145 exclusive pairs.
+837 new nodes added.
+
+####################################################
+goals at time 7:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint3 communicated-rock-data_waypoint6 communicated-image-data_objective2_low-res communicated-image-data_objective1_high-res 
+communicated-image-data_objective3_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 880
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 246 facts and 141 exclusive pairs.
+837 new nodes added.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint3 communicated-rock-data_waypoint6 communicated-image-data_objective2_low-res communicated-image-data_objective1_high-res 
+communicated-image-data_objective3_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 453653
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 246 facts and 141 exclusive pairs.
+837 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint3 communicated-rock-data_waypoint6 communicated-image-data_objective2_low-res communicated-image-data_objective1_high-res 
+communicated-image-data_objective3_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 1179500
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 2617
+number of fluent variables = 1413
+total number variables = 4030
+number clauses = 105712
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 122699336
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 12090
+numatom = 4030, numclause = 105712, numliterals = 213266
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         1        11      8.66      3.28      2.64    100000         0
+         2         8      9.83      3.39      2.90    100000         0
+         1        16      9.91      3.55      2.80    100000         0
+         2         7     10.38      3.41      3.04    100000         0
+         2         9      9.66      3.35      2.88    100000         0
+         3         9     10.78      3.36      3.21    100000         0
+         1         9      9.59      3.66      2.62    100000         0
+         2         7     10.54      3.52      3.00    100000         0
+         2        11      9.61      3.34      2.87    100000         0
+         2         6     10.20      3.44      2.96    100000         0
+
+total elapsed seconds = 0.890000
+average flips per second = 1123595
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 9.915122
+      overall mean noise std deviation = 3.430779
+      overall ratio mean noise to mean std dev = 2.890049
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 9.915122
+      nonsuccessful mean noise std deviation = 3.430779
+      nonsuccessful ratio mean noise to mean std dev = 2.890049
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 123597551
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+****the instance is unsatisfiable *****
+NB_MONO= 196904, NB_UNIT= 2989549, NB_BRANCHE= 43049, NB_BACK= 21678 
+Program terminated in 9.990 seconds.
+Result is Unsat
+Iteration was 43280
+
+----------------------------------------------------
+time: 9, 246 facts and 141 exclusive pairs.
+837 new nodes added.
+
+####################################################
+goals at time 10:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint3 communicated-rock-data_waypoint6 communicated-image-data_objective2_low-res communicated-image-data_objective1_high-res 
+communicated-image-data_objective3_low-res 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 3185
+number of fluent variables = 1636
+total number variables = 4821
+number clauses = 138583
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 5813723
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 14463
+numatom = 4821, numclause = 138583, numliterals = 279573
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         1         7      9.11      3.69      2.47    100000         0
+         1         7     10.44      3.70      2.82    100000         0
+         2        14     10.79      3.59      3.00    100000         0
+         2        10      9.99      3.40      2.94    100000         0
+         0         0     10.80      3.61      3.00     89140        20     89140   489140.00
+
+total elapsed seconds = 0.470000
+average flips per second = 1040723
+number solutions found = 1
+final success rate = 20.000000
+average length successful tries = 89140
+mean flips until assign = 489140.000000
+mean seconds until assign = 0.470000
+mean restarts until assign = 5.000000
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 10.226451
+      overall mean noise std deviation = 3.598928
+      overall ratio mean noise to mean std dev = 2.841527
+    statistics on successful runs:
+      successful mean average noise level = 10.799352
+      successful mean noise std deviation = 3.605210
+      successful ratio mean noise to mean std dev = 2.995484
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 10.083226
+      nonsuccessful mean noise std deviation = 3.597357
+      nonsuccessful ratio mean noise to mean std dev = 2.802954
+ASSIGNMENT FOUND
+Result is Sat
+Iteration was 489140
+Performing plan justification:
+   4 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (navigate rover0 waypoint4 waypoint2)
+1 (navigate rover2 waypoint7 waypoint0)
+1 (navigate rover3 waypoint7 waypoint3)
+2 (calibrate rover0 camera2 objective0 waypoint2)
+2 (navigate rover1 waypoint4 waypoint6)
+2 (calibrate rover3 camera3 objective3 waypoint3)
+3 (take-image rover3 waypoint3 objective3 camera3 low-res)
+3 (sample-soil rover2 rover2store waypoint0)
+3 (sample-rock rover1 rover1store waypoint6)
+4 (navigate rover2 waypoint0 waypoint7)
+4 (take-image rover0 waypoint2 objective2 camera2 low-res)
+4 (communicate-image-data rover3 general objective3 low-res waypoint3 waypoint2)
+4 (navigate rover1 waypoint6 waypoint4)
+4 (calibrate rover3 camera0 objective2 waypoint3)
+5 (navigate rover2 waypoint7 waypoint5)
+5 (take-image rover3 waypoint3 objective1 camera0 high-res)
+5 (sample-rock rover3 rover3store waypoint3)
+5 (communicate-rock-data rover1 general waypoint6 waypoint4 waypoint2)
+6 (navigate rover3 waypoint3 waypoint7)
+6 (navigate rover0 waypoint2 waypoint7)
+6 (communicate-soil-data rover2 general waypoint0 waypoint5 waypoint2)
+7 (communicate-image-data rover0 general objective2 low-res waypoint7 waypoint2)
+8 (communicate-rock-data rover3 general waypoint3 waypoint7 waypoint2)
+9 (communicate-image-data rover3 general objective1 high-res waypoint7 waypoint2)
+End plan
+----------------------------------------------------
+
+24 total actions in plan
+67284 entries in hash table, 13202 hash hits, avg set size 19
+80494 total set-creation steps (entries + hits + plan length - 1)
+327018 actions tried
+
+####################################################
+Total elapsed time:   29.60 seconds
+Time in milliseconds: 29598
+
+####################################################

@@ -2,8 +2,8 @@
 function findlocal()
 {
     echo "Procesando $1"
-    plf=$(find $1 -maxdepth 1 -type f -iname '*.pddl')
-    domf=$(find $1 -maxdepth 1 -type f -iname '*domain*')
+    plf=$(find $1 -maxdepth 1 -type f)
+    domf=$(find $1 -maxdepth 1 -type f -iname '*.pddl')
     if [ -z "$domf" ]; then
 	domf=$2
     fi
