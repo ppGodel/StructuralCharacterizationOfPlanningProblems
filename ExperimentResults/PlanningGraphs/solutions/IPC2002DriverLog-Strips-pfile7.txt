@@ -1,0 +1,87 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//driverlog.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//pfile7 -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//driverlog.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//pfile7
+Problem name: dlog-3-3-6
+Facts loaded.
+
+created
+time: 1, 51 facts and 42 exclusive pairs.
+time: 2, 63 facts and 138 exclusive pairs.
+time: 3, 87 facts and 504 exclusive pairs.
+time: 4, 87 facts and 312 exclusive pairs.
+time: 5, 93 facts and 241 exclusive pairs.
+Goals first reachable in 5 steps.
+1398 nodes created.
+
+####################################################
+goals at time 6:
+  at_driver1_s0 at_driver2_s0 at_truck1_s1 at_truck2_s0 at_package1_s0 
+at_package2_s1 at_package3_s1 at_package4_s2 at_package5_s0 at_package6_s0 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 888
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 93 facts and 225 exclusive pairs.
+438 new nodes added.
+
+####################################################
+goals at time 7:
+  at_driver1_s0 at_driver2_s0 at_truck1_s1 at_truck2_s0 at_package1_s0 
+at_package2_s1 at_package3_s1 at_package4_s2 at_package5_s0 at_package6_s0 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 41267
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck package5 truck2 s1)
+1 (walk driver2 s2 p2-1)
+1 (load-truck package4 truck1 s1)
+1 (board-truck driver1 truck1 s1)
+2 (drive-truck truck1 s1 s2 driver1)
+2 (walk driver2 p2-1 s1)
+3 (load-truck package2 truck1 s2)
+3 (unload-truck package4 truck1 s2)
+3 (disembark-truck driver1 truck1 s2)
+3 (board-truck driver2 truck2 s1)
+4 (board-truck driver3 truck1 s2)
+4 (drive-truck truck2 s1 s0 driver2)
+4 (walk driver1 s2 p0-2)
+5 (unload-truck package5 truck2 s0)
+5 (disembark-truck driver2 truck2 s0)
+5 (walk driver1 p0-2 s0)
+5 (drive-truck truck1 s2 s1 driver3)
+6 (unload-truck package2 truck1 s1)
+End plan
+----------------------------------------------------
+
+18 total actions in plan
+1434 entries in hash table, 4205 hash hits, avg set size 14
+5644 total set-creation steps (entries + hits + plan length - 1)
+15514 actions tried
+
+####################################################
+Total elapsed time:   0.20 seconds
+Time in milliseconds: 197
+
+####################################################

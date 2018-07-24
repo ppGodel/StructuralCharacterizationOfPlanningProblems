@@ -56,9 +56,10 @@ fi
 #    to=$4
 #fi
 
-ADIR=$(HOME)CompetitionResults/$compet
-BBDIR=$(HOME)ScriptFiles
-RDIR=$(HOME)ExperimentResults/PlanningGraphs/Solutions/$compet/
+
+ADIR=$HOME/CompetitionResults/$compet
+BBDIR=$HOME/ScriptFiles
+RDIR=$HOME/ExperimentResults/PlanningGraphs/Solutions/$compet
 tg=15
 to=10
 
@@ -70,7 +71,7 @@ do
 	for dcp in $dp/domains/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-		if [ "$nbc" == "Blocks" ];then #||[ "$nbc" = "assembly" ];then
+#		if [ "$nbc" == "Blocks" ];then #||[ "$nbc" = "assembly" ];then
 		    echo "Dominio" $nbc
 		    for typ in $dcp/*; do
 			typn=$(basename $typ)
@@ -87,7 +88,7 @@ do
 			#    fi
 			#done
 		    done
-		fi
+#		fi
 	    fi
 	done
     fi

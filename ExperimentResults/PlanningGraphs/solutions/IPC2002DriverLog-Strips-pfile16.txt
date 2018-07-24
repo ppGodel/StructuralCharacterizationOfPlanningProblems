@@ -1,0 +1,328 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//driverlog.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//pfile16 -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//driverlog.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//pfile16
+Problem name: dlog-5-5-10
+Facts loaded.
+
+created
+time: 1, 248 facts and 65 exclusive pairs.
+time: 2, 275 facts and 312 exclusive pairs.
+time: 3, 350 facts and 1891 exclusive pairs.
+time: 4, 419 facts and 4266 exclusive pairs.
+time: 5, 536 facts and 8737 exclusive pairs.
+time: 6, 635 facts and 12827 exclusive pairs.
+time: 7, 707 facts and 11360 exclusive pairs.
+Goals reachable at 7 steps but mutually exclusive.
+time: 8, 713 facts and 8431 exclusive pairs.
+Goals first reachable in 8 steps.
+22126 nodes created.
+
+####################################################
+goals at time 9:
+  at_driver1_s12 at_driver2_s11 at_driver3_s11 at_driver4_s12 at_driver5_s11 
+at_truck1_s5 at_truck2_s6 at_truck3_s8 at_truck4_s12 at_truck5_s14 
+at_package1_s13 at_package2_s0 at_package4_s11 at_package5_s9 at_package6_s2 
+at_package7_s3 at_package8_s6 at_package9_s4 at_package10_s8 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 14
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 713 facts and 7965 exclusive pairs.
+6466 new nodes added.
+
+####################################################
+goals at time 10:
+  at_driver1_s12 at_driver2_s11 at_driver3_s11 at_driver4_s12 at_driver5_s11 
+at_truck1_s5 at_truck2_s6 at_truck3_s8 at_truck4_s12 at_truck5_s14 
+at_package1_s13 at_package2_s0 at_package4_s11 at_package5_s9 at_package6_s2 
+at_package7_s3 at_package8_s6 at_package9_s4 at_package10_s8 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 136500
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 12495
+number of fluent variables = 3299
+total number variables = 15794
+number clauses = 4357851
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 113618032
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 47382
+numatom = 15794, numclause = 4357851, numliterals = 8725337
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        16        42     31.21      5.03      6.20    100000         0
+        17        33     31.91      5.13      6.22    100000         0
+        20        33      0.00      0.00      0.00     31999         0
+
+total elapsed seconds = 9.170000
+average flips per second = 25299
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 31.562449
+      overall mean noise std deviation = 5.080369
+      overall ratio mean noise to mean std dev = 6.212629
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 31.562449
+      nonsuccessful mean noise std deviation = 5.080369
+      nonsuccessful ratio mean noise to mean std dev = 6.212629
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 232000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 122961454
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 241
+Variables forced false: 0
+Clauses output: 4357578
+Variables undetermined: 15553
+Non-unary clauses output: 4357337
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+time: 10, 713 facts and 7905 exclusive pairs.
+6466 new nodes added.
+
+####################################################
+goals at time 11:
+  at_driver1_s12 at_driver2_s11 at_driver3_s11 at_driver4_s12 at_driver5_s11 
+at_truck1_s5 at_truck2_s6 at_truck3_s8 at_truck4_s12 at_truck5_s14 
+at_package1_s13 at_package2_s0 at_package4_s11 at_package5_s9 at_package6_s2 
+at_package7_s3 at_package8_s6 at_package9_s4 at_package10_s8 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 17870
+number of fluent variables = 3992
+total number variables = 21862
+number clauses = 7484247
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 13680387
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 65586
+numatom = 21862, numclause = 7484247, numliterals = 14983165
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        16        33     32.91      6.37      5.17    100000         0
+        19        36      0.00      0.00      0.00     54999         0
+
+total elapsed seconds = 8.610000
+average flips per second = 18002
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 32.905274
+      overall mean noise std deviation = 6.369429
+      overall ratio mean noise to mean std dev = 5.166126
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 32.905274
+      nonsuccessful mean noise std deviation = 6.369429
+      nonsuccessful ratio mean noise to mean std dev = 5.166126
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 155000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 22626352
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 241
+Variables forced false: 0
+Clauses output: 7483974
+Variables undetermined: 21621
+Non-unary clauses output: 7483733
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 10 steps
+time: 11, 713 facts and 7905 exclusive pairs.
+6466 new nodes added.
+
+####################################################
+goals at time 12:
+  at_driver1_s12 at_driver2_s11 at_driver3_s11 at_driver4_s12 at_driver5_s11 
+at_truck1_s5 at_truck2_s6 at_truck3_s8 at_truck4_s12 at_truck5_s14 
+at_package1_s13 at_package2_s0 at_package4_s11 at_package5_s9 at_package6_s2 
+at_package7_s3 at_package8_s6 at_package9_s4 at_package10_s8 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 23427
+number of fluent variables = 4685
+total number variables = 28112
+number clauses = 10766226
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 47386191
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 84336
+numatom = 28112, numclause = 10766226, numliterals = 21552356
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        21        32     36.03      6.81      5.29    100000         0
+    214634    214634      0.00      0.00      0.00      6999         0
+
+total elapsed seconds = 8.050000
+average flips per second = 13291
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 36.031344
+      overall mean noise std deviation = 6.806635
+      overall ratio mean noise to mean std dev = 5.293562
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 36.031344
+      nonsuccessful mean noise std deviation = 6.806635
+      nonsuccessful ratio mean noise to mean std dev = 5.293562
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 107000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 55891431
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Realloc failed. Old stack size 160. New stack size 320. Exiting.
