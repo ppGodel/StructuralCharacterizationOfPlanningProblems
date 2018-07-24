@@ -13,9 +13,53 @@ ppieinfo=ddply(.data=preinf,c("Class", "com"), summarise, countn=length(gn))
 totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
 pieinfo=merge(ppieinfo,totinf, by="com")
 pieinfo$percentage=pieinfo$countn/pieinfo$total*100
-piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)+ theme(text = element_text(size=20))
                                         #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
 ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycom",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+
+preinf=ddply(.data=testres,c("solved","com","dom","gn"), summarise, countn=length(solved))
+ppieinfo=ddply(.data=preinf,c("solved", "com"), summarise, countn=length(gn))
+totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
+pieinfo=merge(ppieinfo,totinf, by="com")
+pieinfo$percentage=pieinfo$countn/pieinfo$total*100
+pieinfo$Status="Not Solved"
+pieinfo[pieinfo$solved==1,]$Status="Solved"
+#pieinfo[pieinfo$solved==0,]$solved="Not Solved"
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Status))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com) + theme(text = element_text(size=20))
+                                        # + geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)                     
+ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycomsolv",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+
+preinf=ddply(.data=testres[testres$solved==1&!is.na(testres$parallel),],c("parallel","com","dom","gn"), summarise, countn=length(solved))
+ppieinfo=ddply(.data=preinf,c("parallel", "com"), summarise, countn=length(gn))
+totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
+pieinfo=merge(ppieinfo,totinf, by="com")
+pieinfo$percentage=pieinfo$countn/pieinfo$total*100
+pieinfo$Status="Not Parallel"
+pieinfo[pieinfo$parallel==1&!is.na(pieinfo$parallel),]$Status="Parallel"
+pieinfo[is.na(pieinfo$parallel),]$Status="Not Solved"
+#pieinfo[pieinfo$solved==0,]$solved="Not Solved"                                                                                                               
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Status))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)+ theme(text = element_text(size=20))
+                                        #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)                        
+ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycomparallel",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+preinf=ddply(.data=testres[testres$solved==1&!is.na(testres$graph),],c("graph","com","dom","gn"), summarise, countn=length(solved))
+ppieinfo=ddply(.data=preinf,c("graph", "com"), summarise, countn=length(gn))
+totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
+pieinfo=merge(ppieinfo,totinf, by="com")
+pieinfo$percentage=pieinfo$countn/pieinfo$total*100
+pieinfo$Status="No Graph"
+pieinfo[pieinfo$graph==1&!is.na(pieinfo$graph),]$Status="Graph"
+#pieinfo[is.na(pieinfo$parallel),]$Status="Not Solved"
+#pieinfo[pieinfo$solved==0,]$solved="Not Solved"                                                                                                                                                                                                                              
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Status))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)+ theme(text = element_text(size=20))
+                                        #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)                                                                                                                                       
+ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycomgraph",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+
+
+
 
 
 head(testres)
