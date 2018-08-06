@@ -1,0 +1,151 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//driverlog.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//pfile18 -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//driverlog.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/DriverLog/Strips//pfile18
+Problem name: dlog-5-5-20
+Facts loaded.
+
+created
+time: 1, 323 facts and 52 exclusive pairs.
+time: 2, 346 facts and 240 exclusive pairs.
+time: 3, 432 facts and 2739 exclusive pairs.
+time: 4, 560 facts and 11439 exclusive pairs.
+time: 5, 774 facts and 27762 exclusive pairs.
+time: 6, 1004 facts and 41457 exclusive pairs.
+time: 7, 1137 facts and 35343 exclusive pairs.
+time: 8, 1159 facts and 19245 exclusive pairs.
+Goals reachable at 8 steps but mutually exclusive.
+time: 9, 1159 facts and 15586 exclusive pairs.
+Goals first reachable in 9 steps.
+47739 nodes created.
+
+####################################################
+goals at time 10:
+  at_driver1_s1 at_driver5_s9 at_truck1_s17 at_truck2_s0 at_truck3_s3 
+at_truck5_s9 at_package1_s1 at_package2_s7 at_package4_s10 at_package5_s15 
+at_package6_s7 at_package7_s10 at_package9_s7 at_package10_s10 at_package11_s13 
+at_package12_s12 at_package13_s12 at_package14_s15 at_package15_s18 at_package16_s8 
+at_package17_s16 at_package18_s3 at_package19_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 16
+
+----------------------------------------------------
+Can't solve in 9 steps
+time: 10, 1159 facts and 15290 exclusive pairs.
+11278 new nodes added.
+
+####################################################
+goals at time 11:
+  at_driver1_s1 at_driver5_s9 at_truck1_s17 at_truck2_s0 at_truck3_s3 
+at_truck5_s9 at_package1_s1 at_package2_s7 at_package4_s10 at_package5_s15 
+at_package6_s7 at_package7_s10 at_package9_s7 at_package10_s10 at_package11_s13 
+at_package12_s12 at_package13_s12 at_package14_s15 at_package15_s18 at_package16_s8 
+at_package17_s16 at_package18_s3 at_package19_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 52000
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 27703
+number of fluent variables = 5722
+total number variables = 33425
+number clauses = 20952545
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 13988960
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 100275
+numatom = 33425, numclause = 20952545, numliterals = 41928113
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        33        37      0.00      0.00      0.00     36999         0
+
+total elapsed seconds = 5.440000
+average flips per second = 6801
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 37000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 20352437
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Realloc failed. Old stack size 2560. New stack size 5120. Exiting.

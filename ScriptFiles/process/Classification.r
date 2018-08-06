@@ -8,24 +8,57 @@ library(ggplot2)
 library(wesanderson)
 
 compresultsraw=data.frame(grcon$find())
+#compresultsbygraph=ddply(.data=compresultraw, c("com","dom","gn","fkey","gid","solved","graph","Time","Steps",))
+compresultsbyplanner=data.frame(plancon$find())
+#compresultsbyg=data.frame(cbind(grcomcon$find(),graph=1))
+compresultsbyp=ddply(.data=compresultsbyplanner,c("com","dom","gn","pkey"), summarize, solvedg=max(solved, na.rm=T), minSteps=min(Steps, na.rm=T))
 exeres= read.csv("executionresults.csv")
 exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
-compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey", all.x=TRUE)
+exeres$graph=ifelse(exeres$gl>0,1,0)
+exeres$complete=ifelse(exeres$pl>0,1,0)
+compresultsbyprob=merge(x=compresultsbyp[,c("com","dom","gn","pkey","solvedg","minSteps")],y=exeres[,c("pkey","graph","complete","gl","fap")],by=c("pkey"), all.x=T)
+compresultsbyprob=compresultsbyprob[!duplicated(compresultsbyprob),]
+compresultsbyprob[is.na(compresultsbyprob$graph),]$graph=0
+compresultsbyprob$parallel=ifelse(compresultsbyprob$minStep>compresultsbyprob$gl,1,0)
+compresultsbyprob$GClass="NoClass"
+compresultsbyprob[compresultsbyprob$solvedg==0&compresultsbyprob$graph==0,]$GClass="NSNG"
+compresultsbyprob[compresultsbyprob$solvedg==0&compresultsbyprob$graph==1,]$GClass="NSG"
+compresultsbyprob[compresultsbyprob$solvedg==1&compresultsbyprob$graph==0,]$GClass="SNG"
+compresultsbyprob[compresultsbyprob$solvedg==1&compresultsbyprob$graph==1&compresultsbyprob$complete==0,]$GClass="SIG"
+compresultsbyprob[compresultsbyprob$solvedg==1&compresultsbyprob$graph==1&compresultsbyprob$complete==1&compresultsbyprob$parallel==1,]$GClass="SGCP"
+compresultsbyprob[compresultsbyprob$solvedg==1&compresultsbyprob$graph==1&compresultsbyprob$complete==1&compresultsbyprob$parallel==0,]$GClass="SGCNP"
+
+
+ppieinfo=ddply(.data=compresultsbyprob,c("GClass", "com"), summarise, countn=length(gn))
+totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
+pieinfo=merge(ppieinfo,totinf, by="com")
+pieinfo$percentage=pieinfo$countn/pieinfo$total*100
+piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=GClass))+  geom_bar(width = 1, stat="identity")+  coord_polar("y") + facet_wrap(~com)
+ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycom",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+write.csv(compresultsbyprob,"compresultsbyprob.csv")
+#compresultsbyprob=read.csv("compresultsbyprob.csv")
+#dim(compresultsbyprob)
+#colnames(compresultsraw)
+#head(compresultexec,5)
+#unique(compresultsgraphsolved$Class)
+
+compresultexec=merge(compresultsraw, compresultsbyprob[,c("pkey","fap","solvedg","graph","complete","parallel","GClass")], by="pkey", all.x=TRUE)
 compresultexec=compresultexec[!duplicated(compresultexec),]
-compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
-compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
-compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1,]
-crgs=compresultsgraphsolved
-compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
-compresultsgraphsolved$Class=0
-compresultsgraphsolved$R2=0
-compresultsgraphsolved$Dist=0
-compresultsgraphsolved$MahaDist=0
-compresultsgraphsolved$CookDist=0
-compresultsgraphsolved$Disc=0
-compresultsgraphsolved$MahaOut=FALSE
-compresultsgraphsolved$CookOut=FALSE
- 
+#compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
+#compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
+compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph.x==1&compresultexec$complete==1,]
+#crgs=compresultsgraphsolved
+#compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
+#compresultsgraphsolved$Class=0
+#compresultsgraphsolved$R2=0
+#compresultsgraphsolved$Dist=0
+#compresultsgraphsolved$MahaDist=0
+#compresultsgraphsolved$CookDist=0
+#compresultsgraphsolved$Disc=0
+#compresultsgraphsolved$MahaOut=FALSE
+#compresultsgraphsolved$CookOut=FALSE
+
 #typu="eps"
 #prin=TRUE
 if(FALSE){
@@ -49,6 +82,25 @@ if(FALSE){
         allclasscom=rbind(allclassdompar,allclassdomnpar)  
     }
 }
+#length(unique(allclasscom$gn))
+#ggplot(data = allclasscom[allclasscom$R2>=0.85&allclasscom$R2<0.985,], aes(x=factor(Cfactor), y=log(abs(Dist)+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom)
+
+sqv=seq(0.75,1,0.01)
+tda=aggregate(planner~R2+Cfactor+com, allclasscom, FUN=length)
+tda=cbind(1:dim(tda)[1],tda[order(tda$R2, decreasing=TRUE),])
+higm=sapply(X=sqv, FUN=function(item){    
+    #return(100*sum(tda$R2>=item)/length(tda$R2))
+    return(sum(tda$R2>=item))
+})
+#logm=100-higm
+logm=length(tda$R2)-higm
+td=data.frame(x=sqv,value="accepted", count=higm)
+tp=data.frame(x=sqv,value="rejected", count=logm)
+td=rbind(tp,td)
+td$per=td$count*(1/180)
+ggplot(data=td, aes(x=x, y=per, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=20), axis.text.x = element_text(angle=90, hjust=1), axis.title=element_text(size=25,  face="bold"))+labs(x = expression(R^2), y="Model Count", fill="Value")+ theme_bw(base_size=20)+scale_x_continuous(breaks=sqv)
+ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,height=7.25)
+
 
 
 
@@ -79,6 +131,16 @@ td3ND[td3ND$Diff=="Easy",]$planner=-td3ND[td3ND$Diff=="Easy",]$planner
 diffic="Easy"
 td3ND$score=td3ND$DistV*(td3ND$planner/td3ND$tp)
 td3ND$coun= round(td3ND$score,2)
+
+
+pltdfa= droplevels(td3ND[td3ND$Diff!="Fit",])
+pltdf=droplevels(pltdfa[pltdfa$dom=="gripper",])
+ggplot(data =pltdf, aes(x=factor(gn), y=planner, fill=as.factor(Diff) )) +geom_bar(stat="identity", position = position_stack(reverse = TRUE) ) + theme(text = element_text(size=20)) + labs(x="Instance", y="vote count", fill="Difficulty") + coord_flip() + scale_fill_manual(values=c("skyblue", "orange1", "red")) + scale_x_discrete( limits=rev(levels(pltdf$gn)))
+ggsave(paste0(gpath,"Layers/","ClassByNormDistParallelbyComR2IntDom.",typu), device=typu, width=12,height=7.25)
+
+    
+
+
 #tdf=ddply(.data=td3ND[td3ND$Diff==diffic,], c("coun"), summarise, t=length(gn))
 prest=td3ND[,c("type","com","dom","gn","Diff","score")]
 #prest$score=prest$score*ifelse(prest$Diff==diffic,-1,1)
@@ -90,8 +152,9 @@ tdfe[(tdfe$easyScore==0&tdfe$hardScore>0.001)|(abs(tdfe$easyScore)>0.001&tdfe$ha
 tdfe[(tdfe$hardScore==0&abs(tdfe$easyScore)>0.001)|(abs(tdfe$easyScore)>0.001&tdfe$hardScore>0.001&abs(tdfe$easyScore)>(3/2*tdfe$hardScore) ),]$Class="1 Easy"
 tdfe[(tdfe$hardScore<0.001&abs(tdfe$easyScore)<0.001),]$Class="2 Fit"
 
+colnames(compresultexec)
+baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph.x), fap=min(fap), graphSize=min(MT), parallel=min(parallel) )
 
-baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph), fap=min(fap), graphSize=min(gl), parallel=min(parallel) )
 tdfec=tdfe[,c("type","com","dom","gn","Class")]
 testres=merge(baseres,tdfec, by=c("com","dom","gn"),all.x=TRUE)
 testres[is.na(testres$Class)&testres$solved==1&testres$graph==1,]$Class="6 Not Proc"

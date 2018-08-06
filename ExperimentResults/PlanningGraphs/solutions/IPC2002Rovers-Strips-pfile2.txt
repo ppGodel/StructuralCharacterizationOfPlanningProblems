@@ -1,0 +1,76 @@
+blackbox version 43
+command line:  /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/ScriptFiles/blackbox -o /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//StripsRover.pddl -f /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//pfile2 -x -M 32760 -maxauto 200 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//StripsRover.pddl
+Loading fact file: /Users/jhernandez/Documents/StructuralCharacterizationOfPlanningProblems/CompetitionResults/IPC2002/domains/Rovers/Strips//pfile2
+Problem name: roverprob4213
+Facts loaded.
+
+created
+time: 1, 49 facts and 27 exclusive pairs.
+time: 2, 55 facts and 38 exclusive pairs.
+time: 3, 63 facts and 87 exclusive pairs.
+Goals reachable at 3 steps but mutually exclusive.
+time: 4, 63 facts and 26 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 63 facts and 11 exclusive pairs.
+Goals first reachable in 5 steps.
+798 nodes created.
+
+####################################################
+goals at time 6:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint0 communicated-image-data_objective1_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 24
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 63 facts and 11 exclusive pairs.
+177 new nodes added.
+
+####################################################
+goals at time 7:
+  communicated-soil-data_waypoint0 communicated-rock-data_waypoint0 communicated-image-data_objective1_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 116
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (calibrate rover0 camera0 objective0 waypoint0)
+1 (sample-soil rover0 rover0store waypoint0)
+2 (drop rover0 rover0store)
+2 (take-image rover0 waypoint0 objective1 camera0 low-res)
+3 (sample-rock rover0 rover0store waypoint0)
+3 (communicate-image-data rover0 general objective1 low-res waypoint0 waypoint1)
+4 (navigate rover0 waypoint0 waypoint2)
+5 (communicate-rock-data rover0 general waypoint0 waypoint2 waypoint1)
+6 (communicate-soil-data rover0 general waypoint0 waypoint2 waypoint1)
+End plan
+----------------------------------------------------
+
+9 total actions in plan
+13 entries in hash table, 2 hash hits, avg set size 9
+20 total set-creation steps (entries + hits + plan length - 1)
+27 actions tried
+
+####################################################
+Total elapsed time:   0.03 seconds
+Time in milliseconds: 33
+
+####################################################

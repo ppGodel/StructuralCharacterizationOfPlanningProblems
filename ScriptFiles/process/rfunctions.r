@@ -564,6 +564,15 @@ plotInstancesDifficulty <- function(bdf,fn){
 }
 createDataSetbyDomWithClassification <- function(basedataframe, filename, prin, prefn){
     if(!file.exists(filename)){
+        basedataframe$LogTime=log(basedataframe$Time+1)
+        basedataframe$Class=0
+        basedataframe$R2=0
+        basedataframe$Dist=0
+        basedataframe$MahaDist=0
+        basedataframe$CookDist=0
+        basedataframe$Disc=0
+        basedataframe$MahaOut=FALSE
+        basedataframe$CookOut=FALSE
         c1=allplannersbydom(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c2=allplannersbydom(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c3=allplannersbydom(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
@@ -579,6 +588,15 @@ createDataSetbyDomWithClassification <- function(basedataframe, filename, prin, 
 
 createDataSetbyComWithClassification <- function(basedataframe, filename, prin, prefn){
     if(!file.exists(filename)){
+        basedataframe$LogTime=log(basedataframe$Time+1)
+        basedataframe$Class=0
+        basedataframe$R2=0
+        basedataframe$Dist=0
+        basedataframe$MahaDist=0
+        basedataframe$CookDist=0
+        basedataframe$Disc=0
+        basedataframe$MahaOut=FALSE
+        basedataframe$CookOut=FALSE
         c1=allplanners(nx="D" ,ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c2=allplanners(nx="DM",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
         c3=allplanners(nx="TN",ny="Time", data=basedataframe,prnt=prin, prefn=prefn)
