@@ -205,7 +205,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             if(prnt){
                 imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_",ny,"vs",nx),12,7.25)
                 par(mar=c(5,5,3,9),xpd=FALSE)
-                plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p],"R^2:",round(fitval$r2*100,2)) )
+                plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Comp:", cl[c],"Planner:", apl[p],expression(R^2),":",round(fitval$r2*100,2)) )
             }
                                         #alm=lm(log(Time+1)~log(TE),data=auxres)
                                         #abline(alm)
@@ -342,7 +342,7 @@ allplannersbydom = function(nx,ny, data, prnt=TRUE, prefn=""){
                 if(prnt){
                     imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_", dl[d],"_",ny,"vs",nx),12,7.25)
                     par(mar=c(5,5,3,9),xpd=FALSE)
-                    plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p], "Domain:", dl[d],"R^2:",round(fitval$r2*100,2)) )
+                    plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p], "Domain:", dl[d],expression(R^2),":",round(fitval$r2*100,2)) )
             }
                                         #alm=lm(log(Time+1)~log(TE),data=auxres)
                                         #abline(alm)
@@ -477,7 +477,7 @@ allplannersbyplan = function(nx,ny, data, prnt=TRUE, prefn=""){
                 if(prnt){
                     imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_Plan", sl[s],"_",ny,"vs",nx),12,7.25)
                     par(mar=c(5,5,3,9),xpd=FALSE)
-                    plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p], "Plan Lenght:", sl[s],"R^2:",round(fitval$r2*100,2)) )
+                    plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Com:", cl[c],"Planner:", apl[p], "Plan Lenght:", sl[s],expression(R^2),":",round(fitval$r2*100,2)) )
             }
                                         #alm=lm(log(Time+1)~log(TE),data=auxres)
                                         #abline(alm)

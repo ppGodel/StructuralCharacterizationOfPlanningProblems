@@ -283,21 +283,38 @@ plot(td5$Class.Score~td5$Dist.sum)
 
 bdf=allclassdompar[between(allclassdompar$R2,0.85,0.98),]
 
-scom='IPC2000'
+scom='IPC1998'
 #my_data= compresultsraw[compresultsraw$com==scom ,c("Time","Steps","MT","TE","TN","D","DM","TME")]
-my_data= compresultsraw[compresultsraw$com==scom ,c("Time","TE","TN","D","DM","TME")]
+my_data= compresultsraw[compresultsraw$com==scom ,c("TE","TN","D","DM","TME")]
 #colnames(my_data) = c("Time","Steps","Graph \nLevels","Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
-colnames(my_data) = c("Time","Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
+colnames(my_data) = c("Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
 typu="eps"
 #cex.before <- par("cex")
 #par(cex = 3)
 imprimirini(typ=typu,name=paste0("Layers/","CorrKendall",scom),12,7.25)
-corrplot.mixed(cor(my_data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+corrplot.mixed(cor(my_data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5, cl.pos='n', tl.col='black', upper='number', lower='circle')
 imprimirfin()
 imprimirini(typ=typu,name=paste0("Layers/","CorrSpearman",scom),12,7.25)
-corrplot.mixed(cor(my_data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "spearman", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5)
+corrplot.mixed(cor(my_data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "spearman", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5, cl.pos='n', tl.col='black', upper='number', lower='circle')
 imprimirfin()
-#par(cex = cex.before)
+
+
+scom='IPC2000'
+#my_data= compresultsraw[compresultsraw$com==scom ,c("Time","Steps","MT","TE","TN","D","DM","TME")]
+my_data= compresultsraw[compresultsraw$com==scom ,c("TE","TN","D","DM","TME")]
+#colnames(my_data) = c("Time","Steps","Graph \nLevels","Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
+colnames(my_data) = c("Edges","Nodes","Density","Mutex \nDensity"," Mutex \nEdges")
+typu="eps"
+#cex.before <- par("cex")
+#par(cex = 3)
+imprimirini(typ=typu,name=paste0("Layers/","CorrKendall",scom),12,7.25)
+corrplot.mixed(cor(my_data,  method = "kendall", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "kendall", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5, cl.pos='n', tl.col='black', upper='number', lower='circle')
+imprimirfin()
+imprimirini(typ=typu,name=paste0("Layers/","CorrSpearman",scom),12,7.25)
+corrplot.mixed(cor(my_data,  method = "spearman", use="complete.obs"), p.mat=cor.mtest(my_data,  method = "spearman", use="complete.obs")$p, na.label="NA", sig.level=0.005, insig="pch",cl.cex=1.5, tl.cex=1.5, number.cex=1.5, cl.pos='n', tl.col='black', upper='number', lower='circle')
+imprimirfin()
+#par()
+#imprimirfin(cex = cex.before)
 #ggscatter(my_data, x = "D", y = "Time", add = "reg.line", conf.int = TRUE, cor.coef = TRUE, cor.method = "kendall")
 
 
@@ -325,7 +342,7 @@ tdcom=summary.planner.inst.bycom[summary.planner.inst.bycom$com==scom,]
 dl=unique(summary.planner.inst.bycom$dom)
 pl=unique(summary.planner.inst.bycom$planner)
 ps= length(pl)
-ds= length(dl)
+ds= lengthaaaa(dl)
 lgv=log(summary.planner.inst.bycom$Time+1,10)
 
 pl=unique(tdcom$planner)

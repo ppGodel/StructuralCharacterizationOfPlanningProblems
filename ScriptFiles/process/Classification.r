@@ -25,7 +25,7 @@ compresultsgraphsolved$CookDist=0
 compresultsgraphsolved$Disc=0
 compresultsgraphsolved$MahaOut=FALSE
 compresultsgraphsolved$CookOut=FALSE
-
+ 
 #typu="eps"
 #prin=TRUE
 if(FALSE){
@@ -36,8 +36,8 @@ if(FALSE){
     allclasscom=rbind(allclassplanpar,allclassplannpar)
 }else{
     if(bycom==T){
-        allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycom.csv",prin,"ParByCom")
-        allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycom.csv",prin,"NoParByCom")
+        allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycomimg.csv",prin,"ParByCom")
+        allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycomimg.csv",prin,"NoParByCom")
         allclasscompar$type="Parallel"
         allclasscomnpar$type="NoParallel"
         allclasscom=rbind(allclasscompar,allclasscomnpar)    
@@ -92,7 +92,6 @@ tdfe[(tdfe$hardScore<0.001&abs(tdfe$easyScore)<0.001),]$Class="2 Fit"
 
 
 baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph), fap=min(fap), graphSize=min(gl), parallel=min(parallel) )
-
 tdfec=tdfe[,c("type","com","dom","gn","Class")]
 testres=merge(baseres,tdfec, by=c("com","dom","gn"),all.x=TRUE)
 testres[is.na(testres$Class)&testres$solved==1&testres$graph==1,]$Class="6 Not Proc"
