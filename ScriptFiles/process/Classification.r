@@ -16,6 +16,23 @@ exeres= read.csv("executionresults.csv")
 exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
 exeres$graph=ifelse(exeres$gl>0,1,0)
 exeres$complete=ifelse(exeres$pl>0,1,0)
+
+compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey", all.x=TRUE)
+compresultexec=compresultexec[!duplicated(compresultexec),]
+compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
+compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
+compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1,]
+crgs=compresultsgraphsolved
+compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
+compresultsgraphsolved$Class=0
+compresultsgraphsolved$R2=0
+compresultsgraphsolved$Dist=0
+compresultsgraphsolved$MahaDist=0
+compresultsgraphsolved$CookDist=0
+
+
+
+
 compresultsbyprob=merge(x=compresultsbyp[,c("com","dom","gn","pkey","solvedg","minSteps")],y=exeres[,c("pkey","graph","complete","gl","fap")],by=c("pkey"), all.x=T)
 compresultsbyprob=compresultsbyprob[!duplicated(compresultsbyprob),]
 compresultsbyprob[is.na(compresultsbyprob$graph),]$graph=0
@@ -86,7 +103,7 @@ if(FALSE){
 #ggplot(data = allclasscom[allclasscom$R2>=0.85&allclasscom$R2<0.985,], aes(x=factor(Cfactor), y=log(abs(Dist)+1))) + geom_violin(fill="orange", color="red") + geom_boxplot(width=0.1, fill="blue", color="white", lwd=1) + theme(text = element_text(size=30))#+facet_wrap(~dom)
 
 sqv=seq(0.75,1,0.01)
-tda=aggregate(planner~R2+Cfactor+com, allclasscom, FUN=length)
+tda=aggregate(planner~R2+Cfactor+com, allclasscom[allclasscom$type=='NoParallel',], FUN=length)
 tda=cbind(1:dim(tda)[1],tda[order(tda$R2, decreasing=TRUE),])
 higm=sapply(X=sqv, FUN=function(item){    
     #return(100*sum(tda$R2>=item)/length(tda$R2))
@@ -98,10 +115,10 @@ td=data.frame(x=sqv,value="accepted", count=higm)
 tp=data.frame(x=sqv,value="rejected", count=logm)
 td=rbind(tp,td)
 td$per=td$count*(1/180)
-ggplot(data=td, aes(x=x, y=per, fill=value) )+geom_bar(stat="identity")+theme(axis.text=element_text(size=20), axis.text.x = element_text(angle=90, hjust=1), axis.title=element_text(size=25,  face="bold"))+labs(x = expression(R^2), y="Model Count", fill="Value")+ theme_bw(base_size=20)+scale_x_continuous(breaks=sqv)
-ggsave(paste0(gpath,"Layers/","ParallelR2Dist.",typu), device=typu, width=12,height=7.25)
+ggplot(data=td, aes(x=x, y=per, fill=value) )+geom_bar(stat="identity")+labs(x = expression(R^2), y="Model Count", fill="Value")+scale_x_continuous(breaks=sqv) +theme( axis.text.x = element_text(size=12,angle = 90, hjust = 0), axis.title=element_text(size=25,  face="bold"))
+ggsave(paste0(gpath,"Layers/","NoParallelR2Dist.",typu), device=typu, width=12,height=7.25)
 
-
+# + theme_bw(base_size=20)
 
 
 bdf=allclasscom[between(allclasscom$R2,0.85,0.98),]

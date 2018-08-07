@@ -171,10 +171,10 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             lx=nx
             ly=ny
             if(fitval$tx!=1){
-                lx=paste0(nx,"^",fitval$tx)  
+                lx==bquote(.(nx)^.(fitval$tx))
             }
             if(fitval$ty!=1){
-                ly=paste0(ny,"^",fitval$ty)  
+                ly=bquote(.(ny)^.(fitval$ty))  
             }
             
             if(fitval$tx==0){
@@ -205,7 +205,9 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             if(prnt){
                 imprimirini(typ=typu,name=paste0("Layers/",prefn,cl[c],"_", apl[p],"_",ny,"vs",nx),12,7.25)
                 par(mar=c(5,5,3,9),xpd=FALSE)
-                plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=paste("Comp:", cl[c],"Planner:", apl[p],expression(R^2),":",round(fitval$r2*100,2)) )
+                #mlab=paste("Com:", cl[c],"Planner:", apl[p],expression(R^2),":",round(fitval$r2*100,2))
+                mlab=bquote("Com:"~ .(cl[c]) ~"Planner:"~ .(apl[p]) ~ R^2 ~ ":" ~ .(round(fitval$r2*100,2)) )
+                plot(0,type='n', xlim=c(minVx,maxVx), ylim=c(minVy,maxVy), xlab=lx, ylab=ly, main=mlab ) 
             }
                                         #alm=lm(log(Time+1)~log(TE),data=auxres)
                                         #abline(alm)
