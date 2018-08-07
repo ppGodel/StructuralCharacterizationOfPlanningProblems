@@ -170,7 +170,7 @@ tdfe[(tdfe$hardScore==0&abs(tdfe$easyScore)>0.001)|(abs(tdfe$easyScore)>0.001&td
 tdfe[(tdfe$hardScore<0.001&abs(tdfe$easyScore)<0.001),]$Class="2 Fit"
 
 colnames(compresultexec)
-baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph.x), fap=min(fap), graphSize=min(MT), parallel=min(parallel) )
+baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph), fap=min(fap), graphSize=min(MT), parallel=min(parallel) )
 
 tdfec=tdfe[,c("type","com","dom","gn","Class")]
 testres=merge(baseres,tdfec, by=c("com","dom","gn"),all.x=TRUE)

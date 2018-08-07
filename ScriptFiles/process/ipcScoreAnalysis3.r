@@ -137,6 +137,10 @@ for(ptype in ptypel){
                 imprimirini(typ=typu,name=paste0("PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn),12,7.25)
                 grid.arrange(poeplot, pdeplot, pmeplot,lvlplot, ncol=1)
                 imprimirfin()
+                ggsave(plot=poeplot,filename=paste0(gpath,"PropertiesAnalysis/POEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+                ggsave(plot=pdeplot,filename=paste0(gpath,"PropertiesAnalysis/PDEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+                ggsave(plot=pmeplot,filename=paste0(gpath,"PropertiesAnalysis/PMEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+                ggsave(plot=lvlplot,filename=paste0(gpath,"PropertiesAnalysis/Lvlplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
             }
             tin=info[,c("Class", "minPOE", "maxPOE",  "meanPOE", "sdPOE", "kurtPOE", "skewPOE", "minPDE", "maxPDE", "meanPDE", "sdPDE", "kurtPDE", "skewPDE", "minPME", "maxPME", "meanPME", "sdPME", "kurtPME", "skewPME")]
             tin$easy=tin$Class=="1 Easy"
