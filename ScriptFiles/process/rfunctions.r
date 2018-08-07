@@ -171,7 +171,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             lx=nx
             ly=ny
             if(fitval$tx!=1){
-                lx==bquote(.(nx)^.(fitval$tx))
+                lx=bquote(.(nx)^.(fitval$tx))
             }
             if(fitval$ty!=1){
                 ly=bquote(.(ny)^.(fitval$ty))  
