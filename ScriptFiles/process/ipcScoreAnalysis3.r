@@ -6,7 +6,7 @@ library(plyr)
 source('parameters.r')
 source('rfunctions.r')
 source('connections.r')
-testres= as.data.frame(read.csv("propertiesresultscom.csv"))
+testres= as.data.frame(read.csv("propertiesresultsbycom.csv"))
 
 preinf=ddply(.data=testres,c("Class","com","dom","gn"), summarise, countn=length(Class))
 ppieinfo=ddply(.data=preinf,c("Class", "com"), summarise, countn=length(gn))
@@ -58,8 +58,8 @@ piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Status))+  geom_bar(width = 
 ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycomgraph",".",typu), device=typu, width=12,height=7.25, plot=piplot)
 
  
-createCorrelationImages <- function(testres, ptype, type){
-    tin=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1),c("Class", "minPOE", "maxPOE",  "meanPOE", "sdPOE", "kurtPOE", "skewPOE", "minPDE", "maxPDE", "meanPDE", "sdPDE", "kurtPDE", "skewPDE", "minPME", "maxPME", "meanPME", "sdPME", "kurtPME", "skewPME")]
+createCorrelationImages <- function(testres, ptype, type,p){
+    tin=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1)&testres$M==p,c("Class", "min", "max",  "mean", "sd", "kurt", "skew")]
     tin$easy=tin$Class=="1 Easy"
     tin$fit=tin$Class=="2 Fit"
     tin$hard=tin$Class=="3 Hard"
@@ -70,8 +70,8 @@ createCorrelationImages <- function(testres, ptype, type){
     rco=nco-4
     methl=c("spearman","kendall")
     for(meth in methl){
-        imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,"Classification",meth),12,7.25)
-        corrplot(cor(tin, method=meth, use="complete.obs")[1:(rco-1),rco:nco], method="number", p.mat=cor.mtest(tin, method=meth, use="complete.obs")$p[1:(rco-1),rco:nco])
+        imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,p,"Classification",meth),12,7.25)
+        corrplot(cor(tin, method=meth, use="complete.obs")[1:(rco-1),rco:nco], method="number", p.mat=cor.mtest(tin, method=meth, use="complete.obs")$p[1:(rco-1),rco:nco], title=paste(type,p), mar=c(0,0,2,0))
         imprimirfin()
     }
 }
@@ -134,17 +134,18 @@ exploregraph<-function(ginfo){
 }
 
 
-compareClassAndMeasure<- function(info, s,p){
+compareClassAndMeasure<- function(info,p, s){
                                         #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
-    linM=lm(info[,paste0(s,p)]~info[,"Class"])
+    pinfo=info[info$M==p,]
+    linM=lm(pinfo[,s]~pinfo[,"Class"])
     residuales<-resid(linM)
     sht=shapiro.test(residuales)
                                         #qqnorm(residuales,col=rgb(0,1,0,0.5))
                                         #qqline(residuales,col="red")
     if(sht$p.value>0.05){                   
         rno="residuals are from a normal dist"                    
-        anov=aov(info[,paste0(s,p)]~info[,"Class"])
+        anov=aov(pinfo[,s]~pinfo[,"Class"])
         if(summary.aov(anov)[[1]][["Pr(>F)"]][1]<0.05){
             me="means are different"
             TukeyHSD(anov)
@@ -152,11 +153,11 @@ compareClassAndMeasure<- function(info, s,p){
             me="means are equal"
         }
     }else{          
-        rno="resid arent from a norm dist"   
-        krus=kruskal.test(info[,paste0(s,p)]~as.factor(info[,"Class"]))
+        rno="residuals not normal"   
+        krus=kruskal.test(pinfo[,s]~as.factor(pinfo[,"Class"]))
         if(krus$p.value<0.05){
             me="means are different"
-            dn=dunn.test(x=info[,paste0(s,p)], g=info[,"Class"])
+            dn=dunn.test(x=pinfo[,s], g=pinfo[,"Class"])
         }else{
             me="means are equal"
         }
@@ -167,7 +168,7 @@ compareClassAndMeasure<- function(info, s,p){
     dr=paste(dn$comparisons[dn$P.adjusted<0.005],collapse=collaps)
     labrc=c(rno,me,"for: ", dr )
     labr=paste(labrc,collapse=collaps)
-    pg=ggplot(data = info, aes(x=factor(Class), y=info[,paste0(s,p)]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(info[,paste0(s,p)], na.rm=T),2)*.9, ymax = round(max(info[,paste0(s,p)], na.rm=T),2)*.8)
+    pg=ggplot(data = pinfo, aes(x=factor(Class), y=pinfo[,s]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(ptype,type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(pinfo[,s], na.rm=T),2)*.9, ymax = round(max(pinfo[,s], na.rm=T),2)*.8)
     
     
     gt <- ggplot_gtable(ggplot_build(pg))
@@ -185,20 +186,24 @@ ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
 propl=c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
-
+explore=FALSE
+compare=TRUE
 for(ptype in ptypel){
     for(type in typel){
-        createCorrelationImages(testres,ptype,type)  
-        info=testres[testres$graph==1&(testres$type==ptype|is.na(testres$type))&testres$Y==strtrim(type,1),]
+        info=testres[testres$graph==1&testres$Y==strtrim(type,1)&(testres$type==ptype|is.na(testres$type)),]
         if(dim(info)[1]>0){
-            gids=getgids(info)
-            for(g in gids){
-                ginfo=info[info$gid==g,]
-                exploregraph(ginfo)              
+            if(explore){
+                gids=getgids(info)
+                for(g in gids){
+                    ginfo=info[info$gid==g,]
+                    exploregraph(ginfo)              
+                }
             }
+            
             for(p in propl){
+                createCorrelationImages(testres,ptype,type,p)
                 for(s in sdisl){
-                    compareClassAndMeasure(info,s,p)
+                    compareClassAndMeasure(info,p,s)
                 }
             }
         }
