@@ -4,7 +4,7 @@
 (:predicates (at ?x - (either person aircraft) ?c - city)
              (in ?p - person ?a - aircraft)
 	     (fuellevel ?a - aircraft ?l - flevel)
-	     (next ?l1 ?l2 - flevel))
+	     (nxt ?l1 ?l2 - flevel))
 
 
 (:action board
@@ -28,7 +28,7 @@
  
  :precondition (and (at ?a ?c1)
                  (fuellevel ?a ?l1)
-		 (next ?l2 ?l1))
+		 (nxt ?l2 ?l1))
  :effect (and (not (at ?a ?c1))
               (at ?a ?c2)
               (not (fuellevel ?a ?l1))
@@ -39,8 +39,8 @@
 
  :precondition (and (at ?a ?c1)
                  (fuellevel ?a ?l1)
-		 (next ?l2 ?l1)
-		 (next ?l3 ?l2)
+		 (nxt ?l2 ?l1)
+		 (nxt ?l3 ?l2)
 		)
  :effect (and (not (at ?a ?c1))
               (at ?a ?c2)
@@ -53,7 +53,7 @@
  :parameters (?a - aircraft ?c - city ?l - flevel ?l1 - flevel)
 
  :precondition (and (fuellevel ?a ?l)
-                 (next ?l ?l1)
+                 (nxt ?l ?l1)
                  (at ?a ?c))
  :effect (and (fuellevel ?a ?l1) (not (fuellevel ?a ?l))))
 
