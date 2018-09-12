@@ -17,7 +17,7 @@
 	)
 (:init
 	(at plane1 city0)
-	(fuel-level plane1 fl1)
+	(fuellevel plane1 fl1)
 	(at person1 city0)
 	(at person2 city2)
 	(next fl0 fl1)

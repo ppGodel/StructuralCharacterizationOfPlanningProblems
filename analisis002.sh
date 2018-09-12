@@ -88,7 +88,7 @@ function findlocal()
 #		    echo "$bf"
 #		    echo "$bf" > $BFILE
 	    fi
-	    mv "$BBDIR/*.json" "$RDIR/graphs/$bn/$nbc/"
+	    mv "$(pwd)/*.json" "$RDIR/graphs/$bn/$nbc/"
 #	else
 #	    echo "File exists $pn skip"
 	    
