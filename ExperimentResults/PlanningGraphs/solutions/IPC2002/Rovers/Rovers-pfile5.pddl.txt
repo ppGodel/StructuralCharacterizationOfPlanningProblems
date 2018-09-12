@@ -1,0 +1,126 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl -f ./CompetitionResults/IPC2002/domains/Rovers/pfile5.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Rovers/pfile5.pddl
+Problem name: roverprob2435
+Facts loaded.
+
+created
+time: 1, 72 facts and 16 exclusive pairs.
+time: 2, 95 facts and 159 exclusive pairs.
+time: 3, 107 facts and 156 exclusive pairs.
+time: 4, 109 facts and 38 exclusive pairs.
+time: 5, 110 facts and 28 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 110 facts and 21 exclusive pairs.
+Goals first reachable in 6 steps.
+1841 nodes created.
+
+####################################################
+goals at time 7:
+  communicated-soil-data_waypoint1 communicated-soil-data_waypoint2 communicated-rock-data_waypoint0 communicated-rock-data_waypoint1 communicated-image-data_objective0_high-res 
+communicated-image-data_objective2_high-res communicated-image-data_objective0_colour 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 65
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 110 facts and 20 exclusive pairs.
+357 new nodes added.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint1 communicated-soil-data_waypoint2 communicated-rock-data_waypoint0 communicated-rock-data_waypoint1 communicated-image-data_objective0_high-res 
+communicated-image-data_objective2_high-res communicated-image-data_objective0_colour 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 11084
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 110 facts and 20 exclusive pairs.
+357 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint1 communicated-soil-data_waypoint2 communicated-rock-data_waypoint0 communicated-rock-data_waypoint1 communicated-image-data_objective0_high-res 
+communicated-image-data_objective2_high-res communicated-image-data_objective0_colour 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 2125956
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 110 facts and 20 exclusive pairs.
+357 new nodes added.
+
+####################################################
+goals at time 10:
+  communicated-soil-data_waypoint1 communicated-soil-data_waypoint2 communicated-rock-data_waypoint0 communicated-rock-data_waypoint1 communicated-image-data_objective0_high-res 
+communicated-image-data_objective2_high-res communicated-image-data_objective0_colour 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 302976
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (sample-rock rover0 rover0store waypoint0)
+1 (navigate rover1 waypoint0 waypoint1)
+1 (calibrate rover0 camera2 objective1 waypoint0)
+2 (navigate rover0 waypoint0 waypoint1)
+2 (drop rover0 rover0store)
+2 (navigate rover1 waypoint1 waypoint2)
+3 (communicate-rock-data rover0 general waypoint0 waypoint1 waypoint3)
+3 (sample-soil rover1 rover1store waypoint2)
+3 (sample-rock rover0 rover0store waypoint1)
+3 (take-image rover0 waypoint1 objective0 camera2 colour)
+3 (calibrate rover1 camera1 objective1 waypoint2)
+4 (navigate rover1 waypoint2 waypoint1)
+4 (communicate-image-data rover0 general objective0 colour waypoint1 waypoint3)
+4 (drop rover1 rover1store)
+4 (calibrate rover0 camera2 objective1 waypoint1)
+5 (take-image rover0 waypoint1 objective0 camera2 high-res)
+5 (sample-soil rover1 rover1store waypoint1)
+5 (take-image rover1 waypoint1 objective2 camera1 high-res)
+5 (communicate-soil-data rover1 general waypoint2 waypoint1 waypoint3)
+6 (navigate rover0 waypoint1 waypoint0)
+6 (communicate-image-data rover1 general objective2 high-res waypoint1 waypoint3)
+7 (communicate-rock-data rover0 general waypoint1 waypoint0 waypoint3)
+7 (navigate rover1 waypoint1 waypoint0)
+8 (communicate-image-data rover0 general objective0 high-res waypoint0 waypoint3)
+9 (communicate-soil-data rover1 general waypoint1 waypoint0 waypoint3)
+End plan
+----------------------------------------------------
+
+25 total actions in plan
+55826 entries in hash table, 47559 hash hits, avg set size 23
+103393 total set-creation steps (entries + hits + plan length - 1)
+347271 actions tried
+
+####################################################
+Total elapsed time:   2.25 seconds
+Time in milliseconds: 2247
+
+####################################################

@@ -1,0 +1,102 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/pfile16.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/pfile16.pddl
+Problem name: strips-sat-x-1
+Facts loaded.
+
+created
+time: 1, 374 facts and 42 exclusive pairs.
+time: 2, 397 facts and 122 exclusive pairs.
+time: 3, 522 facts and 99 exclusive pairs.
+Goals first reachable in 3 steps.
+21572 nodes created.
+
+####################################################
+goals at time 4:
+  pointing_satellite5_planet6 pointing_satellite7_star3 pointing_satellite8_star15 pointing_satellite9_star16 have-image_phenomenon5_thermograph1 
+have-image_planet6_infrared4 have-image_planet7_image0 have-image_planet8_thermograph1 have-image_phenomenon9_image2 have-image_planet10_image0 
+have-image_planet11_infrared4 have-image_star12_image0 have-image_star13_image0 have-image_star14_thermograph1 have-image_star15_image0 
+have-image_star16_thermograph1 have-image_phenomenon17_infrared4 have-image_phenomenon18_spectrograph3 have-image_star20_image0 have-image_planet21_thermograph1 
+have-image_planet22_image2 have-image_phenomenon23_image0 have-image_star24_infrared4 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 101
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (turn-to satellite4 star20 star24)
+1 (turn-to satellite9 star16 star24)
+1 (turn-to satellite5 planet6 phenomenon23)
+1 (turn-to satellite4 phenomenon18 star24)
+1 (turn-to satellite4 star15 star24)
+1 (turn-to satellite4 planet10 star24)
+1 (turn-to satellite5 star24 phenomenon23)
+1 (turn-to satellite4 planet22 star24)
+1 (turn-to satellite6 planet8 star24)
+1 (turn-to satellite5 phenomenon17 phenomenon23)
+1 (turn-to satellite4 phenomenon23 star24)
+1 (turn-to satellite5 groundstation4 phenomenon23)
+1 (turn-to satellite6 star14 star24)
+1 (turn-to satellite4 star13 star24)
+1 (switch-on instrument14 satellite6)
+1 (switch-on instrument12 satellite5)
+1 (turn-to satellite5 planet11 phenomenon23)
+1 (turn-to satellite4 phenomenon9 star24)
+1 (switch-on instrument10 satellite4)
+1 (turn-to satellite6 planet21 star24)
+1 (turn-to satellite6 star16 star24)
+1 (turn-to satellite4 star12 star24)
+1 (turn-to satellite6 phenomenon5 star24)
+1 (turn-to satellite7 star3 star24)
+1 (turn-to satellite4 star2 star24)
+1 (turn-to satellite6 star3 star24)
+1 (turn-to satellite4 planet7 star24)
+1 (turn-to satellite8 star15 star24)
+2 (calibrate satellite5 instrument12 groundstation4)
+2 (calibrate satellite6 instrument14 star3)
+2 (calibrate satellite4 instrument10 star2)
+3 (take-image satellite5 planet11 instrument12 infrared4)
+3 (take-image satellite4 planet10 instrument10 image0)
+3 (take-image satellite6 phenomenon5 instrument14 thermograph1)
+3 (take-image satellite6 planet21 instrument14 thermograph1)
+3 (take-image satellite4 planet7 instrument10 image0)
+3 (take-image satellite5 planet6 instrument12 infrared4)
+3 (take-image satellite6 planet8 instrument14 thermograph1)
+3 (take-image satellite4 star20 instrument10 image0)
+3 (take-image satellite4 phenomenon23 instrument10 image0)
+3 (take-image satellite4 phenomenon9 instrument10 image2)
+3 (take-image satellite4 planet22 instrument10 image2)
+3 (take-image satellite5 star24 instrument12 infrared4)
+3 (take-image satellite5 phenomenon17 instrument12 infrared4)
+3 (take-image satellite6 star16 instrument14 thermograph1)
+3 (take-image satellite4 phenomenon18 instrument10 spectrograph3)
+3 (take-image satellite4 star12 instrument10 image0)
+3 (take-image satellite4 star13 instrument10 image0)
+3 (take-image satellite6 star14 instrument14 thermograph1)
+3 (take-image satellite4 star15 instrument10 image0)
+End plan
+----------------------------------------------------
+
+50 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+50 actions tried
+
+####################################################
+Total elapsed time:   0.86 seconds
+Time in milliseconds: 859
+
+####################################################

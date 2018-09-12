@@ -1,0 +1,81 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/DriverLog/domain.pddl -f ./CompetitionResults/IPC2002/domains/DriverLog/pfile3.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/DriverLog/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/DriverLog/pfile3.pddl
+Problem name: dlog-2-2-4
+Facts loaded.
+
+created
+time: 1, 35 facts and 12 exclusive pairs.
+time: 2, 41 facts and 43 exclusive pairs.
+time: 3, 52 facts and 153 exclusive pairs.
+time: 4, 56 facts and 136 exclusive pairs.
+time: 5, 62 facts and 134 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 62 facts and 110 exclusive pairs.
+Goals first reachable in 6 steps.
+988 nodes created.
+
+####################################################
+goals at time 7:
+  at_driver2_s2 at_truck1_s1 at_truck2_s2 at_package1_s1 at_package2_s1 
+at_package3_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 569
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 62 facts and 108 exclusive pairs.
+244 new nodes added.
+
+####################################################
+goals at time 8:
+  at_driver2_s2 at_truck1_s1 at_truck2_s2 at_package1_s1 at_package2_s1 
+at_package3_s2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 2786
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (load-truck package3 truck1 s1)
+1 (walk driver2 s0 p2-0)
+1 (board-truck driver1 truck1 s1)
+2 (walk driver2 p2-0 s2)
+2 (drive-truck truck1 s1 s2 driver1)
+3 (unload-truck package3 truck1 s2)
+4 (drive-truck truck1 s2 s0 driver1)
+5 (load-truck package2 truck1 s0)
+5 (load-truck package1 truck1 s0)
+6 (drive-truck truck1 s0 s1 driver1)
+7 (unload-truck package2 truck1 s1)
+7 (unload-truck package1 truck1 s1)
+End plan
+----------------------------------------------------
+
+12 total actions in plan
+159 entries in hash table, 363 hash hits, avg set size 8
+528 total set-creation steps (entries + hits + plan length - 1)
+1191 actions tried
+
+####################################################
+Total elapsed time:   0.06 seconds
+Time in milliseconds: 61
+
+####################################################

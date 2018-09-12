@@ -1,0 +1,83 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/pfile18.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/pfile18.pddl
+Problem name: strips-sat-x-1
+Facts loaded.
+
+created
+time: 1, 191 facts and 26 exclusive pairs.
+time: 2, 204 facts and 78 exclusive pairs.
+time: 3, 329 facts and 65 exclusive pairs.
+Goals first reachable in 3 steps.
+10876 nodes created.
+
+####################################################
+goals at time 4:
+  have-image_phenomenon5_thermograph4 have-image_planet7_image1 have-image_star8_thermograph3 have-image_star9_image1 have-image_star10_image1 
+have-image_phenomenon13_thermograph2 have-image_star15_thermograph2 have-image_phenomenon17_thermograph4 have-image_phenomenon18_image1 have-image_planet19_thermograph2 
+have-image_planet20_thermograph4 have-image_phenomenon21_image1 have-image_star22_thermograph3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 71
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (turn-to satellite3 planet20 phenomenon24)
+1 (switch-on instrument4 satellite1)
+1 (turn-to satellite1 star1 phenomenon24)
+1 (turn-to satellite3 star15 phenomenon24)
+1 (turn-to satellite1 phenomenon18 phenomenon24)
+1 (turn-to satellite3 phenomenon5 phenomenon24)
+1 (switch-on instrument1 satellite0)
+1 (turn-to satellite3 phenomenon13 phenomenon24)
+1 (turn-to satellite3 phenomenon17 phenomenon24)
+1 (turn-to satellite3 star1 phenomenon24)
+1 (turn-to satellite1 planet7 phenomenon24)
+1 (turn-to satellite1 star10 phenomenon24)
+1 (turn-to satellite3 planet19 phenomenon24)
+1 (turn-to satellite0 star22 phenomenon24)
+1 (switch-on instrument11 satellite3)
+1 (turn-to satellite1 star9 phenomenon24)
+1 (turn-to satellite0 star0 phenomenon24)
+2 (calibrate satellite1 instrument4 star1)
+2 (calibrate satellite0 instrument1 star0)
+2 (calibrate satellite3 instrument11 star1)
+3 (take-image satellite3 phenomenon13 instrument11 thermograph2)
+3 (take-image satellite3 planet19 instrument11 thermograph2)
+3 (take-image satellite3 phenomenon17 instrument11 thermograph4)
+3 (take-image satellite0 star22 instrument1 thermograph3)
+3 (take-image satellite0 star8 instrument1 thermograph3)
+3 (take-image satellite1 phenomenon21 instrument4 image1)
+3 (take-image satellite1 planet7 instrument4 image1)
+3 (take-image satellite1 star9 instrument4 image1)
+3 (take-image satellite3 star15 instrument11 thermograph2)
+3 (take-image satellite1 phenomenon18 instrument4 image1)
+3 (take-image satellite3 phenomenon5 instrument11 thermograph4)
+3 (take-image satellite1 star10 instrument4 image1)
+3 (take-image satellite3 planet20 instrument11 thermograph4)
+End plan
+----------------------------------------------------
+
+33 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+33 actions tried
+
+####################################################
+Total elapsed time:   0.39 seconds
+Time in milliseconds: 388
+
+####################################################

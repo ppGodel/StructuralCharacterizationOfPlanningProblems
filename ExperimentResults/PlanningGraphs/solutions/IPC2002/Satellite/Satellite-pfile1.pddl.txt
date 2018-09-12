@@ -1,0 +1,56 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/pfile1.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/pfile1.pddl
+Problem name: strips-sat-x-1
+Facts loaded.
+
+created
+time: 1, 12 facts and 1 exclusive pairs.
+time: 2, 13 facts and 2 exclusive pairs.
+time: 3, 20 facts and 8 exclusive pairs.
+Goals first reachable in 3 steps.
+220 nodes created.
+
+####################################################
+goals at time 4:
+  have-image_phenomenon4_thermograph0 have-image_star5_thermograph0 have-image_phenomenon6_thermograph0 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 21
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (switch-on instrument0 satellite0)
+1 (turn-to satellite0 groundstation2 phenomenon3)
+1 (turn-to satellite0 phenomenon4 phenomenon3)
+1 (turn-to satellite0 star5 phenomenon3)
+2 (calibrate satellite0 instrument0 groundstation2)
+3 (take-image satellite0 phenomenon6 instrument0 thermograph0)
+3 (take-image satellite0 phenomenon4 instrument0 thermograph0)
+3 (take-image satellite0 star5 instrument0 thermograph0)
+End plan
+----------------------------------------------------
+
+8 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+8 actions tried
+
+####################################################
+Total elapsed time:   0.00 seconds
+Time in milliseconds: 3
+
+####################################################

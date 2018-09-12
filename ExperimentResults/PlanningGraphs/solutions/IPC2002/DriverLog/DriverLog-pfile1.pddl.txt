@@ -1,0 +1,59 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/DriverLog/domain.pddl -f ./CompetitionResults/IPC2002/domains/DriverLog/pfile1.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/DriverLog/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/DriverLog/pfile1.pddl
+Problem name: dlog-2-2-2
+Facts loaded.
+
+created
+time: 1, 28 facts and 8 exclusive pairs.
+time: 2, 30 facts and 12 exclusive pairs.
+time: 3, 32 facts and 18 exclusive pairs.
+time: 4, 34 facts and 26 exclusive pairs.
+time: 5, 38 facts and 54 exclusive pairs.
+time: 6, 42 facts and 64 exclusive pairs.
+Goals first reachable in 6 steps.
+538 nodes created.
+
+####################################################
+goals at time 7:
+  at_driver1_s1 at_truck1_s1 at_package1_s0 at_package2_s0 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 50
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (walk driver2 s2 p1-2)
+1 (walk driver1 s2 p1-2)
+2 (walk driver2 p1-2 s1)
+2 (walk driver1 p1-2 s1)
+3 (walk driver2 s1 p1-0)
+4 (walk driver2 p1-0 s0)
+5 (board-truck driver2 truck1 s0)
+6 (drive-truck truck1 s0 s1 driver2)
+End plan
+----------------------------------------------------
+
+8 total actions in plan
+0 entries in hash table, 
+5 total set-creation steps (entries + hits + plan length - 1)
+8 actions tried
+
+####################################################
+Total elapsed time:   0.01 seconds
+Time in milliseconds: 11
+
+####################################################

@@ -1,0 +1,688 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl -f ./CompetitionResults/IPC2002/domains/Rovers/pfile15.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Rovers/pfile15.pddl
+Problem name: roverprob4135
+Facts loaded.
+
+created
+time: 1, 273 facts and 123 exclusive pairs.
+time: 2, 322 facts and 786 exclusive pairs.
+time: 3, 358 facts and 1147 exclusive pairs.
+time: 4, 366 facts and 659 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 369 facts and 380 exclusive pairs.
+Goals reachable at 5 steps but mutually exclusive.
+time: 6, 371 facts and 300 exclusive pairs.
+Goals reachable at 6 steps but mutually exclusive.
+time: 7, 371 facts and 269 exclusive pairs.
+Goals first reachable in 7 steps.
+8825 nodes created.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 670
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 383780
+
+----------------------------------------------------
+Can't solve in 8 steps
+time: 9, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 10:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 643900
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 5642
+number of fluent variables = 2352
+total number variables = 7994
+number clauses = 491079
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 58629840
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 23982
+numatom = 7994, numclause = 491079, numliterals = 986860
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         8        11     18.35      4.20      4.37    100000         0
+         8        18     17.41      4.09      4.26    100000         0
+         7        11     17.57      4.03      4.36    100000         0
+         8        13     18.84      4.13      4.56    100000         0
+         7        22     18.70      4.10      4.56    100000         0
+         7        22     18.22      3.94      4.62    100000         0
+         9        15     18.52      4.14      4.47    100000         0
+         7        11     19.02      4.26      4.46    100000         0
+         7         9     18.41      4.81      3.83    100000         0
+         7        27     18.81      4.31      4.37    100000         0
+
+total elapsed seconds = 1.940000
+average flips per second = 515463
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 18.383491
+      overall mean noise std deviation = 4.201001
+      overall ratio mean noise to mean std dev = 4.375979
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 18.383491
+      nonsuccessful mean noise std deviation = 4.201001
+      nonsuccessful ratio mean noise to mean std dev = 4.375979
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 60593847
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 1 1 0 0 285 49 4.690 0
+****the instance is unsatisfiable *****
+NB_MONO= 256, NB_UNIT= 217, NB_BRANCHE= 1, NB_BACK= 1 
+Program terminated in 4.690 seconds.
+Result is Unsat
+Iteration was 1
+
+----------------------------------------------------
+time: 10, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 11:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 6708
+number of fluent variables = 2679
+total number variables = 9387
+number clauses = 612699
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 65944398
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+tail starts after flip = 28161
+numatom = 9387, numclause = 612699, numliterals = 1231202
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         9        20     19.91      4.50      4.42    100000         0
+         8        21     19.29      4.12      4.68    100000         0
+         7        23     20.31      4.77      4.25    100000         0
+         8        20     20.44      4.63      4.41    100000         0
+         7        20     18.83      4.49      4.20    100000         0
+         8        16     20.27      4.62      4.39    100000         0
+         7        15     20.15      5.07      3.98    100000         0
+         8        16     18.32      4.17      4.39    100000         0
+         8        13     20.00      4.85      4.12    100000         0
+         7        21     20.20      4.69      4.31    100000         0
+
+total elapsed seconds = 2.510000
+average flips per second = 398406
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 19.770980
+      overall mean noise std deviation = 4.590734
+      overall ratio mean noise to mean std dev = 4.306714
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 19.770980
+      nonsuccessful mean noise std deviation = 4.590734
+      nonsuccessful ratio mean noise to mean std dev = 4.306714
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 68482951
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 1 1 0 0 287 51 6.150 0
+****the instance is unsatisfiable *****
+NB_MONO= 256, NB_UNIT= 250, NB_BRANCHE= 1, NB_BACK= 1 
+Program terminated in 6.150 seconds.
+Result is Unsat
+Iteration was 1
+
+----------------------------------------------------
+Can't solve in 10 steps
+time: 11, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 12:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 7774
+number of fluent variables = 3006
+total number variables = 10780
+number clauses = 734315
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 75367267
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+tail starts after flip = 32340
+numatom = 10780, numclause = 734315, numliterals = 1475536
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         6        24     18.80      4.82      3.90    100000         0
+         9        23     22.06      4.69      4.70    100000         0
+         9        21     22.28      4.72      4.72    100000         0
+         8        17     20.87      4.76      4.39    100000         0
+         6        19     20.30      4.30      4.72    100000         0
+         7        24     22.02      4.93      4.47    100000         0
+        10        27     21.20      4.74      4.47    100000         0
+         7        22     20.57      4.72      4.36    100000         0
+         7        27     21.12      4.96      4.26    100000         0
+         8        18     19.53      4.44      4.40    100000         0
+
+total elapsed seconds = 3.040000
+average flips per second = 328947
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 20.875278
+      overall mean noise std deviation = 4.708268
+      overall ratio mean noise to mean std dev = 4.433749
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 20.875278
+      nonsuccessful mean noise std deviation = 4.708268
+      nonsuccessful ratio mean noise to mean std dev = 4.433749
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 78441701
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+[1] satz-rand-214 1 1 0 0 287 51 7.580 0
+****the instance is unsatisfiable *****
+NB_MONO= 256, NB_UNIT= 283, NB_BRANCHE= 1, NB_BACK= 1 
+Program terminated in 7.580 seconds.
+Result is Unsat
+Iteration was 1
+
+----------------------------------------------------
+Can't solve in 11 steps
+time: 12, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 13:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 8840
+number of fluent variables = 3333
+total number variables = 12173
+number clauses = 855931
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 86852810
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+tail starts after flip = 36519
+numatom = 12173, numclause = 855931, numliterals = 1719870
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         7        29     20.42      5.03      4.06    100000         0
+        10        19     21.90      4.71      4.65    100000         0
+         8        10     21.34      4.73      4.51    100000         0
+         8        22     21.64      4.92      4.40    100000         0
+         8        19     21.74      4.89      4.45    100000         0
+        10        26     24.43      5.23      4.67    100000         0
+         9        26     21.01      5.04      4.17    100000         0
+        10        22     20.79      4.45      4.68    100000         0
+         9        18     22.55      5.26      4.29    100000         0
+        10        19     23.68      4.94      4.79    100000         0
+
+total elapsed seconds = 3.540000
+average flips per second = 282485
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 21.949463
+      overall mean noise std deviation = 4.919461
+      overall ratio mean noise to mean std dev = 4.461761
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 21.949463
+      nonsuccessful mean noise std deviation = 4.919461
+      nonsuccessful ratio mean noise to mean std dev = 4.461761
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 90425790
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 227
+Variables forced false: 0
+Clauses output: 855599
+Variables undetermined: 11946
+Non-unary clauses output: 855372
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 12 steps
+time: 13, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 14:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 9906
+number of fluent variables = 3660
+total number variables = 13566
+number clauses = 977547
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 91731350
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+tail starts after flip = 40698
+numatom = 13566, numclause = 977547, numliterals = 1964204
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        11        22     24.31      4.64      5.24    100000         0
+         9        18     24.92      5.92      4.21    100000         0
+        11        28     23.23      4.50      5.17    100000         0
+         8        20     21.07      4.98      4.23    100000         0
+         8        18     22.38      5.90      3.80    100000         0
+         8        15     20.60      5.05      4.08    100000         0
+         7        18     22.30      5.71      3.91    100000         0
+         8        17     18.99      4.33      4.39    100000         0
+         9        21     20.80      4.76      4.37    100000         0
+         8        13     19.17      4.95      3.87    100000         0
+
+total elapsed seconds = 3.860000
+average flips per second = 259067
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 21.779004
+      overall mean noise std deviation = 5.072854
+      overall ratio mean noise to mean std dev = 4.293245
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 21.779004
+      nonsuccessful mean noise std deviation = 5.072854
+      nonsuccessful ratio mean noise to mean std dev = 4.293245
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 95627904
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 227
+Variables forced false: 0
+Clauses output: 977215
+Variables undetermined: 13339
+Non-unary clauses output: 976988
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 13 steps
+time: 14, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 15:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 10972
+number of fluent variables = 3987
+total number variables = 14959
+number clauses = 1099163
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 97081972
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 44877
+numatom = 14959, numclause = 1099163, numliterals = 2208538
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        11        24     25.92      6.14      4.22    100000         0
+        11        24     25.43      4.69      5.42    100000         0
+        10        18     23.10      5.11      4.52    100000         0
+         7        18     22.08      6.70      3.30    100000         0
+         9        30     21.66      5.11      4.24    100000         0
+         9        21     23.28      5.88      3.96    100000         0
+        11        17     25.70      5.28      4.87    100000         0
+         9        17     21.88      5.22      4.19    100000         0
+        11        20     27.68      5.86      4.72    100000         0
+        10        24     24.20      5.62      4.30    100000         0
+
+total elapsed seconds = 4.410000
+average flips per second = 226757
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 24.092279
+      overall mean noise std deviation = 5.560392
+      overall ratio mean noise to mean std dev = 4.332839
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 24.092279
+      nonsuccessful mean noise std deviation = 5.560392
+      nonsuccessful ratio mean noise to mean std dev = 4.332839
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 101535748
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 227
+Variables forced false: 0
+Clauses output: 1098831
+Variables undetermined: 14732
+Non-unary clauses output: 1098604
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 14 steps
+time: 15, 371 facts and 260 exclusive pairs.
+1481 new nodes added.
+
+####################################################
+goals at time 16:
+  communicated-soil-data_waypoint5 communicated-soil-data_waypoint2 communicated-soil-data_waypoint8 communicated-soil-data_waypoint10 communicated-soil-data_waypoint0 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint1 communicated-rock-data_waypoint8 communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res 
+
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 12038
+number of fluent variables = 4314
+total number variables = 16352
+number clauses = 1220779
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 103135243
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 49056
+numatom = 16352, numclause = 1220779, numliterals = 2452872
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        11        27     28.03      6.63      4.23    100000         0
+         7        38     26.07      7.20      3.62    100000         0
+        10        20     23.74      5.88      4.04    100000         0
+         9        20     23.71      5.62      4.22    100000         0
+        12        23     26.60      5.84      4.55    100000         0
+         7        34     21.40      5.87      3.64    100000         0
+        10        13     27.71      6.47      4.28    100000         0
+         8        17     24.38      5.90      4.13    100000         0
+         9        28     20.96      5.32      3.94    100000         0
+        10        26     27.53      6.12      4.50    100000         0
+
+total elapsed seconds = 3.700000
+average flips per second = 270270
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 25.013797
+      overall mean noise std deviation = 6.084699
+      overall ratio mean noise to mean std dev = 4.110934
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 25.013797
+      nonsuccessful mean noise std deviation = 6.084699
+      nonsuccessful ratio mean noise to mean std dev = 4.110934
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 106881290
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 227
+Variables forced false: 0
+Clauses output: 1220447
+Variables undetermined: 16125
+Non-unary clauses output: 1220220
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+Can't solve in 15 steps
+
+----------------------------------------------------
+NO SOLUTION
+Problem not solvable: reached maximum number of solver failures
+    Search halted after 15 steps
+    17716 entries in hash table and 1325 hits
+    avg set size 21
+----------------------------------------------------
+
+####################################################
+Total elapsed time:   1 minutes, 8 seconds
+Time in milliseconds: 68078
+
+####################################################

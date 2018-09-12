@@ -1,0 +1,70 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/pfile4.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/pfile4.pddl
+Problem name: strips-sat-x-1
+Facts loaded.
+
+created
+time: 1, 38 facts and 4 exclusive pairs.
+time: 2, 41 facts and 10 exclusive pairs.
+time: 3, 71 facts and 17 exclusive pairs.
+Goals first reachable in 3 steps.
+894 nodes created.
+
+####################################################
+goals at time 4:
+  pointing_satellite1_planet5 have-image_planet3_infrared1 have-image_star4_infrared1 have-image_planet5_thermograph2 have-image_star6_infrared1 
+have-image_star7_infrared0 have-image_phenomenon8_thermograph2 have-image_phenomenon9_infrared0 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 47
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (turn-to satellite1 star6 phenomenon9)
+1 (turn-to satellite1 planet5 phenomenon9)
+1 (turn-to satellite0 star7 star6)
+1 (turn-to satellite1 planet3 phenomenon9)
+1 (switch-on instrument0 satellite0)
+1 (switch-on instrument1 satellite1)
+1 (turn-to satellite0 star0 star6)
+1 (turn-to satellite1 star4 phenomenon9)
+1 (turn-to satellite0 planet5 star6)
+1 (turn-to satellite0 phenomenon8 star6)
+1 (turn-to satellite1 star2 phenomenon9)
+1 (turn-to satellite0 phenomenon9 star6)
+2 (calibrate satellite0 instrument0 star0)
+2 (calibrate satellite1 instrument1 star2)
+3 (take-image satellite0 phenomenon8 instrument0 thermograph2)
+3 (take-image satellite0 star7 instrument0 infrared0)
+3 (take-image satellite1 star6 instrument1 infrared1)
+3 (take-image satellite1 star4 instrument1 infrared1)
+3 (take-image satellite1 planet3 instrument1 infrared1)
+3 (take-image satellite0 phenomenon9 instrument0 infrared0)
+3 (take-image satellite0 planet5 instrument0 thermograph2)
+End plan
+----------------------------------------------------
+
+21 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+21 actions tried
+
+####################################################
+Total elapsed time:   0.02 seconds
+Time in milliseconds: 17
+
+####################################################

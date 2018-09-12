@@ -1,0 +1,56 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/FreeCell/domain.pddl -f ./CompetitionResults/IPC2002/domains/FreeCell/pfile11.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/FreeCell/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/FreeCell/pfile11.pddl
+Problem name: freecell9-4
+Facts loaded.
+
+created
+time: 1, 216 facts and 86 exclusive pairs.
+time: 2, 230 facts and 249 exclusive pairs.
+time: 3, 252 facts and 650 exclusive pairs.
+time: 4, 277 facts and 1096 exclusive pairs.
+time: 5, 310 facts and 1821 exclusive pairs.
+time: 6, 332 facts and 1828 exclusive pairs.
+time: 7, 381 facts and 2769 exclusive pairs.
+time: 8, 390 facts and 2340 exclusive pairs.
+time: 9, 395 facts and 1992 exclusive pairs.
+time: 10, 400 facts and 2189 exclusive pairs.
+time: 11, 405 facts and 2474 exclusive pairs.
+time: 12, 410 facts and 2800 exclusive pairs.
+time: 13, 413 facts and 2967 exclusive pairs.
+time: 14, 415 facts and 3051 exclusive pairs.
+Goals reachable at 14 steps but mutually exclusive.
+time: 15, 415 facts and 3012 exclusive pairs.
+Goals first reachable in 15 steps.
+57725 nodes created.
+
+####################################################
+goals at time 16:
+  home_diamond9 home_club9 home_heart9 home_spade9 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 14800
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 37799
+number of fluent variables = 4677
+total number variables = 42476
+( NOT colfromfreecell_heart5_club6_n0_n1-9    NOT sendtonewcol_club4_heart5_n3_n2-9 )
+( NOT colfromfreecell_heart5_club6_n0_n1-9    NOT sendtonewcol_club4_heart5_n2_n1-9 )
+( NOT colfromfreecell_heart5_club6_n0_n1-9    NOT sendtonewcol_club4_heart5_n1_n0-9 )
+( NOT colfromfreecell_heart5_club6_n0_n1-9    NOT noop_on_club4_heart5-9 )
+( NOT colfromfreecell_heart5_club6_n0_n1-9    NOT sendtohome-b_heart5_heart_n5_heart4_n4_n1_n2-9 )
+( NOT colfromfreecell_heart5_club6_n0_n1-9    NOT sendtohome-b_heart5_heart_n5_heart4_n4_n0_n1-9 )

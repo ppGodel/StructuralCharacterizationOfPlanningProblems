@@ -41,7 +41,7 @@ fi
 if [ ! -z "$2" ]; then
     compet=$2
 else
-    compet="IPC2000"
+    compet="IPC2002"
 fi
 #if [ ! -z "$2" ]; then
 #    ADIR=$2   

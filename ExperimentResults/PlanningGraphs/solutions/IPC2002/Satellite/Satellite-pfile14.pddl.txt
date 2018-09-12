@@ -1,0 +1,94 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/pfile14.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/pfile14.pddl
+Problem name: strips-sat-x-1
+Facts loaded.
+
+created
+time: 1, 219 facts and 20 exclusive pairs.
+time: 2, 231 facts and 56 exclusive pairs.
+time: 3, 356 facts and 44 exclusive pairs.
+Goals first reachable in 3 steps.
+12941 nodes created.
+
+####################################################
+goals at time 4:
+  pointing_satellite0_planet21 pointing_satellite2_star14 pointing_satellite5_planet17 have-image_phenomenon5_image1 have-image_phenomenon7_thermograph0 
+have-image_planet8_image2 have-image_star9_thermograph0 have-image_star10_thermograph3 have-image_phenomenon12_thermograph0 have-image_phenomenon13_image1 
+have-image_star14_thermograph4 have-image_planet15_image2 have-image_planet17_image2 have-image_phenomenon18_image1 have-image_star19_thermograph4 
+have-image_star20_thermograph4 have-image_planet21_thermograph0 have-image_star22_thermograph3 have-image_planet23_image1 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 89
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (turn-to satellite5 planet15 star24)
+1 (turn-to satellite4 star10 star24)
+1 (turn-to satellite4 planet23 star24)
+1 (turn-to satellite4 groundstation0 star24)
+1 (turn-to satellite4 phenomenon18 star24)
+1 (switch-on instrument2 satellite0)
+1 (turn-to satellite0 planet21 star24)
+1 (turn-to satellite0 star14 star24)
+1 (turn-to satellite5 planet8 star24)
+1 (turn-to satellite2 star14 star24)
+1 (turn-to satellite0 star19 star24)
+1 (turn-to satellite4 phenomenon5 star24)
+1 (turn-to satellite0 groundstation2 star24)
+1 (turn-to satellite5 phenomenon7 star24)
+1 (turn-to satellite5 star9 star24)
+1 (turn-to satellite4 phenomenon13 star24)
+1 (turn-to satellite5 planet21 star24)
+1 (turn-to satellite5 planet17 star24)
+1 (turn-to satellite4 star22 star24)
+1 (switch-on instrument10 satellite4)
+1 (turn-to satellite5 phenomenon12 star24)
+1 (turn-to satellite0 star20 star24)
+1 (switch-on instrument11 satellite5)
+1 (turn-to satellite5 groundstation1 star24)
+2 (calibrate satellite5 instrument11 groundstation1)
+2 (calibrate satellite0 instrument2 groundstation2)
+2 (calibrate satellite4 instrument10 groundstation0)
+3 (take-image satellite0 star20 instrument2 thermograph4)
+3 (take-image satellite5 phenomenon7 instrument11 thermograph0)
+3 (take-image satellite4 phenomenon13 instrument10 image1)
+3 (take-image satellite5 planet15 instrument11 image2)
+3 (take-image satellite4 phenomenon5 instrument10 image1)
+3 (take-image satellite5 planet21 instrument11 thermograph0)
+3 (take-image satellite5 phenomenon12 instrument11 thermograph0)
+3 (take-image satellite4 star10 instrument10 thermograph3)
+3 (take-image satellite5 planet17 instrument11 image2)
+3 (take-image satellite4 planet23 instrument10 image1)
+3 (take-image satellite4 star22 instrument10 thermograph3)
+3 (take-image satellite5 star9 instrument11 thermograph0)
+3 (take-image satellite0 star19 instrument2 thermograph4)
+3 (take-image satellite5 planet8 instrument11 image2)
+3 (take-image satellite0 star14 instrument2 thermograph4)
+3 (take-image satellite4 phenomenon18 instrument10 image1)
+End plan
+----------------------------------------------------
+
+43 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+43 actions tried
+
+####################################################
+Total elapsed time:   0.50 seconds
+Time in milliseconds: 501
+
+####################################################

@@ -1,0 +1,59 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/pfile3.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/pfile3.pddl
+Problem name: strips-sat-x-1
+Facts loaded.
+
+created
+time: 1, 38 facts and 7 exclusive pairs.
+time: 2, 42 facts and 20 exclusive pairs.
+time: 3, 66 facts and 16 exclusive pairs.
+Goals first reachable in 3 steps.
+694 nodes created.
+
+####################################################
+goals at time 4:
+  pointing_satellite0_phenomenon5 have-image_star3_infrared0 have-image_star4_spectrograph2 have-image_phenomenon5_spectrograph2 have-image_phenomenon7_spectrograph2 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 27
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (switch-on instrument0 satellite0)
+1 (turn-to satellite0 phenomenon7 phenomenon6)
+1 (turn-to satellite0 star3 phenomenon6)
+1 (turn-to satellite0 star1 phenomenon6)
+1 (turn-to satellite0 phenomenon5 phenomenon6)
+2 (calibrate satellite0 instrument0 star1)
+3 (take-image satellite0 phenomenon5 instrument0 spectrograph2)
+3 (take-image satellite0 star3 instrument0 infrared0)
+3 (take-image satellite0 phenomenon7 instrument0 spectrograph2)
+3 (take-image satellite0 star4 instrument0 spectrograph2)
+End plan
+----------------------------------------------------
+
+10 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+10 actions tried
+
+####################################################
+Total elapsed time:   0.01 seconds
+Time in milliseconds: 12
+
+####################################################

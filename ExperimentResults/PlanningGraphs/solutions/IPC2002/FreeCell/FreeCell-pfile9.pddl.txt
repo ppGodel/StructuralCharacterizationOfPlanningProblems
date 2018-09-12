@@ -1,0 +1,65 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/FreeCell/domain.pddl -f ./CompetitionResults/IPC2002/domains/FreeCell/pfile9.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/FreeCell/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/FreeCell/pfile9.pddl
+Problem name: freecell8-4
+Facts loaded.
+
+created
+time: 1, 194 facts and 92 exclusive pairs.
+time: 2, 211 facts and 307 exclusive pairs.
+time: 3, 234 facts and 688 exclusive pairs.
+time: 4, 262 facts and 1278 exclusive pairs.
+time: 5, 293 facts and 1940 exclusive pairs.
+time: 6, 335 facts and 2493 exclusive pairs.
+time: 7, 346 facts and 1905 exclusive pairs.
+time: 8, 351 facts and 1621 exclusive pairs.
+time: 9, 356 facts and 1815 exclusive pairs.
+time: 10, 360 facts and 1997 exclusive pairs.
+time: 11, 363 facts and 2127 exclusive pairs.
+time: 12, 366 facts and 2275 exclusive pairs.
+time: 13, 368 facts and 2404 exclusive pairs.
+Goals first reachable in 13 steps.
+38376 nodes created.
+
+####################################################
+goals at time 14:
+  home_diamond8 home_club8 home_heart8 home_spade8 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 36400
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 23757
+number of fluent variables = 3544
+total number variables = 27301
+number clauses = 28545527
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 34171322
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+ERROR - clause too long
