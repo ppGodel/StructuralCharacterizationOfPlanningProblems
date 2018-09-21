@@ -84,6 +84,8 @@ db.nodes.aggregate([
 	    }
 	}
     }},
+    "PMFA":{$cond: [{$eq:["$y","f"]},{$divide: [{$size: "$oe"},{$cond:[{$ne:["$al.TAMN",0]},"$al.TAMN",1]} ] },0 ]},
+    "PMAF":{$cond: [{$eq:["$y","a"]},{$divide: [{$size: "$oe"},{$cond:[{$ne:["$al.TFMN",0]},"$al.TFMN",1]} ] },0 ]},
     {$out:"nodesAndLevels"}
 ])
 
@@ -116,6 +118,7 @@ var mf= function(){
     emit({gid:this.gid,T:this.T, Y:this.y, M:"POE"},{count:1, sum:poe, min:poe, max:poe, sqs:Math.pow(poe,2), cus:Math.pow(poe,3), hcs:Math.pow(poe,4), mean:0, sd:0} );
 }
 
+
 var rf = function(key,val){
     rval = { count:0,
 	     sum:0, min:999999, max:0, sqs:0,cus:0,hcs:0, mean:0, sd:0, kurt:0, skew:0};
@@ -125,12 +128,12 @@ var rf = function(key,val){
 	rval.cus += val[idx].cus;
 	rval.hcs += val[idx].hcs;
         rval.min = Math.min(rval.min,val[idx].min);
-        rval.max = Math.max(rval.max,val[idx].max);
-	
+        rval.max = Math.max(rval.max,val[idx].max);	
         rval.count += val[idx].count;
     }
     return rval;
 };
+
 
 var fz = function (key, value){ 
     value.mean = value.sum / value.count;
