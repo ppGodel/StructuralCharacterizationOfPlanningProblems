@@ -64,7 +64,7 @@ db.nodes.mapReduce(mf,rf, "summnodesbyg")
 
 db.summnodesbyL.aggregate({$project:{ _id:0, gid:"$_id.gid", T:"$_id.T", TN:"$value.TN",TANMN:"$value.TANMN",TAMN:"$value.TAMN",TFNMN:"$value.TFNMN",TFMN:"$value.TFMN"}},{$out:"summNodesByLevel"})
 
-db.summnodesbyg.aggregate({$project:{ _id:0, gid:"$_id.gid", TN:"$value.TN",MT:"$value.MT",TE:"$value.TE"}},{$out:"summnodesbygc"})
+db.summnodesbyg.aggregate({$project:{ _id:0, gid:"$_id.gid", TN:"$value.TN",MT:"$value.MT",TE:"$value.TE",TME:"value.TXE" }},{$out:"summnodesbygc"})
 
 /*
 db.graphs.aggregate([
@@ -128,4 +128,16 @@ db.summnodesbygc.aggregate([{$lookup: {from:"graphDenComp", localField:"gid", fo
 //graphIPC
 db.summgraphComp.aggregate([{$lookup:{from:"graphs", localField:"gid", foreignField:"_id", as: "gr"}},{$project:{ gid:1, TN:1, MT:1, TE:1, TME:1, PE:1, PME:1, D:1, DM:1, gn:"$gr.gn", dom:"$gr.dom", com:"$gr.com", cdkey:"$gr.cdkey", pkey:"$gr.pkey" } }, {$unwind: "$gn"}, {$unwind: "$dom"}, {$unwind: "$com"}, {$unwind: "$cdkey"}, {$unwind: "$pkey"}, {$out:"summbyGraphComplete"} ])
 
-db.CompletePlannerResults.aggregate([{$lookup: {from:"summbyGraphComplete", localField:"pkey", foreignField:"pkey", as:"snbg" }}, {$project: {_id:1, com:1, dom:1, planner:1, gn:1, cdkey:1, pkey:1, akey:1, fkey:1, solved:1, graph:{$cond: [{$gt:[{$size:"$snbg"},0]},1,0]}, Time:1, Steps:1, gid:"$snbg.gid", MT:"$snbg.MT", TN:"$snbg.TN", TE:"$snbg.TE", TME:"$snbg.TME", PE:"$snbg.PE", PME:"$snbg.PME", D:"$snbg.D", DM:"$snbg.DM" } }, {$unwind: {path:"$gid", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$MT", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$TN", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$TE", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$TME", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$PE", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$PME", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$D", preserveNullAndEmptyArrays:true}}, {$unwind: {path:"$DM", preserveNullAndEmptyArrays:true}}, {$out:"graphIPCResComp"} ])
+db.CompletePlannerResults.aggregate([
+    {$lookup: {from:"summbyGraphComplete", localField:"pkey", foreignField:"pkey", as:"snbg" }},
+    {$project: {_id:1, com:1, dom:1, planner:1, gn:1, cdkey:1, pkey:1, akey:1, fkey:1, solved:1, graph:{$cond: [{$gt:[{$size:"$snbg"},0]},1,0]}, Time:1, Steps:1, gid:"$snbg.gid", MT:"$snbg.MT", TN:"$snbg.TN", TE:"$snbg.TE", TME:"$snbg.TME", PE:"$snbg.PE", PME:"$snbg.PME", D:"$snbg.D", DM:"$snbg.DM" } },
+    {$unwind: {path:"$gid", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$MT", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$TN", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$TE", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$TME", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$PE", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$PME", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$D", preserveNullAndEmptyArrays:true}},
+    {$unwind: {path:"$DM", preserveNullAndEmptyArrays:true}},
+    {$out:"graphIPCResComp"} ])
