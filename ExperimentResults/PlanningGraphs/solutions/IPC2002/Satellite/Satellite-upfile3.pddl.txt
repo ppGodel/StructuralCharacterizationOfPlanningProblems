@@ -1,0 +1,157 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/upfile3.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/upfile3.pddl
+Problem name: strips-sat-u-3
+Facts loaded.
+
+created
+time: 1, 467 facts and 33 exclusive pairs.
+time: 2, 485 facts and 96 exclusive pairs.
+time: 3, 644 facts and 78 exclusive pairs.
+Goals first reachable in 3 steps.
+62575 nodes created.
+
+####################################################
+goals at time 4:
+  pointing_satellite0_star10 pointing_satellite1_phenomenon34 pointing_satellite3_star2 pointing_satellite4_planet14 have-image_star3_infrared0 
+have-image_star4_spectrograph2 have-image_phenomenon5_spectrograph2 have-image_phenomenon7_spectrograph2 have-image_phenomenon8_image1 have-image_star9_spectrograph2 
+have-image_star10_spectrograph2 have-image_phenomenon11_spectrograph2 have-image_star12_infrared0 have-image_star13_image1 have-image_planet14_image1 
+have-image_planet15_infrared0 have-image_star16_image1 have-image_planet17_spectrograph2 have-image_phenomenon18_image1 have-image_planet19_infrared0 
+have-image_planet20_image1 have-image_star21_spectrograph2 have-image_star22_image1 have-image_star23_image1 have-image_star24_image1 
+have-image_star25_infrared0 have-image_star26_spectrograph2 have-image_star27_infrared0 have-image_phenomenon28_spectrograph2 have-image_star29_spectrograph2 
+have-image_phenomenon30_image1 have-image_planet31_spectrograph2 have-image_phenomenon32_image1 have-image_planet33_infrared0 have-image_phenomenon34_infrared0 
+have-image_planet35_spectrograph2 have-image_phenomenon36_infrared0 have-image_star37_spectrograph2 have-image_star39_image1 have-image_phenomenon40_image1 
+have-image_planet41_image1 have-image_planet42_image1 have-image_planet43_image1 have-image_phenomenon44_image1 have-image_star45_image1 
+have-image_star47_spectrograph2 have-image_planet48_image1 have-image_star49_infrared0 have-image_star50_spectrograph2 have-image_planet51_image1 
+have-image_star52_image1 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 167
+Performing plan justification:
+   0 actions were pruned in 0.01 seconds
+
+----------------------------------------------------
+Begin plan
+1 (turn-to satellite4 star21 planet46)
+1 (turn-to satellite4 star12 planet46)
+1 (turn-to satellite4 star50 planet46)
+1 (turn-to satellite4 star23 planet46)
+1 (turn-to satellite4 star52 planet46)
+1 (turn-to satellite4 star25 planet46)
+1 (turn-to satellite4 star16 planet46)
+1 (turn-to satellite4 star45 planet46)
+1 (turn-to satellite4 star27 planet46)
+1 (turn-to satellite4 phenomenon11 planet46)
+1 (turn-to satellite4 phenomenon40 planet46)
+1 (turn-to satellite4 planet19 planet46)
+1 (turn-to satellite4 planet48 planet46)
+1 (turn-to satellite4 phenomenon44 planet46)
+1 (turn-to satellite4 star4 planet46)
+1 (turn-to satellite3 star2 star52)
+1 (turn-to satellite4 star22 planet46)
+1 (turn-to satellite4 star13 planet46)
+1 (turn-to satellite4 phenomenon8 planet46)
+1 (turn-to satellite4 star24 planet46)
+1 (turn-to satellite4 planet43 planet46)
+1 (turn-to satellite4 phenomenon30 planet46)
+1 (turn-to satellite4 star9 planet46)
+1 (turn-to satellite4 star10 planet46)
+1 (turn-to satellite4 phenomenon5 planet46)
+1 (turn-to satellite4 star47 planet46)
+1 (turn-to satellite4 star29 planet46)
+1 (turn-to satellite4 phenomenon7 planet46)
+1 (turn-to satellite4 star49 planet46)
+1 (turn-to satellite4 planet20 planet46)
+1 (switch-on instrument10 satellite4)
+1 (turn-to satellite4 planet31 planet46)
+1 (turn-to satellite4 planet51 planet46)
+1 (turn-to satellite4 planet42 planet46)
+1 (turn-to satellite4 planet33 planet46)
+1 (turn-to satellite4 phenomenon28 planet46)
+1 (turn-to satellite4 planet15 planet46)
+1 (turn-to satellite0 star10 star52)
+1 (turn-to satellite4 planet35 planet46)
+1 (turn-to satellite4 planet17 planet46)
+1 (turn-to satellite4 star26 planet46)
+1 (turn-to satellite4 star37 planet46)
+1 (turn-to satellite4 star39 planet46)
+1 (turn-to satellite1 phenomenon34 star52)
+1 (turn-to satellite4 phenomenon32 planet46)
+1 (turn-to satellite4 phenomenon34 planet46)
+1 (turn-to satellite4 planet41 planet46)
+1 (turn-to satellite4 phenomenon36 planet46)
+1 (turn-to satellite4 phenomenon18 planet46)
+1 (turn-to satellite4 planet14 planet46)
+1 (turn-to satellite4 star3 planet46)
+2 (calibrate satellite4 instrument10 star2)
+3 (take-image satellite4 star22 instrument10 image1)
+3 (take-image satellite4 star23 instrument10 image1)
+3 (take-image satellite4 star3 instrument10 infrared0)
+3 (take-image satellite4 star10 instrument10 spectrograph2)
+3 (take-image satellite4 phenomenon36 instrument10 infrared0)
+3 (take-image satellite4 planet48 instrument10 image1)
+3 (take-image satellite4 star49 instrument10 infrared0)
+3 (take-image satellite4 star25 instrument10 infrared0)
+3 (take-image satellite4 planet35 instrument10 spectrograph2)
+3 (take-image satellite4 planet17 instrument10 spectrograph2)
+3 (take-image satellite4 planet31 instrument10 spectrograph2)
+3 (take-image satellite4 planet20 instrument10 image1)
+3 (take-image satellite4 planet41 instrument10 image1)
+3 (take-image satellite4 star12 instrument10 infrared0)
+3 (take-image satellite4 planet15 instrument10 infrared0)
+3 (take-image satellite4 phenomenon8 instrument10 image1)
+3 (take-image satellite4 planet43 instrument10 image1)
+3 (take-image satellite4 phenomenon34 instrument10 infrared0)
+3 (take-image satellite4 star37 instrument10 spectrograph2)
+3 (take-image satellite4 phenomenon44 instrument10 image1)
+3 (take-image satellite4 star39 instrument10 image1)
+3 (take-image satellite4 star50 instrument10 spectrograph2)
+3 (take-image satellite4 phenomenon30 instrument10 image1)
+3 (take-image satellite4 planet51 instrument10 image1)
+3 (take-image satellite4 star24 instrument10 image1)
+3 (take-image satellite4 star45 instrument10 image1)
+3 (take-image satellite4 phenomenon7 instrument10 spectrograph2)
+3 (take-image satellite4 star47 instrument10 spectrograph2)
+3 (take-image satellite4 phenomenon32 instrument10 image1)
+3 (take-image satellite4 star52 instrument10 image1)
+3 (take-image satellite4 star29 instrument10 spectrograph2)
+3 (take-image satellite4 phenomenon5 instrument10 spectrograph2)
+3 (take-image satellite4 star26 instrument10 spectrograph2)
+3 (take-image satellite4 planet33 instrument10 infrared0)
+3 (take-image satellite4 phenomenon11 instrument10 spectrograph2)
+3 (take-image satellite4 phenomenon40 instrument10 image1)
+3 (take-image satellite4 star13 instrument10 image1)
+3 (take-image satellite4 planet14 instrument10 image1)
+3 (take-image satellite4 planet19 instrument10 infrared0)
+3 (take-image satellite4 phenomenon28 instrument10 spectrograph2)
+3 (take-image satellite4 star9 instrument10 spectrograph2)
+3 (take-image satellite4 star21 instrument10 spectrograph2)
+3 (take-image satellite4 planet42 instrument10 image1)
+3 (take-image satellite4 star27 instrument10 infrared0)
+3 (take-image satellite4 star4 instrument10 spectrograph2)
+3 (take-image satellite4 star16 instrument10 image1)
+3 (take-image satellite4 phenomenon18 instrument10 image1)
+End plan
+----------------------------------------------------
+
+99 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+99 actions tried
+
+####################################################
+Total elapsed time:   4.88 seconds
+Time in milliseconds: 4884
+
+####################################################

@@ -1,0 +1,172 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl -f ./CompetitionResults/IPC2002/domains/Rovers/upfile5.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Rovers/upfile5.pddl
+Problem name: roverprob5783
+Facts loaded.
+
+created
+time: 1, 555 facts and 172 exclusive pairs.
+time: 2, 663 facts and 1833 exclusive pairs.
+time: 3, 741 facts and 3963 exclusive pairs.
+time: 4, 777 facts and 4373 exclusive pairs.
+time: 5, 783 facts and 2935 exclusive pairs.
+time: 6, 785 facts and 2188 exclusive pairs.
+Goals first reachable in 6 steps.
+14900 nodes created.
+
+####################################################
+goals at time 7:
+  communicated-soil-data_waypoint16 communicated-soil-data_waypoint10 communicated-soil-data_waypoint14 communicated-rock-data_waypoint3 communicated-rock-data_waypoint17 
+communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res communicated-image-data_objective5_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 6
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 785 facts and 1709 exclusive pairs.
+3139 new nodes added.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint16 communicated-soil-data_waypoint10 communicated-soil-data_waypoint14 communicated-rock-data_waypoint3 communicated-rock-data_waypoint17 
+communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res communicated-image-data_objective5_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 3590
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 785 facts and 1455 exclusive pairs.
+3139 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint16 communicated-soil-data_waypoint10 communicated-soil-data_waypoint14 communicated-rock-data_waypoint3 communicated-rock-data_waypoint17 
+communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res communicated-image-data_objective5_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 264000
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 8582
+number of fluent variables = 4197
+total number variables = 12779
+number clauses = 929725
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 57775570
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+tail starts after flip = 38337
+numatom = 12779, numclause = 929725, numliterals = 1865542
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         6        11     16.01      4.13      3.88    100000         0
+         5        13     15.64      4.08      3.84    100000         0
+         4        21     14.89      3.99      3.74    100000         0
+         5        20     15.92      3.87      4.11    100000         0
+         4        11     15.20      4.29      3.54    100000         0
+         6        14     16.37      3.91      4.19    100000         0
+         5        13     14.56      3.96      3.68    100000         0
+         6        17     15.83      4.18      3.79    100000         0
+         6        10     15.31      3.99      3.84    100000         0
+         6        17     15.67      4.03      3.89    100000         0
+
+total elapsed seconds = 6.210000
+average flips per second = 161030
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 15.541536
+      overall mean noise std deviation = 4.042449
+      overall ratio mean noise to mean std dev = 3.844584
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 15.541536
+      nonsuccessful mean noise std deviation = 4.042449
+      nonsuccessful ratio mean noise to mean std dev = 3.844584
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 64034359
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Variables forced true: 484
+Variables forced false: 0
+Clauses output: 929087
+Variables undetermined: 12295
+Non-unary clauses output: 928603
+Result is Simplified
+Iteration was 0
+
+----------------------------------------------------
+time: 9, 785 facts and 1342 exclusive pairs.
+3139 new nodes added.
+
+####################################################
+goals at time 10:
+  communicated-soil-data_waypoint16 communicated-soil-data_waypoint10 communicated-soil-data_waypoint14 communicated-rock-data_waypoint3 communicated-rock-data_waypoint17 
+communicated-image-data_objective1_low-res communicated-image-data_objective1_high-res communicated-image-data_objective5_low-res 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 10862
+number of fluent variables = 4943
+total number variables = 15805
+number clauses = 1346701
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 66300506
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+ERROR - clause too long

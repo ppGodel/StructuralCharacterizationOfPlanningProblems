@@ -1,0 +1,65 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl -f ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile5.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile5.pddl
+Problem name: ztravel-2-4
+Facts loaded.
+
+created
+time: 1, 21 facts and 21 exclusive pairs.
+time: 2, 30 facts and 58 exclusive pairs.
+time: 3, 40 facts and 131 exclusive pairs.
+time: 4, 50 facts and 221 exclusive pairs.
+Goals reachable at 4 steps but mutually exclusive.
+time: 5, 51 facts and 114 exclusive pairs.
+Goals first reachable in 5 steps.
+1272 nodes created.
+
+####################################################
+goals at time 6:
+  at_person1_city2 at_person2_city3 at_person3_city3 at_person4_city3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 88
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (refuel plane2 city2 fl0 fl1)
+1 (board person4 plane1 city1)
+2 (fly plane2 city2 city0 fl1 fl0)
+2 (zoom plane1 city1 city3 fl6 fl5 fl4)
+3 (refuel plane2 city0 fl0 fl1)
+3 (board person3 plane2 city0)
+3 (board person2 plane2 city0)
+3 (board person1 plane1 city3)
+3 (debark person4 plane1 city3)
+4 (zoom plane1 city3 city2 fl4 fl3 fl2)
+4 (fly plane2 city0 city3 fl1 fl0)
+5 (debark person3 plane2 city3)
+5 (debark person2 plane2 city3)
+5 (debark person1 plane1 city2)
+End plan
+----------------------------------------------------
+
+14 total actions in plan
+5 entries in hash table, 3 hash hits, avg set size 8
+12 total set-creation steps (entries + hits + plan length - 1)
+33 actions tried
+
+####################################################
+Total elapsed time:   0.08 seconds
+Time in milliseconds: 76
+
+####################################################

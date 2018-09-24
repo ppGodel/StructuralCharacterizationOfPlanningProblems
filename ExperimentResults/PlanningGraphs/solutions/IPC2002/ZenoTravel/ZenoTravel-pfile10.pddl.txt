@@ -1,0 +1,244 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl -f ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile10.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile10.pddl
+Problem name: ztravel-3-8
+Facts loaded.
+
+created
+time: 1, 45 facts and 106 exclusive pairs.
+time: 2, 69 facts and 338 exclusive pairs.
+time: 3, 88 facts and 517 exclusive pairs.
+time: 4, 106 facts and 349 exclusive pairs.
+Goals first reachable in 4 steps.
+2621 nodes created.
+
+####################################################
+goals at time 5:
+  at_plane1_city2 at_person1_city1 at_person2_city2 at_person3_city3 at_person4_city1 
+at_person5_city0 at_person6_city3 at_person7_city4 at_person8_city3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 12
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 106 facts and 325 exclusive pairs.
+1202 new nodes added.
+
+####################################################
+goals at time 6:
+  at_plane1_city2 at_person1_city1 at_person2_city2 at_person3_city3 at_person4_city1 
+at_person5_city0 at_person6_city3 at_person7_city4 at_person8_city3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 255024
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 106 facts and 317 exclusive pairs.
+1202 new nodes added.
+
+####################################################
+goals at time 7:
+  at_plane1_city2 at_person1_city1 at_person2_city2 at_person3_city3 at_person4_city1 
+at_person5_city0 at_person6_city3 at_person7_city4 at_person8_city3 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 1998700
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 2446
+number of fluent variables = 394
+total number variables = 2840
+number clauses = 260702
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 5672035
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 8520
+numatom = 2840, numclause = 260702, numliterals = 524418
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         3         9     14.05      4.14      3.39    100000         0
+         4         9     13.04      4.11      3.17    100000         0
+         3        13     12.36      4.71      2.63    100000         0
+         5        12     14.62      3.97      3.68    100000         0
+         3         7     12.73      4.40      2.89    100000         0
+         1        12     13.35      4.41      3.02    100000         0
+         3        21     13.51      4.26      3.17    100000         0
+         3        10     11.79      4.33      2.72    100000         0
+         3         7     13.14      4.11      3.20    100000         0
+         3        12     13.91      3.96      3.52    100000         0
+
+total elapsed seconds = 1.160000
+average flips per second = 862068
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 13.249733
+      overall mean noise std deviation = 4.240075
+      overall ratio mean noise to mean std dev = 3.124882
+    statistics on successful runs:
+      successful mean average noise level = 0.000000
+      successful mean noise std deviation = 0.000000
+      successful ratio mean noise to mean std dev = 0.000000
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 13.249733
+      nonsuccessful mean noise std deviation = 4.240075
+      nonsuccessful ratio mean noise to mean std dev = 3.124882
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 1000000
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 6848643
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+****the instance is unsatisfiable *****
+NB_MONO= 77317, NB_UNIT= 2250541, NB_BRANCHE= 12598, NB_BACK= 6392 
+Program terminated in 9.980 seconds.
+Result is Unsat
+Iteration was 12780
+
+----------------------------------------------------
+time: 7, 106 facts and 317 exclusive pairs.
+1202 new nodes added.
+
+####################################################
+goals at time 8:
+  at_plane1_city2 at_person1_city1 at_person2_city2 at_person3_city3 at_person4_city1 
+at_person5_city0 at_person6_city3 at_person7_city4 at_person8_city3 
+
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 3480
+number of fluent variables = 500
+total number variables = 3980
+number clauses = 413328
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 17405786
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+tail starts after flip = 11940
+numatom = 3980, numclause = 413328, numliterals = 831162
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+         3        10     15.76      4.71      3.35    100000         0
+         5        10     16.00      4.06      3.94    100000         0
+         4        11     16.05      4.46      3.60    100000         0
+         0         0     12.61      5.69      2.22     39842        25     39842   339842.00
+
+total elapsed seconds = 0.780000
+average flips per second = 435694
+number solutions found = 1
+final success rate = 25.000000
+average length successful tries = 39842
+mean flips until assign = 339842.000000
+mean seconds until assign = 0.780000
+mean restarts until assign = 4.000000
+final noise level statistics
+    statistics over all runs:
+      overall mean average noise level = 15.104614
+      overall mean noise std deviation = 4.729946
+      overall ratio mean noise to mean std dev = 3.193401
+    statistics on successful runs:
+      successful mean average noise level = 12.612981
+      successful mean noise std deviation = 5.687914
+      successful ratio mean noise to mean std dev = 2.217506
+    statistics on nonsuccessful runs:
+      nonsuccessful mean average noise level = 15.935159
+      nonsuccessful mean noise std deviation = 4.410623
+      nonsuccessful ratio mean noise to mean std dev = 3.612904
+ASSIGNMENT FOUND
+Result is Sat
+Iteration was 339842
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (refuel plane2 city4 fl5 fl6)
+1 (refuel plane1 city0 fl2 fl3)
+1 (board person6 plane1 city0)
+1 (board person3 plane2 city4)
+1 (board person8 plane1 city0)
+1 (board person4 plane2 city4)
+1 (refuel plane3 city2 fl2 fl3)
+2 (fly plane1 city0 city3 fl3 fl2)
+2 (refuel plane3 city2 fl3 fl4)
+2 (zoom plane2 city4 city3 fl6 fl5 fl4)
+3 (debark person3 plane2 city3)
+3 (zoom plane3 city2 city1 fl4 fl3 fl2)
+3 (board person1 plane2 city3)
+4 (debark person8 plane1 city3)
+4 (refuel plane3 city1 fl2 fl3)
+4 (board person2 plane1 city3)
+4 (zoom plane2 city3 city1 fl4 fl3 fl2)
+5 (debark person4 plane2 city1)
+5 (debark person6 plane1 city3)
+5 (board person7 plane3 city1)
+5 (refuel plane2 city1 fl2 fl3)
+5 (board person5 plane2 city1)
+5 (debark person1 plane2 city1)
+6 (zoom plane2 city1 city0 fl3 fl2 fl1)
+6 (zoom plane3 city1 city4 fl3 fl2 fl1)
+6 (zoom plane1 city3 city2 fl2 fl1 fl0)
+7 (debark person2 plane1 city2)
+7 (debark person7 plane3 city4)
+7 (debark person5 plane2 city0)
+End plan
+----------------------------------------------------
+
+29 total actions in plan
+53310 entries in hash table, 38385 hash hits, avg set size 14
+91701 total set-creation steps (entries + hits + plan length - 1)
+1590604 actions tried
+
+####################################################
+Total elapsed time:   30.71 seconds
+Time in milliseconds: 30708
+
+####################################################

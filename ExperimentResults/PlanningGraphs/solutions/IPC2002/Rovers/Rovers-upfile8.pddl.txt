@@ -1,0 +1,90 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl -f ./CompetitionResults/IPC2002/domains/Rovers/upfile8.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Rovers/upfile8.pddl
+Problem name: roverprob6523
+Facts loaded.
+
+created
+time: 1, 978 facts and 179 exclusive pairs.
+time: 2, 1158 facts and 2996 exclusive pairs.
+time: 3, 1303 facts and 8114 exclusive pairs.
+time: 4, 1353 facts and 9183 exclusive pairs.
+time: 5, 1418 facts and 10004 exclusive pairs.
+time: 6, 1423 facts and 7459 exclusive pairs.
+Goals first reachable in 6 steps.
+30162 nodes created.
+
+####################################################
+goals at time 7:
+  communicated-soil-data_waypoint19 communicated-soil-data_waypoint0 communicated-soil-data_waypoint21 communicated-rock-data_waypoint4 communicated-rock-data_waypoint3 
+communicated-rock-data_waypoint26 communicated-rock-data_waypoint15 communicated-rock-data_waypoint11 communicated-image-data_objective3_high-res communicated-image-data_objective0_low-res 
+communicated-image-data_objective8_colour communicated-image-data_objective8_high-res communicated-image-data_objective3_colour communicated-image-data_objective6_high-res communicated-image-data_objective3_low-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 3
+
+----------------------------------------------------
+Can't solve in 6 steps
+time: 7, 1424 facts and 5670 exclusive pairs.
+7643 new nodes added.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint19 communicated-soil-data_waypoint0 communicated-soil-data_waypoint21 communicated-rock-data_waypoint4 communicated-rock-data_waypoint3 
+communicated-rock-data_waypoint26 communicated-rock-data_waypoint15 communicated-rock-data_waypoint11 communicated-image-data_objective3_high-res communicated-image-data_objective0_low-res 
+communicated-image-data_objective8_colour communicated-image-data_objective8_high-res communicated-image-data_objective3_colour communicated-image-data_objective6_high-res communicated-image-data_objective3_low-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 18586
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 1424 facts and 4755 exclusive pairs.
+7644 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint19 communicated-soil-data_waypoint0 communicated-soil-data_waypoint21 communicated-rock-data_waypoint4 communicated-rock-data_waypoint3 
+communicated-rock-data_waypoint26 communicated-rock-data_waypoint15 communicated-rock-data_waypoint11 communicated-image-data_objective3_high-res communicated-image-data_objective0_low-res 
+communicated-image-data_objective8_colour communicated-image-data_objective8_high-res communicated-image-data_objective3_colour communicated-image-data_objective6_high-res communicated-image-data_objective3_low-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 72200
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 16313
+number of fluent variables = 7607
+total number variables = 23920
+number clauses = 3707390
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 121731392
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+ERROR - clause too long

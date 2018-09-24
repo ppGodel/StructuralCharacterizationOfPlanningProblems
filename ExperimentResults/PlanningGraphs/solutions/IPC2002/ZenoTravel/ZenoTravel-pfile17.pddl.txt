@@ -1,0 +1,143 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl -f ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile17.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile17.pddl
+Problem name: ztravel-5-20
+Facts loaded.
+
+created
+time: 1, 116 facts and 743 exclusive pairs.
+time: 2, 213 facts and 3021 exclusive pairs.
+time: 3, 327 facts and 6473 exclusive pairs.
+time: 4, 539 facts and 5120 exclusive pairs.
+Goals first reachable in 4 steps.
+34692 nodes created.
+
+####################################################
+goals at time 5:
+  at_plane1_city14 at_plane3_city7 at_plane5_city12 at_person1_city4 at_person2_city11 
+at_person3_city0 at_person4_city12 at_person5_city12 at_person6_city0 at_person7_city5 
+at_person8_city13 at_person9_city9 at_person10_city7 at_person11_city7 at_person12_city6 
+at_person13_city2 at_person14_city10 at_person15_city14 at_person16_city12 at_person17_city1 
+at_person18_city1 at_person19_city5 at_person20_city13 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 4
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 540 facts and 4944 exclusive pairs.
+16983 new nodes added.
+
+####################################################
+goals at time 6:
+  at_plane1_city14 at_plane3_city7 at_plane5_city12 at_person1_city4 at_person2_city11 
+at_person3_city0 at_person4_city12 at_person5_city12 at_person6_city0 at_person7_city5 
+at_person8_city13 at_person9_city9 at_person10_city7 at_person11_city7 at_person12_city6 
+at_person13_city2 at_person14_city10 at_person15_city14 at_person16_city12 at_person17_city1 
+at_person18_city1 at_person19_city5 at_person20_city13 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 59200
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 20454
+number of fluent variables = 931
+total number variables = 21385
+number clauses = 19963777
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 88065937
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+allocating memory...
+tail starts after flip = 64155
+numatom = 21385, numclause = 19963777, numliterals = 39961071
+wff read in
+
+    lowest     final       avg     noise     noise     total                 avg        mean        mean
+    #unsat    #unsat     noise   std dev     ratio     flips              length       flips       flips
+      this      this      this      this      this      this   success   success       until         std
+       try       try       try       try       try       try      rate     tries      assign         dev
+
+        23        39      0.00      0.00      0.00     58499         0
+
+total elapsed seconds = 5.860000
+average flips per second = 9982
+number solutions found = 0
+final success rate = 0.000000
+average length successful tries = 0
+ASSIGNMENT NOT FOUND
+Result is Timeout
+Iteration was 58500
+
+----------------------------------------------------
+Invoking solver satz-rand version satz-rand-214
+seed: 94616034
+cutoff: 1000000000
+noise: 0.400000
+restart: 1
+fields: NB_BACK NB_BRANCH NB_OP NB_NOOP NB_SEARCH time sat
+satz-rand: wff too big, must recompile!
+Result is Failure
+Iteration was 0
+
+----------------------------------------------------
+Invoking simplifier compact
+Malloc failed. Exiting.

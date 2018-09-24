@@ -1,0 +1,81 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl -f ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile8.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile8.pddl
+Problem name: ztravel-3-6
+Facts loaded.
+
+created
+time: 1, 37 facts and 77 exclusive pairs.
+time: 2, 54 facts and 183 exclusive pairs.
+time: 3, 75 facts and 306 exclusive pairs.
+time: 4, 88 facts and 274 exclusive pairs.
+Goals first reachable in 4 steps.
+2161 nodes created.
+
+####################################################
+goals at time 5:
+  at_plane1_city3 at_person1_city0 at_person2_city0 at_person3_city1 at_person4_city0 
+at_person5_city3 at_person6_city2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 7
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 89 facts and 263 exclusive pairs.
+1022 new nodes added.
+
+####################################################
+goals at time 6:
+  at_plane1_city3 at_person1_city0 at_person2_city0 at_person3_city1 at_person4_city0 
+at_person5_city3 at_person6_city2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 1546
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (refuel plane2 city3 fl0 fl1)
+1 (fly plane3 city0 city4 fl3 fl2)
+1 (zoom plane1 city0 city2 fl6 fl5 fl4)
+2 (fly plane2 city3 city1 fl1 fl0)
+2 (board person6 plane3 city4)
+2 (board person3 plane1 city2)
+3 (zoom plane3 city4 city2 fl2 fl1 fl0)
+3 (refuel plane2 city1 fl0 fl1)
+3 (board person1 plane2 city1)
+3 (zoom plane1 city2 city1 fl4 fl3 fl2)
+4 (debark person3 plane1 city1)
+4 (fly plane2 city1 city0 fl1 fl0)
+4 (debark person6 plane3 city2)
+5 (zoom plane1 city1 city3 fl2 fl1 fl0)
+5 (debark person1 plane2 city0)
+End plan
+----------------------------------------------------
+
+15 total actions in plan
+51 entries in hash table, 1 hash hits, avg set size 10
+56 total set-creation steps (entries + hits + plan length - 1)
+590 actions tried
+
+####################################################
+Total elapsed time:   0.43 seconds
+Time in milliseconds: 426
+
+####################################################

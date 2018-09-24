@@ -1,0 +1,73 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl -f ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile19.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile19.pddl
+Problem name: ztravel-5-25
+Facts loaded.
+
+created
+time: 1, 155 facts and 1318 exclusive pairs.
+time: 2, 279 facts and 5469 exclusive pairs.
+time: 3, 398 facts and 10145 exclusive pairs.
+time: 4, 763 facts and 8841 exclusive pairs.
+Goals first reachable in 4 steps.
+46519 nodes created.
+
+####################################################
+goals at time 5:
+  at_plane1_city11 at_plane2_city8 at_person1_city10 at_person2_city1 at_person3_city13 
+at_person4_city9 at_person5_city0 at_person6_city16 at_person7_city0 at_person8_city0 
+at_person9_city17 at_person10_city13 at_person11_city13 at_person12_city17 at_person13_city3 
+at_person14_city0 at_person15_city13 at_person16_city19 at_person17_city0 at_person18_city4 
+at_person19_city17 at_person20_city14 at_person21_city17 at_person22_city4 at_person23_city12 
+at_person24_city13 at_person25_city2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 16
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 766 facts and 8688 exclusive pairs.
+25749 new nodes added.
+
+####################################################
+goals at time 6:
+  at_plane1_city11 at_plane2_city8 at_person1_city10 at_person2_city1 at_person3_city13 
+at_person4_city9 at_person5_city0 at_person6_city16 at_person7_city0 at_person8_city0 
+at_person9_city17 at_person10_city13 at_person11_city13 at_person12_city17 at_person13_city3 
+at_person14_city0 at_person15_city13 at_person16_city19 at_person17_city0 at_person18_city4 
+at_person19_city17 at_person20_city14 at_person21_city17 at_person22_city4 at_person23_city12 
+at_person24_city13 at_person25_city2 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 60500
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 18410
+number of fluent variables = 1141
+total number variables = 19551
+number clauses = 18392621
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 39930378
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+ERROR - clause too long

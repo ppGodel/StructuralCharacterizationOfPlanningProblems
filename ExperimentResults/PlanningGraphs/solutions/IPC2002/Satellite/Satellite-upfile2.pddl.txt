@@ -1,0 +1,150 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl -f ./CompetitionResults/IPC2002/domains/Satellite/upfile2.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Satellite/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Satellite/upfile2.pddl
+Problem name: strips-sat-u-2
+Facts loaded.
+
+created
+time: 1, 319 facts and 16 exclusive pairs.
+time: 2, 329 facts and 44 exclusive pairs.
+time: 3, 488 facts and 34 exclusive pairs.
+Goals first reachable in 3 steps.
+44299 nodes created.
+
+####################################################
+goals at time 4:
+  pointing_satellite1_planet46 pointing_satellite2_phenomenon48 have-image_planet3_infrared0 have-image_planet4_infrared0 have-image_phenomenon5_image2 
+have-image_phenomenon6_infrared0 have-image_star7_infrared0 have-image_planet9_infrared0 have-image_star10_infrared0 have-image_star11_infrared1 
+have-image_planet13_infrared1 have-image_star18_infrared1 have-image_phenomenon19_infrared0 have-image_planet21_image2 have-image_planet22_image2 
+have-image_phenomenon23_infrared1 have-image_phenomenon24_infrared1 have-image_star25_image2 have-image_phenomenon26_infrared1 have-image_phenomenon27_infrared0 
+have-image_star28_infrared1 have-image_planet29_image2 have-image_phenomenon30_image2 have-image_phenomenon31_image2 have-image_phenomenon32_image2 
+have-image_planet33_infrared0 have-image_planet34_infrared1 have-image_planet35_image2 have-image_star36_infrared1 have-image_star37_infrared1 
+have-image_phenomenon38_infrared0 have-image_planet39_infrared0 have-image_star40_image2 have-image_star41_image2 have-image_star42_infrared0 
+have-image_phenomenon43_infrared0 have-image_star44_image2 have-image_planet45_image2 have-image_planet46_image2 have-image_phenomenon47_infrared0 
+have-image_phenomenon48_infrared1 have-image_planet49_infrared1 have-image_planet50_infrared0 have-image_planet51_image2 have-image_phenomenon52_infrared1 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 158
+Performing plan justification:
+   0 actions were pruned in 0.01 seconds
+
+----------------------------------------------------
+Begin plan
+1 (turn-to satellite0 star40 phenomenon52)
+1 (turn-to satellite1 phenomenon27 planet51)
+1 (turn-to satellite1 planet4 planet51)
+1 (turn-to satellite0 star44 phenomenon52)
+1 (turn-to satellite1 phenomenon47 planet51)
+1 (turn-to satellite1 phenomenon38 planet51)
+1 (turn-to satellite1 planet13 planet51)
+1 (turn-to satellite1 star11 planet51)
+1 (turn-to satellite1 star0 planet51)
+1 (turn-to satellite0 planet29 phenomenon52)
+1 (turn-to satellite1 planet33 planet51)
+1 (turn-to satellite1 star42 planet51)
+1 (turn-to satellite0 planet45 phenomenon52)
+1 (turn-to satellite1 planet46 planet51)
+1 (switch-on instrument2 satellite1)
+1 (switch-on instrument0 satellite0)
+1 (turn-to satellite0 phenomenon30 phenomenon52)
+1 (turn-to satellite1 phenomenon24 planet51)
+1 (turn-to satellite1 phenomenon26 planet51)
+1 (turn-to satellite1 planet3 planet51)
+1 (turn-to satellite0 planet22 phenomenon52)
+1 (turn-to satellite1 phenomenon19 planet51)
+1 (turn-to satellite1 star10 planet51)
+1 (turn-to satellite1 planet50 planet51)
+1 (turn-to satellite1 phenomenon48 planet51)
+1 (turn-to satellite0 phenomenon5 phenomenon52)
+1 (turn-to satellite0 planet21 phenomenon52)
+1 (turn-to satellite0 planet46 phenomenon52)
+1 (turn-to satellite0 phenomenon32 phenomenon52)
+1 (turn-to satellite1 phenomenon23 planet51)
+1 (turn-to satellite1 phenomenon52 planet51)
+1 (turn-to satellite1 phenomenon43 planet51)
+1 (turn-to satellite1 planet39 planet51)
+1 (turn-to satellite1 star37 planet51)
+1 (turn-to satellite1 star28 planet51)
+1 (turn-to satellite0 phenomenon31 phenomenon52)
+1 (turn-to satellite1 phenomenon6 planet51)
+1 (turn-to satellite0 planet35 phenomenon52)
+1 (turn-to satellite1 planet34 planet51)
+1 (turn-to satellite1 planet9 planet51)
+1 (turn-to satellite0 planet51 phenomenon52)
+1 (turn-to satellite0 star25 phenomenon52)
+1 (turn-to satellite1 star36 planet51)
+1 (turn-to satellite1 star18 planet51)
+1 (turn-to satellite1 planet49 planet51)
+1 (turn-to satellite0 star41 phenomenon52)
+1 (turn-to satellite2 phenomenon48 phenomenon52)
+1 (turn-to satellite0 groundstation2 phenomenon52)
+2 (calibrate satellite1 instrument2 star0)
+2 (calibrate satellite0 instrument0 groundstation2)
+3 (take-image satellite1 planet3 instrument2 infrared0)
+3 (take-image satellite1 phenomenon6 instrument2 infrared0)
+3 (take-image satellite0 planet45 instrument0 image2)
+3 (take-image satellite0 planet22 instrument0 image2)
+3 (take-image satellite1 star42 instrument2 infrared0)
+3 (take-image satellite1 phenomenon43 instrument2 infrared0)
+3 (take-image satellite0 star40 instrument0 image2)
+3 (take-image satellite1 planet50 instrument2 infrared0)
+3 (take-image satellite1 planet13 instrument2 infrared1)
+3 (take-image satellite1 planet39 instrument2 infrared0)
+3 (take-image satellite0 phenomenon31 instrument0 image2)
+3 (take-image satellite1 star7 instrument2 infrared0)
+3 (take-image satellite1 star11 instrument2 infrared1)
+3 (take-image satellite0 phenomenon30 instrument0 image2)
+3 (take-image satellite1 phenomenon52 instrument2 infrared1)
+3 (take-image satellite0 star25 instrument0 image2)
+3 (take-image satellite1 planet49 instrument2 infrared1)
+3 (take-image satellite1 planet4 instrument2 infrared0)
+3 (take-image satellite1 phenomenon38 instrument2 infrared0)
+3 (take-image satellite0 star44 instrument0 image2)
+3 (take-image satellite0 planet35 instrument0 image2)
+3 (take-image satellite0 planet46 instrument0 image2)
+3 (take-image satellite1 phenomenon23 instrument2 infrared1)
+3 (take-image satellite1 phenomenon47 instrument2 infrared0)
+3 (take-image satellite1 phenomenon48 instrument2 infrared1)
+3 (take-image satellite0 star41 instrument0 image2)
+3 (take-image satellite0 planet21 instrument0 image2)
+3 (take-image satellite1 star18 instrument2 infrared1)
+3 (take-image satellite0 phenomenon5 instrument0 image2)
+3 (take-image satellite1 phenomenon19 instrument2 infrared0)
+3 (take-image satellite0 phenomenon32 instrument0 image2)
+3 (take-image satellite1 star28 instrument2 infrared1)
+3 (take-image satellite0 planet29 instrument0 image2)
+3 (take-image satellite0 planet51 instrument0 image2)
+3 (take-image satellite1 planet9 instrument2 infrared0)
+3 (take-image satellite1 phenomenon27 instrument2 infrared0)
+3 (take-image satellite1 star10 instrument2 infrared0)
+3 (take-image satellite1 phenomenon26 instrument2 infrared1)
+3 (take-image satellite1 star37 instrument2 infrared1)
+3 (take-image satellite1 planet33 instrument2 infrared0)
+3 (take-image satellite1 star36 instrument2 infrared1)
+3 (take-image satellite1 planet34 instrument2 infrared1)
+3 (take-image satellite1 phenomenon24 instrument2 infrared1)
+End plan
+----------------------------------------------------
+
+93 total actions in plan
+0 entries in hash table, 
+2 total set-creation steps (entries + hits + plan length - 1)
+93 actions tried
+
+####################################################
+Total elapsed time:   3.47 seconds
+Time in milliseconds: 3473
+
+####################################################

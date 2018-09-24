@@ -1,0 +1,78 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl -f ./CompetitionResults/IPC2002/domains/Rovers/upfile20.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Rovers/upfile20.pddl
+Problem name: roverprob5621
+Facts loaded.
+
+created
+time: 1, 1848 facts and 514 exclusive pairs.
+time: 2, 2226 facts and 11745 exclusive pairs.
+time: 3, 2618 facts and 36624 exclusive pairs.
+time: 4, 2799 facts and 45819 exclusive pairs.
+time: 5, 2840 facts and 39612 exclusive pairs.
+time: 6, 2846 facts and 32465 exclusive pairs.
+Goals reachable at 6 steps but mutually exclusive.
+time: 7, 2847 facts and 25679 exclusive pairs.
+Goals first reachable in 7 steps.
+81708 nodes created.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint16 communicated-soil-data_waypoint11 communicated-soil-data_waypoint24 communicated-soil-data_waypoint46 communicated-soil-data_waypoint1 
+communicated-soil-data_waypoint39 communicated-soil-data_waypoint10 communicated-soil-data_waypoint31 communicated-soil-data_waypoint45 communicated-soil-data_waypoint18 
+communicated-soil-data_waypoint49 communicated-soil-data_waypoint41 communicated-soil-data_waypoint25 communicated-rock-data_waypoint48 communicated-rock-data_waypoint1 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint13 communicated-rock-data_waypoint15 communicated-rock-data_waypoint43 communicated-image-data_objective1_high-res 
+communicated-image-data_objective6_high-res communicated-image-data_objective7_colour communicated-image-data_objective5_high-res communicated-image-data_objective1_colour communicated-image-data_objective1_low-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 2628
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 2847 facts and 20147 exclusive pairs.
+16046 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint16 communicated-soil-data_waypoint11 communicated-soil-data_waypoint24 communicated-soil-data_waypoint46 communicated-soil-data_waypoint1 
+communicated-soil-data_waypoint39 communicated-soil-data_waypoint10 communicated-soil-data_waypoint31 communicated-soil-data_waypoint45 communicated-soil-data_waypoint18 
+communicated-soil-data_waypoint49 communicated-soil-data_waypoint41 communicated-soil-data_waypoint25 communicated-rock-data_waypoint48 communicated-rock-data_waypoint1 
+communicated-rock-data_waypoint2 communicated-rock-data_waypoint13 communicated-rock-data_waypoint15 communicated-rock-data_waypoint43 communicated-image-data_objective1_high-res 
+communicated-image-data_objective6_high-res communicated-image-data_objective7_colour communicated-image-data_objective5_high-res communicated-image-data_objective1_colour communicated-image-data_objective1_low-res 
+
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 211300
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 36949
+number of fluent variables = 15304
+total number variables = 52253
+number clauses = 12654190
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 96131172
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+allocating memory...
+ERROR - clause too long

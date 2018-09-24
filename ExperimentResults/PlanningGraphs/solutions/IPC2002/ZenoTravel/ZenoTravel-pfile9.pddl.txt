@@ -1,0 +1,106 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl -f ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile9.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/ZenoTravel/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/ZenoTravel/pfile9.pddl
+Problem name: ztravel-3-7
+Facts loaded.
+
+created
+time: 1, 37 facts and 69 exclusive pairs.
+time: 2, 57 facts and 222 exclusive pairs.
+time: 3, 74 facts and 310 exclusive pairs.
+time: 4, 96 facts and 322 exclusive pairs.
+Goals first reachable in 4 steps.
+2130 nodes created.
+
+####################################################
+goals at time 5:
+  at_person1_city2 at_person2_city0 at_person3_city4 at_person4_city3 at_person5_city1 
+at_person6_city4 at_person7_city4 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 5
+
+----------------------------------------------------
+Can't solve in 4 steps
+time: 5, 97 facts and 295 exclusive pairs.
+1068 new nodes added.
+
+####################################################
+goals at time 6:
+  at_person1_city2 at_person2_city0 at_person3_city4 at_person4_city3 at_person5_city1 
+at_person6_city4 at_person7_city4 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 29901
+
+----------------------------------------------------
+Can't solve in 5 steps
+time: 6, 98 facts and 297 exclusive pairs.
+1115 new nodes added.
+
+####################################################
+goals at time 7:
+  at_person1_city2 at_person2_city0 at_person3_city4 at_person4_city3 at_person5_city1 
+at_person6_city4 at_person7_city4 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Sat
+Iteration was 5726
+Performing plan justification:
+   0 actions were pruned in 0.00 seconds
+
+----------------------------------------------------
+Begin plan
+1 (board person3 plane2 city2)
+1 (refuel plane3 city1 fl0 fl1)
+1 (refuel plane2 city2 fl2 fl3)
+1 (board person2 plane3 city1)
+1 (fly plane1 city2 city4 fl5 fl4)
+2 (fly plane2 city2 city3 fl3 fl2)
+2 (fly plane3 city1 city0 fl1 fl0)
+2 (board person1 plane1 city4)
+2 (board person5 plane1 city4)
+3 (zoom plane1 city4 city1 fl4 fl3 fl2)
+3 (board person4 plane3 city0)
+3 (board person7 plane2 city3)
+3 (refuel plane3 city0 fl0 fl1)
+3 (board person6 plane2 city3)
+3 (debark person2 plane3 city0)
+4 (debark person5 plane1 city1)
+4 (zoom plane2 city3 city4 fl2 fl1 fl0)
+4 (fly plane3 city0 city3 fl1 fl0)
+5 (debark person4 plane3 city3)
+5 (debark person3 plane2 city4)
+5 (debark person7 plane2 city4)
+5 (debark person6 plane2 city4)
+5 (zoom plane1 city1 city2 fl2 fl1 fl0)
+6 (debark person1 plane1 city2)
+End plan
+----------------------------------------------------
+
+24 total actions in plan
+1190 entries in hash table, 124 hash hits, avg set size 10
+1319 total set-creation steps (entries + hits + plan length - 1)
+17330 actions tried
+
+####################################################
+Total elapsed time:   0.98 seconds
+Time in milliseconds: 983
+
+####################################################

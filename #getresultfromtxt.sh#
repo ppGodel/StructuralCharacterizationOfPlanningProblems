@@ -1,0 +1,15 @@
+function extractInformation(){
+    fn=basename $1
+    pn=$(sed -En 's/(problem (.*)/\1/p' $1)
+    if [ ! "$pn" == "" ]; then
+	echo "$pn, $f"
+    fi
+}
+
+jf=$(find $1 -type f -iname '*.txt')
+for j in $jf; do
+    ei=$(extractInformation $j)
+    if [ ! "$ei" == "" ]; then
+	echo "$3, $ei" >> $2
+    fi
+done

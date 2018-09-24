@@ -1,0 +1,73 @@
+blackbox version 43
+command line:  ./ScriptFiles//blackbox -o ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl -f ./CompetitionResults/IPC2002/domains/Rovers/upfile13.pddl -x -M 32760 -maxauto 50 -solver -maxsec 15 graphplan -then -maxsec 10 walksat -then -maxsec 10 satz -then -maxsec 10 compact
+
+Begin solver specification
+    -maxint        0   -maxsec 15.000000  graphplan
+    -maxint        0   -maxsec 10.000000  walksat
+    -maxint        0   -maxsec 10.000000  satz
+    -maxint        0   -maxsec 10.000000  compact
+End solver specification
+Loading domain file: ./CompetitionResults/IPC2002/domains/Rovers/domain.pddl
+Loading fact file: ./CompetitionResults/IPC2002/domains/Rovers/upfile13.pddl
+Problem name: roverprob5142
+Facts loaded.
+
+created
+time: 1, 1299 facts and 233 exclusive pairs.
+time: 2, 1514 facts and 4742 exclusive pairs.
+time: 3, 1861 facts and 22983 exclusive pairs.
+time: 4, 1980 facts and 27413 exclusive pairs.
+time: 5, 2010 facts and 22025 exclusive pairs.
+time: 6, 2014 facts and 16486 exclusive pairs.
+Goals reachable at 6 steps but mutually exclusive.
+time: 7, 2014 facts and 12599 exclusive pairs.
+Goals first reachable in 7 steps.
+57045 nodes created.
+
+####################################################
+goals at time 8:
+  communicated-soil-data_waypoint21 communicated-soil-data_waypoint34 communicated-soil-data_waypoint26 communicated-soil-data_waypoint22 communicated-soil-data_waypoint27 
+communicated-soil-data_waypoint5 communicated-soil-data_waypoint9 communicated-rock-data_waypoint9 communicated-rock-data_waypoint27 communicated-rock-data_waypoint15 
+communicated-rock-data_waypoint20 communicated-rock-data_waypoint18 communicated-rock-data_waypoint2 communicated-image-data_objective2_high-res communicated-image-data_objective6_low-res 
+communicated-image-data_objective8_high-res communicated-image-data_objective0_colour communicated-image-data_objective5_colour communicated-image-data_objective0_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+Result is Unsat
+Iteration was 1468
+
+----------------------------------------------------
+Can't solve in 7 steps
+time: 8, 2014 facts and 9754 exclusive pairs.
+11130 new nodes added.
+
+####################################################
+goals at time 9:
+  communicated-soil-data_waypoint21 communicated-soil-data_waypoint34 communicated-soil-data_waypoint26 communicated-soil-data_waypoint22 communicated-soil-data_waypoint27 
+communicated-soil-data_waypoint5 communicated-soil-data_waypoint9 communicated-rock-data_waypoint9 communicated-rock-data_waypoint27 communicated-rock-data_waypoint15 
+communicated-rock-data_waypoint20 communicated-rock-data_waypoint18 communicated-rock-data_waypoint2 communicated-image-data_objective2_high-res communicated-image-data_objective6_low-res 
+communicated-image-data_objective8_high-res communicated-image-data_objective0_colour communicated-image-data_objective5_colour communicated-image-data_objective0_low-res 
+
+
+----------------------------------------------------
+Invoking solver graphplan
+** Turning off completeness check **
+Result is Timeout
+Iteration was 92500
+
+----------------------------------------------------
+Converting graph to wff
+number of action variables = 25653
+number of fluent variables = 10564
+total number variables = 36217
+number clauses = 8312388
+Invoking solver walksat version 36
+walksat version 36 (Huge)
+command line = walksat
+seed = 64489541
+cutoff = 100000
+tries = 10
+heuristic = best, noise 50 / 100
+allocating memory...
+ERROR - clause too long
