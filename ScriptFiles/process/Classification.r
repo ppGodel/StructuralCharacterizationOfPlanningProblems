@@ -5,7 +5,7 @@ library(gridExtra)
 library(grid)
 library(dunn.test)
 library(ggplot2)
-library(wesanderson)
+#library(wesanderson)
 
 compresultsraw=data.frame(grcon$find())
 #compresultsbygraph=ddply(.data=compresultraw, c("com","dom","gn","fkey","gid","solved","graph","Time","Steps",))
@@ -86,8 +86,8 @@ if(FALSE){
     allclasscom=rbind(allclassplanpar,allclassplannpar)
 }else{
     if(bycom==T){
-        allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycomimg.csv",prin,"ParByCom")
-        allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycomimg.csv",prin,"NoParByCom")
+        allclasscompar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==1,],"allclassifications-parallelbycompimg.csv",prin,"ParByCom")
+        allclasscomnpar=createDataSetbyComWithClassification(compresultsgraphsolved[compresultsgraphsolved$parallel==0,],"allclassifications-noparallelbycompimg.csv",prin,"NoParByCom")
         allclasscompar$type="Parallel"
         allclasscomnpar$type="NoParallel"
         allclasscom=rbind(allclasscompar,allclasscomnpar)    

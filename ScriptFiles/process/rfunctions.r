@@ -170,11 +170,15 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             trany=tukeyLadder(auxres[,ny],fitval$ty)
             lx=nx
             ly=ny
+            lnx=nx
+            lny=ny
             if(fitval$tx!=1){
                 lx=bquote(.(nx)^.(fitval$tx))
+                lnx=paste0(nx,"^",fitval$tx)
             }
             if(fitval$ty!=1){
-                ly=bquote(.(ny)^.(fitval$ty))  
+                ly=bquote(.(ny)^.(fitval$ty))
+                lny=paste0(ny,"^",fitval$ty)
             }
             
             if(fitval$tx==0){
@@ -279,7 +283,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
     #names(data)[names(data) == 'Class'] <- cfactor
     data$Cfactor=nx#paste0('C',nx),'v',ny)
     data$Cresp=ny
-    data$Ctran=paste0(lx,'v',ly)
+    data$Ctran=paste0(lnx,'v',lny)
     
     return(data[,c("com","planner","dom","gn","Class","Cfactor","Cresp","Ctran","R2","Dist","MahaDist","MahaOut","CookDist","CookOut","Disc")]) 
 }

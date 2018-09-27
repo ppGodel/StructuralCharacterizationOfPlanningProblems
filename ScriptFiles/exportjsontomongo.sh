@@ -12,8 +12,6 @@ echo "base path $BDIR $comp"
 GDIR=$BDIR/ExperimentResults/PlanningGraphs/graphs/$comp
 CDIR=$BDIR/ExperimentResults/AnalisisResults/data/$comp
 SDIR=$BDIR/ScriptFiles
-tg=15
-to=10
 AFILE=$BDIR/ScriptFiles/result$comp.csv
 #BFILE=$(pwd)/ScriptFiles/result98_1.csv
 #echo "Exp $GDIR"
@@ -32,7 +30,7 @@ function analysejson()
 	#echo "$fp $hs $hg"
 	#if [ ! -e $j ]; then
 	    echo "File $j will be processed $(date)"
-	    python3 $SDIR/readjson.py $j T $CDIR/$nbc/ T $nbc
+	    python3 $SDIR/readjson.py $j T $CDIR/$nbc/ T $nbc T
 	#else
 	#    echo "File $j already processed"
 	#fi
@@ -46,16 +44,6 @@ function analysejson()
 #    done
 }
 
-
-if [ ! -z "$2" ]; then
-    comp=$2
-fi
-if [ ! -z "$3" ] && [ $4> 0 ]; then
-    tg=$3
-fi
-if [ ! -z "$4" ] && [ $5 > 0 ]; then
-    to=$4
-fi
 echo $comp
 for dp in $GDIR;
 do
@@ -65,11 +53,11 @@ do
 	for dcp in $dp/*; do
 	    if [[ -d $dcp ]]; then
 		nbc=$(basename $dcp)
-		if [ "$nbc" == "Blocks" ];then # && [ "$nbc" != "mprime" ] && [ "$nbc" != "movie" ] && [ "$nbc" != "mystery" ];then
+#		if [ "$nbc" == "Blocks" ];then # && [ "$nbc" != "mprime" ] && [ "$nbc" != "movie" ] && [ "$nbc" != "mystery" ];then
 #		if [ "$nbc" == "mystery" ];then
 		    echo "Dominio" $nbc
 		    analysejson $dcp $nbc
-		fi
+#		fi
 
 	    fi
 	done

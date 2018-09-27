@@ -4,6 +4,7 @@ import graph
 import sys
 import time
 import os.path
+import os
 import ijson
 from bson.objectid import ObjectId
 from pprint import pprint
@@ -183,7 +184,7 @@ def parseToMongo(filename):
     pgdb=client.planninggraphs
     gm=pgdb.graphs
     nm=pgdb.nodes
-    gjson=gm.find_one({"gn":gname,"com":"00"})
+    gjson=gm.find_one({"gn":gname,"com":"02"})
     if gjson :
         print('File already parsed: ' + gname)
         return False
@@ -196,19 +197,22 @@ def parseToMongo(filename):
     rep=0
     tim=time.time() 
     print('Start Export of ' + gname)
-    for e in vl:
-        if e["i"] not in uh:
-            uh.add(e["i"])
-            if len(uh)%10000==0:
-                print(str(len(uh)) + '...')
-            dicte=nm.find_one({"i":e["i"], "gid":gjson['_id']})
-            if not dicte:
-                dicte=e
-                dicte['_id']=ObjectId()
-                dicte['gid']=gjson['_id']
-                nm.insert_one(dicte)
-            else:
-                rep+=1
+    try:
+        for e in vl:
+            if e["i"] not in uh:
+                uh.add(e["i"])
+                if len(uh)%10000==0:
+                    print(str(len(uh)) + '...')
+                dicte=nm.find_one({"i":e["i"], "gid":gjson['_id']})
+                if not dicte:
+                    dicte=e
+                    dicte['_id']=ObjectId()
+                    dicte['gid']=gjson['_id']
+                    nm.insert_one(dicte)
+                else:
+                    rep+=1
+    except Exception as e:
+        print(e)
     fin=time.time()-tim
     print('Done Parse of ' + str(len(uh)) +' nodes in ' + str(round(fin,2))+ ' seconds  with a insert rate of ' + str(round(len(uh)/fin,2)) + ' nps and '+str(rep)+' repeated.' )
     return True
@@ -219,12 +223,15 @@ if filesize > 50:
     pathcsv=''
     withmutex=True
     mongof=False
+    delete_Flag=False
     if len(sys.argv)>2:
         withmutex= sys.argv[2] in ('True', 'T','TRUE','true')
     if len(sys.argv)>3:
         pathcsv=sys.argv[3]        
     if len(sys.argv)>4:
         mongof=sys.argv[4] in ('True', 'T','TRUE','true')
+    if len(sys.argv)>5:
+        delete_Flag=sys.argv[5] in ('True', 'T','TRUE','true')
         
     tim=time.clock() 
     print("reading file " + namefile + " at " +str(tim))
@@ -240,7 +247,9 @@ if filesize > 50:
     #gm=pgdb.graphs    
     #gjson=gm.find_one({"gn":gname})
     if mongof:
-        parseToMongo(namefile)
+        parsed=parseToMongo(namefile)
+        if delete_Flag and not parsed:
+            os.remove(namefile)
     else:        
         if os.path.exists(Nfilecsv):
             print("File already processed")
