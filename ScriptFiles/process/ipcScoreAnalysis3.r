@@ -180,6 +180,18 @@ compareClassAndMeasure<- function(info,p, s){
 }
 
 
+statsData= function(datares){
+    preinf=ddply(.data=datares,c("Class","com","dom","gn"), summarise, countn=length(Class))
+    ppieinfo=ddply(.data=preinf,c("Class", "com"), summarise, countn=length(gn))
+    totinf=ddply(.data=ppieinfo,c("com"), summarise, total=sum(countn))
+    pieinfo=merge(ppieinfo,totinf, by="com")
+    pieinfo$percentage=pieinfo$countn/pieinfo$total*100
+    piplot=ggplot(pieinfo, aes(x="", y=percentage, fill=Class))+  geom_bar(width = 1, stat="identity")+  coord_polar("y",direction=-1) + facet_wrap(~com)+ theme(text = element_text(size=20))
+                                        #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
+    ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbycom",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+}
+
 head(testres)
 npcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodePercentageEdges")
 ptypel=c("Parallel","NoParallel")
