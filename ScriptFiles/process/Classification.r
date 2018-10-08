@@ -5,24 +5,26 @@ library(gridExtra)
 library(grid)
 library(dunn.test)
 library(ggplot2)
-#library(wesanderson)
 
+                                        #geting the data and preparing the datasets
+                                        #compresultraw: resultados completos de las competencias en bruto 
+                                        #exeres resultados de las ejecucion de los problemas
+                                        #compresultbyplanner: resiltados de los planners y los problemas
 compresultsraw=data.frame(grcon$find())
-#compresultsbygraph=ddply(.data=compresultraw, c("com","dom","gn","fkey","gid","solved","graph","Time","Steps",))
 compresultsbyplanner=data.frame(plancon$find())
-#compresultsbyg=data.frame(cbind(grcomcon$find(),graph=1))
 compresultsbyp=ddply(.data=compresultsbyplanner,c("com","dom","gn","pkey"), summarize, solvedg=max(solved, na.rm=T), minSteps=min(Steps, na.rm=T))
-exeres= read.csv("executionresults.csv")
-exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
-exeres$graph=ifelse(exeres$gl>0,1,0)
-exeres$complete=ifelse(exeres$pl>0,1,0)
+#exeres= read.csv("executionresults.csv")
+#exeres=exeres[!duplicated(exeres),]
+#exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
+#exeres$graph=ifelse(exeres$gl>0,1,0)
+#exeres$complete=ifelse(exeres$pl>0,1,0)
 
-compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey", all.x=TRUE)
-compresultexec=compresultexec[!duplicated(compresultexec),]
-compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
+#compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey", all.x=TRUE)
+#compresultexec=compresultexec[!duplicated(compresultexec),]
+#compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
 compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
 compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1,]
-crgs=compresultsgraphsolved
+#crgs=compresultsgraphsolved
 compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
 compresultsgraphsolved$Class=0
 compresultsgraphsolved$R2=0
