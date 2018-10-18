@@ -94,13 +94,13 @@ getgids<- function(info){
 
 exploregraph<-function(ginfo){
     graphdistvalues=data.frame(npcon$find(query=paste0('{"gid":{"$oid":"',ginfo$gid,'"}}')))
-    graphdistvalues$LPOE=round(graphdistvalues$POE+0.5, 0)
-    graphdistvalues$LPDE=round(graphdistvalues$PDE+0.5, 0)
-    graphdistvalues$LPME=round(graphdistvalues$PME+0.5, 0)
-    graphdistvaluesbyl=ddply(.data=graphdistvalues, c("gid","T","Y"), summarise, TNodesL=length(PDE) )
-    graphdistvaluesbyppoe=ddply(.data=graphdistvalues, c("gid","T","Y","LPOE"), summarise, TNodes=length(POE) )
-    graphdistvaluesbyppde=ddply(.data=graphdistvalues, c("gid","T","Y","LPDE"), summarise, TNodes=length(PDE) )
-    graphdistvaluesbyppme=ddply(.data=graphdistvalues, c("gid","T","Y","LPME"), summarise, TNodes=length(PME) )
+    graphdistvalues[is.nan(graphdistvalues$PDE),]$PDE=0
+    
+    #graphdistvalues$LPOE=round(graphdistvalues$POE+0.5, 0)
+    graphdistvaluesbyl=ddply(.data=graphdistvalues, c("gid","T","Y"), summarise, TNodesL=length(gid) )
+    graphdistvaluesbyppoe=ddply(.data=graphdistvalues, c("gid","T","Y","POE"), summarise, TNodes=length(POE) )
+    graphdistvaluesbyppde=ddply(.data=graphdistvalues, c("gid","T","Y","PDE"), summarise, TNodes=length(PDE) )
+    graphdistvaluesbyppme=ddply(.data=graphdistvalues, c("gid","T","Y","PME"), summarise, TNodes=length(PME) )
                                         #graphdistvaluesbylgp=merge(graphdistvaluesbyppoe,graphdistvaluesbyppde, c("gid","T","Y"))
                                         #graphdistvaluesbylgp=merge(graphdistvaluesbylgp,graphdistvaluesbyppme, c("gid","T","Y"))
                                         #head(graphdistvaluesbylgp)
@@ -117,7 +117,7 @@ exploregraph<-function(ginfo){
                                         #pdeplot= ggplot(data=graphdistvaluesbylgpde, aes(x=LPDE, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ scale_y_sqrt()
                                         #pmeplot= ggplot(data=graphdistvaluesbylgpme, aes(x=LPME, y=PNodesbyL, fill=factor(Y))) + geom_bar(stat = "identity")+ facet_wrap(Y~T,nrow=2) + theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ scale_y_sqrt()
     
-    poeplot= qplot(POE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
+    poeplot= qplot(POE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)+ ggtitle(paste(ginfo$gn,ginfo$Class, ptype, ginfo$com))
     pdeplot= qplot(PDE, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
     pmeplot=qplot(PME, data=graphdistvalues, geom='histogram', fill=factor(Y))+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank())+ guides(fill=FALSE)
     
@@ -127,10 +127,10 @@ exploregraph<-function(ginfo){
     imprimirini(typ=typu,name=paste0("PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn),12,7.25)
     grid.arrange(poeplot, pdeplot, pmeplot,lvlplot, ncol=1)
     imprimirfin()
-    ggsave(plot=poeplot,filename=paste0(gpath,"PropertiesAnalysis/POEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
-    ggsave(plot=pdeplot,filename=paste0(gpath,"PropertiesAnalysis/PDEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
-    ggsave(plot=pmeplot,filename=paste0(gpath,"PropertiesAnalysis/PMEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
-    ggsave(plot=lvlplot,filename=paste0(gpath,"PropertiesAnalysis/Lvlplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+   # ggsave(plot=poeplot,filename=paste0(gpath,"PropertiesAnalysis/POEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+    #ggsave(plot=pdeplot,filename=paste0(gpath,"PropertiesAnalysis/PDEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+    #ggsave(plot=pmeplot,filename=paste0(gpath,"PropertiesAnalysis/PMEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+    #ggsave(plot=lvlplot,filename=paste0(gpath,"PropertiesAnalysis/Lvlplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
 }
 
 
@@ -196,10 +196,11 @@ head(testres)
 npcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodePercentageEdges")
 ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
-propl=c("PDE","POE","PME")
+propl=levels(testres) #c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
-explore=FALSE
-compare=TRUE
+explore=TRUE
+compare=FALSE
+
 for(ptype in ptypel){
     for(type in typel){
         info=testres[testres$graph==1&testres$Y==strtrim(type,1)&(testres$type==ptype|is.na(testres$type)),]
@@ -207,15 +208,16 @@ for(ptype in ptypel){
             if(explore){
                 gids=getgids(info)
                 for(g in gids){
-                    ginfo=info[info$gid==g,]
+                    ginfo=head(info[info$gid==g,],1)
                     exploregraph(ginfo)              
                 }
             }
-            
-            for(p in propl){
-                createCorrelationImages(testres,ptype,type,p)
-                for(s in sdisl){
-                    compareClassAndMeasure(info,p,s)
+            if(compare){
+                for(p in propl){
+                    createCorrelationImages(testres,ptype,type,p)
+                    for(s in sdisl){
+                        compareClassAndMeasure(info,p,s)
+                    }
                 }
             }
         }

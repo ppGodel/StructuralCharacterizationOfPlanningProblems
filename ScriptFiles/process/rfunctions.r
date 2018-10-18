@@ -156,9 +156,11 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
     cl= unique(data$com)
     colores=rainbow(length(labls))
     for(p in 1:length(apl)){
+        #print(apl[p])
         auxre=data[data$planner==apl[p],]
         cl= unique(auxre$com)
         for(c in 1:length(cl)){
+            #print(cl[c])
             auxres=auxre[auxre$com==cl[c],]
             if(dim(auxres)[1]<4){
                 next
@@ -166,6 +168,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             dlaux=c()
             dcaux=c()
             fitval=choose.lm(px=auxres[,nx],py=auxres[,ny])
+            #print(fitval)
             tranx=tukeyLadder(auxres[,nx],fitval$tx)
             trany=tukeyLadder(auxres[,ny],fitval$ty)
             lx=nx
@@ -189,6 +192,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             }
             maxVx= max(tranx)
             minVx= min(tranx)
+            #print(tranx)
             maxVy= max(trany)
             minVy= min(trany)
             
@@ -196,6 +200,7 @@ allplanners = function(nx,ny, data, prnt=TRUE, prefn=""){
             rany=maxVy-minVy
             dpx=log(ranx,10)
             dpy=log(rany,10)
+            #print(paste("data:",ranx,dpx))
             if(dpx>1.6&&dpx<4){
                 dpx=0
             }else{

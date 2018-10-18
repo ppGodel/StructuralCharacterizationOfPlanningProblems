@@ -10,21 +10,36 @@ library(ggplot2)
                                         #compresultraw: resultados completos de las competencias en bruto 
                                         #exeres resultados de las ejecucion de los problemas
                                         #compresultbyplanner: resiltados de los planners y los problemas
+fixexeres=function(){
+    exeres= read.csv("executionresults.csv")
+    #tail(exeres)
+    #dim(exeres)
+    #xeres$pkey=paste(xeres$com,"-",xeres$dom,'-', xeres$gn, sep='')
+    #txeres=ddply(.data=xeres, c("pkey"), summarize, fap=max(fap), pl=max(pl), gl=max(gl))
+    #head(txeres)
+    #dim(txeres)
+    #xeres[duplicated(xeres),]
+    #exeres=merge(xeres[,c("pkey","com","dom","gn")], txeres, by="pkey", all.y=TRUE)
+    #write.csv(exeres,"executionresults.csv")
+}
+
 compresultsraw=data.frame(grcon$find())
+#head(compresultsraw$solved)
 compresultsbyplanner=data.frame(plancon$find())
 compresultsbyp=ddply(.data=compresultsbyplanner,c("com","dom","gn","pkey"), summarize, solvedg=max(solved, na.rm=T), minSteps=min(Steps, na.rm=T))
-#exeres= read.csv("executionresults.csv")
-#exeres=exeres[!duplicated(exeres),]
+exeres= read.csv("executionresults.csv")
+exeres=exeres[!duplicated(exeres),]
 #exeres$pkey=paste(exeres$com,"-",exeres$dom,'-', exeres$gn, sep='')
-#exeres$graph=ifelse(exeres$gl>0,1,0)
-#exeres$complete=ifelse(exeres$pl>0,1,0)
+exeres$graph=ifelse(exeres$gl>0,1,0)
+exeres$complete=ifelse(exeres$pl>0,1,0)
 
-#compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey", all.x=TRUE)
-#compresultexec=compresultexec[!duplicated(compresultexec),]
-#compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
-compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
-compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&compresultexec$gcomp==1,]
-#crgs=compresultsgraphsolved
+compresultexec=merge(compresultsraw, exeres[,c("pkey","fap","pl","gl")], by="pkey", all.x=TRUE)
+#compresultexec=compresultexec[!duplicated(compresultexec),] colnames(compresultexec)
+compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
+compresultexec$parallel=ifelse(!is.na(compresultexec$pl)&compresultexec$pl>compresultexec$gl,1,0)
+#tail(compresultexec)
+compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph==1&!is.na(compresultexec$gcomp)&compresultexec$gcomp==1,]
+#head(compresultsgraphsolved)
 compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
 compresultsgraphsolved$Class=0
 compresultsgraphsolved$R2=0
@@ -63,10 +78,11 @@ write.csv(compresultsbyprob,"compresultsbyprob.csv")
 #unique(compresultsgraphsolved$Class)
 
 compresultexec=merge(compresultsraw, compresultsbyprob[,c("pkey","fap","solvedg","graph","complete","parallel","GClass")], by="pkey", all.x=TRUE)
-compresultexec=compresultexec[!duplicated(compresultexec),]
+#compresultexec[duplicated(compresultexec),]
+#compresultexec=compresultexec[!duplicated(compresultexec),]
 #compresultexec$gcomp=ifelse(compresultexec$pl>0,1,0)
 #compresultexec$parallel=ifelse(compresultexec$pl>compresultexec$gl,1,0)
-compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph.x==1&compresultexec$complete==1,]
+compresultsgraphsolved=compresultexec[compresultexec$solved==1&compresultexec$graph.x==1&!is.na(compresultexec$complete)&compresultexec$complete==1,]
 #crgs=compresultsgraphsolved
 #compresultsgraphsolved$LogTime=log(compresultsgraphsolved$Time+1)
 #compresultsgraphsolved$Class=0

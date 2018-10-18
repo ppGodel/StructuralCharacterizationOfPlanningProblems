@@ -214,24 +214,32 @@ var mf= function(){
 	var tan=this.al.TAMN+this.al.TANMN;
 	if(tan==0|isNaN(tan)){
 	    tan=1;
-	}	
-	poe=this.oe.length/tan*100;
-	pde=this.de.length/tan*100;	
+	    poe=0;
+	    pde=0;
+	}else{	
+	    poe=this.oe.length/tan*100;
+	    pde=this.de.length/tan*100;
+	}
     }else{
 	var tfn=this.nl.TFMN+this.nl.TFNMN;
 	if(tfn==0|isNaN(tfn)){
 	    tfn=1;
-	}
-	poe=this.oe.length/tfn*100;
-	pde=this.de.length/tfn*100;
-	if(isNaN(poe)){
-	    poe=0
+	    poe=0;
+	    pde=0;
+	}else{	
+	    poe=this.oe.length/tan*100;
+	    pde=this.de.length/tan*100;
 	}
     }
-    emit({_id:this._id, gid:this.gid,T:this.T, Y:this.y}, { POE:poe, PME:pme, PDE:pde })
+    if(isNaN(poe)){
+	poe=0
+    }
+    emit({_id:this._id,gid:this.gid,T:this.T, Y:this.y}, { POE:poe, PME:pme, PDE:pde })
 }
 var rf = function(key,val){
     return val;
 };
 
 db.nodesAndLevels.mapReduce(mf,rf, {out:"nodesAndLevelsSumm"})
+
+db.nodesAndLevelsSumm.aggregate([{$project:{_id:"$_id._id", gid:"$_id.gid", T:"$_id.T", Y:"$_id.Y", POE:"$value.POE", PDE:"$value.PDE", PME:"$value.PME"}},{$out:"nodePercentageEdges"}])
