@@ -243,3 +243,139 @@ var rf = function(key,val){
 db.nodesAndLevels.mapReduce(mf,rf, {out:"nodesAndLevelsSumm"})
 
 db.nodesAndLevelsSumm.aggregate([{$project:{_id:"$_id._id", gid:"$_id.gid", T:"$_id.T", Y:"$_id.Y", POE:"$value.POE", PDE:"$value.PDE", PME:"$value.PME"}},{$out:"nodePercentageEdges"}])
+
+
+var mf= function(){
+    var poe=0;
+    var pde=0;
+    var pme=this.PM*100;
+    if(this.y=="f"){
+	var tan=this.al.TAMN+this.al.TANMN;
+	if(tan==0|isNaN(tan)){
+	    tan=1;
+	    poe=0;
+	    pde=0;
+	}else{	
+	    poe=this.oe.length/tan*100;
+	    pde=this.de.length/tan*100;
+	}
+    }else{
+	var tfn=this.nl.TFMN+this.nl.TFNMN;
+	if(tfn==0|isNaN(tfn)){
+	    tfn=1;
+	    poe=0;
+	    pde=0;
+	}else{	
+	    poe=this.oe.length/tfn*100;
+	    pde=this.de.length/tfn*100;
+	}
+    }
+    if(isNaN(poe)){
+	poe=0
+    }
+    if(isNaN(pde)){
+	pde=0
+    }
+    emit({gid:this.gid,T:this.T, Y:this.y}, { TN:1, POE:[poe], PDE:[pde], PME:[pme],DPOE:[], DPDE:[],DPME:[],PPOE:[], PPDE:[],PPME:[] })
+}
+var rf = function(key,val){
+   var result = {
+       TN:0, POE: [], PDE:[], PME:[],DPOE:[],DPDE:[],DPME:[],PPOE:[], PPDE:[],PPME:[]
+   };
+    val.forEach(function(V){
+	result.TN+=V.TN;
+	result.POE=result.POE.concat(V.POE);
+	result.PDE=result.PDE.concat(V.PDE);
+	result.PME=result.PME.concat(V.PME);
+    });
+  return result;
+};
+var fz = function (key, value){
+    var distinct = function(arr) {
+	dist=[]
+	arr.forEach(function(pv){
+	    var unique= true;
+	    for(var i=0; i<dist.length; i++){
+		if(dist[i].p==pv){
+		    unique=false;
+		    dist[i].c+=1;
+		    break;
+		}
+	    }
+	    if(unique){
+		dist.push({p:pv,c:1})
+	    }
+	});
+	return dist;
+    }
+    var pdistinct = function(arr, tn){
+	var pdist=[];
+	arr.forEach(function(dv){
+	    pdist.push({p:dv.p, pc:(100*dv.c/tn)});
+	})
+	return pdist;
+    }
+    value.DPOE=distinct(value.POE);
+    value.DPDE=distinct(value.PDE);
+    value.DPME=distinct(value.PME);
+    value.PPOE=pdistinct(value.DPOE, value.TN);
+    value.PPDE=pdistinct(value.DPDE, value.TN);
+    value.PPME=pdistinct(value.DPME, value.TN);
+    return value;
+}
+db.nodesAndLevels.mapReduce(mf,rf, {finalize:fz, out:"nodesAndLevelsSummA"})
+
+db.nodesAndLevelsSummA.aggregate([{$project:{ gid:"$_id.gid", T:"$_id.T", Y:"$_id.Y",TN:"$value.TN", POE:"$value.POE", PDE:"$value.PDE", PME:"$value.PME", DPOE:"$value.DPOE", DPDE:"$value.DPDE", DPME:"$value.DPME", PPOE:"$value.PPOE", PPDE:"$value.PPDE", PPME:"$value.PPME"}},{$out:"nodePercentageEdgesDistinct"}])
+
+var mf= function(){
+    emit({gid:this.gid}, { MT:this.T, TNL:this.TN,TN:this.TN,TFN:this.TN,TAN:this.TN,Y:this.Y, MPOE:this.PPOE, MPME:this.PPME, MPDE:this.PPDE })    
+}
+
+var rf = function(key,val){
+   var result = {
+       MT:-1,TN:0,TFN:0,TAN:0,Y:"", MPOE: [], MPDE:[], MPME:[]
+   };
+    val.forEach(function(V){
+	result.TN+=V.TN;
+	if(V.Y=="a"){
+	    result.TAN+=V.TN;
+	}
+	if(V.Y=="f"){
+	    result.TFN+=V.TN;
+	}
+	if(V.Y==""){
+	    result.TFN+=V.TFN;
+	    result.TAN+=V.TAN;
+	}
+	var iml = V.MT > result.MT;
+	if(iml){
+	    result.MT=V.MT;
+	    result.TNL=V.TN;
+	    result.MPOE=V.MPOE;
+	    result.MPME=V.MPME;
+	    result.MPDE=V.MPDE;
+	}
+    });
+    return result;
+}
+
+var fz=function(key,val){
+    var searchMax = function( myArray, prop){
+	mx=0;
+	mxi=0;
+	 for (var i=0; i < myArray.length; i++) {
+	     if(myArray[i][prop]>mx){
+		 mx=myArray[i][prop];
+		 mxi=i;
+	     }
+	}
+	return myArray[mxi];	
+    }
+    val.MPOE=searchMax(val.MPOE,"pc")
+    val.MPDE=searchMax(val.MPDE,"pc")
+    val.MPME=searchMax(val.MPME,"pc")
+    return val;    
+}
+db.nodePercentageEdgesDistinct.mapReduce(mf,rf, {finalize:fz, out:"graphMetricRaw"})
+
+db.graphMetricRaw.aggregate([{$project:{ gid:"$_id.gid", T:"$_id.T",TN:"$value.TN",TNL:"$value.TNL",TAN:"$value.TAN",TFN:"$value.TFN", MPOE:"$value.MPOE", MPDE:"$value.MPDE", MPME:"$value.MPME"}},{$out:"graphMetric"}])

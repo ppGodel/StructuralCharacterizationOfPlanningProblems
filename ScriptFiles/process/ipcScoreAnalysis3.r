@@ -92,8 +92,8 @@ getgids<- function(info){
     return(gids)
 }
 
-exploregraph<-function(ginfo){
-    graphdistvalues=data.frame(npcon$find(query=paste0('{"gid":{"$oid":"',ginfo$gid,'"}}')))
+exploregraphold<-function(ginfo){
+    graphdistvalues=data.frame(dpcon$find(query=paste0('{"gid":{"$oid":"',ginfo$gid,'"}}')))
     graphdistvalues[is.nan(graphdistvalues$PDE),]$PDE=0
     
     #graphdistvalues$LPOE=round(graphdistvalues$POE+0.5, 0)
@@ -131,6 +131,54 @@ exploregraph<-function(ginfo){
     #ggsave(plot=pdeplot,filename=paste0(gpath,"PropertiesAnalysis/PDEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
     #ggsave(plot=pmeplot,filename=paste0(gpath,"PropertiesAnalysis/PMEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
     #ggsave(plot=lvlplot,filename=paste0(gpath,"PropertiesAnalysis/Lvlplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+}
+
+exploregraph<-function(ginfo){
+    graphdistvalues=data.frame(dpcon$find(query=paste0('{"gid":{"$oid":"',ginfo$gid,'"}}')))
+    graphredvalues=graphdistvalues[,c("gid" , "T",  "Y", "TN" )]
+    joinlist=function(list, met,df){
+        cn=colnames(df)
+        for(rn in 1:length(list)){
+            tdf=cbind(met[rn,],list[[rn]])
+            df=rbind(tdf,df)
+        }
+        colnames(df)=cn
+        return(df)
+    }
+    
+    vdf=joinlist(list=graphdistvalues$PPME,met=cbind(graphredvalues,M="PME"),df=data.frame(gid=character(),T=numeric(),Y=numeric(),TN=numeric(),M=character(),MP=numeric(), NP=numeric()))
+    vdf=rbind(vdf,joinlist(list=graphdistvalues$PPDE,met=cbind(graphredvalues,M="PDE"),df=data.frame(gid=character(),T=numeric(),Y=numeric(),TN=numeric(),M=character(),MP=numeric(), NP=numeric())))
+    vdf=rbind(vdf,joinlist(list=graphdistvalues$PPOE,met=cbind(graphredvalues,M="POE"),df=data.frame(gid=character(),T=numeric(),Y=numeric(),TN=numeric(),M=character(),MP=numeric(), NP=numeric())))
+    vdf$MV=vdf$MP*vdf$NP*0.01
+    mdf=data.frame(gid=character(),Y=numeric(),M=character(),MV=numeric())
+    for(t in  levels(as.factor(graphdistvalues$Y))){
+        for(m in levels(ginfo$M)){
+            fvdf=vdf[vdf$T==max(vdf$T)&vdf$Y==t&vdf$M==m,]
+           # print(fvdf[which.max(fvdf$MV),c("gid" , "Y",  "M", "MV" )])
+            mdf=rbind(mdf,fvdf[which.max(fvdf$MV),c("gid" , "Y",  "M", "MV" )])
+        }
+    }
+    graphdistvaluesbyg=ddply(.data=graphredvalues,c ("gid"), summarise, TNodes=sum(TN), T=max(T))
+    mdf$Class=ginfo$Class
+    mdf$TN=graphdistvaluesbyg$TNodes
+    mdf$T=graphdistvaluesbyg$T
+    
+       
+    poeplot=ggplot(data=vdf[vdf$M=="POE",], aes(x=ceiling(MP), y=NP, fill=factor(Y))) +geom_bar(stat="identity")+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ggtitle(paste(ginfo$gn,ginfo$Class, ptype, ginfo$com))+ labs(x = "", y="")#+scale_y_sqrt()
+    pdeplot=ggplot(data=vdf[vdf$M=="PDE",], aes(x=ceiling(MP), y=NP, fill=factor(Y))) +geom_bar(stat="identity")+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ labs(x = "", y="Percentage of total nodes in level") #+ scale_y_sqrt()
+    pmeplot=ggplot(data=vdf[vdf$M=="PME",], aes(x=ceiling(MP), y=NP, fill=factor(Y))) +geom_bar(stat="identity")+ facet_wrap(Y~T,nrow=2)+ theme(strip.text.x = element_blank()) + guides(fill=FALSE)+ labs(x = "Percentage of mutex nodes", y="")#+ scale_y_sqrt()    
+    
+    graphdistvaluesbyl=ddply(.data=graphredvalues,c ("gid","T","Y"), summarise, TNodes=sum(TN))
+    lvlplot=qplot(x=T,y=TNodes, data=graphdistvaluesbyl, fill=factor(Y))+geom_area()+labs(x="Levels", y="Nodes", fill="Type")
+    
+    imprimirini(typ=typu,name=paste0("PropertiesAnalysis/hist",ptype,type,ginfo$Class,ginfo$gn),12,7.25)
+    grid.arrange(poeplot, pdeplot, pmeplot,lvlplot, ncol=1)
+    imprimirfin()
+    
+    ggsave(plot=poeplot,filename=paste0(gpath,"PropertiesAnalysis/POEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+    ggsave(plot=pdeplot,filename=paste0(gpath,"PropertiesAnalysis/PDEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+    ggsave(plot=pmeplot,filename=paste0(gpath,"PropertiesAnalysis/PMEplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
+    ggsave(plot=lvlplot,filename=paste0(gpath,"PropertiesAnalysis/Lvlplot",ptype,type,ginfo$Class,ginfo$gn,".",typu), device=typu, width=12,height=7.25)
 }
 
 
@@ -192,11 +240,31 @@ statsData= function(datares){
 
 }
 
+Correlate=function(ninfo){
+    tin=ninfo[,c("Class","MVPOE","MVPDE","MVPME","TN","MT")]
+    head(tin)
+    tin$easy=tin$Class=="1 Easy"
+    tin$fit=tin$Class=="2 Fit"
+    tin$hard=tin$Class=="3 Hard"
+    tin$NoClass=tin$Class=="4 Not Class"
+    tin$NoSolv=tin$Class=="5 Not Solv"
+    tin$Class=NULL
+    nco=dim(tin)[2]
+    rco=nco-4
+    methl=c("spearman","kendall")
+    for(meth in methl){
+        imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,p,"Classification",meth),12,7.25)
+        corrplot(cor(tin, method=meth, use="complete.obs")[1:(rco-1),rco:nco], method="number", p.mat=cor.mtest(tin, method=meth, use="complete.obs")$p[1:(rco-1),rco:nco], mar=c(0,0,2,0))
+        imprimirfin()
+    }    
+}
+
 head(testres)
-npcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodePercentageEdges")
+                                        #npcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodePercentageEdges")
+mpcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphMetric")
 ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
-propl=levels(testres) #c("PDE","POE","PME")
+propl=levels(testres$M) #c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
 explore=TRUE
 compare=FALSE
@@ -213,12 +281,21 @@ for(ptype in ptypel){
                 }
             }
             if(compare){
-                for(p in propl){
-                    createCorrelationImages(testres,ptype,type,p)
-                    for(s in sdisl){
-                        compareClassAndMeasure(info,p,s)
-                    }
-                }
+                binfo=unique( testres[,c("com","dom","gn","gid",  "minSteps" ,"solved", "graph","fap","parallel","type","Class","pn"  )])
+                minfo=data.frame(mpcon$find())
+                minfo[is.infinite( minfo$minSteps),]$minSteps=NA
+                minfo$MVPOE=minfo$MPOE$p*(minfo$MPOE$pc)*0.01
+                minfo$MVPDE=minfo$MPDE$p*(minfo$MPDE$pc)*0.01
+                minfo$MVPME=minfo$MPME$p*(minfo$MPME$pc)*0.01
+                #minfo$MVPME=minfo$MPME$p*(1/minfo$MPME$pc)
+                ninfo=merge(minfo,binfo,all.x=TRUE, by="gid")
+                Correlate(ninfo)
+                #for(p in propl){
+                #   createCorrelationImages(testres,ptype,type,p)
+                #   for(s in sdisl){
+                #       compareClassAndMeasure(info,p,s)
+                #   }
+                #}
             }
         }
     }
