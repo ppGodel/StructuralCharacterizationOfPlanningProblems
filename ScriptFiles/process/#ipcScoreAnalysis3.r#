@@ -182,10 +182,9 @@ exploregraph<-function(ginfo){
 }
 
 
-compareClassAndMeasure<- function(info,p, s){
+compareClassAndMeasure<- function(pinfo, s){
                                         #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
-    pinfo=info[info$M==p,]
     linM=lm(pinfo[,s]~pinfo[,"Class"])
     residuales<-resid(linM)
     sht=shapiro.test(residuales)
@@ -216,7 +215,7 @@ compareClassAndMeasure<- function(info,p, s){
     dr=paste(dn$comparisons[dn$P.adjusted<0.005],collapse=collaps)
     labrc=c(rno,me,"for: ", dr )
     labr=paste(labrc,collapse=collaps)
-    pg=ggplot(data = pinfo, aes(x=factor(Class), y=pinfo[,s]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(ptype,type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(pinfo[,s], na.rm=T),2)*.9, ymax = round(max(pinfo[,s], na.rm=T),2)*.8)
+    pg=ggplot(data = pinfo, aes(x=factor(Class), y=pinfo[,s]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(ptype,type,s)) + annotation_custom(grob = textGrob(labr), xmin = 6, xmax = 7, ymin = round(max(pinfo[,s], na.rm=T),2)*.9, ymax = round(max(pinfo[,s], na.rm=T),2)*.8)
     
     
     gt <- ggplot_gtable(ggplot_build(pg))
@@ -224,7 +223,7 @@ compareClassAndMeasure<- function(info,p, s){
     grid.draw(gt)
                                         #+facet_wrap(~dom)
                                         #imprimirfin()
-    ggsave(filename=paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,p,".",typu), device=typu, width=12,height=7.25, plot=gt)
+    ggsave(filename=paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,".",typu), device=typu, width=12,height=7.25, plot=gt)
 }
 
 
@@ -241,7 +240,7 @@ statsData= function(datares){
 }
 
 Correlate=function(ninfo){
-    tin=ninfo[,c("Class","MVPOE","MVPDE","MVPME","TN","MT","TNL","TNF","PG","RG")]
+    tin=ninfo[,c("Class",measures)]
     head(tin)
     tin$easy=tin$Class=="1 Easy"
     tin$fit=tin$Class=="2 Fit"
@@ -267,7 +266,7 @@ typel=c("facts","actions")
 propl=levels(testres$M) #c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
 explore=TRUE
-compare=FALSE
+compare=TRUE
 
 
 if(explore){
@@ -281,23 +280,34 @@ if(explore){
     }
 }
 
-binfo=unique( testres[,c("com","dom","gn","gid", "minSteps" ,"solved", "graph","fap","parallel","type","Class","pn"  )])
-minfo=data.frame(mpcon$find())
-minfo[is.infinite( minfo$minSteps),]$minSteps=NA
-minfo$PG=minfo$TNL/minfo$TNF
-minfo$RG=(minfo$TNL-minfo$TNF)/minfo$MT
-minfo$MVPOE=minfo$MPOE$p*(minfo$MPOE$pc*0.01)#*(atan(minfo$RG)*2/pi)
-minfo$MVPDE=minfo$MPDE$p*(minfo$MPDE$pc*0.01)#*(atan(minfo$RG)*2/pi)
-minfo$MVPME=minfo$MPME$p*(minfo$MPME$pc*0.01)#*(atan(minfo$RG)*2/pi)
-ninfo=merge(minfo,binfo,all.x=TRUE, by="gid")
-
-
 if(compare){
+    binfo=unique( testres[,c("com","dom","gn","gid", "minSteps" ,"solved", "graph","fap","parallel","type","Class","pn"  )])
+    minfo=data.frame(mpcon$find())
+    #minfo[is.infinite( minfo$minSteps),]$minSteps=NA
+    minfo$PG=minfo$TNL/minfo$TNF
+    minfo$RG=(minfo$TNL-minfo$TNF)/minfo$MT
+    minfo$MG=atan(minfo$RG)*(2/pi)
+    #minfo$MVPOE=minfo$MPOE$p*(minfo$MPOE$pc*0.01)
+    #minfo$MVPDE=minfo$MPDE$p*(minfo$MPDE$pc*0.01)
+    #minfo$MVPME=minfo$MPME$p*(minfo$MPME$pc*0.01)
+    minfo$MVPOE=(minfo$MPOE$p+minfo$MPOE$pc)*0.5
+    minfo$MVPDE=(minfo$MPDE$p+minfo$MPDE$pc)*0.5
+    minfo$MVPME=(minfo$MPME$p+minfo$MPME$pc)*0.5
+    minfo$modePOE=minfo$MPOE$p
+    minfo$modePDE=minfo$MPDE$p
+    minfo$modePME=minfo$MPME$p
+    minfo$uniformPOE=minfo$MPOE$pc
+    minfo$uniformPDE=minfo$MPDE$pc
+    minfo$uniformPME=minfo$MPME$pc
+    ninfo=merge(minfo,binfo,all.x=TRUE, by="gid")
+    measures=c("MVPOE","MVPDE","MVPME","TN","MT","TNL","TNF","PG","RG","MG","modePOE","modePDE","modePME","uniformPOE","uniformPDE","uniformPME")
     for(ptype in ptypel){
         for(type in typel){
             tninfo=ninfo[complete.cases(ninfo$Class)&(ninfo$type==ptype|is.na(ninfo$type))&ninfo$com!="IPC2002"&ninfo$Y=="a"&ninfo$Class!="6 Not Proc"&ninfo$Class!="6 Not Processed NG",]
             Correlate(tninfo)
-            
+            for(meas in measures){
+                compareClassAndMeasure(tninfo,meas)
+            }
         }
     }
 }

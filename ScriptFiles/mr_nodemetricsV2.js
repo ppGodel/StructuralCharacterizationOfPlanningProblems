@@ -328,32 +328,27 @@ db.nodesAndLevels.mapReduce(mf,rf, {finalize:fz, out:"nodesAndLevelsSummA"})
 db.nodesAndLevelsSummA.aggregate([{$project:{ gid:"$_id.gid", T:"$_id.T", Y:"$_id.Y",TN:"$value.TN", POE:"$value.POE", PDE:"$value.PDE", PME:"$value.PME", DPOE:"$value.DPOE", DPDE:"$value.DPDE", DPME:"$value.DPME", PPOE:"$value.PPOE", PPDE:"$value.PPDE", PPME:"$value.PPME"}},{$out:"nodePercentageEdgesDistinct"}])
 
 var mf= function(){
-    emit({gid:this.gid}, { MT:this.T, TNL:this.TN,TN:this.TN,TFN:this.TN,TAN:this.TN,Y:this.Y, MPOE:this.PPOE, MPME:this.PPME, MPDE:this.PPDE })    
+    emit({gid:this.gid, Y:this.Y}, { MT:this.T, TNL:this.TN,TN:this.TN,TNF:this.TN,FT:this.T, MPOE:this.PPOE, MPME:this.PPME, MPDE:this.PPDE })    
 }
 
 var rf = function(key,val){
    var result = {
-       MT:-1,TN:0,TFN:0,TAN:0,Y:"", MPOE: [], MPDE:[], MPME:[]
+       MT:-1,TNL:0,TN:0,TNF:0,FT:10000, MPOE: [], MPDE:[], MPME:[]
    };
     val.forEach(function(V){
 	result.TN+=V.TN;
-	if(V.Y=="a"){
-	    result.TAN+=V.TN;
-	}
-	if(V.Y=="f"){
-	    result.TFN+=V.TN;
-	}
-	if(V.Y==""){
-	    result.TFN+=V.TFN;
-	    result.TAN+=V.TAN;
-	}
-	var iml = V.MT > result.MT;
-	if(iml){
+	var imaxl = V.MT > result.MT;
+	var iminl = V.FT < result.FT;
+	if(imaxl){
 	    result.MT=V.MT;
 	    result.TNL=V.TN;
 	    result.MPOE=V.MPOE;
 	    result.MPME=V.MPME;
 	    result.MPDE=V.MPDE;
+	}
+	if(iminl){
+	    result.FT=V.FT;
+	    result.TNF=V.TNF;
 	}
     });
     return result;
@@ -378,4 +373,4 @@ var fz=function(key,val){
 }
 db.nodePercentageEdgesDistinct.mapReduce(mf,rf, {finalize:fz, out:"graphMetricRaw"})
 
-db.graphMetricRaw.aggregate([{$project:{ gid:"$_id.gid", T:"$_id.T",TN:"$value.TN",TNL:"$value.TNL",TAN:"$value.TAN",TFN:"$value.TFN", MPOE:"$value.MPOE", MPDE:"$value.MPDE", MPME:"$value.MPME"}},{$out:"graphMetric"}])
+db.graphMetricRaw.aggregate([{$project:{ gid:"$_id.gid", Y:"$_id.Y", T:"$_id.T", MT:"$value.MT",TN:"$value.TN",TNL:"$value.TNL",TNF:"$value.TNF",FT:"$value.FT", MPOE:"$value.MPOE", MPDE:"$value.MPDE", MPME:"$value.MPME"}},{$out:"graphMetric"}])
