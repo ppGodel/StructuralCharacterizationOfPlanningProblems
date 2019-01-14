@@ -188,7 +188,7 @@ tdfe[(tdfe$hardScore==0&abs(tdfe$easyScore)>0.001)|(abs(tdfe$easyScore)>0.001&td
 tdfe[(tdfe$hardScore<0.001&abs(tdfe$easyScore)<0.001),]$Class="2 Fit"
 
 colnames(compresultexec)
-baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph.x), fap=min(fap), graphSize=min(MT), parallel=min(parallel) )
+baseres=ddply(compresultexec,c("com","dom","gn"), summarise, minSteps=min(Steps,na.rm=T), solved=max(solved), graph=min(graph), fap=min(fap), graphSize=min(MT), parallel=min(parallel) )
 
 tdfec=tdfe[,c("type","com","dom","gn","Class")]
 testres=merge(baseres,tdfec, by=c("com","dom","gn"),all.x=TRUE)
@@ -215,3 +215,8 @@ pieinfo$Class=factor(pieinfo$Class, levels=levels(pieinfo$Class)[order(levels(pi
 piplot=ggplot(pieinfo[order(pieinfo$Class,decreasing=T),], aes(x="", y=percentage, fill=Class)) + geom_bar(width = 1, stat="identity", position="fill") + facet_wrap(~com) + scale_fill_brewer(palette="RdYlGn") + coord_polar(theta="y") + guides(fill = guide_legend(reverse = T))
                                         #+ geom_text(aes(y = c(0,cumsum(percentage)[-length(percentage)]), label = percentage), size=5)  
 ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbyplan",".",typu), device=typu, width=12,height=7.25, plot=piplot)
+
+preinf$Graph=ifelse(preinf$Class=="5 Not Solved NG"|preinf$Class=="6 Not Processed NG",0,1)
+preinf$Solv=ifelse(preinf$Class=="5 Not Solv"|preinf$Class=="5 Not Solved NG"|preinf$Class=="6 Not Processed NG",0,1)
+preinf$Class=ifelse(preinf$Class=="5 Not Solv"|preinf$Class=="5 Not Solved NG"|preinf$Class=="6 Not Proc"|preinf$Class=="6 Not Processed NG",0,1)
+dpieinfo=ddply(.data=preinf,c( "com","dom"), summarise, countn=length(gn),Graph=sum(Graph),Solv=sum(Solv),Class=sum(Class))
