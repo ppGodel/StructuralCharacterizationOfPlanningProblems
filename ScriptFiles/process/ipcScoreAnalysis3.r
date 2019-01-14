@@ -182,10 +182,9 @@ exploregraph<-function(ginfo){
 }
 
 
-compareClassAndMeasure<- function(info,p, s){
+compareClassAndMeasure<- function(pinfo, s){
                                         #imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,s,p),12,7.25)
                                         #boxplot(info[,paste0(s,p)]~info[,"Class"], ylab=paste0(s,p),xlab="Class")
-    pinfo=info[info$M==p,]
     linM=lm(pinfo[,s]~pinfo[,"Class"])
     residuales<-resid(linM)
     sht=shapiro.test(residuales)
@@ -213,19 +212,20 @@ compareClassAndMeasure<- function(info,p, s){
                                         #print(paste0(rno,", ",me))
                                         #print(dn$comparisons[dn$P.adjusted<0.005])
     collaps="\n"
-    dr=paste(dn$comparisons[dn$P.adjusted<0.005],collapse=collaps)
+    dr=paste(dn$comparisons[dn$P.adjusted<0.05],collapse=collaps)
     labrc=c(rno,me,"for: ", dr )
     labr=paste(labrc,collapse=collaps)
-    pg=ggplot(data = pinfo, aes(x=factor(Class), y=pinfo[,s]), log="y") + geom_violin(fill="orange", color="red")   + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")+ggtitle(paste(ptype,type,p)) + annotation_custom(grob = textGrob(labr), xmin = 7, xmax = 8, ymin = round(max(pinfo[,s], na.rm=T),2)*.9, ymax = round(max(pinfo[,s], na.rm=T),2)*.8)
+    pg=ggplot(data = pinfo, aes(x=factor(Class), y=pinfo[,s]), log="y") + geom_violin(fill="orange", color="red") + scale_y_sqrt()  + theme(text = element_text(size=15), plot.margin = unit(c(1, 12.5, 1.5, 2), "lines") )+labs(x="Difficulty Set", y=paste0(s))+ geom_boxplot(width=0.03, fill="blue", color="white")#+ggtitle(paste(ptype,type,s)) #+ annotation_custom(grob = textGrob(labr), xmin = 6, xmax = 7) #, ymin = round(max(pinfo[,s], na.rm=T),2)*.9, ymax = round(max(pinfo[,s], na.rm=T),2)*.8
     
     
-    gt <- ggplot_gtable(ggplot_build(pg))
-    gt$layout$clip[gt$layout$name=="panel"] <- "off"
-    grid.draw(gt)
+    #gt <- ggplot_gtable(ggplot_build(pg))
+    #gt$layout$clip[gt$layout$name=="panel"] <- "off"
+    #grid.draw(gt)
                                         #+facet_wrap(~dom)
                                         #imprimirfin()
-    ggsave(filename=paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,p,".",typu), device=typu, width=12,height=7.25, plot=gt)
+    ggsave(filename=gsub(" ","",paste0(gpath,"PropertiesAnalysis/Boxplot",ptype,type,s,".",typu)), device=typu, width=12,height=7.25, plot=pg)
 }
+
 
 
 statsData= function(datares){
@@ -241,33 +241,36 @@ statsData= function(datares){
 }
 
 Correlate=function(ninfo){
-    tin=ninfo[,c("Class","MVPOE","MVPDE","MVPME","TN","MT","TNL","TNF","PG","RG")]
-    head(tin)
-    tin$easy=tin$Class=="1 Easy"
-    tin$fit=tin$Class=="2 Fit"
-    tin$hard=tin$Class=="3 Hard"
+    tin=ninfo[,c("Class",measuresNames)]
+    colnames(tin)
+    tin$Easy=tin$Class=="1 Easy"
+    tin$Fit=tin$Class=="2 Fit"
+    tin$Hard=tin$Class=="3 Hard"
     tin$NoClass=tin$Class=="4 Not Class"
     tin$NoSolv=tin$Class=="5 Not Solv"
     tin$Class=NULL
     nco=dim(tin)[2]
     rco=nco-4
-    methl=c("spearman","kendall")
+    methl=c("spearman")#,"kendall")
     for(meth in methl){
+       colnames( tin)=c(measuresNames,"Easy"," Fit","Hard","Not classified","Not solved")
+        cormat=cor(tin, method=meth, use="complete.obs")[1:(rco-1),rco:nco]
+        cormatp=cor.mtest(tin, method=meth, use="complete.obs")$p[1:(rco-1),rco:nco]
         imprimirini(typ=typu,name=paste0("PropertiesAnalysis/",ptype,type,"Classification",meth),12,7.25)
-        corrplot(cor(tin, method=meth, use="complete.obs")[1:(rco-1),rco:nco], method="number", p.mat=cor.mtest(tin, method=meth, use="complete.obs")$p[1:(rco-1),rco:nco], mar=c(0,0,2,0))
+        corrplot(cormat, method="number", p.mat=cormatp, mar=c(0,0,2,0))
         imprimirfin()
     }    
 }
 
-head(testres)
+#head(testres)
                                         #npcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="nodePercentageEdges")
 mpcon= mongo(db="planninggraphs", url="mongodb://ppgodel:123abc@192.168.47.10:27017",collection="graphMetric")
 ptypel=c("Parallel","NoParallel")
 typel=c("facts","actions")
 propl=levels(testres$M) #c("PDE","POE","PME")
 sdisl=c("mean","max","sd","kurt","skew")
-explore=TRUE
-compare=FALSE
+explore=FALSE
+compare=TRUE
 
 
 if(explore){
@@ -281,23 +284,43 @@ if(explore){
     }
 }
 
-binfo=unique( testres[,c("com","dom","gn","gid", "minSteps" ,"solved", "graph","fap","parallel","type","Class","pn"  )])
-minfo=data.frame(mpcon$find())
-minfo[is.infinite( minfo$minSteps),]$minSteps=NA
-minfo$PG=minfo$TNL/minfo$TNF
-minfo$RG=(minfo$TNL-minfo$TNF)/minfo$MT
-minfo$MVPOE=minfo$MPOE$p*(minfo$MPOE$pc*0.01)#*(atan(minfo$RG)*2/pi)
-minfo$MVPDE=minfo$MPDE$p*(minfo$MPDE$pc*0.01)#*(atan(minfo$RG)*2/pi)
-minfo$MVPME=minfo$MPME$p*(minfo$MPME$pc*0.01)#*(atan(minfo$RG)*2/pi)
-ninfo=merge(minfo,binfo,all.x=TRUE, by="gid")
-
-
 if(compare){
+    binfo=unique( testres[,c("com","dom","gn","gid", "minSteps" ,"solved", "graph","fap","parallel","type","Class","pn"  )])
+    minfo=data.frame(mpcon$find())
+    #minfo[is.infinite( minfo$minSteps),]$minSteps=NA
+    minfo$PG=minfo$TNL/minfo$TNF
+    minfo$RG=(minfo$TNL-minfo$TNF)/minfo$MT
+    #minfo$GG=atan(minfo$RG)*(2/pi)
+    #minfo$MVPOE=minfo$MPOE$p*(minfo$MPOE$pc*0.01)
+    #minfo$MVPDE=minfo$MPDE$p*(minfo$MPDE$pc*0.01)
+    #minfo$MVPME=minfo$MPME$p*(minfo$MPME$pc*0.01)
+    #minfo$MVPOE=(minfo$MPOE$p+minfo$MPOE$pc)*0.5
+    #minfo$MVPDE=(minfo$MPDE$p+minfo$MPDE$pc)*0.5
+    #minfo$MVPME=(minfo$MPME$p+minfo$MPME$pc)*0.5
+    minfo[,"POE mode"]=minfo$MPOE$p
+    minfo[,"PDE mode"]=minfo$MPDE$p
+    minfo[,"PME mode"]=minfo$MPME$p
+    minfo[,"Node percentage of POE equal mode"]=minfo$MPOE$pc
+    minfo[,"Node percentage of PDE equal mode"]=minfo$MPDE$pc
+    minfo[,"Node percentage of PME equal mode"]=minfo$MPME$pc
+    ninfo=merge(minfo,binfo,all.x=TRUE, by="gid")
+    classificationNames= levels(ninfo$Class)
+    classificationLabels= c("Easy", "Fit","Hard", "Not classified", "Not solved", "Not solved no graph", "Not processed", "Not processed no graph")
+    measures=c("TN","TNL","PG","RG","POE mode","PDE mode","PME mode","Node percentage of POE equal mode","Node percentage of PDE equal mode","Node percentage of PME equal mode")
+     measuresNames=c("Total nodes","Nodes in last level","Growth percentage","Growth rate","POE mode","PDE mode","PME mode","Node percentage of POE equal mode","Node percentage of PDE equal mode","Node percentage of PME equal mode")
     for(ptype in ptypel){
         for(type in typel){
-            tninfo=ninfo[complete.cases(ninfo$Class)&(ninfo$type==ptype|is.na(ninfo$type))&ninfo$com!="IPC2002"&ninfo$Y=="a"&ninfo$Class!="6 Not Proc"&ninfo$Class!="6 Not Processed NG",]
-            Correlate(tninfo)
-            
-        }
+            tninfo=ninfo[complete.cases(ninfo$Class)&(ninfo$type==ptype|is.na(ninfo$type))&ninfo$com!="IPC2002"&ninfo$Y==strtrim(type,1)&ninfo$Class!="6 Not Proc"&ninfo$Class!="6 Not Processed NG",]
+            #levels(tninfo)=classificationLabels
+            for(i in 1: length(measures)){
+                names(tninfo)[names(tninfo) == measures[i]] <- measuresNames[i]
+            }
+            Correlate(ninfo=tninfo)
+            for(meas in measuresNames){
+                print(paste(meas,type, ptype))
+                levels(tninfo$Class)=classificationLabels
+                compareClassAndMeasure(pinfo=tninfo,s=meas)
+            }
+       }     
     }
 }
