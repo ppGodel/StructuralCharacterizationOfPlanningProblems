@@ -219,4 +219,6 @@ ggsave(filename=paste0(gpath,"PropertiesAnalysis/piechartbyplan",".",typu), devi
 preinf$Graph=ifelse(preinf$Class=="5 Not Solved NG"|preinf$Class=="6 Not Processed NG",0,1)
 preinf$Solv=ifelse(preinf$Class=="5 Not Solv"|preinf$Class=="5 Not Solved NG"|preinf$Class=="6 Not Processed NG",0,1)
 preinf$Class=ifelse(preinf$Class=="5 Not Solv"|preinf$Class=="5 Not Solved NG"|preinf$Class=="6 Not Proc"|preinf$Class=="6 Not Processed NG",0,1)
-dpieinfo=ddply(.data=preinf,c( "com","dom"), summarise, countn=length(gn),Graph=sum(Graph),Solv=sum(Solv),Class=sum(Class))
+dpieinfo=ddply(.data=preinf,c( "com"), summarise, countn=length(gn),Graph=sum(Graph),Solv=sum(Solv),Class=sum(Class))
+piplot=ggplot(dpieinfo, aes(x="", y=Graph, fill=Class)) + geom_bar(width = 1, stat="identity", position="fill") + facet_wrap(~com) + scale_fill_brewer(palette="RdYlGn") + coord_polar(theta="y") + guides(fill = guide_legend(reverse = T))
+
